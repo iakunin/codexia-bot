@@ -1,0 +1,81 @@
+plugins {
+    id 'org.springframework.boot' version '2.2.0.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id 'java'
+    id 'idea'
+}
+
+group = 'com.iakunin'
+version = getReleaseVersion()
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
+
+configurations {
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+    compile group: 'org.modelmapper', name: 'modelmapper', version: '2.3.5'
+
+    implementation 'org.postgresql:postgresql'
+
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compileOnly 'org.projectlombok:lombok'
+    implementation 'org.liquibase:liquibase-core'
+    implementation 'com.vladmihalcea:hibernate-types-52:2.7.0'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+
+    compile 'com.fasterxml.jackson.module:jackson-modules-java8:2.10.2'
+
+    compile 'ru.dezhik:sms-sender:0.1.1'
+    compile 'io.jsonwebtoken:jjwt:0.9.1'
+
+    compile 'de.siegmar:logback-gelf:2.0.1'
+    compile 'io.micrometer:micrometer-core'
+    compile 'io.micrometer:micrometer-registry-prometheus:1.1.4'
+    compile 'org.springframework.metrics:spring-metrics:0.5.1.RELEASE'
+    compile 'io.prometheus:simpleclient_common:0.7.0'
+
+    implementation platform('com.amazonaws:aws-java-sdk-bom:1.11.106')
+    implementation 'com.amazonaws:aws-java-sdk-s3'
+    implementation 'org.cactoos:cactoos:0.43'
+}
+
+
+// @TODO: change this to version.gradle
+springBoot {
+    buildInfo {
+        properties {
+            version = getReleaseVersion()
+        }
+    }
+}
+
+def getReleaseVersion() {
+    def props = new Properties()
+    if (file(".release").exists()) {
+        file(".release").withInputStream { props.load(it) }
+    }
+    return props.getOrDefault("release", "0.0.1")
+}

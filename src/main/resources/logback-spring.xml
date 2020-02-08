@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="NOP" class="ch.qos.logback.core.helpers.NOPAppender"/>
+
+    <springProfile name="dev">
+        <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>%d{dd-MM-yyyy HH:mm:ss.SSS} %magenta([%thread]) %highlight(%-5level) %logger{36}.%M - %msg%n</pattern>
+            </encoder>
+        </appender>
+
+    </springProfile>
+
+    <springProfile name="prod, stage">
+        <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder class="de.siegmar.logbackgelf.GelfEncoder">
+                <originHost>localhost</originHost>
+                <includeRawMessage>false</includeRawMessage>
+                <includeMarker>true</includeMarker>
+                <includeMdcData>true</includeMdcData>
+                <includeCallerData>false</includeCallerData>
+                <includeRootCauseData>false</includeRootCauseData>
+                <includeLevelName>false</includeLevelName>
+                <appendNewline>true</appendNewline>
+                <shortPatternLayout class="ch.qos.logback.classic.PatternLayout">
+                    <pattern>%.-20000m%nopex</pattern>
+                </shortPatternLayout>
+                <fullPatternLayout class="ch.qos.logback.classic.PatternLayout">
+                    <pattern>%.-20000m%n</pattern>
+                </fullPatternLayout>
+                <staticField>app_name:hackernews-parser</staticField>
+            </encoder>
+        </appender>
+    </springProfile>
+
+    <springProfile name="prod, dev, stage">
+        <root level="info">
+            <appender-ref ref="STDOUT" />
+        </root>
+
+        <logger name="feign.Logger" additivity="false" level="debug">
+            <appender-ref ref="STDOUT" />
+        </logger>
+
+        <logger name="Hypersistence Optimizer" additivity="false">
+            <appender-ref ref="NOP" />
+        </logger>
+    </springProfile>
+
+</configuration>

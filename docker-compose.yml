@@ -1,0 +1,13 @@
+version: '3.7'
+
+services:
+    db:
+        container_name: hackernews-parser-db
+        image: postgres:11.5
+        restart: always
+        environment:
+            POSTGRES_DB: hackernews-parser
+            POSTGRES_USER: hackernews-parser
+            POSTGRES_PASSWORD: hackernews-parser
+        ports:
+            - 54322:5432
