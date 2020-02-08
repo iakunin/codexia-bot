@@ -28,7 +28,7 @@
                 <fullPatternLayout class="ch.qos.logback.classic.PatternLayout">
                     <pattern>%.-20000m%n</pattern>
                 </fullPatternLayout>
-                <staticField>app_name:hackernews-parser</staticField>
+                <staticField>app_name:codexia-bot</staticField>
             </encoder>
         </appender>
     </springProfile>

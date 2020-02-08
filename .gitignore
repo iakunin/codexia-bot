@@ -29,4 +29,5 @@
 *.DS_Store
 
 .env
+!/var/.gitkeep
 /var/*

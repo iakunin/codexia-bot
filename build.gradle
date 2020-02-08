@@ -60,6 +60,13 @@ dependencies {
     implementation platform('com.amazonaws:aws-java-sdk-bom:1.11.106')
     implementation 'com.amazonaws:aws-java-sdk-s3'
     implementation 'org.cactoos:cactoos:0.43'
+
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:2.1.1.RELEASE'
+    implementation 'io.github.openfeign:feign-jaxb:9.3.1'
+    implementation 'io.github.openfeign:feign-gson:9.3.1'
+    implementation 'io.github.openfeign:feign-jackson:9.3.1'
+
+    implementation 'org.kohsuke:github-api:1.106'
 }
 
 

@@ -2,12 +2,14 @@ version: '3.7'
 
 services:
     db:
-        container_name: hackernews-parser-db
+        container_name: codexia-bot-db
         image: postgres:11.5
         restart: always
         environment:
-            POSTGRES_DB: hackernews-parser
-            POSTGRES_USER: hackernews-parser
-            POSTGRES_PASSWORD: hackernews-parser
+            POSTGRES_DB: codexia-bot
+            POSTGRES_USER: codexia-bot
+            POSTGRES_PASSWORD: codexia-bot
         ports:
             - 54322:5432
+        volumes:
+            - ./var/postgresql/data:/var/lib/postgresql/data
