@@ -14,7 +14,6 @@ import java.util.stream.IntStream;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -26,9 +25,11 @@ public final class DecrementById {
 
     private Hackernews hackernewsClient;
 
-    @Scheduled(cron="* * * * * *") // every second
+//    @Scheduled(cron="* * * * * *") // every second
     public void calculateTourSchedules() throws InterruptedException {
         log.info("DecrementById");
+
+        //@TODO: rewrite via Reactive API
 
         // 22 threads -> 105 items/sec
         final int nThreads = 44;
