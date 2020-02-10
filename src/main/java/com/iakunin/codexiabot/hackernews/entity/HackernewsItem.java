@@ -15,7 +15,6 @@ public final class HackernewsItem extends AbstractEntity {
     private String type;
     private String by;
     private String title;
-    private String text;
     private String url;
     private Instant time;
 
@@ -26,7 +25,6 @@ public final class HackernewsItem extends AbstractEntity {
                 .setType(item.getType())
                 .setBy(item.getBy())
                 .setTitle(item.getTitle())
-                .setText(item.getText())
                 .setUrl(item.getUrl())
                 .setTime(item.getTime());
         }
