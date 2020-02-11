@@ -1,7 +1,7 @@
 package com.iakunin.codexiabot.hackernews.service;
 
 import com.iakunin.codexiabot.hackernews.entity.HackernewsItem;
-import com.iakunin.codexiabot.hackernews.repository.HackernewsItemRepository;
+import com.iakunin.codexiabot.hackernews.repository.jpa.HackernewsItemRepository;
 import com.iakunin.codexiabot.hackernews.sdk.client.Hackernews;
 import java.util.Collections;
 import java.util.List;

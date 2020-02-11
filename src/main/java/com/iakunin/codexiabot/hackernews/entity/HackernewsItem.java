@@ -3,6 +3,7 @@ package com.iakunin.codexiabot.hackernews.entity;
 import com.iakunin.codexiabot.common.entity.AbstractEntity;
 import com.iakunin.codexiabot.hackernews.sdk.client.Hackernews;
 import java.time.Instant;
+import java.util.Optional;
 import javax.persistence.Entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -23,10 +24,18 @@ public final class HackernewsItem extends AbstractEntity {
             return new HackernewsItem()
                 .setExternalId(item.getId())
                 .setType(item.getType())
-                .setBy(item.getBy())
-                .setTitle(item.getTitle())
-                .setUrl(item.getUrl())
-                .setTime(item.getTime());
+                .setBy(
+                    Optional.ofNullable(item.getBy()).orElse("")
+                )
+                .setTitle(
+                    Optional.ofNullable(item.getTitle()).orElse("")
+                )
+                .setUrl(
+                    Optional.ofNullable(item.getUrl()).orElse("")
+                )
+                .setTime(
+                    Optional.ofNullable(item.getTime()).orElse(Instant.ofEpochSecond(0))
+                );
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.iakunin.codexiabot.hackernews.repository;
+package com.iakunin.codexiabot.hackernews.repository.jpa;
 
 import com.iakunin.codexiabot.hackernews.entity.HackernewsItem;
 import java.util.List;

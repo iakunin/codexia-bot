@@ -18,7 +18,7 @@ public final class NewStories {
     private ItemListSaver itemListSaver;
 
 //    @Scheduled(cron="20 * * * * *") // every minute at 20th second
-    public void calculateTourSchedules() {
+    public void run() {
         log.info("Saving NewStories");
         this.itemListSaver.save(
             Objects.requireNonNull(

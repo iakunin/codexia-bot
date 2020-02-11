@@ -18,7 +18,7 @@ public final class BestStories {
     private ItemListSaver itemListSaver;
 
 //    @Scheduled(cron="0 * * * * *") // every minute at 0th second
-    public void calculateTourSchedules() {
+    public void run() {
         log.info("Saving BestStories");
         this.itemListSaver.save(
             Objects.requireNonNull(

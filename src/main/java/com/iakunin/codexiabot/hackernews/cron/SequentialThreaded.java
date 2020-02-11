@@ -1,7 +1,7 @@
 package com.iakunin.codexiabot.hackernews.cron;
 
 import com.iakunin.codexiabot.hackernews.entity.HackernewsItem;
-import com.iakunin.codexiabot.hackernews.repository.HackernewsItemRepository;
+import com.iakunin.codexiabot.hackernews.repository.jpa.HackernewsItemRepository;
 import com.iakunin.codexiabot.hackernews.sdk.client.Hackernews;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,17 +19,15 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 @AllArgsConstructor(onConstructor_ ={@Autowired})
-public final class DecrementById {
+public final class SequentialThreaded {
 
     private HackernewsItemRepository hackernewsItemRepository;
 
     private Hackernews hackernewsClient;
 
 //    @Scheduled(cron="* * * * * *") // every second
-    public void calculateTourSchedules() throws InterruptedException {
-        log.info("DecrementById");
-
-        //@TODO: rewrite via Reactive API
+    public void run() {
+        log.info("SequentialThreaded");
 
         // 22 threads -> 105 items/sec
         final int nThreads = 44;
