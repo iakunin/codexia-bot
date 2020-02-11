@@ -16,19 +16,18 @@ services:
 
     zookeeper:
         container_name: codexia-bot-zookeeper
-        image: wurstmeister/zookeeper:3.4.6
+        image: zookeeper:3.4.14
         ports:
             - 2181:2181
         volumes:
-            - ./var/zookeeper:/opt/zookeeper-3.4.6/data
+            - ./var/zookeeper/data:/data
+            - ./var/zookeeper/datalog:/datalog
 
     kafka:
         container_name: codexia-bot-kafka
         image: wurstmeister/kafka:2.12-2.4.0
         ports:
             - 9092:9092
-        expose:
-            - 9093
         environment:
             KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
             KAFKA_ADVERTISED_HOST_NAME: 172.17.0.1
