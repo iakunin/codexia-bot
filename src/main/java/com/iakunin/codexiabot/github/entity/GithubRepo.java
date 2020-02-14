@@ -17,6 +17,9 @@ import org.kohsuke.github.GHRepository;
 @Data
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 public final class GithubRepo extends AbstractEntity {
+    //@TODO: main info about github-repo should be taken from here:
+    //  description: https://developer.github.com/v3/repos/
+    //  example: https://api.github.com/repos/github-api/github-api
     private String externalId;
     private String fullName;
     private String htmlUrl;

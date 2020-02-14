@@ -25,7 +25,7 @@ public final class SequentialReactive {
         log.info("SequentialReactive");
 
         final HackernewsItemRepositoryImpl hackernewsItemRepository = new HackernewsItemRepositoryImpl();
-        final int maxExternalId = 22_275_145;
+        final int maxExternalId = 22_276_061;
 
         SslContextFactory.Client sslContextFactory = new SslContextFactory.Client();
         final HttpClient httpClient = new HttpClient(sslContextFactory);
