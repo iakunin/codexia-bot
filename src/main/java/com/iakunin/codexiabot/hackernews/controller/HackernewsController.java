@@ -2,10 +2,12 @@ package com.iakunin.codexiabot.hackernews.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.iakunin.codexiabot.hackernews.repository.jpa.HackernewsItemRepository;
 import com.iakunin.codexiabot.hackernews.sdk.client.Hackernews;
 import java.util.HashMap;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.IntegerSerializer;
@@ -16,12 +18,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.kafka.sender.KafkaSender;
 import reactor.kafka.sender.SenderOptions;
 import reactor.kafka.sender.SenderRecord;
+import reactor.kafka.sender.SenderResult;
 
 @Controller
+@Slf4j
 public final class HackernewsController {
 
     private static final String TOPIC = "hackernews_item";
@@ -30,7 +35,14 @@ public final class HackernewsController {
 
     private ObjectMapper objectMapper;
 
-    public HackernewsController() {
+    private HackernewsItemRepository repository;
+
+    private com.iakunin.codexiabot.hackernews.repository.reactive.HackernewsItemRepository  reactiveRepository;
+
+    public HackernewsController(ObjectMapper objectMapper, HackernewsItemRepository repository, com.iakunin.codexiabot.hackernews.repository.reactive.HackernewsItemRepository reactiveRepository) {
+        this.objectMapper = objectMapper;
+        this.repository = repository;
+        this.reactiveRepository = reactiveRepository;
         this.sender = KafkaSender.create(
             SenderOptions.create(
                 new HashMap<>(){{
@@ -42,7 +54,6 @@ public final class HackernewsController {
                 }}
             )
         );
-        this.objectMapper = new ObjectMapper();
     }
 
     @PostMapping("/api/v1/hackernews/item")
@@ -58,6 +69,26 @@ public final class HackernewsController {
         this.sender.send(Mono.just(message)).next().block();
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PostMapping("/api/v1/hackernews/sendAll")
+    @ResponseBody
+    public Flux<SenderResult<Integer>> sendAll() {
+        return this.sender.send(
+            this.reactiveRepository
+                .findAll()
+                .map(i ->
+                    SenderRecord.create(
+                        new ProducerRecord<>(
+                            TOPIC,
+                            Integer.valueOf(i.getExternalId()),
+                            this.toBinary(i)
+                        ),
+                        Integer.valueOf(i.getExternalId())
+                    )
+                )
+        )
+        .doOnError(e -> log.error("Send failed", e));
     }
 
     private String toBinary(Object object) {

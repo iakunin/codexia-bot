@@ -28,7 +28,10 @@ public final class GithubController {
         @NotNull @Valid @RequestBody CreateRepoRequest body
     ) throws IOException {
 
-        this.githubModule.createRepo(body.getUrl());
+        this.githubModule.createRepo(
+            new GithubModule.Arguments()
+                .setUrl(body.getUrl())
+        );
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

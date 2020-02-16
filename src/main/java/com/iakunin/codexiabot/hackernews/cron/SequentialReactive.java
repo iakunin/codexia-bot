@@ -11,7 +11,6 @@ import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.client.reactive.ClientHttpConnector;
 import org.springframework.http.client.reactive.JettyClientHttpConnector;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -20,7 +19,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 @AllArgsConstructor(onConstructor_ ={@Autowired})
 public final class SequentialReactive {
 
-    @Scheduled(cron="* * * * * *") // every second
+//    @Scheduled(cron="* * * * * *") // every second
     public void run() throws InterruptedException {
         log.info("SequentialReactive");
 

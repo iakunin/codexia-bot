@@ -92,7 +92,7 @@ public final class HackernewsItemRepositoryImpl implements HackernewsItemReposit
         return this.postgresqlConnection.flatMapMany(
             connection -> {
                 final Flux<? extends Result> publisher = (Flux<? extends Result>) connection
-                    .createStatement("SELECT * FROM hackernews_item")
+                    .createStatement("SELECT * FROM hackernews_item WHERE url IS NOT null AND url != ''")
                     .execute();
 
                 return publisher

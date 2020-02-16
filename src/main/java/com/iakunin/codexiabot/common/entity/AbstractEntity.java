@@ -1,6 +1,6 @@
 package com.iakunin.codexiabot.common.entity;
 
-import com.vladmihalcea.hibernate.type.json.JsonStringType;
+import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -18,7 +18,7 @@ import org.hibernate.annotations.TypeDefs;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @TypeDefs({
-    @TypeDef(name = "json", typeClass = JsonStringType.class)
+    @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 })
 @MappedSuperclass
 @Data

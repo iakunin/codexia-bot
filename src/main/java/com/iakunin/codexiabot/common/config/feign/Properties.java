@@ -4,7 +4,7 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Data
-@ConfigurationProperties("com.iakunin.hackernewsparser.logging")
+@ConfigurationProperties("com.iakunin.codexiabot.logging")
 public final class Properties {
 
     private String sessionFingerprintHeaderName = "x-session-fingerprint";

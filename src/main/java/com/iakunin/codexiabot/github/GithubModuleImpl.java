@@ -1,45 +1,91 @@
 package com.iakunin.codexiabot.github;
 
 import com.iakunin.codexiabot.github.entity.GithubRepo;
+import com.iakunin.codexiabot.github.entity.GithubRepoSource;
+import com.iakunin.codexiabot.github.entity.GithubRepoStat;
 import com.iakunin.codexiabot.github.repository.GithubRepoRepository;
+import com.iakunin.codexiabot.github.repository.GithubRepoSourceRepository;
+import com.iakunin.codexiabot.github.repository.GithubRepoStatRepository;
 import java.io.IOException;
 import java.net.URL;
-import lombok.AllArgsConstructor;
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.kohsuke.github.GHFileNotFoundException;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
 import org.kohsuke.github.GitHubBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor(onConstructor_={@Autowired})
 @Slf4j
 public final class GithubModuleImpl implements GithubModule {
 
     private GithubRepoRepository githubRepoRepository;
 
+    private GithubRepoStatRepository githubRepoStatRepository;
+
+    private GithubRepoSourceRepository githubRepoSourceRepository;
+
+    private String githubToken;
+
+    public GithubModuleImpl(
+        GithubRepoRepository githubRepoRepository,
+        GithubRepoStatRepository githubRepoStatRepository,
+        GithubRepoSourceRepository githubRepoSourceRepository,
+        @Value("${app.github-token}") String githubToken
+    ) {
+        this.githubRepoRepository = githubRepoRepository;
+        this.githubRepoStatRepository = githubRepoStatRepository;
+        this.githubRepoSourceRepository = githubRepoSourceRepository;
+        this.githubToken = githubToken;
+    }
+
     @Override
-    public void createRepo(String url) throws IOException {
-        URL repoUrl = new URL(url);
+    public void createRepo(Arguments arguments) throws IOException {
+        URL repoUrl = new URL(arguments.getUrl());
 
-        // @TODO: пересоздать этот токен и положить в env-переменную
-        GitHub github = new GitHubBuilder().withOAuthToken("3e94b3e7b117c36cbc097f37e0a9233d605c5be9").build();
+        GitHub github = new GitHubBuilder().withOAuthToken(this.githubToken).build();
 
+        //@TODO: кейс, когда github_repo есть, НО source - новый
+        //@TODO: отрефакторить этот класс (слишком жирный)
         final GHRepository repository;
         try {
-            repository = github.getRepository(this.getGithubRepoName(repoUrl));
+            final String githubRepoName = this.getGithubRepoName(repoUrl);
+
+            final Optional<GithubRepo> optional = this.githubRepoRepository.findByFullName(githubRepoName);
+            if (optional.isPresent()) {
+                log.info("githubRepo with FullName='{}' already exist", githubRepoName);
+                return;
+            }
+
+            repository = github.getRepository(githubRepoName);
         } catch (GHFileNotFoundException e) {
             throw new RuntimeException(
-                String.format("Unable to find github repo by url='%s'", url),
+                String.format("Unable to find github repo by url='%s'", arguments.getUrl()),
                 e
             );
         }
 
-        this.githubRepoRepository.save(
-            GithubRepo.Factory.from(repository)
-        );
+        final GithubRepo githubRepo = GithubRepo.Factory.from(repository);
+        final Optional<GithubRepo> optional = this.githubRepoRepository.findByExternalId(githubRepo.getExternalId());
+        if (optional.isEmpty()) {
+            log.info("Saving githubRepo: {}", githubRepo);
+            final GithubRepo saved = this.githubRepoRepository.save(githubRepo);
+            this.githubRepoStatRepository.save(
+                GithubRepoStat.Factory.from(repository).setGithubRepo(saved)
+            );
+            this.githubRepoSourceRepository.save(
+                new GithubRepoSource()
+                    .setGithubRepo(saved)
+                    .setSource(arguments.getSource())
+                    .setExternalId(arguments.getExternalId())
+            );
+        } else {
+            log.info("githubRepo with externalId='{}' already exist", githubRepo.getExternalId());
+        }
     }
 
     private String getGithubRepoName(URL url) {
@@ -51,12 +97,13 @@ public final class GithubModuleImpl implements GithubModule {
             repoName = path;
         }
 
-        if (repoName.split("/").length != 2) {
+        final String[] split = repoName.split("/");
+        if (split.length < 2) {
             throw new RuntimeException(
                 String.format("Invalid github repository name: %s", repoName)
             );
         }
 
-        return repoName;
+        return Arrays.stream(split).limit(2).collect(Collectors.joining("/"));
     }
 }
