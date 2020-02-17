@@ -42,6 +42,7 @@ public final class GithubRepo {
             .receive()
             .map(r -> {
                 final HackernewsItem item = fromBinary(r.value(), HackernewsItem.class);
+                log.info("Got an item from kafka: {}", r.value());
                 r.receiverOffset().acknowledge();
                 return item;
             })
