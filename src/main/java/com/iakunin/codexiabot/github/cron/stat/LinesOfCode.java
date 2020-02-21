@@ -28,20 +28,22 @@ public final class LinesOfCode {
             githubRepo -> {
 
                 log.info("Calculating lines of code for {}", githubRepo);
-                this.githubRepoStatRepository.save(
-                    GithubRepoStat.Factory.from(
-                        Objects.requireNonNull(
-                            this.codetabs.getLinesOfCode(githubRepo.getFullName())
-                                .getBody()
-                        )
-                    ).setGithubRepo(githubRepo)
-                );
-
                 try {
-                    log.info("Sleeping...");
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    this.githubRepoStatRepository.save(
+                        GithubRepoStat.Factory.from(
+                            Objects.requireNonNull(
+                                this.codetabs.getLinesOfCode(githubRepo.getFullName())
+                                    .getBody()
+                            )
+                        ).setGithubRepo(githubRepo)
+                    );
+                } finally {
+                    try {
+                        log.info("Sleeping...");
+                        Thread.sleep(4500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         );
