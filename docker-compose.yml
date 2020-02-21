@@ -19,9 +19,6 @@ services:
         image: zookeeper:3.4.14
         ports:
             - 2181:2181
-        volumes:
-            - ./var/zookeeper/data:/data
-            - ./var/zookeeper/datalog:/datalog
 
     kafka:
         container_name: codexia-bot-kafka
@@ -32,6 +29,3 @@ services:
             KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
             KAFKA_ADVERTISED_HOST_NAME: 172.17.0.1
             KAFKA_CREATE_TOPICS: "hackernews_item:1:1,github_repo:1:1,demo-topic:1:1"
-        volumes:
-            - /var/run/docker.sock:/var/run/docker.sock
-            - ./var/kafka:/kafka

@@ -1,0 +1,187 @@
+---
+kind: ConfigMap
+metadata:
+  name: produce-consume
+  namespace: test-kafka
+apiVersion: v1
+data:
+
+  setup.sh: |-
+    touch /tmp/testlog
+
+    tail -f /tmp/testlog
+
+  test.sh: |-
+    exec >> /tmp/testlog
+    exec 2>&1
+
+    # As low as in kafkacat based test didn't work, but this value can likely be squeezed
+    PC_WAIT=2.0
+
+    UNIQUE="${HOSTNAME}@$(date -u -Ins)"
+
+    echo "Test $UNIQUE" >> /shared/produce.tmp
+    sleep $PC_WAIT
+    LAST=$(tail -n 1 /shared/consumed.tmp)
+    [ -z "$LAST" ] && echo "Nothing consumed yet" && exit 1
+
+    # Haven't found how to get message timestamp in console-consumer, see kafkacat based test instead
+    LAST_MSG=$LAST
+
+    if [[ "$LAST_MSG" != *"$UNIQUE" ]]; then
+      echo "Last message (at $(date +%FT%T)) isn't from this test run ($UNIQUE):"
+      echo "$LAST_MSG"
+      exit 11
+    fi
+
+    echo "OK ($LAST_MSG at $(date +%FT%T))"
+    # We haven't asserted that the consumer works, so we'll just have to assume that it will exit if it fails
+
+    exit 0
+
+  quit-on-nonzero-exit.sh: |-
+    exec >> /tmp/testlog
+    exec 2>&1
+
+    exit 0
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: topic-test-produce-consume
+  namespace: test-kafka
+spec:
+  template:
+    spec:
+      containers:
+      - name: topic-create
+        image: solsson/kafka-cli@sha256:9fa3306e9f5d18283d10e01f7c115d8321eedc682f262aff784bd0126e1f2221
+        command:
+        - ./bin/kafka-topics.sh
+        - --zookeeper
+        -   zookeeper.kafka.svc.cluster.local:2181
+        - --create
+        - --if-not-exists
+        - --topic
+        -   test-produce-consume
+        - --partitions
+        -   "3"
+        - --replication-factor
+        -   "2"
+        resources:
+          limits:
+            cpu: 200m
+            memory: 100Mi
+      restartPolicy: Never
+---
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: produce-consume
+  namespace: test-kafka
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      test-target: kafka-client-console
+      test-type: readiness
+  template:
+    metadata:
+      labels:
+        test-target: kafka-client-console
+        test-type: readiness
+        # for example:
+        # readonly - can be used in production
+        # isolated - read/write but in a manner that does not affect other services
+        # load - unsuitable for production because it uses significant resources
+        # chaos - unsuitable for production because it injects failure modes
+        #test-use:
+    spec:
+      containers:
+      - name: producer
+        image: solsson/kafka:2.3.0@sha256:b59603a8c0645f792fb54e9571500e975206352a021d6a116b110945ca6c3a1d
+        env:
+        - name: BOOTSTRAP
+          value: bootstrap.kafka:9092
+        - name: ACKS
+          # -1 means use brokers' min.insync.replicas
+          value: "-1"
+        command:
+        - /bin/bash
+        - -cex
+        - >
+          echo "--- start $HOSTNAME $(date --iso-8601='ns' -u) ---" >> /shared/produce.tmp
+          ;
+          ./bin/kafka-topics.sh --zookeeper zookeeper.kafka:2181 --describe --topic test-produce-consume
+          ;
+          tail -f /shared/produce.tmp |
+          ./bin/kafka-console-producer.sh --broker-list $BOOTSTRAP --topic test-produce-consume --producer-property "acks=$ACKS"
+          ;
+        resources:
+          limits:
+            cpu: 100m
+            memory: 120Mi
+        volumeMounts:
+        - name: config
+          mountPath: /test
+        - name: shared
+          mountPath: /shared
+      - name: consumer
+        image: solsson/kafka:2.3.0@sha256:b59603a8c0645f792fb54e9571500e975206352a021d6a116b110945ca6c3a1d
+        env:
+        - name: BOOTSTRAP
+          value: bootstrap.kafka:9092
+        command:
+        - /bin/bash
+        - -cex
+        - >
+          ./bin/kafka-console-consumer.sh --bootstrap-server $BOOTSTRAP --topic test-produce-consume |
+          tee /shared/consumed.tmp
+          ;
+        resources:
+          limits:
+            cpu: 100m
+            memory: 140Mi
+        volumeMounts:
+        - name: config
+          mountPath: /test
+        - name: shared
+          mountPath: /shared
+      - name: testcase
+        image: solsson/kafkacat@sha256:7a5961f861ddad53c25227511b9f36a5c13bc43296470b383be2f3e8e3a506f4
+        env:
+        - name: BOOTSTRAP
+          value: bootstrap.kafka:9092
+        command:
+        - /bin/bash
+        - -e
+        - /test/setup.sh
+        readinessProbe:
+          exec:
+            command:
+            - /bin/bash
+            - -e
+            - /test/test.sh
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        livenessProbe:
+          exec:
+            command:
+            - /bin/bash
+            - -e
+            - /test/quit-on-nonzero-exit.sh
+        resources:
+          limits:
+            cpu: 100m
+            memory: 100Mi
+        volumeMounts:
+        - name: config
+          mountPath: /test
+        - name: shared
+          mountPath: /shared
+      volumes:
+      - name: config
+        configMap:
+          name: produce-consume
+      - name: shared
+        emptyDir: {}
