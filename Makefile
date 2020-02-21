@@ -9,3 +9,9 @@ kafka-delete-topic:
 
 kafka-start-consumer:
 	docker exec -ti codexia-bot-kafka /opt/kafka/bin/kafka-console-consumer.sh --topic demo-topic --bootstrap-server localhost:9092
+
+build-jar:
+	bash bin/gradle_in_docker.sh clean build
+
+docker-build-and-push:
+	 docker build -t iakunin/testtt:0.0.1 . && docker push iakunin/testtt:0.0.1

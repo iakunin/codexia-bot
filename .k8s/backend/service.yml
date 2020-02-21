@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+  namespace: codexia-bot
+spec:
+  selector:
+    app: backend
+  type: NodePort
+  ports:
+    - name: backend-port
+      protocol: TCP
+      port: 8080
+      targetPort: 8080

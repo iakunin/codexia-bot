@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  namespace: codexia-bot
+  labels:
+    app: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      namespace: codexia-bot
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          # @todo Move this docker-image from public Dockerhub to private docker-registry
+          image: iakunin/testtt:0.0.1
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: prod
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://10.35.48.3/codexia-bot
+            - name: SPRING_DATASOURCE_USERNAME
+              value: codexia-bot
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: spring-datasource
+                  key: password
+            - name: APP_GITHUBTOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: app
+                  key: github.token
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /actuator/info
+              port: 8080
+            initialDelaySeconds: 30
+          livenessProbe:
+            httpGet:
+              path: /actuator/info
+              port: 8080
+            initialDelaySeconds: 30
