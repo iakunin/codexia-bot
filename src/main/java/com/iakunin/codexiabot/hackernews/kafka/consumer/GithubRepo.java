@@ -10,11 +10,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.IntegerDeserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
-import org.springframework.stereotype.Component;
 import reactor.kafka.receiver.KafkaReceiver;
 import reactor.kafka.receiver.ReceiverOptions;
 
-@Component
+//@Component
 @Slf4j
 public final class GithubRepo {
 
@@ -32,7 +31,7 @@ public final class GithubRepo {
                     new HashMap<>(){{
                         put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
                         put(ConsumerConfig.CLIENT_ID_CONFIG, "hackernews-item-consumer-1");
-                        put(ConsumerConfig.GROUP_ID_CONFIG, "hackernews-item-consumer-3");
+                        put(ConsumerConfig.GROUP_ID_CONFIG, "hackernews-item-consumer-1");
                         put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, IntegerDeserializer.class);
                         put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
                         put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");

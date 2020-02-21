@@ -88,10 +88,6 @@ springBoot {
     }
 }
 
-def getReleaseVersion() {
-    def props = new Properties()
-    if (file(".release").exists()) {
-        file(".release").withInputStream { props.load(it) }
-    }
-    return props.getOrDefault("release", "0.0.1")
+static def getReleaseVersion() {
+    return "0.0.3"
 }

@@ -13,5 +13,9 @@ kafka-start-consumer:
 build-jar:
 	bash bin/gradle_in_docker.sh clean build
 
-docker-build-and-push:
-	 docker build -t iakunin/testtt:0.0.1 . && docker push iakunin/testtt:0.0.1
+# TODO: there should be one place, where version is stored (now it's here and in build.gradle)
+VERSION='0.0.3'
+deploy: build-jar
+	docker build -t iakunin/testtt:$(VERSION) . && \
+	docker push iakunin/testtt:$(VERSION) && \
+	kubectl set image deployment/backend-deployment backend=iakunin/testtt:$(VERSION)  --namespace=codexia-bot
