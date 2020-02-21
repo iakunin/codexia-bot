@@ -21,7 +21,10 @@ Kafka tips & tricks: https://dddpaul.github.io/blog/2018/06/23/kafka-tips/
 
 
 - Крон-парсер hackernews в реальном времени.
-    Проходить автоинкрементом по айдишнику пока не будет 404го http-кода.
+    hackernews_item -> изменить external_id на int
+    Перестроить индекс по hackernews_item.external_id
+    Проверить, что max(hackernews_item.external_id) отрабатывает мгновенно
+    Проходить автоинкрементом по айдишнику, начиная от max(hackernews_item.external_id) пока не будет 404го http-кода.
     Без реактивщины - просто while (true) цикл.
     Закидывать в кафку.
     
