@@ -61,7 +61,9 @@ public final class GithubModuleImpl implements GithubModule {
                 return;
             }
 
+            log.info("--- Begin calling GitHub SDK");
             repository = github.getRepository(githubRepoName);
+            log.info("--- End calling GitHub SDK");
         } catch (GHFileNotFoundException e) {
             throw new RuntimeException(
                 String.format("Unable to find github repo by url='%s'", arguments.getUrl()),

@@ -42,6 +42,10 @@
             <appender-ref ref="STDOUT" />
         </logger>
 
+        <logger name="org.kohsuke.github" additivity="false" level="trace">
+            <appender-ref ref="STDOUT" />
+        </logger>
+
         <logger name="io.r2dbc.postgresql.client.ReactorNettyClient" additivity="false" level="debug">
             <appender-ref ref="NOP" />
         </logger>
