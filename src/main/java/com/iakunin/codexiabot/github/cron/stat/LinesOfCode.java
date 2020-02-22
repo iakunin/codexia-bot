@@ -40,7 +40,9 @@ public final class LinesOfCode {
                 } catch (feign.FeignException e) {
                     log.error("Error occurred during getting lines of code", e);
                     this.githubRepoStatRepository.save(
-                        new GithubRepoStat().setGithubRepo(githubRepo)
+                        new GithubRepoStat()
+                            .setStat(new GithubRepoStat.LinesOfCode())
+                            .setGithubRepo(githubRepo)
                     );
                 } finally {
                     try {

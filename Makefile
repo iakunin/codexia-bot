@@ -14,7 +14,7 @@ build-jar:
 	bash bin/gradle_in_docker.sh clean build
 
 # TODO: there should be one place, where version is stored (now it's here and in build.gradle)
-VERSION='0.0.4'
+VERSION='0.0.5'
 deploy: build-jar
 	docker build -t iakunin/testtt:$(VERSION) . && \
 	docker push iakunin/testtt:$(VERSION) && \
