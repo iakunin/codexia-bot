@@ -8,6 +8,7 @@ import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -38,7 +39,7 @@ public final class LinesOfCode {
                         ).setGithubRepo(githubRepo)
                     );
                 } catch (feign.FeignException e) {
-                    if (e.status() != 429) {
+                    if (e.status() != HttpStatus.TOO_MANY_REQUESTS.value()) {
                         log.error("Error occurred during getting lines of code", e);
                         this.githubRepoStatRepository.save(
                             new GithubRepoStat()
@@ -46,7 +47,7 @@ public final class LinesOfCode {
                                 .setGithubRepo(githubRepo)
                         );
                     } else {
-                        log.info("429 came from codetabs: retrying", e);
+                        log.info("TOO_MANY_REQUESTS (429) came from codetabs: retrying", e);
                     }
                 } finally {
                     try {
