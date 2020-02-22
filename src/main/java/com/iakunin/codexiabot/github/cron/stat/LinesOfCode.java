@@ -38,12 +38,16 @@ public final class LinesOfCode {
                         ).setGithubRepo(githubRepo)
                     );
                 } catch (feign.FeignException e) {
-                    log.error("Error occurred during getting lines of code", e);
-                    this.githubRepoStatRepository.save(
-                        new GithubRepoStat()
-                            .setStat(new GithubRepoStat.LinesOfCode())
-                            .setGithubRepo(githubRepo)
-                    );
+                    if (e.status() != 429) {
+                        log.error("Error occurred during getting lines of code", e);
+                        this.githubRepoStatRepository.save(
+                            new GithubRepoStat()
+                                .setStat(new GithubRepoStat.LinesOfCode())
+                                .setGithubRepo(githubRepo)
+                        );
+                    } else {
+                        log.info("429 came from codetabs: retrying", e);
+                    }
                 } finally {
                     try {
                         log.info("Sleeping...");
