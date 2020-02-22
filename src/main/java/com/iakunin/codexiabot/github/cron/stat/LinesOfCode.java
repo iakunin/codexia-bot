@@ -37,10 +37,15 @@ public final class LinesOfCode {
                             )
                         ).setGithubRepo(githubRepo)
                     );
+                } catch (feign.FeignException e) {
+                    log.error("Error occurred during getting lines of code", e);
+                    this.githubRepoStatRepository.save(
+                        new GithubRepoStat().setGithubRepo(githubRepo)
+                    );
                 } finally {
                     try {
                         log.info("Sleeping...");
-                        Thread.sleep(4500);
+                        Thread.sleep(5000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
