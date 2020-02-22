@@ -11,11 +11,13 @@ kafka-start-consumer:
 	docker exec -ti codexia-bot-kafka /opt/kafka/bin/kafka-console-consumer.sh --topic demo-topic --bootstrap-server localhost:9092
 
 build-jar:
-	bash bin/gradle_in_docker.sh clean build
+	bash bin/gradle_in_docker.sh clean -Pversion=$(VERSION) build
 
-# TODO: there should be one place, where version is stored (now it's here and in build.gradle)
-VERSION='0.0.6'
 deploy: build-jar
-	docker build -t iakunin/testtt:$(VERSION) . && \
-	docker push iakunin/testtt:$(VERSION) && \
-	kubectl set image deployment/backend-deployment backend=iakunin/testtt:$(VERSION)  --namespace=codexia-bot
+	docker build -t eu.gcr.io/codexia-bot/backend:$(VERSION) . && \
+	docker push eu.gcr.io/codexia-bot/backend:$(VERSION) && \
+	kubectl set image deployment/backend-deployment \
+	backend=eu.gcr.io/codexia-bot/backend:$(VERSION) \
+	--namespace=codexia-bot
+
+VERSION='0.0.8'

@@ -18,8 +18,7 @@ spec:
     spec:
       containers:
         - name: backend
-          # @todo Move this docker-image from public Dockerhub to private docker-registry
-          image: iakunin/testtt:0.0.1
+          image: eu.gcr.io/codexia-bot/backend:0.0.7
           imagePullPolicy: IfNotPresent
           env:
             - name: SPRING_PROFILES_ACTIVE

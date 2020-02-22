@@ -6,7 +6,6 @@ plugins {
 }
 
 group = 'com.iakunin'
-version = getReleaseVersion()
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
 
@@ -78,16 +77,10 @@ dependencies {
     implementation 'org.springframework:spring-webflux:5.1.9.RELEASE'
 }
 
-
-// @TODO: change this to version.gradle
 springBoot {
     buildInfo {
         properties {
-            version = getReleaseVersion()
+            version = version
         }
     }
-}
-
-static def getReleaseVersion() {
-    return "0.0.6"
 }
