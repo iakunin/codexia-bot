@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: eu.gcr.io/codexia-bot/backend:0.0.21
+          image: eu.gcr.io/codexia-bot/backend:0.0.24
           imagePullPolicy: IfNotPresent
           env:
             - name: SPRING_PROFILES_ACTIVE
@@ -45,9 +45,9 @@ spec:
             httpGet:
               path: /actuator/info
               port: 8080
-            initialDelaySeconds: 60
+            initialDelaySeconds: 120
           livenessProbe:
             httpGet:
               path: /actuator/info
               port: 8080
-            initialDelaySeconds: 60
+            initialDelaySeconds: 120
