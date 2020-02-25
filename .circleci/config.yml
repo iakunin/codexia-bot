@@ -23,7 +23,7 @@ jobs:
                     name: gradle-build
                     command: gradle clean build --info
             -   persist_to_workspace:
-                    root: /tmp/workspace
+                    root: .
                     paths:
                         - build/*
     build_and_push_image:
@@ -51,6 +51,9 @@ workflows:
             -   build_and_push_image:
                     requires:
                         - build
+                    filters:
+                        tags:
+                            only: /^v.*/
 #            - deploy:
 #                  requires:
 #                      - build_and_push_image
