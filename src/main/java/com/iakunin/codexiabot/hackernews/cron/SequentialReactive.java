@@ -19,11 +19,12 @@ import org.springframework.web.reactive.function.client.WebClient;
 @AllArgsConstructor(onConstructor_ ={@Autowired})
 public final class SequentialReactive {
 
+    final HackernewsItemRepositoryImpl hackernewsItemRepository;
+
 //    @Scheduled(cron="* * * * * *") // every second
     public void run() throws InterruptedException {
         log.info("SequentialReactive");
 
-        final HackernewsItemRepositoryImpl hackernewsItemRepository = new HackernewsItemRepositoryImpl();
         final int maxExternalId = 22_276_061;
 
         SslContextFactory.Client sslContextFactory = new SslContextFactory.Client();

@@ -1,6 +1,21 @@
 {
   "properties": [
     {
+      "name": "app.database.name",
+      "type": "java.lang.String",
+      "description": "Name of the application database."
+    },
+    {
+      "name": "app.database.host",
+      "type": "java.lang.String",
+      "description": "Host of the application database."
+    },
+    {
+      "name": "app.database.port",
+      "type": "java.lang.Integer",
+      "description": "Port of the application database."
+    },
+    {
       "name": "app.github-token",
       "type": "java.lang.String",
       "description": "Token for GitHub."

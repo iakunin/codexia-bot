@@ -19,12 +19,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.kafka.sender.KafkaSender;
 import reactor.kafka.sender.SenderOptions;
 import reactor.kafka.sender.SenderRecord;
-import reactor.kafka.sender.SenderResult;
 
 @Controller
 @Slf4j
@@ -79,8 +77,8 @@ public final class HackernewsController {
 
     @PostMapping("/api/v1/hackernews/sendAll")
     @ResponseBody
-    public Flux<SenderResult<Integer>> sendAll() {
-        return this.sender.send(
+    public ResponseEntity<String> sendAll() {
+        this.sender.send(
             this.reactiveRepository
                 .findAll()
                 .map(i ->
@@ -94,7 +92,10 @@ public final class HackernewsController {
                     )
                 )
         )
-        .doOnError(e -> log.error("Send failed", e));
+        .doOnError(e -> log.error("Send failed", e))
+        .blockLast();
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     private String toBinary(Object object) {

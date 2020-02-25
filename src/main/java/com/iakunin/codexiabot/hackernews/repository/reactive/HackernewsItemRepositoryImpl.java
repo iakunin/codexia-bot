@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -25,15 +26,20 @@ public final class HackernewsItemRepositoryImpl implements HackernewsItemReposit
 
     private final Mono<Connection> postgresqlConnection;
 
-    public HackernewsItemRepositoryImpl() {
+    public HackernewsItemRepositoryImpl(
+        @Value("${app.database.host}") String host,
+        @Value("${app.database.port}") Integer port,
+        @Value("${spring.datasource.username}") String username,
+        @Value("${spring.datasource.password}") String password,
+        @Value("${app.database.name}") String database
+    ) {
         ConnectionFactory connectionFactory = new PostgresqlConnectionFactory(
             PostgresqlConnectionConfiguration.builder()
-                //@TODO: There hardcoded values should be taken from application.properties
-                .host("localhost")
-                .port(54322)
-                .username("codexia-bot")
-                .password("codexia-bot")
-                .database("codexia-bot")
+                .host(host)
+                .port(port)
+                .username(username)
+                .password(password)
+                .database(database)
                 .options(
                     new HashMap<>() {{
                         put("lock_timeout", "10s");

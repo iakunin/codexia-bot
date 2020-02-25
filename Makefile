@@ -11,7 +11,7 @@ kafka-start-consumer:
 	docker exec -ti codexia-bot-kafka /opt/kafka/bin/kafka-console-consumer.sh --topic demo-topic --bootstrap-server localhost:9092
 
 tag:
-	bash bin/create_tag.sh
+	bash bin/create_tag.sh -n1
 
 build-jar:
 	bash bin/gradle_in_docker.sh clean -Pversion=$(VERSION) build
