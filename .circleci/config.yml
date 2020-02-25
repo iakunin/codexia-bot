@@ -61,18 +61,19 @@ jobs:
                     deployment: backend-deployment
                     image: eu.gcr.io/$GOOGLE_PROJECT_ID/backend
                     namespace: codexia-bot
-                    tag: $CIRCLE_SHA1
+                    tag: 0dff20f1385c5fa0fcb4707e61c934344e45b033
 workflows:
     build_update_deploy:
         jobs:
-            - build-jar
-            -   build-and-push-image:
-                    requires:
-                        - build-jar
-            #                    filters:
-            #                        tags:
-            #                            only: /^\d+.\d+.\d+$/
-            -   rollout-image:
-                    requires:
-                        - build-and-push-image
+            - rollout-image
+#            - build-jar
+#            -   build-and-push-image:
+#                    requires:
+#                        - build-jar
+#            #                    filters:
+#            #                        tags:
+#            #                            only: /^\d+.\d+.\d+$/
+#            -   rollout-image:
+#                    requires:
+#                        - build-and-push-image
 
