@@ -62,17 +62,25 @@ jobs:
                     namespace: codexia-bot
                     tag: 0dff20f1385c5fa0fcb4707e61c934344e45b033
 workflows:
-    build_update_deploy:
+    main:
         jobs:
-            - rollout-image
-#            - build-jar
-#            -   build-and-push-image:
-#                    requires:
-#                        - build-jar
-#            #                    filters:
-#            #                        tags:
-#            #                            only: /^\d+.\d+.\d+$/
-#            -   rollout-image:
-#                    requires:
-#                        - build-and-push-image
-
+            - build-jar
+                filters:
+                    tags:
+                        only: /^\d+\.\d+\.\d+$/
+            -   build-and-push-image:
+                    requires:
+                        - build-jar
+                    filters:
+                        branches:
+                            ignore: /.*/
+                        tags:
+                            only: /^\d+\.\d+\.\d+$/
+            -   rollout-image:
+                    requires:
+                        - build-and-push-image
+                    filters:
+                        branches:
+                            ignore: /.*/
+                        tags:
+                            only: /^\d+\.\d+\.\d+$/
