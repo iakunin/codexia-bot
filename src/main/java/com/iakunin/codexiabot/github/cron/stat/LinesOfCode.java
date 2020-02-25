@@ -21,7 +21,7 @@ public final class LinesOfCode {
     private GithubRepoStatRepository githubRepoStatRepository;
     private Codetabs codetabs;
 
-    @Scheduled(cron="* * * * * *") // every second
+    @Scheduled(cron="30 * * * * *") // every minute at 30th second
     public void run() {
         log.info("Running {}", this.getClass().getName());
 
