@@ -1,22 +1,42 @@
-version: 2
+version: 2.1
+orbs:
+    gcp-gcr: circleci/gcp-gcr@0.6.1
 jobs:
     build:
         docker:
-            - image: gradle:6.0.1-jdk11
+            -   image: gradle:6.0.1-jdk11
         steps:
             - checkout
-            - restore_cache:
-                  keys:
-                      - gradle-dependencies-v1-{{ checksum "build.gradle" }}
-                      # fallback to using the latest cache if no exact match is found
-                      - gradle-dependencies-v1-
-            - run:
-                name: gradle-dependencies
-                command: gradle dependencies
-            - save_cache:
-                  paths:
-                      - ~/.gradle
-                  key: gradle-dependencies-v1-{{ checksum "build.gradle" }}
-            - run:
-                  name: gradle-build
-                  command: gradle clean build --info
+            - setup_remote_docker
+                docker_layer_caching: true
+            -   restore_cache:
+                    keys:
+                        - gradle-dependencies-v1-{{ checksum "build.gradle" }}
+                        # fallback to using the latest cache if no exact match is found
+                        - gradle-dependencies-v1-
+            -   run:
+                    name: gradle-dependencies
+                    command: gradle dependencies
+            -   save_cache:
+                    paths:
+                        - ~/.gradle
+                        key: gradle-dependencies-v1-{{ checksum "build.gradle" }}
+            -   run:
+                    name: gradle-build
+                    command: gradle clean build --info
+    build_and_push_image:
+        jobs:
+            -   gcp-gcr/add-image-tag:
+                    image: backend
+                    registry-url: eu.gcr.io
+                    tag: $CIRCLE_SHA1
+workflows:
+    build_update_deploy:
+        jobs:
+            - build
+            - build_and_push_image:
+                  requires:
+                      - build
+#            - deploy:
+#                  requires:
+#                      - build_and_push_image
