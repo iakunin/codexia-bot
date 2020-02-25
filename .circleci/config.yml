@@ -22,10 +22,19 @@ jobs:
             -   run:
                     name: gradle-build
                     command: gradle clean build --info
+            -   persist_to_workspace:
+                    root: /tmp/workspace
+                    paths:
+                        - build/*
     build_and_push_image:
         machine: true
         steps:
             - checkout
+            -   attach_workspace:
+                    at: /tmp/workspace
+            -   run:
+                    name: copy-artifacts-from-workspace
+                    command: cp -r /tmp/workspace/build .
             - gcr/gcr-auth
             -   gcr/build-image:
                     image: backend
