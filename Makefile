@@ -10,6 +10,9 @@ kafka-delete-topic:
 kafka-start-consumer:
 	docker exec -ti codexia-bot-kafka /opt/kafka/bin/kafka-console-consumer.sh --topic demo-topic --bootstrap-server localhost:9092
 
+tag:
+	bash bin/create_tag.sh
+
 build-jar:
 	bash bin/gradle_in_docker.sh clean -Pversion=$(VERSION) build
 
@@ -20,4 +23,4 @@ deploy: build-jar
 	backend=eu.gcr.io/codexia-bot/backend:$(VERSION) \
 	--namespace=codexia-bot
 
-VERSION='0.0.8'
+VERSION := $(shell git tag -l --sort=v:refname | tail -n 1)
