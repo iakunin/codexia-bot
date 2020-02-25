@@ -64,10 +64,10 @@ jobs:
 workflows:
     main:
         jobs:
-            - build-jar
-                filters:
-                    tags:
-                        only: /^\d+\.\d+\.\d+$/
+            -   build-jar:
+                    filters:
+                        tags:
+                            only: /^\d+\.\d+\.\d+$/
             -   build-and-push-image:
                     requires:
                         - build-jar
