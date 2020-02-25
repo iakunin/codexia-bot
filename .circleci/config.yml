@@ -1,8 +1,9 @@
 version: 2.1
 orbs:
     gcr: circleci/gcp-gcr@0.6.1
+    gke: circleci/gcp-gke@1.0.3
 jobs:
-    build:
+    build-jar:
         docker:
             -   image: gradle:6.0.1-jdk11
         steps:
@@ -26,7 +27,8 @@ jobs:
                     root: .
                     paths:
                         - build/*
-    build_and_push_image:
+    build-and-push-image:
+        description: Build and push image to Google Container Registry
         machine: true
         steps:
             - checkout
@@ -44,16 +46,28 @@ jobs:
                     image: backend
                     registry-url: eu.gcr.io
                     tag: $CIRCLE_SHA1
+    rollout-image:
+        description: Deploy application to Google Kubernetes Engine
+        machine: true
+        steps:
+            - gke/install
+            -   gke/rollout-image:
+                    cluster: standard-cluster-1
+                    container: backend
+                    deployment: backend-deployment
+                    image: eu.gcr.io/$GOOGLE_PROJECT_ID/backend
+                    namespace: codexia-bot
+                    tag: $CIRCLE_SHA1
 workflows:
     build_update_deploy:
         jobs:
-            - build
-            -   build_and_push_image:
+            - build-jar
+            -   build-and-push-image:
                     requires:
-                        - build
-                    filters:
-                        tags:
-                            only: /^v.*/
-#            - deploy:
-#                  requires:
-#                      - build_and_push_image
+                        - build-jar
+            #                    filters:
+            #                        tags:
+            #                            only: /^\d+.\d+.\d+$/
+            -   rollout-image:
+                    requires:
+                        - build-and-push-image
