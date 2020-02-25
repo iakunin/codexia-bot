@@ -47,7 +47,7 @@ public interface Hackernews {
 
     @Data
     class Item {
-        private String id;
+        private Integer id;
         private String type;
         private String by;
         private String title;

@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 public final class HackernewsItem extends AbstractEntity {
-    private String externalId;
+    private Integer externalId;
     private String type;
     private String by;
     private String title;

@@ -106,7 +106,7 @@ public final class HackernewsItemRepositoryImpl implements HackernewsItemReposit
                         it -> it.map(
                             (row, rowMetadata) -> (HackernewsItem)
                                 new HackernewsItem()
-                                    .setExternalId(row.get("external_id", String.class))
+                                    .setExternalId(row.get("external_id", Integer.class))
                                     .setType(row.get("type", String.class))
                                     .setBy(row.get("by", String.class))
                                     .setTitle(row.get("title", String.class))
@@ -123,27 +123,27 @@ public final class HackernewsItemRepositoryImpl implements HackernewsItemReposit
     }
 
     @Override
-    public Flux<String> findAbsentExternalIds(String from, String to) {
+    public Flux<Integer> findAbsentExternalIds(Integer from, Integer to) {
         return this.postgresqlConnection.flatMapMany(
             connection -> {
                 final Flux<? extends Result> publisher = (Flux<? extends Result>) connection
                     .createStatement(
-                        "select gen.external_id::varchar from hackernews_item h " +
+                        "select gen.external_id from hackernews_item h " +
                             "right join ( " +
                             "    select generate_series as external_id " +
                             "    from generate_series($1, $2) " +
                             ") gen " +
-                            "on gen.external_id::varchar = h.external_id " +
+                            "on gen.external_id = h.external_id " +
                             "where h.external_id is null"
                     )
-                    .bind("$1", Integer.valueOf(from))
-                    .bind("$2", Integer.valueOf(to))
+                    .bind("$1", from)
+                    .bind("$2", to)
                     .execute();
 
                 return publisher
                     .flatMap(
                         it -> it.map(
-                            (row, rowMetadata) -> row.get("external_id", String.class)
+                            (row, rowMetadata) -> row.get("external_id", Integer.class)
                         )
                     );
             }

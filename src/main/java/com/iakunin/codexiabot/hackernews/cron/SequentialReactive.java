@@ -34,7 +34,7 @@ public final class SequentialReactive {
         WebClient client = WebClient.builder().clientConnector(clientConnector).build();
 
         hackernewsItemRepository
-            .findAbsentExternalIds(String.valueOf(1), String.valueOf(maxExternalId))
+            .findAbsentExternalIds(1, maxExternalId)
             .flatMap(
                 id -> client.get()
                     .uri(

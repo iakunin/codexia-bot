@@ -63,7 +63,7 @@ public final class GithubRepo {
                             new GithubModule.Arguments()
                                 .setUrl(i.getUrl())
                                 .setSource(GithubModule.Source.HACKERNEWS)
-                                .setExternalId(i.getExternalId())
+                                .setExternalId(String.valueOf(i.getExternalId()))
                         );
                     } catch (RuntimeException|IOException e) {
                         log.info("Unable to create github repo; source url='{}'", i.getUrl(), e);

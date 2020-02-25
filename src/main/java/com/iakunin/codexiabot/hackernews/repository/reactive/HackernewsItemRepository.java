@@ -10,5 +10,5 @@ public interface HackernewsItemRepository {
 
     Flux<HackernewsItem> findAll();
 
-    Flux<String> findAbsentExternalIds(String from, String to);
+    Flux<Integer> findAbsentExternalIds(Integer from, Integer to);
 }
