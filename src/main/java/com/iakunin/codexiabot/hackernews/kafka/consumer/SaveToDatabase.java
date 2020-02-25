@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.IntegerDeserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import org.springframework.beans.factory.annotation.Value;
 import reactor.kafka.receiver.KafkaReceiver;
 import reactor.kafka.receiver.ReceiverOptions;
 
@@ -20,12 +21,14 @@ public final class SaveToDatabase {
 
     private ObjectMapper objectMapper;
 
-    public SaveToDatabase() {
+    public SaveToDatabase(
+        @Value("${app.kafka.bootstrap-servers}") String kafkaBootstrapServers
+    ) {
         this.objectMapper = new ObjectMapper();
         KafkaReceiver.create(
             ReceiverOptions.<Integer, String>create(
                 new HashMap<>(){{
-                    put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+                    put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaBootstrapServers);
                     put(ConsumerConfig.CLIENT_ID_CONFIG, "hackernews-item-consumer-1");
                     put(ConsumerConfig.GROUP_ID_CONFIG, "hackernews-item-consumer");
                     put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, IntegerDeserializer.class);

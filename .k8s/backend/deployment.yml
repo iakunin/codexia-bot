@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: eu.gcr.io/codexia-bot/backend:0.0.7
+          image: eu.gcr.io/codexia-bot/backend:0.0.15
           imagePullPolicy: IfNotPresent
           env:
             - name: SPRING_PROFILES_ACTIVE
@@ -37,6 +37,8 @@ spec:
                 secretKeyRef:
                   name: app
                   key: github.token
+            - name: APP_KAFKA_BOOTSTRAPSERVERS
+              value: kafka.bootstrap:9092
           ports:
             - containerPort: 8080
           readinessProbe:

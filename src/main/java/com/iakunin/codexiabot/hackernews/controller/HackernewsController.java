@@ -12,6 +12,7 @@ import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.IntegerSerializer;
 import org.apache.kafka.common.serialization.StringSerializer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -39,14 +40,19 @@ public final class HackernewsController {
 
     private com.iakunin.codexiabot.hackernews.repository.reactive.HackernewsItemRepository  reactiveRepository;
 
-    public HackernewsController(ObjectMapper objectMapper, HackernewsItemRepository repository, com.iakunin.codexiabot.hackernews.repository.reactive.HackernewsItemRepository reactiveRepository) {
+    public HackernewsController(
+        ObjectMapper objectMapper,
+        HackernewsItemRepository repository,
+        com.iakunin.codexiabot.hackernews.repository.reactive.HackernewsItemRepository reactiveRepository,
+        @Value("${app.kafka.bootstrap-servers}") String kafkaBootstrapServers
+    ) {
         this.objectMapper = objectMapper;
         this.repository = repository;
         this.reactiveRepository = reactiveRepository;
         this.sender = KafkaSender.create(
             SenderOptions.create(
                 new HashMap<>(){{
-                    put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+                    put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaBootstrapServers);
                     put(ProducerConfig.CLIENT_ID_CONFIG, "hackernews-item-producer");
                     put(ProducerConfig.ACKS_CONFIG, "all");
                     put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, IntegerSerializer.class);

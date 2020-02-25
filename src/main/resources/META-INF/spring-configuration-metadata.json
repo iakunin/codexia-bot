@@ -4,6 +4,11 @@
       "name": "app.github-token",
       "type": "java.lang.String",
       "description": "Token for GitHub."
+    },
+    {
+      "name": "app.kafka.bootstrap-servers",
+      "type": "java.lang.String",
+      "description": "Kafka `bootstrap.servers` config property."
     }
   ]
 }
