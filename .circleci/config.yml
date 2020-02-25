@@ -51,6 +51,10 @@ jobs:
         machine: true
         steps:
             - gke/install
+            -   gke/update-kubeconfig-with-credentials:
+                    cluster: standard-cluster-1
+                    install-kubectl: true
+                    perform-login: true
             -   gke/rollout-image:
                     cluster: standard-cluster-1
                     container: backend
