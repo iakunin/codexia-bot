@@ -48,31 +48,30 @@ public final class GithubRepo {
                 ).subscription(Collections.singleton(TOPIC))
             )
             .receiveAutoAck()
-            .map(consumerRecordFlux ->
-                consumerRecordFlux.map(r -> {
-                    final HackernewsItem item = fromBinary(r.value(), HackernewsItem.class);
-                    log.info("Got an item from kafka with offset='{}'; item: {}", r.offset(), r.value());
-                    return item;
-                })
-                .filter(item ->
-                    item.getUrl() != null &&
-                        item.getUrl().contains("github.com") &&
-                        !item.getUrl().contains("gist.github.com")
-                )
-                .doOnNext(
-                    i -> {
-                        try {
-                            this.githubModule.createRepo(
-                                new GithubModule.Arguments()
-                                    .setUrl(i.getUrl())
-                                    .setSource(GithubModule.Source.HACKERNEWS)
-                                    .setExternalId(String.valueOf(i.getExternalId()))
-                            );
-                        } catch (RuntimeException|IOException e) {
-                            log.info("Unable to create github repo; source url='{}'", i.getUrl(), e);
-                        }
+            .concatMap(r -> r)
+            .map(r -> {
+                final HackernewsItem item = fromBinary(r.value(), HackernewsItem.class);
+                log.info("Got an item from kafka with offset='{}'; item: {}", r.offset(), r.value());
+                return item;
+            })
+            .filter(item ->
+                item.getUrl() != null &&
+                    item.getUrl().contains("github.com") &&
+                    !item.getUrl().contains("gist.github.com")
+            )
+            .doOnNext(
+                i -> {
+                    try {
+                        this.githubModule.createRepo(
+                            new GithubModule.Arguments()
+                                .setUrl(i.getUrl())
+                                .setSource(GithubModule.Source.HACKERNEWS)
+                                .setExternalId(String.valueOf(i.getExternalId()))
+                        );
+                    } catch (RuntimeException|IOException e) {
+                        log.info("Unable to create github repo; source url='{}'", i.getUrl(), e);
                     }
-                )
+                }
             )
             .subscribe()
         ;
