@@ -42,8 +42,6 @@ public final class GithubRepo {
                         put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
                         put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
                         put(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, Integer.MAX_VALUE);
-                        put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, true);
-                        put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, 5000);
                     }}
                 ).subscription(Collections.singleton(TOPIC))
             )
