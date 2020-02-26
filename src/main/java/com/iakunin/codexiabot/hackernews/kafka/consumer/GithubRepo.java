@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iakunin.codexiabot.github.GithubModule;
 import com.iakunin.codexiabot.hackernews.entity.HackernewsItem;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.Collections;
 import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +44,10 @@ public final class GithubRepo {
                         put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
                         put(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, Integer.MAX_VALUE);
                     }}
-                ).subscription(Collections.singleton(TOPIC))
+                )
+                .commitBatchSize(100)
+                .commitInterval(Duration.ofSeconds(1))
+                .subscription(Collections.singleton(TOPIC))
             )
             .receiveAutoAck()
             .concatMap(r -> r)
