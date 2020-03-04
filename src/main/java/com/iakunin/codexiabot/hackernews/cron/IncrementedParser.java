@@ -56,7 +56,7 @@ public final class IncrementedParser {
         );
     }
 
-    @Scheduled(cron="*/5 * * * * *") // every minute at 05th seconds
+    @Scheduled(cron="5 * * * * *") // every minute at 05th seconds
     public void run() {
         log.info("IncrementedParser run");
 
