@@ -28,4 +28,17 @@ services:
         environment:
             KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
             KAFKA_ADVERTISED_HOST_NAME: 172.17.0.1
-            KAFKA_CREATE_TOPICS: "hackernews_item:1:1,github_repo:1:1,demo-topic:1:1"
+            KAFKA_CREATE_TOPICS: "hackernews_item:1:1"
+
+    kafka-manager:
+        container_name: codexia-bot-kafka-manager
+        image: solsson/kafka-manager@sha256:9da595ecbb733074a1d3c6091a1e0c384da4f4e1f19f4e16276062278da8e592
+        ports:
+            - "9001:9000"
+        links:
+            - zookeeper
+            - kafka
+        environment:
+            ZK_HOSTS: zookeeper:2181
+            APPLICATION_SECRET: letmein
+            KM_ARGS: -Djava.net.preferIPv4Stack=true

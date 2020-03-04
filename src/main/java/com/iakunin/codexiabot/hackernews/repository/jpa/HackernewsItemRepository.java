@@ -2,7 +2,6 @@ package com.iakunin.codexiabot.hackernews.repository.jpa;
 
 import com.iakunin.codexiabot.hackernews.entity.HackernewsItem;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -15,7 +14,10 @@ public interface HackernewsItemRepository extends JpaRepository<HackernewsItem, 
         "where i.external_id in (?1)",
         nativeQuery = true
     )
-    List<String> findExternalIdList(List<String> externalIdList);
+    List<String> findExternalIdList(List<Integer> externalIdList);
 
-    Optional<HackernewsItem> findByExternalId(String externalId);
+    Boolean existsByExternalId(Integer externalId);
+
+    @Query("select max(externalId) from HackernewsItem")
+    Integer getMaxExternalId();
 }

@@ -22,9 +22,9 @@ public final class GithubRepo {
 
     private static final String TOPIC = "hackernews_item";
 
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
-    private GithubModule githubModule;
+    private final GithubModule githubModule;
 
     public GithubRepo(
         ObjectMapper objectMapper,
@@ -36,8 +36,8 @@ public final class GithubRepo {
         KafkaReceiver.create(
             ReceiverOptions.<Integer, String>create(
                     new HashMap<>(){{
+                        //@TODO: move all there ConsumerConfigs to one place
                         put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaBootstrapServers);
-                        put(ConsumerConfig.CLIENT_ID_CONFIG, "hackernews-item-consumer-1");
                         put(ConsumerConfig.GROUP_ID_CONFIG, "hackernews-item-consumer-1");
                         put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, IntegerDeserializer.class);
                         put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
@@ -49,6 +49,8 @@ public final class GithubRepo {
                 .commitInterval(Duration.ofSeconds(1))
                 .subscription(Collections.singleton(TOPIC))
             )
+            //@TODO: rewrite via SpringRetry
+            // https://objectpartners.com/2018/11/21/building-resilient-kafka-consumers-with-spring-retry/
             .receiveAutoAck()
             .concatMap(r -> r)
             .map(r -> {
@@ -83,7 +85,7 @@ public final class GithubRepo {
     //  this will help to get rid of the `fromBinary()` method
     private <T> T fromBinary(String object, Class<T> resultType) {
         try {
-            return objectMapper.readValue(object, resultType);
+            return this.objectMapper.readValue(object, resultType);
         } catch (IOException e) {
             throw new IllegalArgumentException(e);
         }
