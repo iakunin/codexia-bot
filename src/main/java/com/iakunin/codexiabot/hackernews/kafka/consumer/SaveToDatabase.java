@@ -54,7 +54,7 @@ public final class SaveToDatabase {
             final HackernewsItem item = fromBinary(r.value(), HackernewsItem.class);
             log.info("Got Hackernews.Item: {}", item);
 
-            if (this.repository.existsByExternalId(item.getExternalId())) {
+            if (!this.repository.existsByExternalId(item.getExternalId())) {
                 log.info("Saving new Hackernews.Item: {}", item);
                 this.repository.save(item);
             }
