@@ -59,5 +59,7 @@ public final class LinesOfCode {
                 }
             }
         );
+
+        log.info("Exiting from {}", this.getClass().getName());
     }
 }

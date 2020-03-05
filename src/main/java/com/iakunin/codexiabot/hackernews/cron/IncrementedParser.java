@@ -58,6 +58,7 @@ public final class IncrementedParser {
 
     @Scheduled(cron="5 * * * * *") // every minute at 05th seconds
     //@TODO: add ShedLock: https://www.baeldung.com/shedlock-spring
+    //  and increase `spring.task.scheduling.pool.size` up to 20 after that
     public void run() {
         log.info("IncrementedParser run");
 
