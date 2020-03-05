@@ -6,7 +6,7 @@ docker run \
     --privileged \
     --rm \
     --volume=${PWD}:/home/gradle/project \
-    --volume=${HOME}/.m2:/home/gradle/.m2 \
+    --volume=${HOME}/.m2:/root/.m2 \
     --volume=billing-gradle-cache:/home/gradle/.gradle \
     --volume=/var/run/docker.sock:/var/run/docker.sock \
     --workdir=/home/gradle/project \
@@ -19,7 +19,7 @@ docker run \
     --privileged \
     --rm \
     --volume=${PWD}:/home/gradle/project \
-    --volume=${HOME}/.m2:/home/gradle/.m2 \
+    --volume=${HOME}/.m2:/root/.m2 \
     --volume=billing-gradle-cache:/home/gradle/.gradle \
     --volume=/var/run/docker.sock:/var/run/docker.sock \
     --workdir=/home/gradle/project \
