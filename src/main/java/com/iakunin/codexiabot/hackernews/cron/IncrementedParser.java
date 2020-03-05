@@ -61,14 +61,9 @@ public final class IncrementedParser {
     public void run() {
         log.info("IncrementedParser run");
 
-        final Integer maxExternalId = this.hackernewsItemRepository.getMaxExternalId();
-        int currentExternalId = maxExternalId + 1;
+        int currentExternalId = this.hackernewsItemRepository.getMaxExternalId() + 1;
 
-        for (
-            int errorsCount = 0;
-            errorsCount <= 10 && (currentExternalId - maxExternalId) <= 1000;
-            currentExternalId++
-        ){
+        for (int errorsCount = 0; errorsCount <= 10; currentExternalId++){
             try {
                 log.info("Trying to get item with externalId='{}'", currentExternalId);
                 final Hackernews.Item item = this.hackernewsClient.getItem(currentExternalId).getBody();

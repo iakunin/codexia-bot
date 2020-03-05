@@ -13,7 +13,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
         org.springframework.boot.actuate.autoconfigure.security.servlet.ManagementWebSecurityAutoConfiguration.class
     }
 )
-@EnableAsync(proxyTargetClass = true)
+@EnableAsync
 @EnableScheduling
 @EnableFeignClients
 public class CodexiaBotApplication {
