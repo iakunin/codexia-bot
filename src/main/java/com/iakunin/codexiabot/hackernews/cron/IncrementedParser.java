@@ -57,12 +57,18 @@ public final class IncrementedParser {
     }
 
     @Scheduled(cron="5 * * * * *") // every minute at 05th seconds
+    //@TODO: add ShedLock: https://www.baeldung.com/shedlock-spring
     public void run() {
         log.info("IncrementedParser run");
 
-        int currentExternalId = this.hackernewsItemRepository.getMaxExternalId() + 1;
+        final Integer maxExternalId = this.hackernewsItemRepository.getMaxExternalId();
+        int currentExternalId = maxExternalId + 1;
 
-        for (int errorsCount = 0; errorsCount <= 10; currentExternalId++){
+        for (
+            int errorsCount = 0;
+            errorsCount <= 10 && (currentExternalId - maxExternalId) <= 1000;
+            currentExternalId++
+        ){
             try {
                 log.info("Trying to get item with externalId='{}'", currentExternalId);
                 final Hackernews.Item item = this.hackernewsClient.getItem(currentExternalId).getBody();
