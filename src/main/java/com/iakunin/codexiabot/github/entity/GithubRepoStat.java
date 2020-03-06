@@ -3,7 +3,7 @@ package com.iakunin.codexiabot.github.entity;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.iakunin.codexiabot.common.entity.AbstractEntity;
-import com.iakunin.codexiabot.github.client.Codetabs;
+import com.iakunin.codexiabot.github.sdk.CodetabsClient;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Date;
@@ -126,7 +126,7 @@ public final class GithubRepoStat extends AbstractEntity {
         }
 
         @SneakyThrows
-        public static GithubRepoStat from(List<Codetabs.Item> from) {
+        public static GithubRepoStat from(List<CodetabsClient.Item> from) {
             return new GithubRepoStat()
                 .setStat(
                     new LinesOfCode()

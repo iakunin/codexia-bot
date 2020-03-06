@@ -3,7 +3,7 @@ package com.iakunin.codexiabot.hackernews.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iakunin.codexiabot.hackernews.repository.jpa.HackernewsItemRepository;
-import com.iakunin.codexiabot.hackernews.sdk.client.Hackernews;
+import com.iakunin.codexiabot.hackernews.sdk.HackernewsClient;
 import java.util.HashMap;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -63,7 +63,7 @@ public final class HackernewsController {
     @PostMapping("/api/v1/hackernews/item")
     @ResponseBody
     public ResponseEntity<String> putItemToKafka(
-        @NotNull @Valid @RequestBody Hackernews.Item body
+        @NotNull @Valid @RequestBody HackernewsClient.Item body
     ) {
         SenderRecord<Integer, String, Integer> message = SenderRecord.create(
             new ProducerRecord<>(TOPIC, toBinary(body)),

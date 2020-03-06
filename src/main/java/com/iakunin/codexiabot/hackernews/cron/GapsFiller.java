@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iakunin.codexiabot.hackernews.entity.HackernewsItem;
 import com.iakunin.codexiabot.hackernews.repository.jpa.HackernewsItemRepository;
 import com.iakunin.codexiabot.hackernews.repository.reactive.HackernewsItemRepositoryImpl;
-import com.iakunin.codexiabot.hackernews.sdk.client.Hackernews;
+import com.iakunin.codexiabot.hackernews.sdk.HackernewsClient;
 import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -80,9 +80,9 @@ public final class GapsFiller {
                             String.format("https://hacker-news.firebaseio.com/v0/item/%s.json", id)
                         )
                         .retrieve()
-                        .bodyToMono(Hackernews.Item.class)
+                        .bodyToMono(HackernewsClient.Item.class)
                         .onErrorReturn(
-                            new Hackernews.Item()
+                            new HackernewsClient.Item()
                                 .setId(id)
                                 .setType("")
                         )

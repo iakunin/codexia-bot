@@ -1,14 +1,14 @@
-package com.iakunin.codexiabot.codexia.sdk.client;
+package com.iakunin.codexiabot.codexia.sdk;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.iakunin.codexiabot.codexia.config.FeignConfig;
 import com.iakunin.codexiabot.common.config.feign.GeneralClientConfiguration;
 import java.util.Date;
 import java.util.List;
 import lombok.Data;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,9 +16,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(
     name = "codexiaClient",
     url = "https://www.codexia.org/",
-    configuration = GeneralClientConfiguration.class
+    configuration = {
+        GeneralClientConfiguration.class,
+        FeignConfig.class
+    }
 )
-public interface Codexia {
+public interface CodexiaClient {
 
     @RequestMapping(
         value = "/recent.json",
@@ -26,8 +29,7 @@ public interface Codexia {
         method = RequestMethod.GET
     )
     ResponseEntity<List<Project>> getItem(
-        @RequestParam("page") Integer page,
-        @RequestHeader("X-Codexia-Token") String codexiaToken
+        @RequestParam("page") Integer page
     );
 
     @Data

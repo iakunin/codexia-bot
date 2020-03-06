@@ -1,7 +1,7 @@
 package com.iakunin.codexiabot.hackernews.entity;
 
 import com.iakunin.codexiabot.common.entity.AbstractEntity;
-import com.iakunin.codexiabot.hackernews.sdk.client.Hackernews;
+import com.iakunin.codexiabot.hackernews.sdk.HackernewsClient;
 import java.time.Instant;
 import java.util.Optional;
 import javax.persistence.Entity;
@@ -20,7 +20,7 @@ public final class HackernewsItem extends AbstractEntity {
     private Instant time;
 
     public final static class Factory {
-        public static HackernewsItem from(Hackernews.Item item) {
+        public static HackernewsItem from(HackernewsClient.Item item) {
             return new HackernewsItem()
                 .setExternalId(item.getId())
                 .setType(item.getType())

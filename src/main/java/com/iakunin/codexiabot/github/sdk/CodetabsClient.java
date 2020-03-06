@@ -1,4 +1,4 @@
-package com.iakunin.codexiabot.github.client;
+package com.iakunin.codexiabot.github.sdk;
 
 import com.iakunin.codexiabot.common.config.feign.GeneralClientConfiguration;
 import java.util.List;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
     url = "https://api.codetabs.com/v1/",
     configuration = GeneralClientConfiguration.class
 )
-public interface Codetabs {
+public interface CodetabsClient {
 
     @RequestMapping(
         value = "/loc",

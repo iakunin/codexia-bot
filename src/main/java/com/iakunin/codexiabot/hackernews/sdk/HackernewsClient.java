@@ -1,4 +1,4 @@
-package com.iakunin.codexiabot.hackernews.sdk.client;
+package com.iakunin.codexiabot.hackernews.sdk;
 
 import com.iakunin.codexiabot.common.config.feign.GeneralClientConfiguration;
 import java.time.Instant;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
     url = "https://hacker-news.firebaseio.com/v0/",
     configuration = GeneralClientConfiguration.class
 )
-public interface Hackernews {
+public interface HackernewsClient {
 
     @RequestMapping(
         value = "/item/{itemId}.json",

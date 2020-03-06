@@ -1,9 +1,9 @@
 package com.iakunin.codexiabot.github.cron.stat;
 
-import com.iakunin.codexiabot.github.client.Codetabs;
 import com.iakunin.codexiabot.github.entity.GithubRepoStat;
 import com.iakunin.codexiabot.github.repository.GithubRepoRepository;
 import com.iakunin.codexiabot.github.repository.GithubRepoStatRepository;
+import com.iakunin.codexiabot.github.sdk.CodetabsClient;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,7 @@ public final class LinesOfCode {
 
     private GithubRepoRepository githubRepoRepository;
     private GithubRepoStatRepository githubRepoStatRepository;
-    private Codetabs codetabs;
+    private CodetabsClient codetabsClient;
 
     @Scheduled(cron="30 * * * * *") // every minute at 30th second
     public void run() {
@@ -33,7 +33,7 @@ public final class LinesOfCode {
                     this.githubRepoStatRepository.save(
                         GithubRepoStat.Factory.from(
                             Objects.requireNonNull(
-                                this.codetabs.getLinesOfCode(githubRepo.getFullName())
+                                this.codetabsClient.getLinesOfCode(githubRepo.getFullName())
                                     .getBody()
                             )
                         ).setGithubRepo(githubRepo)

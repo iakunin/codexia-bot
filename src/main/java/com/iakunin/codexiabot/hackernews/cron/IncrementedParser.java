@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iakunin.codexiabot.hackernews.entity.HackernewsItem;
 import com.iakunin.codexiabot.hackernews.repository.jpa.HackernewsItemRepository;
-import com.iakunin.codexiabot.hackernews.sdk.client.Hackernews;
+import com.iakunin.codexiabot.hackernews.sdk.HackernewsClient;
 import java.util.HashMap;
 import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +28,7 @@ public final class IncrementedParser {
 
     private final HackernewsItemRepository hackernewsItemRepository;
 
-    private final Hackernews hackernewsClient;
+    private final HackernewsClient hackernewsClient;
 
     private final ObjectMapper objectMapper;
 
@@ -36,7 +36,7 @@ public final class IncrementedParser {
 
     public IncrementedParser(
         HackernewsItemRepository hackernewsItemRepository,
-        Hackernews hackernewsClient,
+        HackernewsClient hackernewsClient,
         ObjectMapper objectMapper,
         @Value("${app.kafka.bootstrap-servers}") String kafkaBootstrapServers
     ) {
@@ -66,7 +66,7 @@ public final class IncrementedParser {
         for (int errorsCount = 0; errorsCount <= 10; currentExternalId++){
             try {
                 log.info("Trying to get item with externalId='{}'", currentExternalId);
-                final Hackernews.Item item = this.hackernewsClient.getItem(currentExternalId).getBody();
+                final HackernewsClient.Item item = this.hackernewsClient.getItem(currentExternalId).getBody();
                 Objects.requireNonNull(item);
 
                 log.info("Successfully got item with externalId='{}'; trying to publish to kafka; {}", currentExternalId, item);

@@ -3,7 +3,7 @@ package com.iakunin.codexiabot.hackernews.cron;
 import com.iakunin.codexiabot.hackernews.entity.HackernewsItem;
 import com.iakunin.codexiabot.hackernews.repository.jpa.HackernewsItemRepository;
 import com.iakunin.codexiabot.hackernews.repository.reactive.HackernewsItemRepositoryImpl;
-import com.iakunin.codexiabot.hackernews.sdk.client.Hackernews;
+import com.iakunin.codexiabot.hackernews.sdk.HackernewsClient;
 import java.util.concurrent.CountDownLatch;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,9 +44,9 @@ public final class SequentialReactive {
                         String.format("https://hacker-news.firebaseio.com/v0/item/%s.json", id)
                     )
                     .retrieve()
-                    .bodyToMono(Hackernews.Item.class)
+                    .bodyToMono(HackernewsClient.Item.class)
                     .onErrorReturn(
-                        new Hackernews.Item()
+                        new HackernewsClient.Item()
                             .setId(id)
                             .setType("")
                     )
