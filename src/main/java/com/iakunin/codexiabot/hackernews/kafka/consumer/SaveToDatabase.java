@@ -37,6 +37,7 @@ public final class SaveToDatabase {
             ReceiverOptions.<Integer, String>create(
                 new HashMap<>(){{
                     put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaBootstrapServers);
+                    //@TODO: rename consumer to `this.getClass().getName() + "-consumer"`
                     put(ConsumerConfig.GROUP_ID_CONFIG, "hackernews-item-save-to-database-consumer");
                     put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, IntegerDeserializer.class);
                     put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);

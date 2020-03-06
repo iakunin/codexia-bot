@@ -38,7 +38,7 @@ public final class SaveToDatabase {
             ReceiverOptions.<Integer, String>create(
                 new HashMap<>(){{
                     put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaBootstrapServers);
-                    put(ConsumerConfig.GROUP_ID_CONFIG, "codexia-project-save-to-database-consumer");
+                    put(ConsumerConfig.GROUP_ID_CONFIG, this.getClass().getName() + "-consumer");
                     put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, IntegerDeserializer.class);
                     put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
                     put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");

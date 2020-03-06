@@ -16,6 +16,7 @@ public interface GithubModule {
 
     enum Source {
         HACKERNEWS,
+        CODEXIA,
         REDDIT,
     }
 }

@@ -11,8 +11,6 @@ services:
             POSTGRES_PASSWORD: codexia-bot
         ports:
             - 54322:5432
-        volumes:
-            - ./var/postgresql/data:/var/lib/postgresql/data
 
     zookeeper:
         container_name: codexia-bot-zookeeper

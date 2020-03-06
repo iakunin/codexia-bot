@@ -24,11 +24,8 @@ import org.springframework.stereotype.Service;
 public final class GithubModuleImpl implements GithubModule {
 
     private GithubRepoRepository githubRepoRepository;
-
     private GithubRepoStatRepository githubRepoStatRepository;
-
     private GithubRepoSourceRepository githubRepoSourceRepository;
-
     private String githubToken;
 
     public GithubModuleImpl(
@@ -45,12 +42,15 @@ public final class GithubModuleImpl implements GithubModule {
 
     @Override
     public void createRepo(Arguments arguments) throws IOException {
+        final GithubRepo githubRepo = this.saveRepo(arguments);
+        this.saveRepoSource(arguments, githubRepo);
+    }
+
+    private GithubRepo saveRepo(Arguments arguments) throws IOException {
         URL repoUrl = new URL(arguments.getUrl());
 
         GitHub github = new GitHubBuilder().withOAuthToken(this.githubToken).build();
 
-        //@TODO: кейс, когда github_repo есть, НО source - новый
-        //@TODO: отрефакторить этот класс (слишком жирный)
         final GHRepository repository;
         try {
             final String githubRepoName = this.getGithubRepoName(repoUrl);
@@ -58,7 +58,8 @@ public final class GithubModuleImpl implements GithubModule {
             final Optional<GithubRepo> optional = this.githubRepoRepository.findByFullName(githubRepoName);
             if (optional.isPresent()) {
                 log.info("githubRepo with FullName='{}' already exist", githubRepoName);
-                return;
+
+                return optional.get();
             }
 
             log.info("--- Begin calling GitHub SDK");
@@ -79,15 +80,44 @@ public final class GithubModuleImpl implements GithubModule {
             this.githubRepoStatRepository.save(
                 GithubRepoStat.Factory.from(repository).setGithubRepo(saved)
             );
+
+            return saved;
+        } else {
+            log.info("githubRepo with externalId='{}' already exist", githubRepo.getExternalId());
+
+            return optional.get();
+        }
+    }
+
+    private void saveRepoSource(Arguments arguments, GithubRepo githubRepo) {
+        if (
+            !this.githubRepoSourceRepository.existsByGithubRepoAndSourceAndExternalId(
+                githubRepo,
+                arguments.getSource(),
+                arguments.getExternalId()
+            )
+        ) {
+            log.info(
+                "Saving GithubRepoSource for githubRepoId='{}'; source='{}', externalId='{}'",
+                githubRepo.getId(),
+                arguments.getSource(),
+                arguments.getExternalId()
+            );
             this.githubRepoSourceRepository.save(
                 new GithubRepoSource()
-                    .setGithubRepo(saved)
+                    .setGithubRepo(githubRepo)
                     .setSource(arguments.getSource())
                     .setExternalId(arguments.getExternalId())
             );
-        } else {
-            log.info("githubRepo with externalId='{}' already exist", githubRepo.getExternalId());
+            return;
         }
+
+        log.info(
+            "Skip saving GithubRepoSource for githubRepoId='{}'; source='{}', externalId='{}'",
+            githubRepo.getId(),
+            arguments.getSource(),
+            arguments.getExternalId()
+        );
     }
 
     private String getGithubRepoName(URL url) {
