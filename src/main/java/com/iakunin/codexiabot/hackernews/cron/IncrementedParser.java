@@ -27,11 +27,8 @@ public final class IncrementedParser {
     private static final String TOPIC = "hackernews_item";
 
     private final HackernewsItemRepository hackernewsItemRepository;
-
     private final HackernewsClient hackernewsClient;
-
     private final ObjectMapper objectMapper;
-
     private final KafkaSender<Integer, String> sender;
 
     public IncrementedParser(

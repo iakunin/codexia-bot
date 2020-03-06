@@ -24,4 +24,4 @@ docker run \
     --volume=/var/run/docker.sock:/var/run/docker.sock \
     --workdir=/home/gradle/project \
     gradle:6.0.1-jdk11 \
-    chown -R $(id -u):$(id -g) .
+    chown -R $(id -u):$(id -g) build out

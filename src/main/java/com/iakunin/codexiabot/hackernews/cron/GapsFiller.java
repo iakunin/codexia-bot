@@ -31,11 +31,8 @@ public final class GapsFiller {
     private static final String TOPIC = "hackernews_item";
 
     private final HackernewsItemRepositoryImpl reactiveRepository;
-
     private final HackernewsItemRepository nonReactiveRepository;
-
     private final ObjectMapper objectMapper;
-
     private final KafkaSender<Integer, String> sender;
 
     public GapsFiller(

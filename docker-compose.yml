@@ -28,7 +28,7 @@ services:
         environment:
             KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
             KAFKA_ADVERTISED_HOST_NAME: 172.17.0.1
-            KAFKA_CREATE_TOPICS: "hackernews_item:1:1"
+            KAFKA_CREATE_TOPICS: "hackernews_item:1:1,codexia_project:1:1"
 
     kafka-manager:
         container_name: codexia-bot-kafka-manager
