@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @AllArgsConstructor(onConstructor_={@Autowired})
 @Slf4j
-public class TestController {
+public final class TestController {
 
     private CodexiaClient codexiaClient;
 

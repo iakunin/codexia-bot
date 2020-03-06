@@ -21,6 +21,11 @@
       "description": "Token for GitHub."
     },
     {
+      "name": "app.codexia-token",
+      "type": "java.lang.String",
+      "description": "Token for Codexia."
+    },
+    {
       "name": "app.kafka.bootstrap-servers",
       "type": "java.lang.String",
       "description": "Kafka `bootstrap.servers` config property."

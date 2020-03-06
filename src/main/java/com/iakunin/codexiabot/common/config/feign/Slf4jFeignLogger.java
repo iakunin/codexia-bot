@@ -32,7 +32,7 @@ final class Slf4jFeignLogger extends feign.Logger {
 
     @Override
     protected void logRequest(String configKey, Level logLevel, Request request) {
-//        log(configKey, "FEIGN EXTERNAL REQUEST:\n%s", request.toString());
+        log(configKey, "FEIGN EXTERNAL REQUEST:\n%s", request.toString());
     }
 
     @Override
@@ -46,7 +46,7 @@ final class Slf4jFeignLogger extends feign.Logger {
         byte[] bodyData = Util.toByteArray(response.body().asInputStream());
         response = response.toBuilder().body(bodyData).build();
 
-//        log(configKey, "FEIGN EXTERNAL RESPONSE:\n%s", response.toString());
+        log(configKey, "FEIGN EXTERNAL RESPONSE:\n%s", response.toString());
 
         return response;
     }

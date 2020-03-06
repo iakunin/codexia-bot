@@ -37,6 +37,11 @@ spec:
                 secretKeyRef:
                   name: app
                   key: github.token
+            - name: APP_CODEXIATOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: app
+                  key: codexia.token
             - name: APP_KAFKA_BOOTSTRAPSERVERS
               value: bootstrap.kafka:9092
           ports:

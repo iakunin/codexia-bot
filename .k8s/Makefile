@@ -5,7 +5,7 @@ apply-kafka:
 	kubectl apply -f yahoo-kafka-manager/
 
 delete-kafka:
-	kubectl apply -f yahoo-kafka-manager/ && \
+	kubectl delete -f yahoo-kafka-manager/ && \
 	kubectl delete -f zookeeper/ && \
 	kubectl delete -f kafka/ && \
 	kubectl delete -f 00-namespace.yml
