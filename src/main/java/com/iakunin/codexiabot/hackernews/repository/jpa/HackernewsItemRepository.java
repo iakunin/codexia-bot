@@ -20,4 +20,6 @@ public interface HackernewsItemRepository extends JpaRepository<HackernewsItem, 
 
     @Query("select max(externalId) from HackernewsItem")
     Integer getMaxExternalId();
+
+    List<HackernewsItem> findAllByType(String type);
 }
