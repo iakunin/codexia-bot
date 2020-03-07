@@ -69,7 +69,7 @@ public final class GithubRepo {
                                 .setSource(GithubModule.Source.CODEXIA)
                                 .setExternalId(String.valueOf(i.getExternalId()))
                         );
-                    } catch (RuntimeException|IOException e) {
+                    } catch (RuntimeException | IOException e) {
                         log.info("Unable to create github repo; source url='{}'", url, e);
                     }
                 }
