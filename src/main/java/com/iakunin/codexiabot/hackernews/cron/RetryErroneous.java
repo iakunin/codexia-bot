@@ -5,10 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iakunin.codexiabot.hackernews.entity.HackernewsItem;
 import com.iakunin.codexiabot.hackernews.repository.jpa.HackernewsItemRepository;
 import com.iakunin.codexiabot.hackernews.sdk.HackernewsClient;
-import java.time.Instant;
 import java.util.HashMap;
 import java.util.Objects;
-import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -55,8 +53,7 @@ public final class RetryErroneous {
         );
     }
 
-//    @Scheduled(cron="0 0 1 * * *") // every day at 01 hour 00 minutes and 00 seconds
-    @Scheduled(cron="0 * * * * *") //@TODO: change me to one at a day (uncomment the string above)
+    @Scheduled(cron="0 0 1 * * *") // every day at 01 hour 00 minutes and 00 seconds
     public void run() {
         log.info("Running {}", this.getClass().getName());
 
@@ -69,30 +66,18 @@ public final class RetryErroneous {
                         Objects.requireNonNull(item);
                         log.info("Successfully got item with externalId='{}'; {}", repo.getExternalId(), item);
 
-                        final HackernewsItem hackernewsItem = repo
-                            .setType(item.getType())
-                            .setBy(
-                                Optional.ofNullable(item.getBy()).orElse("")
-                            )
-                            .setTitle(
-                                Optional.ofNullable(item.getTitle()).orElse("")
-                            )
-                            .setUrl(
-                                Optional.ofNullable(item.getUrl()).orElse("")
-                            )
-                            .setTime(
-                                Optional.ofNullable(item.getTime()).orElse(Instant.ofEpochSecond(0))
-                            );
+                        HackernewsItem.Factory.mutateEntity(repo, item);
 
-                        log.info("Trying to save to DB; {}", item);
-                        this.hackernewsItemRepository.save(hackernewsItem);
+                        log.info("Trying to save to DB; {}", repo);
+                        this.hackernewsItemRepository.save(repo);
+                        log.info("Successfully saved to DB; {}", repo);
 
                         log.info("Trying to publish to kafka; {}", item);
                         this.sender.send(
                             Mono.just(
                                 SenderRecord.create(
-                                    new ProducerRecord<>(TOPIC, hackernewsItem.getExternalId(), this.toBinary(hackernewsItem)),
-                                    hackernewsItem.getExternalId()
+                                    new ProducerRecord<>(TOPIC, repo.getExternalId(), this.toBinary(repo)),
+                                    repo.getExternalId()
                                 )
                             )
                         ).next().block();

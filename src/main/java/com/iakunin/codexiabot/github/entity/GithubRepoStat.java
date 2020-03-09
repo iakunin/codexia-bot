@@ -13,7 +13,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -25,7 +25,7 @@ import org.kohsuke.github.GHRepository;
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 public final class GithubRepoStat extends AbstractEntity {
 
-    @OneToOne
+    @ManyToOne
     private GithubRepo githubRepo;
 
     @Enumerated(EnumType.STRING)

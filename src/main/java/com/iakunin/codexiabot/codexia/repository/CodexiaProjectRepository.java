@@ -2,6 +2,7 @@ package com.iakunin.codexiabot.codexia.repository;
 
 import com.iakunin.codexiabot.codexia.entity.CodexiaProject;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -15,5 +16,7 @@ public interface CodexiaProjectRepository extends JpaRepository<CodexiaProject, 
             "and grs.source = 'CODEXIA' " +
         "where grs.id is null"
     )
-    List<CodexiaProject> findAllWithoutGithubProject();
+    List<CodexiaProject> findAllWithoutGithubRepo();
+
+    Optional<CodexiaProject> findByExternalId(Integer externalId);
 }

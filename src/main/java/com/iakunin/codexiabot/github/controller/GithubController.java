@@ -29,7 +29,7 @@ public final class GithubController {
     ) throws IOException {
 
         this.githubModule.createRepo(
-            new GithubModule.Arguments()
+            new GithubModule.CreateArguments()
                 .setUrl(body.getUrl())
         );
 

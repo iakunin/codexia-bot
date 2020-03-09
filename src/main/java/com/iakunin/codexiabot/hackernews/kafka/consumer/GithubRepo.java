@@ -68,7 +68,7 @@ public final class GithubRepo {
                 i -> {
                     try {
                         this.githubModule.createRepo(
-                            new GithubModule.Arguments()
+                            new GithubModule.CreateArguments()
                                 .setUrl(i.getUrl())
                                 .setSource(GithubModule.Source.HACKERNEWS)
                                 .setExternalId(String.valueOf(i.getExternalId()))

@@ -21,13 +21,13 @@ public final class MissingFiller {
     public void run() {
         log.info("Running {}", this.getClass().getName());
 
-        this.repository.findAllWithoutGithubProject()
+        this.repository.findAllWithoutGithubRepo()
             .forEach(
                 project -> {
                     final String url = "https://github.com/" + project.getCoordinates();
                     try {
                         this.githubModule.createRepo(
-                            new GithubModule.Arguments()
+                            new GithubModule.CreateArguments()
                                 .setUrl(url)
                                 .setSource(GithubModule.Source.CODEXIA)
                                 .setExternalId(String.valueOf(project.getExternalId()))

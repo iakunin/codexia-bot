@@ -1,0 +1,20 @@
+package com.iakunin.codexiabot.codexia.entity;
+
+import com.iakunin.codexiabot.common.entity.AbstractEntity;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@Entity
+@Data
+@EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
+public final class CodexiaReview extends AbstractEntity {
+
+    @ManyToOne
+    private CodexiaProject codexiaProject;
+
+    private String author;
+    private String reason;
+    private String text;
+}

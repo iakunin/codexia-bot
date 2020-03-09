@@ -3,6 +3,7 @@ package com.iakunin.codexiabot.github.repository;
 import com.iakunin.codexiabot.github.entity.GithubRepo;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -19,4 +20,15 @@ public interface GithubRepoRepository extends JpaRepository<GithubRepo, Long> {
         "where grs.id is null"
     )
     List<GithubRepo> findAllWithoutLinesOfCode();
+
+    @Query(
+        value =
+            "select distinct gr.* from github_repo gr " +
+            "join github_repo_source grs1 on gr.id = grs1.github_repo_id " +
+            "join github_repo_source grs2 on gr.id = grs2.github_repo_id " +
+            "where grs1.source='CODEXIA' " +
+            "and grs2.source='HACKERNEWS'",
+        nativeQuery = true
+    )
+    Set<GithubRepo> findAllInCodexiaAndHackernews();
 }

@@ -64,7 +64,7 @@ public final class GithubRepo {
                     final String url = "https://github.com/" + i.getCoordinates();
                     try {
                         this.githubModule.createRepo(
-                            new GithubModule.Arguments()
+                            new GithubModule.CreateArguments()
                                 .setUrl(url)
                                 .setSource(GithubModule.Source.CODEXIA)
                                 .setExternalId(String.valueOf(i.getExternalId()))

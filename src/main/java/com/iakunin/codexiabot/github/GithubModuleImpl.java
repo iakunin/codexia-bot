@@ -10,7 +10,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;
 import org.kohsuke.github.GHFileNotFoundException;
 import org.kohsuke.github.GHRepository;
@@ -21,7 +23,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public final class GithubModuleImpl implements GithubModule {
+public class GithubModuleImpl implements GithubModule {
 
     private GithubRepoRepository githubRepoRepository;
     private GithubRepoStatRepository githubRepoStatRepository;
@@ -41,12 +43,37 @@ public final class GithubModuleImpl implements GithubModule {
     }
 
     @Override
-    public void createRepo(Arguments arguments) throws IOException {
+    public void createRepo(CreateArguments arguments) throws IOException {
         final GithubRepo githubRepo = this.saveRepo(arguments);
         this.saveRepoSource(arguments, githubRepo);
     }
 
-    private GithubRepo saveRepo(Arguments arguments) throws IOException {
+    @Override
+    public void removeAllRepoSources(DeleteArguments arguments) {
+        this.githubRepoSourceRepository.findAllBySourceAndExternalId(
+            arguments.getSource(),
+            arguments.getExternalId()
+        ).forEach(
+            repoSource -> this.githubRepoSourceRepository.delete(repoSource)
+        );
+    }
+
+    @Override
+    public Set<GithubRepo> findAllInCodexiaAndHackernews() {
+        return this.githubRepoRepository.findAllInCodexiaAndHackernews();
+    }
+
+    @Override
+    public Set<GithubRepoSource> findAllRepoSources(GithubRepo repo) {
+        return this.githubRepoSourceRepository.findAllByGithubRepo(repo);
+    }
+
+    @Override
+    public Stream<GithubRepoSource> findAllRepoSources(Source source) {
+        return this.githubRepoSourceRepository.findAllBySource(source);
+    }
+
+    private GithubRepo saveRepo(CreateArguments arguments) throws IOException {
         URL repoUrl = new URL(arguments.getUrl());
 
         GitHub github = new GitHubBuilder().withOAuthToken(this.githubToken).build();
@@ -89,7 +116,7 @@ public final class GithubModuleImpl implements GithubModule {
         }
     }
 
-    private void saveRepoSource(Arguments arguments, GithubRepo githubRepo) {
+    private void saveRepoSource(CreateArguments arguments, GithubRepo githubRepo) {
         if (
             !this.githubRepoSourceRepository.existsByGithubRepoAndSourceAndExternalId(
                 githubRepo,

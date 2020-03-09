@@ -112,6 +112,7 @@ public final class HackernewsItemRepositoryImpl implements HackernewsItemReposit
                                     .setTitle(row.get("title", String.class))
                                     .setUrl(row.get("url", String.class))
                                     .setTime(row.get("time", Instant.class))
+                                    .setDeleted(row.get("deleted", Boolean.class))
                                     .setId(row.get("id", Long.class))
                                     .setUuid(row.get("uuid", UUID.class))
                                     .setCreatedAt(row.get("created_at", LocalDateTime.class))
