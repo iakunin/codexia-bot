@@ -21,9 +21,14 @@
       "description": "Token for GitHub."
     },
     {
-      "name": "app.codexia-token",
+      "name": "app.codexia.token",
       "type": "java.lang.String",
       "description": "Token for Codexia."
+    },
+    {
+      "name": "app.codexia.base-url",
+      "type": "java.lang.String",
+      "description": "Base url of Codexia."
     },
     {
       "name": "app.kafka.bootstrap-servers",
