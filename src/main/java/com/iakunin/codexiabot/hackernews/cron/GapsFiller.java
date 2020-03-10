@@ -57,7 +57,7 @@ public final class GapsFiller {
         );
     }
 
-    @Scheduled(cron="0 0 * * * *") // every hour at 00 minutes and 00 seconds
+    @Scheduled(cron="0 30 0 * * *") // every day at 00 hours at 30 minutes and 00 seconds
     public void run() {
         log.info("GapsFiller run");
 
