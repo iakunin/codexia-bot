@@ -43,8 +43,15 @@ final class Slf4jFeignLogger extends feign.Logger {
         long elapsedTime
     ) throws IOException {
         // rebuild response so that response.toString outputs the actual content
-        byte[] bodyData = Util.toByteArray(response.body().asInputStream());
-        response = response.toBuilder().body(bodyData).build();
+        if (response.body() != null && !(response.status() == 204 || response.status() == 205)) {
+            // HTTP 204 No Content "...response MUST NOT include a message-body"
+            // HTTP 205 Reset Content "...response MUST NOT include an entity"
+            byte[] bodyData = Util.toByteArray(response.body().asInputStream());
+            final Response rebuiltResponse = response.toBuilder().body(bodyData).build();
+            log(configKey, "FEIGN EXTERNAL RESPONSE:\n%s", rebuiltResponse.toString());
+
+            return response.toBuilder().body(bodyData).build();
+        }
 
         log(configKey, "FEIGN EXTERNAL RESPONSE:\n%s", response.toString());
 

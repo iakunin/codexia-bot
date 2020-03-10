@@ -7,6 +7,7 @@ import dev.iakunin.codexiabot.codexia.repository.CodexiaProjectRepository;
 import dev.iakunin.codexiabot.codexia.repository.CodexiaReviewNotificationRepository;
 import dev.iakunin.codexiabot.codexia.repository.CodexiaReviewRepository;
 import dev.iakunin.codexiabot.codexia.sdk.CodexiaClient;
+import feign.FeignException;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,15 +40,26 @@ public final class CodexiaModuleImpl implements CodexiaModule {
                 .setStatus(CodexiaReviewNotification.Status.NEW)
         );
 
-        //@TODO: test when 502 got - in this case we should also write a notification status
-        final ResponseEntity<String> response = this.codexiaClient.createReview(
-            String.valueOf(savedReview.getCodexiaProject().getExternalId()),
-            savedReview.getText()
-        );
+        final ResponseEntity<String> response;
+        try {
+            response = this.codexiaClient.createReview(
+                String.valueOf(savedReview.getCodexiaProject().getExternalId()),
+                savedReview.getText()
+            );
+        } catch (FeignException e) {
+            log.warn("Exception occurred during review creation in Codexia", e);
+            this.codexiaReviewNotificationRepository.save(
+                savedNotification
+                    .setStatus(CodexiaReviewNotification.Status.ERROR)
+                    .setResponseCode(e.status())
+                    .setResponse(e.contentUTF8())
+            );
+            return;
+        }
 
         this.codexiaReviewNotificationRepository.save(
             savedNotification
-                .setStatus(CodexiaReviewNotification.Status.SENT)
+                .setStatus(CodexiaReviewNotification.Status.SUCCESS)
                 .setResponseCode(response.getStatusCodeValue())
                 .setResponse(response.toString())
         );

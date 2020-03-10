@@ -23,6 +23,7 @@ public final class CodexiaReviewNotification extends AbstractEntity {
 
     public enum Status {
         NEW,
-        SENT,
+        SUCCESS,
+        ERROR,
     }
 }
