@@ -44,7 +44,8 @@ public final class CodexiaModuleImpl implements CodexiaModule {
         try {
             response = this.codexiaClient.createReview(
                 String.valueOf(savedReview.getCodexiaProject().getExternalId()),
-                savedReview.getText()
+                savedReview.getText(),
+                savedReview.getUuid().toString()
             );
         } catch (FeignException e) {
             log.warn("Exception occurred during review creation in Codexia", e);

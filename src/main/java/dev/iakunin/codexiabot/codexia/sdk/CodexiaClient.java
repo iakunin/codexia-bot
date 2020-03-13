@@ -40,7 +40,8 @@ public interface CodexiaClient {
     )
     ResponseEntity<String> createReview(
         @PathVariable("projectId") String projectId,
-        @RequestParam("text") String text
+        @RequestParam("text") String text,
+        @RequestParam("hash") String hash
     );
 
     @Data
