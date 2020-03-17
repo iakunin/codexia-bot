@@ -1,0 +1,10 @@
+{
+  "request" : {
+    "urlPathPattern": "/codexia/p/\\d+/meta",
+    "method" : "POST"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "Meta successfully put!"
+  }
+}

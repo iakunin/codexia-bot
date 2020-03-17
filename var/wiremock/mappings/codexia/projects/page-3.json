@@ -1,0 +1,13 @@
+{
+  "request" : {
+    "url" : "/codexia/recent.json?page=3",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName": "codexia/projects/page-3.json",
+    "headers" : {
+      "Content-Type": "application/json"
+    }
+  }
+}
