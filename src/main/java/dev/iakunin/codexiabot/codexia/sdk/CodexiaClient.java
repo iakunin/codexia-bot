@@ -44,6 +44,17 @@ public interface CodexiaClient {
         @RequestParam("hash") String hash
     );
 
+    @RequestMapping(
+        value = "/p/{projectId}/meta",
+        produces = { "application/json" },
+        method = RequestMethod.POST
+    )
+    ResponseEntity<String> setMeta(
+        @PathVariable("projectId") String projectId,
+        @RequestParam("key") String key,
+        @RequestParam("value") String value
+    );
+
     @Data
     class Project {
         private Integer id;

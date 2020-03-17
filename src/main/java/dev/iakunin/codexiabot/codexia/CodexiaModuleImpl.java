@@ -20,6 +20,8 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor(onConstructor_={@Autowired})
 public final class CodexiaModuleImpl implements CodexiaModule {
 
+    private static final int REVIEW_ALREADY_EXISTS_STATUS = 404;
+
     private final CodexiaProjectRepository codexiaProjectRepository;
 
     private final CodexiaReviewRepository codexiaReviewRepository;
@@ -40,6 +42,16 @@ public final class CodexiaModuleImpl implements CodexiaModule {
                 .setStatus(CodexiaReviewNotification.Status.NEW)
         );
 
+        try {
+            this.codexiaClient.setMeta(
+                String.valueOf(savedReview.getCodexiaProject().getExternalId()),
+                review.getAuthor().replace('_', '-') + "--" + review.getUuid().toString(),
+                review.getReason()
+            );
+        } catch (Exception e) {
+            log.warn("Exception occurred during setting meta in Codexia", e);
+        }
+
         final ResponseEntity<String> response;
         try {
             response = this.codexiaClient.createReview(
@@ -51,7 +63,11 @@ public final class CodexiaModuleImpl implements CodexiaModule {
             log.warn("Exception occurred during review creation in Codexia", e);
             this.codexiaReviewNotificationRepository.save(
                 savedNotification
-                    .setStatus(CodexiaReviewNotification.Status.ERROR)
+                    .setStatus(
+                        e.status() == REVIEW_ALREADY_EXISTS_STATUS
+                            ? CodexiaReviewNotification.Status.SUCCESS
+                            : CodexiaReviewNotification.Status.ERROR
+                    )
                     .setResponseCode(e.status())
                     .setResponse(e.contentUTF8())
             );
