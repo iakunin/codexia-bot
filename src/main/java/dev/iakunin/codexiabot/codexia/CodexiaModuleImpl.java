@@ -10,7 +10,6 @@ import dev.iakunin.codexiabot.codexia.sdk.CodexiaClient;
 import feign.FeignException;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +42,6 @@ public final class CodexiaModuleImpl implements CodexiaModule {
                 .setCodexiaReview(savedReview)
                 .setStatus(CodexiaReviewNotification.Status.NEW)
         );
-
-        this.setMetaForHackerNewsTmp(review); //@TODO: remove me!
 
         final ResponseEntity<String> response;
         try {
@@ -87,22 +84,6 @@ public final class CodexiaModuleImpl implements CodexiaModule {
         } catch (Exception e) {
             log.warn("Exception occurred during sending meta to Codexia", e);
         }
-    }
-
-    private void setMetaForHackerNewsTmp(CodexiaReview review) {
-        this.sendMeta(
-            review.getCodexiaProject(),
-            "hacker-news-id",
-            this.codexiaReviewRepository
-                .findAllByCodexiaProjectAndAuthor(
-                    review.getCodexiaProject(),
-                    review.getAuthor()
-                )
-                .stream()
-                .map(
-                    CodexiaReview::getReason
-                ).collect(Collectors.joining(","))
-        );
     }
 
     @Override
