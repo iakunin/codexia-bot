@@ -54,7 +54,7 @@ public final class CodexiaParser {
         );
     }
 
-    @Scheduled(cron="45 * * * * *") // every minute at 45th second
+    @Scheduled(cron="${app.cron.codexia.codexia-parser:-}")
     public void run() {
         log.info("Running {}", this.getClass().getName());
 

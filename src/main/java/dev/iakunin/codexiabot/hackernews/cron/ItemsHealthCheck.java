@@ -19,7 +19,7 @@ public class ItemsHealthCheck {
     private final GithubModule githubModule;
     private final HackernewsModule hackernewsModule;
 
-    @Scheduled(cron="35 * * * * *") // every minute at 35th second
+    @Scheduled(cron="${app.cron.hackernews.items-health-check:-}")
     @Transactional // https://stackoverflow.com/a/40593697/3456163
     public void run() {
         log.info("Running {}", this.getClass().getName());

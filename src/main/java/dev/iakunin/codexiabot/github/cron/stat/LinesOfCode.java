@@ -21,7 +21,7 @@ public final class LinesOfCode {
     private GithubRepoStatRepository githubRepoStatRepository;
     private CodetabsClient codetabsClient;
 
-    @Scheduled(cron="30 * * * * *") // every minute at 30th second
+    @Scheduled(cron="${app.cron.github.stat.lines-of-code:-}")
     public void run() {
         log.info("Running {}", this.getClass().getName());
 

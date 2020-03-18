@@ -18,7 +18,7 @@ public final class ResendErroneousReviews {
 
     private final CodexiaModule codexiaModule;
 
-    @Scheduled(cron="25 * * * * *") // every minute at 25th second
+    @Scheduled(cron="${app.cron.codexia.resend-erroneous-reviews:-}")
     public void run() {
         log.info("Running {}", this.getClass().getName());
 

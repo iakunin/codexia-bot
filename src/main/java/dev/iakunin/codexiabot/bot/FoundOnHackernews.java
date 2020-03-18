@@ -28,7 +28,7 @@ public final class FoundOnHackernews {
 
     private final HackernewsModule hackernewsModule;
 
-    @Scheduled(cron="5 * * * * *") // every minute at 5th second
+    @Scheduled(cron="${app.cron.bot.found-on-hackernews:-}")
     public void run() {
         log.info("Running {}", this.getClass().getName());
 

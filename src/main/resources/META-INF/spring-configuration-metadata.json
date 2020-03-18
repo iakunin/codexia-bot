@@ -34,6 +34,56 @@
       "name": "app.kafka.bootstrap-servers",
       "type": "java.lang.String",
       "description": "Kafka `bootstrap.servers` config property."
+    },
+    {
+      "name": "app.cron.bot.found-on-hackernews",
+      "type": "java.lang.String",
+      "description": "Cron expression for bot.found-on-hackernews."
+    },
+    {
+      "name": "app.cron.bot.found-on-reddit",
+      "type": "java.lang.String",
+      "description": "Cron expression for bot.found-on-reddit."
+    },
+    {
+      "name": "app.cron.codexia.codexia-parser",
+      "type": "java.lang.String",
+      "description": "Cron expression for codexia.codexia-parser."
+    },
+    {
+      "name": "app.cron.codexia.missing-filler",
+      "type": "java.lang.String",
+      "description": "Cron expression for codexia.missing-filler."
+    },
+    {
+      "name": "app.cron.codexia.resend-erroneous-reviews",
+      "type": "java.lang.String",
+      "description": "Cron expression for codexia.resend-erroneous-reviews."
+    },
+    {
+      "name": "app.cron.github.stat.lines-of-code",
+      "type": "java.lang.String",
+      "description": "Cron expression for github.stat.lines-of-code."
+    },
+    {
+      "name": "app.cron.hackernews.gaps-filler",
+      "type": "java.lang.String",
+      "description": "Cron expression for hackernews.gaps-filler."
+    },
+    {
+      "name": "app.cron.hackernews.incremented-parser",
+      "type": "java.lang.String",
+      "description": "Cron expression for hackernews.incremented-parser."
+    },
+    {
+      "name": "app.cron.hackernews.items-health-check",
+      "type": "java.lang.String",
+      "description": "Cron expression for hackernews.items-health-check."
+    },
+    {
+      "name": "app.cron.hackernews.retry-erroneous",
+      "type": "java.lang.String",
+      "description": "Cron expression for hackernews.retry-erroneous."
     }
   ]
 }

@@ -57,7 +57,7 @@ public final class GapsFiller {
         );
     }
 
-    @Scheduled(cron="0 30 0 * * *") // every day at 00 hours at 30 minutes and 00 seconds
+    @Scheduled(cron="${app.cron.hackernews.gaps-filler:-}")
     public void run() {
         log.info("Running {}", this.getClass().getName());
 

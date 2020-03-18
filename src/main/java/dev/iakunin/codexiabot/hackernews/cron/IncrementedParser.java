@@ -53,7 +53,7 @@ public final class IncrementedParser {
         );
     }
 
-    @Scheduled(cron="40 * * * * *") // every minute at 40th seconds
+    @Scheduled(cron="${app.cron.hackernews.incremented-parser:-}")
     //@TODO: add ShedLock: https://www.baeldung.com/shedlock-spring
     public void run() {
         log.info("Running {}", this.getClass().getName());

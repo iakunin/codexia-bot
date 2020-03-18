@@ -53,7 +53,7 @@ public final class RetryErroneous {
         );
     }
 
-    @Scheduled(cron="0 0 1 * * *") // every day at 01 hour 00 minutes and 00 seconds
+    @Scheduled(cron="${app.cron.hackernews.retry-erroneous:-}")
     public void run() {
         log.info("Running {}", this.getClass().getName());
 

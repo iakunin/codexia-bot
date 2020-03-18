@@ -17,7 +17,7 @@ public final class MissingFiller {
     private final CodexiaProjectRepository repository;
     private final GithubModule githubModule;
 
-    @Scheduled(cron="0 0 0 * * *") // every day at 00 hours at 00 minutes and 00 seconds
+    @Scheduled(cron="${app.cron.codexia.missing-filler:-}")
     public void run() {
         log.info("Running {}", this.getClass().getName());
 
