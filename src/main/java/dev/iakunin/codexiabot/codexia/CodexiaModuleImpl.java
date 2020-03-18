@@ -8,7 +8,9 @@ import dev.iakunin.codexiabot.codexia.repository.CodexiaReviewNotificationReposi
 import dev.iakunin.codexiabot.codexia.repository.CodexiaReviewRepository;
 import dev.iakunin.codexiabot.codexia.sdk.CodexiaClient;
 import feign.FeignException;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,15 +44,7 @@ public final class CodexiaModuleImpl implements CodexiaModule {
                 .setStatus(CodexiaReviewNotification.Status.NEW)
         );
 
-        try {
-            this.codexiaClient.setMeta(
-                String.valueOf(savedReview.getCodexiaProject().getExternalId()),
-                review.getAuthor().replace('_', '-') + "--" + review.getUuid().toString(),
-                review.getReason()
-            );
-        } catch (Exception e) {
-            log.warn("Exception occurred during setting meta in Codexia", e);
-        }
+        this.setMetaForHackerNewsTmp(review); //@TODO: remove me!
 
         final ResponseEntity<String> response;
         try {
@@ -83,6 +77,35 @@ public final class CodexiaModuleImpl implements CodexiaModule {
     }
 
     @Override
+    public void sendMeta(CodexiaProject codexiaProject, String metaKey, String metaValue) {
+        try {
+            this.codexiaClient.setMeta(
+                String.valueOf(codexiaProject.getExternalId()),
+                metaKey,
+                metaValue
+            );
+        } catch (Exception e) {
+            log.warn("Exception occurred during sending meta to Codexia", e);
+        }
+    }
+
+    private void setMetaForHackerNewsTmp(CodexiaReview review) {
+        this.sendMeta(
+            review.getCodexiaProject(),
+            "hacker-news-id",
+            this.codexiaReviewRepository
+                .findAllByCodexiaProjectAndAuthor(
+                    review.getCodexiaProject(),
+                    review.getAuthor()
+                )
+                .stream()
+                .map(
+                    CodexiaReview::getReason
+                ).collect(Collectors.joining(","))
+        );
+    }
+
+    @Override
     public Optional<CodexiaProject> findByExternalId(Integer externalId) {
         return this.codexiaProjectRepository.findByExternalId(externalId);
     }
@@ -90,5 +113,10 @@ public final class CodexiaModuleImpl implements CodexiaModule {
     @Override
     public Boolean isReviewExist(CodexiaProject codexiaProject, String author, String reason) {
         return this.codexiaReviewRepository.existsByCodexiaProjectAndAuthorAndReason(codexiaProject, author, reason);
+    }
+
+    @Override
+    public List<CodexiaReview> findAllReviews(CodexiaProject codexiaProject, String author) {
+        return this.codexiaReviewRepository.findAllByCodexiaProjectAndAuthor(codexiaProject, author);
     }
 }

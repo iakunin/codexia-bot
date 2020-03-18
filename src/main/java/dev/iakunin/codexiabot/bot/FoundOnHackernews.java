@@ -7,6 +7,7 @@ import dev.iakunin.codexiabot.github.GithubModule;
 import dev.iakunin.codexiabot.github.entity.GithubRepoSource;
 import dev.iakunin.codexiabot.hackernews.HackernewsModule;
 import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
@@ -81,22 +82,34 @@ public final class FoundOnHackernews {
                     dto.getHackernewsSource().getExternalId()
                 )
             )
-            .forEach(
-                dto -> this.codexiaModule.sendReview(
-                    new CodexiaReview()
-                        .setText(
-                            String.format(
-                                "This project is found on Hackernews: " +
+            .map(
+                dto -> new CodexiaReview()
+                    .setText(
+                        String.format(
+                            "This project is found on Hackernews: " +
                                 "[web link](https://news.ycombinator.com/item?id=%s), " +
                                 "[api link](https://hacker-news.firebaseio.com/v0/item/%s.json), ",
-                                dto.getHackernewsSource().getExternalId(),
-                                dto.getHackernewsSource().getExternalId()
-                            )
+                            dto.getHackernewsSource().getExternalId(),
+                            dto.getHackernewsSource().getExternalId()
                         )
-                        .setAuthor(BOT_TYPE.name())
-                        .setReason(dto.getHackernewsSource().getExternalId())
-                        .setCodexiaProject(dto.getCodexiaProject())
-                )
+                    )
+                    .setAuthor(BOT_TYPE.name())
+                    .setReason(dto.getHackernewsSource().getExternalId())
+                    .setCodexiaProject(dto.getCodexiaProject())
+            )
+            .forEach(
+                review -> {
+                    this.codexiaModule.sendReview(review);
+                    this.codexiaModule.sendMeta(
+                        review.getCodexiaProject(),
+                        "hacker-news-id",
+                        this.codexiaModule
+                            .findAllReviews(review.getCodexiaProject(), review.getAuthor())
+                            .stream()
+                            .map(CodexiaReview::getReason)
+                            .collect(Collectors.joining(","))
+                    );
+                }
             );
 
         log.info("Exiting from {}", this.getClass().getName());
