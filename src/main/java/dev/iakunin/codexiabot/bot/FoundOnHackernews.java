@@ -75,6 +75,7 @@ public final class FoundOnHackernews {
                         );
                 }
             )
+            .filter(dto -> dto.getCodexiaProject().getDeleted() == null)
             .filter(
                 dto -> !this.codexiaModule.isReviewExist(
                     dto.getCodexiaProject(),
