@@ -21,6 +21,7 @@ configurations {
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 dependencies {
@@ -66,6 +67,7 @@ dependencies {
     implementation 'io.github.openfeign:feign-jackson:9.3.1'
 
     implementation 'org.kohsuke:github-api:1.106'
+    implementation "net.dean.jraw:JRAW:1.1.0"
 
     implementation 'io.projectreactor.kafka:reactor-kafka:1.2.2.RELEASE'
     implementation 'io.r2dbc:r2dbc-postgresql:0.8.1.RELEASE'

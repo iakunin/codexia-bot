@@ -46,6 +46,20 @@ spec:
               value: "https://www.codexia.org/"
             - name: APP_KAFKA_BOOTSTRAPSERVERS
               value: bootstrap.kafka:9092
+            - name: APP_REDDIT_USERNAME
+              value: iakunin
+            - name: APP_REDDIT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app
+                  key: reddit.password
+            - name: APP_REDDIT_CLIENTID
+              value: LjlVJ5_qFAQ3WQ
+            - name: APP_REDDIT_CLIENTSECRET
+              valueFrom:
+                secretKeyRef:
+                  name: app
+                  key: reddit.client-secret
           ports:
             - containerPort: 8080
           readinessProbe:

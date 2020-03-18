@@ -5,7 +5,6 @@ import dev.iakunin.codexiabot.codexia.entity.CodexiaProject;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaReview;
 import dev.iakunin.codexiabot.github.GithubModule;
 import dev.iakunin.codexiabot.github.entity.GithubRepoSource;
-import dev.iakunin.codexiabot.hackernews.HackernewsModule;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -18,34 +17,19 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 @AllArgsConstructor(onConstructor_={@Autowired})
-public final class FoundOnHackernews {
+public final class FoundOnReddit {
 
-    private static final Bot.Type BOT_TYPE = Bot.Type.FOUND_ON_HACKERNEWS;
+    private static final Bot.Type BOT_TYPE = Bot.Type.FOUND_ON_REDDIT;
 
     private final GithubModule githubModule;
 
     private final CodexiaModule codexiaModule;
 
-    private final HackernewsModule hackernewsModule;
-
-    @Scheduled(cron="${app.cron.bot.found-on-hackernews:-}")
+    @Scheduled(cron="${app.cron.bot.found-on-reddit:-}")
     public void run() {
         log.info("Running {}", this.getClass().getName());
 
-        this.hackernewsModule.healthCheckItems(
-            this.githubModule.findAllInCodexiaAndHackernews()
-                .stream()
-                .flatMap(
-                    repo -> this.githubModule.findAllRepoSources(repo).stream()
-                )
-                .filter(
-                    source -> source.getSource() == GithubModule.Source.HACKERNEWS
-                )
-                .map(GithubRepoSource::getExternalId)
-                .map(Integer::valueOf)
-        );
-
-        this.githubModule.findAllInCodexiaAndHackernews()
+        this.githubModule.findAllInCodexia()
             .stream()
             .flatMap(
                 githubRepo -> {
@@ -69,9 +53,9 @@ public final class FoundOnHackernews {
                         );
 
                     return allRepoSources.stream()
-                        .filter(githubRepoSource -> githubRepoSource.getSource() == GithubModule.Source.HACKERNEWS)
+                        .filter(githubRepoSource -> githubRepoSource.getSource() == GithubModule.Source.REDDIT)
                         .map(
-                            hackerNewsSource -> new TmpDto(codexiaProject, hackerNewsSource)
+                            redditSource -> new TmpDto(codexiaProject, redditSource)
                         );
                 }
             )
@@ -80,22 +64,22 @@ public final class FoundOnHackernews {
                 dto -> !this.codexiaModule.isReviewExist(
                     dto.getCodexiaProject(),
                     BOT_TYPE.name(),
-                    dto.getHackernewsSource().getExternalId()
+                    dto.getRedditSource().getExternalId()
                 )
             )
             .map(
                 dto -> new CodexiaReview()
                     .setText(
                         String.format(
-                            "This project is found on Hackernews: " +
-                                "[web link](https://news.ycombinator.com/item?id=%s), " +
-                                "[api link](https://hacker-news.firebaseio.com/v0/item/%s.json), ",
-                            dto.getHackernewsSource().getExternalId(),
-                            dto.getHackernewsSource().getExternalId()
+                            "This project is found on Reddit: " +
+                            "[web link](https://www.reddit.com/comments/%s), " +
+                            "[api link](https://www.reddit.com/api/info.json?id=t3_%s), ",
+                            dto.getRedditSource().getExternalId(),
+                            dto.getRedditSource().getExternalId()
                         )
                     )
                     .setAuthor(BOT_TYPE.name())
-                    .setReason(dto.getHackernewsSource().getExternalId())
+                    .setReason(dto.getRedditSource().getExternalId())
                     .setCodexiaProject(dto.getCodexiaProject())
             )
             .forEach(
@@ -103,7 +87,7 @@ public final class FoundOnHackernews {
                     this.codexiaModule.sendReview(review);
                     this.codexiaModule.sendMeta(
                         review.getCodexiaProject(),
-                        "hacker-news-id",
+                        "reddit-id",
                         this.codexiaModule
                             .findAllReviews(review.getCodexiaProject(), review.getAuthor())
                             .stream()
@@ -119,6 +103,6 @@ public final class FoundOnHackernews {
     @Value
     private static final class TmpDto {
         private CodexiaProject codexiaProject;
-        private GithubRepoSource hackernewsSource;
+        private GithubRepoSource redditSource;
     }
 }

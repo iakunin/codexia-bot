@@ -13,34 +13,23 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.kohsuke.github.GHFileNotFoundException;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
-import org.kohsuke.github.GitHubBuilder;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
+@AllArgsConstructor(onConstructor_={@Autowired})
 public final class GithubModuleImpl implements GithubModule {
 
-    private GithubRepoRepository githubRepoRepository;
-    private GithubRepoStatRepository githubRepoStatRepository;
-    private GithubRepoSourceRepository githubRepoSourceRepository;
-    private String githubToken;
-
-    public GithubModuleImpl(
-        GithubRepoRepository githubRepoRepository,
-        GithubRepoStatRepository githubRepoStatRepository,
-        GithubRepoSourceRepository githubRepoSourceRepository,
-        @Value("${app.github-token}") String githubToken
-    ) {
-        this.githubRepoRepository = githubRepoRepository;
-        this.githubRepoStatRepository = githubRepoStatRepository;
-        this.githubRepoSourceRepository = githubRepoSourceRepository;
-        this.githubToken = githubToken;
-    }
+    private final GithubRepoRepository githubRepoRepository;
+    private final GithubRepoStatRepository githubRepoStatRepository;
+    private final GithubRepoSourceRepository githubRepoSourceRepository;
+    private final GitHub github;
 
     @Override
     public void createRepo(CreateArguments arguments) throws IOException {
@@ -54,8 +43,13 @@ public final class GithubModuleImpl implements GithubModule {
             arguments.getSource(),
             arguments.getExternalId()
         ).forEach(
-            repoSource -> this.githubRepoSourceRepository.delete(repoSource)
+            this.githubRepoSourceRepository::delete
         );
+    }
+
+    @Override
+    public Set<GithubRepo> findAllInCodexia() {
+        return this.githubRepoRepository.findAllInCodexia();
     }
 
     @Override
@@ -76,8 +70,6 @@ public final class GithubModuleImpl implements GithubModule {
     private GithubRepo saveRepo(CreateArguments arguments) throws IOException {
         URL repoUrl = new URL(arguments.getUrl());
 
-        GitHub github = new GitHubBuilder().withOAuthToken(this.githubToken).build();
-
         final GHRepository repository;
         try {
             final String githubRepoName = this.getGithubRepoName(repoUrl);
@@ -90,7 +82,7 @@ public final class GithubModuleImpl implements GithubModule {
             }
 
             log.info("--- Begin calling GitHub SDK");
-            repository = github.getRepository(githubRepoName);
+            repository = this.github.getRepository(githubRepoName);
             log.info("--- End calling GitHub SDK");
         } catch (GHFileNotFoundException e) {
             throw new RuntimeException(

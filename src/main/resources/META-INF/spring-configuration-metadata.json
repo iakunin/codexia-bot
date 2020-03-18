@@ -84,6 +84,31 @@
       "name": "app.cron.hackernews.retry-erroneous",
       "type": "java.lang.String",
       "description": "Cron expression for hackernews.retry-erroneous."
+    },
+    {
+      "name": "app.cron.reddit.parser",
+      "type": "java.lang.String",
+      "description": "Cron expression for reddit.parser."
+    },
+    {
+      "name": "app.reddit.username",
+      "type": "java.lang.String",
+      "description": "Reddit account username."
+    },
+    {
+      "name": "app.reddit.password",
+      "type": "java.lang.String",
+      "description": "Reddit account password."
+    },
+    {
+      "name": "app.reddit.client-id",
+      "type": "java.lang.String",
+      "description": "Reddit client id."
+    },
+    {
+      "name": "app.reddit.client-secret",
+      "type": "java.lang.String",
+      "description": "Reddit client secret."
     }
   ]
 }

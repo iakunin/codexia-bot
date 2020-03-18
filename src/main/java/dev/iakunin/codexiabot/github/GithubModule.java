@@ -16,6 +16,9 @@ public interface GithubModule {
     //@TODO: rewrite in much common way: `List<GithubRepo> findAllExistsInAllSources(Set<Source> sources)`
     Set<GithubRepo> findAllInCodexiaAndHackernews();
 
+    //@TODO: rewrite in much common way: `List<GithubRepo> findAllExistsInAllSources(Set<Source> sources)`
+    Set<GithubRepo> findAllInCodexia();
+
     Set<GithubRepoSource> findAllRepoSources(GithubRepo repo);
 
     Stream<GithubRepoSource> findAllRepoSources(GithubModule.Source source);

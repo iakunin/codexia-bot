@@ -26,9 +26,21 @@ public interface GithubRepoRepository extends JpaRepository<GithubRepo, Long> {
             "select distinct gr.* from github_repo gr " +
             "join github_repo_source grs1 on gr.id = grs1.github_repo_id " +
             "join github_repo_source grs2 on gr.id = grs2.github_repo_id " +
-            "where grs1.source='CODEXIA' " +
-            "and grs2.source='HACKERNEWS'",
+            "where grs1.source = 'CODEXIA' " +
+            "and grs2.source = 'HACKERNEWS' " +
+            "and grs1.deleted_at is null " +
+            "and grs2.deleted_at is null",
         nativeQuery = true
     )
     Set<GithubRepo> findAllInCodexiaAndHackernews();
+
+    @Query(
+        value =
+            "select distinct gr.* from github_repo gr " +
+            "join github_repo_source grs1 on gr.id = grs1.github_repo_id " +
+            "where grs1.source = 'CODEXIA' " +
+            "and grs1.deleted_at is null",
+        nativeQuery = true
+    )
+    Set<GithubRepo> findAllInCodexia();
 }
