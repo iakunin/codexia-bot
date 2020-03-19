@@ -6,7 +6,6 @@ import dev.iakunin.codexiabot.hackernews.entity.HackernewsItem;
 import dev.iakunin.codexiabot.hackernews.repository.jpa.HackernewsItemRepository;
 import dev.iakunin.codexiabot.hackernews.sdk.HackernewsClient;
 import java.util.HashMap;
-import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -64,7 +63,11 @@ public final class IncrementedParser {
             try {
                 log.info("Trying to get item with externalId='{}'", currentExternalId);
                 final HackernewsClient.Item item = this.hackernewsClient.getItem(currentExternalId).getBody();
-                Objects.requireNonNull(item);
+                if (item == null) {
+                    log.info("Empty response body for externalId='{}'", currentExternalId);
+                    errorsCount++;
+                    continue;
+                }
 
                 log.info("Successfully got item with externalId='{}'; trying to publish to kafka; {}", currentExternalId, item);
                 final HackernewsItem hackernewsItem = HackernewsItem.Factory.from(item);
@@ -79,7 +82,7 @@ public final class IncrementedParser {
 
                 log.info("Item with externalId='{}' successfully published to kafka ", currentExternalId);
             } catch (Exception e) {
-                log.warn("Exception occurred during getting hackernews item '{}'", currentExternalId, e);
+                log.error("Exception occurred during getting hackernews item '{}'", currentExternalId, e);
                 errorsCount++;
             }
         }
