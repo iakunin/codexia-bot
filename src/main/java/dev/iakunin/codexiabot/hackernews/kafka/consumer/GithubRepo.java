@@ -51,7 +51,7 @@ public final class GithubRepo {
                 .subscription(Collections.singleton(TOPIC))
             )
             //@TODO: rewrite via SpringRetry
-            // https://objectpartners.com/2018/11/21/building-resilient-kafka-consumers-with-spring-retry/
+            //  https://objectpartners.com/2018/11/21/building-resilient-kafka-consumers-with-spring-retry/
             .receiveAutoAck()
             .concatMap(r -> r)
             .map(r -> {
