@@ -21,7 +21,6 @@ public class Client {
         @Value("${app.reddit.client-id}") String clientId,
         @Value("${app.reddit.client-secret}") String clientSecret
     ) {
-        //@TODO: extract all these credentials
         UserAgent userAgent = new UserAgent(
             "bot",
             "dev.iakunin.codexiabot",

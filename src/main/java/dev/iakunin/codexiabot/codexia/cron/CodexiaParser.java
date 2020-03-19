@@ -67,6 +67,9 @@ public final class CodexiaParser {
 
             projectList.stream()
                 .filter(
+                    project -> project.getDeleted() == null
+                )
+                .filter(
                     project -> !this.repository.existsByExternalId(project.getId())
                 )
                 .map(

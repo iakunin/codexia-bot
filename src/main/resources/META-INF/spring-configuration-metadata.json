@@ -61,6 +61,11 @@
       "description": "Cron expression for codexia.resend-erroneous-reviews."
     },
     {
+      "name": "app.cron.codexia.projects-health-check",
+      "type": "java.lang.String",
+      "description": "Cron expression for codexia.projects-health-check."
+    },
+    {
       "name": "app.cron.github.stat.lines-of-code",
       "type": "java.lang.String",
       "description": "Cron expression for github.stat.lines-of-code."

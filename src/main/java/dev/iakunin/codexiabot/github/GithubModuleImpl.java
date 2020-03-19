@@ -39,6 +39,7 @@ public final class GithubModuleImpl implements GithubModule {
 
     @Override
     public void removeAllRepoSources(DeleteArguments arguments) {
+        log.info("Removing all repo sources for {}", arguments);
         this.githubRepoSourceRepository.findAllBySourceAndExternalId(
             arguments.getSource(),
             arguments.getExternalId()
