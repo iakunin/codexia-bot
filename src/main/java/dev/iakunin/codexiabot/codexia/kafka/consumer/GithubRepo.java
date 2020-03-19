@@ -60,14 +60,14 @@ public final class GithubRepo {
                 return item;
             })
             .doOnNext(
-                i -> {
-                    final String url = "https://github.com/" + i.getCoordinates();
+                codexiaProject -> {
+                    final String url = "https://github.com/" + codexiaProject.getCoordinates();
                     try {
                         this.githubModule.createRepo(
                             new GithubModule.CreateArguments()
                                 .setUrl(url)
                                 .setSource(GithubModule.Source.CODEXIA)
-                                .setExternalId(String.valueOf(i.getExternalId()))
+                                .setExternalId(String.valueOf(codexiaProject.getExternalId()))
                         );
                     } catch (RuntimeException | IOException e) {
                         log.info("Unable to create github repo; source url='{}'", url, e);
