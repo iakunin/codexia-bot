@@ -48,6 +48,7 @@ dependencies {
 
     implementation 'com.fasterxml.jackson.module:jackson-modules-java8:2.10.2'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.10.1'
+    implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.10.+'
 
     compile 'io.jsonwebtoken:jjwt:0.9.1'
 
