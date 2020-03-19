@@ -60,7 +60,9 @@ public final class Parser {
             .forEach(githubRepo ->
                 StreamSupport.stream(
                     this.redditClient.search()
-                        .query("url:" + githubRepo.getHtmlUrl())
+                        .query(
+                            String.format("url:\"%s\"", githubRepo.getHtmlUrl())
+                        )
                         .build()
                         .spliterator(),
                     false
