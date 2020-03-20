@@ -13,7 +13,7 @@ jobs:
                         - gradle-dependencies-v1-{{ checksum "build.gradle" }}
             -   run:
                     name: gradle-build
-                    command: gradle clean -Pversion=$CIRCLE_TAG build sonarqube --info
+                    command: gradle clean -Pversion=$CIRCLE_TAG build sonarqube jacocoTestReport --info
             -   run:
                     name: codecov
                     command: bash <(curl -s https://codecov.io/bash)

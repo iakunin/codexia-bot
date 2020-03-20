@@ -4,6 +4,7 @@ plugins {
     id 'java'
     id 'idea'
     id 'org.sonarqube' version '2.8'
+    id 'jacoco'
 }
 
 group = 'dev.iakunin'
@@ -96,3 +97,12 @@ sonarqube {
         property "sonar.host.url", "https://sonarcloud.io"
     }
 }
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        html.enabled false
+    }
+}
+
+check.dependsOn jacocoTestReport
