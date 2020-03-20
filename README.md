@@ -1,7 +1,7 @@
 # codexia-bot
 
 [![CircleCI](https://circleci.com/gh/iakunin/codexia-bot.svg?style=svg)](https://circleci.com/gh/iakunin/codexia-bot)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=iakunin_codexia-bot&metric=alert_status)](https://sonarcloud.io/dashboard?id=iakunin_codexia-bot)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=iakunin_codexia-bot&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=iakunin_codexia-bot)
 
 Bots list:
 
