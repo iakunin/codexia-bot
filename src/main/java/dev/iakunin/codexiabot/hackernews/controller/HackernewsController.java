@@ -86,10 +86,10 @@ public final class HackernewsController {
                     SenderRecord.create(
                         new ProducerRecord<>(
                             TOPIC,
-                            Integer.valueOf(i.getExternalId()),
+                            i.getExternalId(),
                             this.toBinary(i)
                         ),
-                        Integer.valueOf(i.getExternalId())
+                        i.getExternalId()
                     )
                 )
         )

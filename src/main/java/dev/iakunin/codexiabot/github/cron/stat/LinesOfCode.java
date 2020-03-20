@@ -6,6 +6,7 @@ import dev.iakunin.codexiabot.github.repository.GithubRepoStatRepository;
 import dev.iakunin.codexiabot.github.sdk.CodetabsClient;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -50,16 +51,17 @@ public final class LinesOfCode {
                         log.info("TOO_MANY_REQUESTS (429) came from codetabs: retrying", e);
                     }
                 } finally {
-                    try {
-                        log.info("Sleeping...");
-                        Thread.sleep(5000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                    log.info("Sleeping...");
+                    sleep(5000);
                 }
             }
         );
 
         log.info("Exiting from {}", this.getClass().getName());
+    }
+
+    @SneakyThrows
+    private void sleep(long millis) {
+        Thread.sleep(millis);
     }
 }

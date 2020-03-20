@@ -50,12 +50,16 @@ public final class HackernewsItemRepositoryImpl implements HackernewsItemReposit
                 .build()
         );
 
-        this.postgresqlConnection = new ConnectionPool(
-            ConnectionPoolConfiguration.builder(connectionFactory)
-                .maxIdleTime(Duration.ofMillis(1000))
-                .maxSize(500)
-                .build()
-        ).create();
+        try (
+            ConnectionPool connectionPool = new ConnectionPool(
+                ConnectionPoolConfiguration.builder(connectionFactory)
+                    .maxIdleTime(Duration.ofMillis(1000))
+                    .maxSize(500)
+                    .build()
+            )
+        ) {
+            this.postgresqlConnection = connectionPool.create();
+        }
     }
 
     @Override
