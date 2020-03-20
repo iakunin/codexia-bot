@@ -11,10 +11,11 @@ import io.r2dbc.spi.Result;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
+import org.cactoos.map.MapEntry;
+import org.cactoos.map.MapOf;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -41,10 +42,10 @@ public final class HackernewsItemRepositoryImpl implements HackernewsItemReposit
                 .password(password)
                 .database(database)
                 .options(
-                    new HashMap<>() {{
-                        put("lock_timeout", "10s");
-                        put("statement_timeout", "0");
-                    }}
+                    new MapOf<>(
+                        new MapEntry<>("lock_timeout", "10s"),
+                        new MapEntry<>("statement_timeout", "0")
+                    )
                 )
                 .build()
         );

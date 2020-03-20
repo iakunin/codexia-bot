@@ -5,12 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.iakunin.codexiabot.hackernews.entity.HackernewsItem;
 import dev.iakunin.codexiabot.hackernews.repository.jpa.HackernewsItemRepository;
 import dev.iakunin.codexiabot.hackernews.sdk.HackernewsClient;
-import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.IntegerSerializer;
 import org.apache.kafka.common.serialization.StringSerializer;
+import org.cactoos.map.MapEntry;
+import org.cactoos.map.MapOf;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -41,13 +42,13 @@ public final class IncrementedParser {
         this.objectMapper = objectMapper;
         this.sender = KafkaSender.create(
             SenderOptions.create(
-                new HashMap<>(){{
-                    put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaBootstrapServers);
-                    put(ProducerConfig.CLIENT_ID_CONFIG, "hackernews-item-producer");
-                    put(ProducerConfig.ACKS_CONFIG, "all");
-                    put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, IntegerSerializer.class);
-                    put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-                }}
+                new MapOf<>(
+                    new MapEntry<>(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaBootstrapServers),
+                    new MapEntry<>(ProducerConfig.CLIENT_ID_CONFIG, "hackernews-item-producer"),
+                    new MapEntry<>(ProducerConfig.ACKS_CONFIG, "all"),
+                    new MapEntry<>(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, IntegerSerializer.class),
+                    new MapEntry<>(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class)
+                )
             )
         );
     }

@@ -6,11 +6,12 @@ import dev.iakunin.codexiabot.codexia.repository.CodexiaProjectRepository;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Collections;
-import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.IntegerDeserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import org.cactoos.map.MapEntry;
+import org.cactoos.map.MapOf;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import reactor.kafka.receiver.KafkaReceiver;
@@ -36,14 +37,14 @@ public final class SaveToDatabase {
         this.repository = repository;
         KafkaReceiver.create(
             ReceiverOptions.<Integer, String>create(
-                new HashMap<>(){{
-                    put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaBootstrapServers);
-                    put(ConsumerConfig.GROUP_ID_CONFIG, this.getClass().getName() + "-consumer");
-                    put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, IntegerDeserializer.class);
-                    put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-                    put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
-                    put(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, Integer.MAX_VALUE);
-                }}
+                new MapOf<>(
+                    new MapEntry<>(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaBootstrapServers),
+                    new MapEntry<>(ConsumerConfig.GROUP_ID_CONFIG, this.getClass().getName() + "-consumer"),
+                    new MapEntry<>(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, IntegerDeserializer.class),
+                    new MapEntry<>(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class),
+                    new MapEntry<>(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest"),
+                    new MapEntry<>(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, Integer.MAX_VALUE)
+                )
             )
             .commitBatchSize(1)
             .commitInterval(Duration.ofSeconds(1))
