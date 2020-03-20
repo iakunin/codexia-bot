@@ -47,4 +47,3 @@ Bots list:
 
 
 - Read articles about open-source best practices
-
