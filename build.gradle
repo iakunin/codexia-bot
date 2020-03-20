@@ -90,6 +90,10 @@ springBoot {
     }
 }
 
+test {
+    useJUnitPlatform()
+}
+
 sonarqube {
     properties {
         property "sonar.projectKey", "iakunin_codexia-bot"
@@ -105,4 +109,4 @@ jacocoTestReport {
     }
 }
 
-check.dependsOn jacocoTestReport
+test.finalizedBy jacocoTestReport
