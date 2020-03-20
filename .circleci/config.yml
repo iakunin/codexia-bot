@@ -13,7 +13,7 @@ jobs:
                         - gradle-dependencies-v1-{{ checksum "build.gradle" }}
             -   run:
                     name: gradle-build
-                    command: gradle clean -Pversion=$CIRCLE_TAG build --info
+                    command: gradle clean -Pversion=$CIRCLE_TAG build sonarqube --info
             -   save_cache:
                     paths:
                         - ~/.gradle
@@ -60,6 +60,7 @@ workflows:
     main:
         jobs:
             -   build-jar:
+                    context: SonarCloud
                     filters:
                         tags:
                             only: /^\d+\.\d+\.\d+$/

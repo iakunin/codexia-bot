@@ -3,6 +3,7 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id 'java'
     id 'idea'
+    id 'org.sonarqube' version '2.8'
 }
 
 group = 'dev.iakunin'
@@ -85,5 +86,13 @@ springBoot {
         properties {
             version = version
         }
+    }
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "iakunin_codexia-bot"
+        property "sonar.organization", "iakunin"
+        property "sonar.host.url", "https://sonarcloud.io"
     }
 }
