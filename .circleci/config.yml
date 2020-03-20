@@ -64,19 +64,19 @@ workflows:
                     filters:
                         tags:
                             only: /^\d+\.\d+\.\d+$/
-            -   build-and-push-image:
-                    requires:
-                        - build-jar
-                    filters:
-                        branches:
-                            ignore: /.*/
-                        tags:
-                            only: /^\d+\.\d+\.\d+$/
-            -   rollout-image:
-                    requires:
-                        - build-and-push-image
-                    filters:
-                        branches:
-                            ignore: /.*/
-                        tags:
-                            only: /^\d+\.\d+\.\d+$/
+#            -   build-and-push-image:
+#                    requires:
+#                        - build-jar
+#                    filters:
+#                        branches:
+#                            ignore: /.*/
+#                        tags:
+#                            only: /^\d+\.\d+\.\d+$/
+#            -   rollout-image:
+#                    requires:
+#                        - build-and-push-image
+#                    filters:
+#                        branches:
+#                            ignore: /.*/
+#                        tags:
+#                            only: /^\d+\.\d+\.\d+$/
