@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 public interface CodexiaProjectRepository extends JpaRepository<CodexiaProject, Long> {
-    Boolean existsByExternalId(Integer externalId);
+    boolean existsByExternalId(Integer externalId);
 
     @Query(
         "select cp from CodexiaProject cp " +

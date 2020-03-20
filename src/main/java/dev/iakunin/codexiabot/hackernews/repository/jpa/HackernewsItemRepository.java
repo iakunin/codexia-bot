@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface HackernewsItemRepository extends JpaRepository<HackernewsItem, Long> {
 
-    Boolean existsByExternalId(Integer externalId);
+    boolean existsByExternalId(Integer externalId);
 
     Optional<HackernewsItem> findByExternalId(Integer externalId);
 

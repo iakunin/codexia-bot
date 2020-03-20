@@ -52,7 +52,7 @@ public final class GithubRepoStat extends AbstractEntity {
     }
 
     @Data
-    public final static class GithubApi extends AbstractStat {
+    public static final class GithubApi extends AbstractStat {
 
         private String description;
         private LocalDateTime pushedAt;
@@ -69,7 +69,7 @@ public final class GithubRepoStat extends AbstractEntity {
     }
 
     @Data
-    public final static class LinesOfCode extends AbstractStat {
+    public static final class LinesOfCode extends AbstractStat {
 
         private List<Item> itemList;
 
@@ -90,9 +90,9 @@ public final class GithubRepoStat extends AbstractEntity {
     }
 
     @Data
-    public final static class HealthCheck extends AbstractStat {
+    public static final class HealthCheck extends AbstractStat {
 
-        private Boolean isAlive;
+        private boolean isAlive;
 
         @Override
         public Type getType() {
@@ -108,7 +108,9 @@ public final class GithubRepoStat extends AbstractEntity {
     }
 
 
-    public final static class Factory {
+    public static final class Factory {
+        private Factory() {}
+
         @SneakyThrows
         public static GithubRepoStat from(GHRepository from) {
             return new GithubRepoStat()

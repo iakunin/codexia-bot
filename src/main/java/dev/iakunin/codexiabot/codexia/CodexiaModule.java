@@ -13,7 +13,7 @@ public interface CodexiaModule {
 
     Optional<CodexiaProject> findByExternalId(Integer externalId);
 
-    Boolean isReviewExist(CodexiaProject codexiaProject, String author, String reason);
+    boolean isReviewExist(CodexiaProject codexiaProject, String author, String reason);
 
     List<CodexiaReview> findAllReviews(CodexiaProject codexiaProject, String author);
 }

@@ -92,7 +92,7 @@ public final class CodexiaModuleImpl implements CodexiaModule {
     }
 
     @Override
-    public Boolean isReviewExist(CodexiaProject codexiaProject, String author, String reason) {
+    public boolean isReviewExist(CodexiaProject codexiaProject, String author, String reason) {
         return this.codexiaReviewRepository.existsByCodexiaProjectAndAuthorAndReason(codexiaProject, author, reason);
     }
 

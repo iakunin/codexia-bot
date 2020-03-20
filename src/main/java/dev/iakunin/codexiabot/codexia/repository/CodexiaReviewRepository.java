@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CodexiaReviewRepository extends JpaRepository<CodexiaReview, Long> {
 
-    Boolean existsByCodexiaProjectAndAuthorAndReason(CodexiaProject codexiaProject, String author, String reason);
+    boolean existsByCodexiaProjectAndAuthorAndReason(CodexiaProject codexiaProject, String author, String reason);
 
     List<CodexiaReview> findAllByCodexiaProjectAndAuthor(CodexiaProject codexiaProject, String author);
 }

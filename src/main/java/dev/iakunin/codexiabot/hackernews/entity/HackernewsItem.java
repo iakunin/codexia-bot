@@ -20,7 +20,9 @@ public final class HackernewsItem extends AbstractEntity {
     private Instant time;
     private boolean deleted = false;
 
-    public final static class Factory {
+    public static final class Factory {
+        private Factory() {}
+
         public static HackernewsItem from(HackernewsClient.Item item) {
             return new HackernewsItem()
                 .setExternalId(item.getId())

@@ -21,7 +21,9 @@ public final class CodexiaProject extends AbstractEntity {
     private String deleted;
     private LocalDateTime projectCreatedAt;
 
-    public final static class Factory {
+    public static final class Factory {
+        private Factory() {}
+
         public static CodexiaProject from(CodexiaClient.Project from) {
             return new CodexiaProject()
                 .setExternalId(from.getId())

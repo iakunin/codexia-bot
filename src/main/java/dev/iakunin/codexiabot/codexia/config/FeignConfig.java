@@ -17,8 +17,6 @@ public final class FeignConfig {
 
     @Bean
     public RequestInterceptor requestInterceptor() {
-        return requestTemplate -> {
-            requestTemplate.header("X-Codexia-Token", this.codexiaToken);
-        };
+        return requestTemplate -> requestTemplate.header("X-Codexia-Token", this.codexiaToken);
     }
 }

@@ -20,7 +20,9 @@ public final class GithubRepo extends AbstractEntity {
     private String htmlUrl;
     private LocalDateTime repoCreatedAt;
 
-    public final static class Factory {
+    public static final class Factory {
+        private Factory() {}
+
         @SneakyThrows
         public static GithubRepo from(GHRepository from) {
             return new GithubRepo()
