@@ -9,9 +9,9 @@ import java.util.List;
 import lombok.Data;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(
@@ -24,19 +24,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 )
 public interface CodexiaClient {
 
-    @RequestMapping(
+    @GetMapping(
         value = "/recent.json",
-        produces = { "application/json" },
-        method = RequestMethod.GET
+        produces = { "application/json" }
     )
     ResponseEntity<List<Project>> getItem(
         @RequestParam("page") Integer page
     );
 
-    @RequestMapping(
+    @PostMapping(
         value = "/p/{projectId}/post",
-        produces = { "application/json" },
-        method = RequestMethod.POST
+        produces = { "application/json" }
     )
     ResponseEntity<String> createReview(
         @PathVariable("projectId") String projectId,
@@ -44,10 +42,9 @@ public interface CodexiaClient {
         @RequestParam("hash") String hash
     );
 
-    @RequestMapping(
+    @PostMapping(
         value = "/p/{projectId}/meta",
-        produces = { "application/json" },
-        method = RequestMethod.POST
+        produces = { "application/json" }
     )
     ResponseEntity<String> setMeta(
         @PathVariable("projectId") String projectId,

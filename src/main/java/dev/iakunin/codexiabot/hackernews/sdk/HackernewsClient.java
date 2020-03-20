@@ -5,9 +5,8 @@ import java.time.Instant;
 import lombok.Data;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 @FeignClient(
     name = "hackernewsClient",
@@ -16,10 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 )
 public interface HackernewsClient {
 
-    @RequestMapping(
+    @GetMapping(
         value = "/item/{itemId}.json",
-        produces = { "application/json" },
-        method = RequestMethod.GET
+        produces = { "application/json" }
     )
     ResponseEntity<Item> getItem(@PathVariable("itemId") Integer itemId);
 
