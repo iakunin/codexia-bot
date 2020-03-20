@@ -41,4 +41,16 @@ public interface GithubModule {
         CODEXIA,
         REDDIT,
     }
+
+    final class InvalidRepoNameException extends IOException {
+        public InvalidRepoNameException(String message) {
+            super(message);
+        }
+    }
+
+    final class RepoNotFoundException extends IOException {
+        public RepoNotFoundException(String message, Throwable cause) {
+            super(message, cause);
+        }
+    }
 }

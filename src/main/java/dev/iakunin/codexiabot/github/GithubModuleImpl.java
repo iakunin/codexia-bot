@@ -86,7 +86,7 @@ public final class GithubModuleImpl implements GithubModule {
             repository = this.github.getRepository(githubRepoName);
             log.info("--- End calling GitHub SDK");
         } catch (GHFileNotFoundException e) {
-            throw new RuntimeException(
+            throw new RepoNotFoundException(
                 String.format("Unable to find github repo by url='%s'", arguments.getUrl()),
                 e
             );
@@ -140,7 +140,7 @@ public final class GithubModuleImpl implements GithubModule {
         );
     }
 
-    private String getGithubRepoName(URL url) {
+    private String getGithubRepoName(URL url) throws InvalidRepoNameException {
         String repoName;
         final String path = url.getPath();
         if (path.charAt(0) == '/') {
@@ -151,7 +151,7 @@ public final class GithubModuleImpl implements GithubModule {
 
         final String[] split = repoName.split("/");
         if (split.length < 2) {
-            throw new RuntimeException(
+            throw new InvalidRepoNameException(
                 String.format("Invalid github repository name: %s", repoName)
             );
         }

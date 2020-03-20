@@ -1,7 +1,6 @@
 package dev.iakunin.codexiabot.common.entity;
 
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import javax.persistence.Column;
@@ -14,16 +13,13 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.TypeDef;
-import org.hibernate.annotations.TypeDefs;
 import org.hibernate.annotations.UpdateTimestamp;
 
-@TypeDefs({
-    @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
-})
+@TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 @MappedSuperclass
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-abstract public class AbstractEntity implements Serializable {
+public abstract class AbstractEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false, nullable = false)
