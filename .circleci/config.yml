@@ -15,11 +15,13 @@ jobs:
                     name: gradle-build
                     command: >
                         docker run \
+                            -e SONAR_TOKEN=$SONAR_TOKEN \
                             --tty \
                             --interactive \
                             --privileged \
                             --rm \
                             --volume=${PWD}:/home/gradle/project \
+                            --volume=${HOME}/.m2:/root/.m2 \
                             --volume=/var/run/docker.sock:/var/run/docker.sock \
                             --workdir=/home/gradle/project \
                             gradle:6.0.1-jdk11 \
@@ -30,6 +32,7 @@ jobs:
             -   save_cache:
                     paths:
                         - ~/.gradle
+                        - ~/.m2
                     key: gradle-dependencies-v1-{{ checksum "build.gradle" }}
             -   persist_to_workspace:
                     root: .
