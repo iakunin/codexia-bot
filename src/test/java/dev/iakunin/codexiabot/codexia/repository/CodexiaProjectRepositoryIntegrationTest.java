@@ -117,7 +117,7 @@ public class CodexiaProjectRepositoryIntegrationTest extends AbstractIntegration
 
         final List<CodexiaProject> allWithoutGithubRepo = repository.findAllWithoutGithubRepo();
 
-        assertEquals(0, allWithoutGithubRepo.size());
+        assertEquals(1, allWithoutGithubRepo.size());
 
         entityManager.remove(project);
         entityManager.remove(githubRepoSource);
