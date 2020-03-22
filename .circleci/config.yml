@@ -8,7 +8,6 @@ jobs:
             image: ubuntu-1604:201903-01
         steps:
             - checkout
-            - setup_remote_docker
             -   restore_cache:
                     keys:
                         - gradle-dependencies-v1-{{ checksum "build.gradle" }}
