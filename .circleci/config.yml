@@ -13,7 +13,17 @@ jobs:
                         - gradle-dependencies-v1-{{ checksum "build.gradle" }}
             -   run:
                     name: gradle-build
-                    command: gradle clean -Pversion=$CIRCLE_TAG build sonarqube --info
+                    command: >
+                        docker run \
+                            --tty \
+                            --interactive \
+                            --privileged \
+                            --rm \
+                            --volume=${PWD}:/home/gradle/project \
+                            --volume=/var/run/docker.sock:/var/run/docker.sock \
+                            --workdir=/home/gradle/project \
+                            gradle:6.0.1-jdk11 \
+                            gradle clean -Pversion=$CIRCLE_TAG build sonarqube --info
             -   run:
                     name: codecov
                     command: bash <(curl -s https://codecov.io/bash)
