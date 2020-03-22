@@ -4,8 +4,8 @@ orbs:
     gke: circleci/gcp-gke@1.0.3
 jobs:
     build-jar:
-        docker:
-            -   image: gradle:6.0.1-jdk11
+        machine:
+            image: ubuntu-1604:201903-01
         steps:
             - checkout
             - setup_remote_docker
