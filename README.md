@@ -8,7 +8,6 @@
 [![Hits-of-Code](https://hitsofcode.com/github/iakunin/codexia-bot)](https://hitsofcode.com/view/github/iakunin/codexia-bot)
 
 
-
 Bots list:
 
 - not-found: `The repo is absent on GitHub`
