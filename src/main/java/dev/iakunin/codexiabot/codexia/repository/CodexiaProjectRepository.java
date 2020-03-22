@@ -7,7 +7,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 public interface CodexiaProjectRepository extends JpaRepository<CodexiaProject, Long> {
+
     boolean existsByExternalId(Integer externalId);
+
+    Optional<CodexiaProject> findByExternalId(Integer externalId);
 
     @Query(
         "select cp from CodexiaProject cp " +
@@ -17,6 +20,4 @@ public interface CodexiaProjectRepository extends JpaRepository<CodexiaProject, 
         "where grs.id is null"
     )
     List<CodexiaProject> findAllWithoutGithubRepo();
-
-    Optional<CodexiaProject> findByExternalId(Integer externalId);
 }

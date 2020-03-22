@@ -27,6 +27,7 @@
 *.csv
 *.rdb
 *.DS_Store
+.attach_pid*
 
 .env
 !/var/.gitkeep

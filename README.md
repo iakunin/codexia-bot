@@ -14,11 +14,12 @@ Bots list:
 - not-found: `The repo is absent on GitHub`
 - too-small: `The repo is too small (LoC is 123)`
 - too-many-stars: `The repo is already too popular (5K star)`
-- stars-up: `The repo gained 120 stars in 7 days`
-- forks-up: `The repo was forked 40 times in 7 days`
 - seen-on-hn: `The repo was seen on Hacker News (link)` 
 - seen-on-reddit: `The repo was seen on Reddit (link)`
 
+- stars-up: `The repo gained 120 stars in 7 days`
+- forks-up: `The repo was forked 40 times in 7 days`
+     5% increase/decrease in both metrics
 
 
 ### Ideas backlog
