@@ -38,6 +38,7 @@ public class CodexiaProjectRepositoryIntegrationTest extends AbstractIntegration
         final CodexiaProject found = repository.findByExternalId(original.getExternalId())
             .orElseThrow(RuntimeException::new);
 
+        assertEquals(original.getUuid().toString(), found.getUuid().toString());
         assertEquals(original.getExternalId(), found.getExternalId());
         assertEquals(original.getCoordinates(), found.getCoordinates());
         assertEquals(original.getAuthor(), found.getAuthor());
