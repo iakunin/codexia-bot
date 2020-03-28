@@ -5,7 +5,7 @@
   },
   "response" : {
     "status" : 200,
-    "bodyFileName": "codexia/projects/page-0.json",
+    "bodyFileName": "codexia/recent/page-0.json",
     "headers" : {
       "Content-Type": "application/json"
     }

@@ -43,7 +43,7 @@ services:
 
     wiremock:
         container_name: codexia-bot-wiremock
-        image: rodolpheche/wiremock:2.26.3
+        image: rodolpheche/wiremock
         volumes:
             - ./var/wiremock:/home/wiremock
         expose:

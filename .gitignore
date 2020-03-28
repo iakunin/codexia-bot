@@ -30,8 +30,6 @@
 .attach_pid*
 
 .env
-!/var/.gitkeep
-/var/*
 
 /.k8s/backend/secret/app.txt
 /.k8s/backend/secret/spring-datasource.txt
