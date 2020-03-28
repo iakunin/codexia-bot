@@ -13,9 +13,7 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,25 +40,25 @@ public class ProjectsHealthCheckUnitTest {
 
     @Test
     public void noActiveProjectsInRepo() {
-        when(repository.findAllActive()).thenReturn(new ListOf<>());
+        Mockito.when(repository.findAllActive()).thenReturn(new ListOf<>());
 
         projectsHealthCheck.run();
 
-        verify(codexiaClient, never()).getProject(null);
-        verify(githubModule, never()).removeAllRepoSources(null);
-        verify(repository, never()).findByExternalId(null);
-        verify(repository, never()).save(null);
+        Mockito.verify(codexiaClient, Mockito.never()).getProject(Mockito.any());
+        Mockito.verify(githubModule, Mockito.never()).removeAllRepoSources(Mockito.any());
+        Mockito.verify(repository, Mockito.never()).findByExternalId(Mockito.any());
+        Mockito.verify(repository, Mockito.never()).save(Mockito.any());
     }
 
     @Test
     public void projectIsNotDeletedInCodexia() {
         final int externalId = faker.random().nextInt(Integer.MAX_VALUE);
-        when(repository.findAllActive()).thenReturn(
+        Mockito.when(repository.findAllActive()).thenReturn(
             new ListOf<>(
                 new CodexiaProject().setExternalId(externalId)
             )
         );
-        when(codexiaClient.getProject(externalId)).thenReturn(
+        Mockito.when(codexiaClient.getProject(externalId)).thenReturn(
             new ResponseEntity<>(
                 new CodexiaClient.Project().setDeleted(null),
                 HttpStatus.OK
@@ -69,22 +67,21 @@ public class ProjectsHealthCheckUnitTest {
 
         projectsHealthCheck.run();
 
-        verify(codexiaClient).getProject(externalId);
-        verify(githubModule, never()).removeAllRepoSources(null);
-        verify(repository, never()).findByExternalId(null);
-        verify(repository, never()).save(null);
+        Mockito.verify(codexiaClient).getProject(externalId);
+        Mockito.verify(githubModule, Mockito.never()).removeAllRepoSources(Mockito.any());
+        Mockito.verify(repository, Mockito.never()).findByExternalId(Mockito.any());
+        Mockito.verify(repository, Mockito.never()).save(Mockito.any());
     }
 
     @Test
     public void projectIsDeletedInCodexia() {
         final int externalId = faker.random().nextInt(Integer.MAX_VALUE);
         final String deleted = faker.regexify("[a-z]{2,10}");
-        when(repository.findAllActive()).thenReturn(
-            new ListOf<>(
-                new CodexiaProject().setExternalId(externalId)
-            )
+        final CodexiaProject codexiaProject = new CodexiaProject().setExternalId(externalId);
+        Mockito.when(repository.findAllActive()).thenReturn(
+            new ListOf<>(codexiaProject)
         );
-        when(codexiaClient.getProject(externalId)).thenReturn(
+        Mockito.when(codexiaClient.getProject(externalId)).thenReturn(
             new ResponseEntity<>(
                 new CodexiaClient.Project()
                     .setId(externalId)
@@ -92,38 +89,35 @@ public class ProjectsHealthCheckUnitTest {
                 HttpStatus.OK
             )
         );
-        when(repository.findByExternalId(externalId)).thenReturn(
-            Optional.of(
-                new CodexiaProject().setExternalId(externalId)
-            )
+        Mockito.when(repository.findByExternalId(externalId)).thenReturn(
+            Optional.of(codexiaProject)
+        );
+        Mockito.when(repository.save(codexiaProject)).thenReturn(
+            codexiaProject.setDeleted(deleted)
         );
 
         projectsHealthCheck.run();
 
-        verify(codexiaClient).getProject(externalId);
-        verify(githubModule).removeAllRepoSources(
+        Mockito.verify(codexiaClient).getProject(externalId);
+        Mockito.verify(githubModule).removeAllRepoSources(
             new GithubModule.DeleteArguments()
                 .setSource(GithubModule.Source.CODEXIA)
                 .setExternalId(String.valueOf(externalId))
         );
-        verify(repository).findByExternalId(externalId);
-        verify(repository).save(
-            new CodexiaProject()
-                .setExternalId(externalId)
-                .setDeleted(deleted)
-        );
+        Mockito.verify(repository).findByExternalId(externalId);
+        Mockito.verify(repository).save(codexiaProject.setDeleted(deleted));
     }
 
     @Test
     public void projectIsDeletedInCodexiaButNotFoundInRepository() {
         final int externalId = faker.random().nextInt(Integer.MAX_VALUE);
         final String deleted = faker.regexify("[a-z]{2,10}");
-        when(repository.findAllActive()).thenReturn(
+        Mockito.when(repository.findAllActive()).thenReturn(
             new ListOf<>(
                 new CodexiaProject().setExternalId(externalId)
             )
         );
-        when(codexiaClient.getProject(externalId)).thenReturn(
+        Mockito.when(codexiaClient.getProject(externalId)).thenReturn(
             new ResponseEntity<>(
                 new CodexiaClient.Project()
                     .setId(externalId)
@@ -131,24 +125,21 @@ public class ProjectsHealthCheckUnitTest {
                 HttpStatus.OK
             )
         );
-        when(repository.findByExternalId(externalId)).thenReturn(Optional.empty());
+        Mockito.when(repository.findByExternalId(externalId)).thenReturn(Optional.empty());
         expectedEx.expect(RuntimeException.class);
         expectedEx.expectMessage(
-            String.format(
-                "Unable to find CodexiaProject by externalId='%s'",
-                externalId
-            )
+            String.format("Unable to find CodexiaProject by externalId='%s'", externalId)
         );
 
         projectsHealthCheck.run();
 
-        verify(codexiaClient).getProject(externalId);
-        verify(githubModule).removeAllRepoSources(
+        Mockito.verify(codexiaClient).getProject(externalId);
+        Mockito.verify(githubModule).removeAllRepoSources(
             new GithubModule.DeleteArguments()
                 .setSource(GithubModule.Source.CODEXIA)
                 .setExternalId(String.valueOf(externalId))
         );
-        verify(repository).findByExternalId(externalId);
-        verify(repository, never()).save(null);
+        Mockito.verify(repository).findByExternalId(externalId);
+        Mockito.verify(repository, Mockito.never()).save(Mockito.any());
     }
 }
