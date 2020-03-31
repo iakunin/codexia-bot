@@ -1,19 +1,18 @@
-package dev.iakunin.codexiabot.container;
+package dev.iakunin.codexiabot.util;
 
 import java.sql.DriverManager;
-import java.sql.SQLException;
 import liquibase.Contexts;
 import liquibase.LabelExpression;
 import liquibase.Liquibase;
 import liquibase.database.DatabaseFactory;
 import liquibase.database.jvm.JdbcConnection;
-import liquibase.exception.LiquibaseException;
 import liquibase.resource.ClassLoaderResourceAccessor;
 import lombok.SneakyThrows;
 
 public final class PostgreSQLContainer extends org.testcontainers.containers.PostgreSQLContainer<PostgreSQLContainer> {
 
     private static final String IMAGE_VERSION = "postgres:11.5";
+
     private static PostgreSQLContainer CONTAINER;
 
     private PostgreSQLContainer() {
@@ -24,6 +23,7 @@ public final class PostgreSQLContainer extends org.testcontainers.containers.Pos
         if (CONTAINER == null) {
             CONTAINER = new PostgreSQLContainer();
             CONTAINER.start();
+            CONTAINER.runMigrations();
             CONTAINER.waitUntilContainerStarted();
         }
 
@@ -31,13 +31,7 @@ public final class PostgreSQLContainer extends org.testcontainers.containers.Pos
     }
 
     @SneakyThrows
-    @Override
-    public void start() {
-        super.start();
-        this.runMigrations();
-    }
-
-    private void runMigrations() throws SQLException, LiquibaseException {
+    private void runMigrations() {
         final Liquibase liquibase = new Liquibase(
             "db/changelog/db.changelog-master.yaml",
             new ClassLoaderResourceAccessor(),

@@ -1,0 +1,7 @@
+codexia_project:
+    -
+        id: 1
+        deleted: "deleted1"
+    -
+        id: 2
+        deleted: "deleted2"
