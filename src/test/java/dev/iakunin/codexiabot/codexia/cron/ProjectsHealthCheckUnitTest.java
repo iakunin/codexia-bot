@@ -7,9 +7,9 @@ import dev.iakunin.codexiabot.codexia.sdk.CodexiaClient;
 import dev.iakunin.codexiabot.github.GithubModule;
 import java.util.Optional;
 import org.cactoos.list.ListOf;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -20,9 +20,6 @@ import org.springframework.http.ResponseEntity;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ProjectsHealthCheckUnitTest {
-
-    @Rule
-    public final ExpectedException expectedEx = ExpectedException.none();
 
     private final Faker faker = new Faker();
 
@@ -126,13 +123,16 @@ public class ProjectsHealthCheckUnitTest {
             )
         );
         Mockito.when(repository.findByExternalId(externalId)).thenReturn(Optional.empty());
-        expectedEx.expect(RuntimeException.class);
-        expectedEx.expectMessage(
-            String.format("Unable to find CodexiaProject by externalId='%s'", externalId)
+
+        final RuntimeException exception = assertThrows(
+            RuntimeException.class,
+            () -> projectsHealthCheck.run()
         );
 
-        projectsHealthCheck.run();
-
+        assertEquals(
+            exception.getMessage(),
+            String.format("Unable to find CodexiaProject by externalId='%s'", externalId)
+        );
         Mockito.verify(codexiaClient).getProject(externalId);
         Mockito.verify(githubModule).removeAllRepoSources(
             new GithubModule.DeleteArguments()
