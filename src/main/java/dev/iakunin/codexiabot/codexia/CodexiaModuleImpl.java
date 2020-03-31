@@ -46,7 +46,7 @@ public final class CodexiaModuleImpl implements CodexiaModule {
         final ResponseEntity<String> response;
         try {
             response = this.codexiaClient.createReview(
-                String.valueOf(savedReview.getCodexiaProject().getExternalId()),
+                savedReview.getCodexiaProject().getExternalId(),
                 savedReview.getText(),
                 savedReview.getUuid().toString()
             );
@@ -77,12 +77,12 @@ public final class CodexiaModuleImpl implements CodexiaModule {
     public void sendMeta(CodexiaProject codexiaProject, String metaKey, String metaValue) {
         try {
             this.codexiaClient.setMeta(
-                String.valueOf(codexiaProject.getExternalId()),
+                codexiaProject.getExternalId(),
                 metaKey,
                 metaValue
             );
         } catch (Exception e) {
-            log.warn("Exception occurred during sending meta to Codexia", e);
+            log.error("Exception occurred during sending meta to Codexia", e);
         }
     }
 

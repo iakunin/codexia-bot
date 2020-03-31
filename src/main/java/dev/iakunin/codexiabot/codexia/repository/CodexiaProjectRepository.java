@@ -20,4 +20,10 @@ public interface CodexiaProjectRepository extends JpaRepository<CodexiaProject, 
         "where grs.id is null"
     )
     List<CodexiaProject> findAllWithoutGithubRepo();
+
+    @Query(
+        "select cp from CodexiaProject cp " +
+        "where cp.deleted is null"
+    )
+    List<CodexiaProject> findAllActive();
 }

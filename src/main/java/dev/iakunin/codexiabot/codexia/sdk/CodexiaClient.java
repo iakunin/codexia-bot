@@ -28,8 +28,16 @@ public interface CodexiaClient {
         value = "/recent.json",
         produces = { "application/json" }
     )
-    ResponseEntity<List<Project>> getItem(
+    ResponseEntity<List<Project>> getRecent(
         @RequestParam("page") Integer page
+    );
+
+    @GetMapping(
+        value = "/p/{projectId}.json",
+        produces = { "application/json" }
+    )
+    ResponseEntity<Project> getProject(
+        @PathVariable("projectId") Integer projectId
     );
 
     @PostMapping(
@@ -37,7 +45,7 @@ public interface CodexiaClient {
         produces = { "application/json" }
     )
     ResponseEntity<String> createReview(
-        @PathVariable("projectId") String projectId,
+        @PathVariable("projectId") Integer projectId,
         @RequestParam("text") String text,
         @RequestParam("hash") String hash
     );
@@ -47,7 +55,7 @@ public interface CodexiaClient {
         produces = { "application/json" }
     )
     ResponseEntity<String> setMeta(
-        @PathVariable("projectId") String projectId,
+        @PathVariable("projectId") Integer projectId,
         @RequestParam("key") String key,
         @RequestParam("value") String value
     );

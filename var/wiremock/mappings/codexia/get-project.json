@@ -1,0 +1,14 @@
+{
+  "request" : {
+    "urlPathPattern": "/codexia/p/\\d+\\.json",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName": "codexia/project.json",
+    "transformers": ["response-template"],
+    "headers" : {
+      "Content-Type": "application/json"
+    }
+  }
+}

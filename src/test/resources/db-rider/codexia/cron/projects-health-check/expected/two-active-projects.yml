@@ -1,0 +1,15 @@
+codexia_project:
+    -
+        id: 1
+        deleted: "deleted by someone"
+    -
+        id: 2
+        deleted: "deleted by someone"
+
+github_repo_source:
+    -
+        id: 1
+        deleted_at: regex:^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{1,6}$
+    -
+        id: 2
+        deleted_at: regex:^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{1,6}$

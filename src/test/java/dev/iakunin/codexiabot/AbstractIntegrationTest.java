@@ -2,12 +2,11 @@ package dev.iakunin.codexiabot;
 
 import com.github.database.rider.spring.api.DBRider;
 import com.github.javafaker.Faker;
-import dev.iakunin.codexiabot.container.PostgreSQLContainer;
+import dev.iakunin.codexiabot.util.PostgreSQLContainer;
 import lombok.extern.slf4j.Slf4j;
 import net.dean.jraw.RedditClient;
-import org.junit.ClassRule;
 import org.kohsuke.github.GitHub;
-import static org.mockito.Mockito.mock;
+import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.context.ApplicationContextInitializer;
@@ -31,20 +30,17 @@ import org.springframework.test.context.TestPropertySource;
 })
 abstract public class AbstractIntegrationTest {
 
-    @ClassRule
-    public static PostgreSQLContainer CONTAINER = PostgreSQLContainer.getInstance();
-
     @Configuration
     @Import(CodexiaBotApplication.class)
     static class TestConfig {
         @Bean
         public RedditClient redditClient() {
-            return mock(RedditClient.class);
+            return Mockito.mock(RedditClient.class);
         }
 
         @Bean
         public GitHub gitHub() {
-            return mock(GitHub.class);
+            return Mockito.mock(GitHub.class);
         }
 
         @Bean
@@ -56,13 +52,13 @@ abstract public class AbstractIntegrationTest {
     static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
         public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
             TestPropertyValues.of(
-                "app.database.host=" + AbstractIntegrationTest.CONTAINER.getContainerIpAddress(),
-                "app.database.port=" + AbstractIntegrationTest.CONTAINER.getMappedPort(
+                "app.database.host=" + PostgreSQLContainer.getInstance().getContainerIpAddress(),
+                "app.database.port=" + PostgreSQLContainer.getInstance().getMappedPort(
                     PostgreSQLContainer.POSTGRESQL_PORT
                 ),
-                "app.database.name=" + AbstractIntegrationTest.CONTAINER.getDatabaseName(),
-                "spring.datasource.username=" + AbstractIntegrationTest.CONTAINER.getUsername(),
-                "spring.datasource.password=" + AbstractIntegrationTest.CONTAINER.getPassword()
+                "app.database.name=" + PostgreSQLContainer.getInstance().getDatabaseName(),
+                "spring.datasource.username=" + PostgreSQLContainer.getInstance().getUsername(),
+                "spring.datasource.password=" + PostgreSQLContainer.getInstance().getPassword()
             ).applyTo(configurableApplicationContext.getEnvironment());
         }
     }

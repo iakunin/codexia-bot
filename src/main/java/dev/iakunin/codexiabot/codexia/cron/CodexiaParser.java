@@ -63,7 +63,7 @@ public final class CodexiaParser {
         List<CodexiaClient.Project> projectList;
 
         do {
-            projectList = this.codexiaClient.getItem(page).getBody();
+            projectList = this.codexiaClient.getRecent(page).getBody();
             Objects.requireNonNull(projectList);
 
             projectList.stream()
