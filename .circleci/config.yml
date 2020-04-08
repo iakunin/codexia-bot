@@ -62,6 +62,7 @@ jobs:
             -   run:
                     name: creating-a-sentry-release
                     command: |
+                        cd /tmp/workspace
                         curl -sL https://sentry.io/get-cli/ | bash
                         export SENTRY_RELEASE=$CIRCLE_TAG
                         export SENTRY_ORG=iakunin
