@@ -18,9 +18,9 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor(onConstructor_={@Autowired})
 public final class LinesOfCode {
 
-    private GithubRepoRepository githubRepoRepository;
-    private GithubRepoStatRepository githubRepoStatRepository;
-    private CodetabsClient codetabsClient;
+    private final GithubRepoRepository githubRepoRepository;
+    private final GithubRepoStatRepository githubRepoStatRepository;
+    private final CodetabsClient codetabsClient;
 
     @Scheduled(cron="${app.cron.github.stat.lines-of-code:-}")
     public void run() {
