@@ -54,6 +54,7 @@ dependencies {
     implementation 'org.kohsuke:github-api:1.106'
     implementation 'net.dean.jraw:JRAW:1.1.0'
 
+    implementation 'io.sentry:sentry-spring:1.7.30'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'

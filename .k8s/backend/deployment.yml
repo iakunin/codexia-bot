@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: eu.gcr.io/codexia-bot/backend:0.0.24
+          image: eu.gcr.io/codexia-bot/backend:0.0.70
           imagePullPolicy: IfNotPresent
           env:
             - name: SPRING_PROFILES_ACTIVE
@@ -60,6 +60,11 @@ spec:
                 secretKeyRef:
                   name: app
                   key: reddit.client-secret
+            - name: SENTRY_DSN
+              valueFrom:
+                secretKeyRef:
+                  name: app
+                  key: sentry.dsn
           ports:
             - containerPort: 8080
           readinessProbe:

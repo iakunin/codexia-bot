@@ -2,10 +2,10 @@ apply-backend:
 	kubectl apply -f 01-namespace.yml && \
 	kubectl create secret generic spring-datasource \
 	--from-env-file backend/secret/spring-datasource.txt \
-	--namespace=codexia-bot --dry-run -o yaml | kubectl apply -f - --namespace=codexia-bot
+	--namespace=codexia-bot --dry-run=client -o yaml | kubectl apply -f - --namespace=codexia-bot
 	kubectl create secret generic app \
 	--from-env-file backend/secret/app.txt \
-	--namespace=codexia-bot --dry-run -o yaml | kubectl apply -f - --namespace=codexia-bot && \
+	--namespace=codexia-bot --dry-run=client -o yaml | kubectl apply -f - --namespace=codexia-bot && \
 	kubectl apply -f backend/
 
 delete-backend:
