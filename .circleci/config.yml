@@ -39,7 +39,7 @@ jobs:
             -   persist_to_workspace:
                     root: .
                     paths:
-                        - build/*
+                        - ./*
     build-and-push-image:
         description: Build and push image to Google Container Registry
         machine: true
