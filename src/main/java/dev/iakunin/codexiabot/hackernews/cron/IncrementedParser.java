@@ -1,57 +1,23 @@
 package dev.iakunin.codexiabot.hackernews.cron;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.iakunin.codexiabot.hackernews.entity.HackernewsItem;
-import dev.iakunin.codexiabot.hackernews.repository.jpa.HackernewsItemRepository;
+import dev.iakunin.codexiabot.hackernews.repository.HackernewsItemRepository;
 import dev.iakunin.codexiabot.hackernews.sdk.HackernewsClient;
+import dev.iakunin.codexiabot.hackernews.service.Writer;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.kafka.clients.producer.ProducerConfig;
-import org.apache.kafka.clients.producer.ProducerRecord;
-import org.apache.kafka.common.serialization.IntegerSerializer;
-import org.apache.kafka.common.serialization.StringSerializer;
-import org.cactoos.map.MapEntry;
-import org.cactoos.map.MapOf;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import reactor.core.publisher.Mono;
-import reactor.kafka.sender.KafkaSender;
-import reactor.kafka.sender.SenderOptions;
-import reactor.kafka.sender.SenderRecord;
 
 @Component
 @Slf4j
+@AllArgsConstructor(onConstructor_={@Autowired})
 public final class IncrementedParser {
-
-    private static final String TOPIC = "hackernews_item";
 
     private final HackernewsItemRepository hackernewsItemRepository;
     private final HackernewsClient hackernewsClient;
-    private final ObjectMapper objectMapper;
-    private final KafkaSender<Integer, String> sender;
-
-    public IncrementedParser(
-        HackernewsItemRepository hackernewsItemRepository,
-        HackernewsClient hackernewsClient,
-        ObjectMapper objectMapper,
-        @Value("${app.kafka.bootstrap-servers}") String kafkaBootstrapServers
-    ) {
-        this.hackernewsItemRepository = hackernewsItemRepository;
-        this.hackernewsClient = hackernewsClient;
-        this.objectMapper = objectMapper;
-        this.sender = KafkaSender.create(
-            SenderOptions.create(
-                new MapOf<>(
-                    new MapEntry<>(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaBootstrapServers),
-                    new MapEntry<>(ProducerConfig.CLIENT_ID_CONFIG, "hackernews-item-producer"),
-                    new MapEntry<>(ProducerConfig.ACKS_CONFIG, "all"),
-                    new MapEntry<>(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, IntegerSerializer.class),
-                    new MapEntry<>(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class)
-                )
-            )
-        );
-    }
+    private final Writer writer;
 
     @Scheduled(cron="${app.cron.hackernews.incremented-parser:-}")
     public void run() {
@@ -69,18 +35,7 @@ public final class IncrementedParser {
                     continue;
                 }
 
-                log.info("Successfully got item with externalId='{}'; trying to publish to kafka; {}", currentExternalId, item);
-                final HackernewsItem hackernewsItem = HackernewsItem.Factory.from(item);
-                this.sender.send(
-                    Mono.just(
-                        SenderRecord.create(
-                            new ProducerRecord<>(TOPIC, hackernewsItem.getExternalId(), this.toBinary(hackernewsItem)),
-                            hackernewsItem.getExternalId()
-                        )
-                    )
-                ).next().block();
-
-                log.info("Item with externalId='{}' successfully published to kafka ", currentExternalId);
+                this.writer.write(HackernewsItem.Factory.from(item));
             } catch (Exception e) {
                 log.error("Exception occurred during getting hackernews item '{}'", currentExternalId, e);
                 errorsCount++;
@@ -88,13 +43,5 @@ public final class IncrementedParser {
         }
 
         log.info("Exiting from {}", this.getClass().getName());
-    }
-
-    private String toBinary(Object object) {
-        try {
-            return this.objectMapper.writeValueAsString(object);
-        } catch (JsonProcessingException e) {
-            throw new IllegalArgumentException(e);
-        }
     }
 }

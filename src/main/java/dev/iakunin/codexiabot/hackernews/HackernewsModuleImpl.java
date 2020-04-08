@@ -2,7 +2,7 @@ package dev.iakunin.codexiabot.hackernews;
 
 import dev.iakunin.codexiabot.github.GithubModule;
 import dev.iakunin.codexiabot.hackernews.entity.HackernewsItem;
-import dev.iakunin.codexiabot.hackernews.repository.jpa.HackernewsItemRepository;
+import dev.iakunin.codexiabot.hackernews.repository.HackernewsItemRepository;
 import dev.iakunin.codexiabot.hackernews.sdk.HackernewsClient;
 import java.util.Objects;
 import java.util.stream.Stream;

@@ -31,11 +31,6 @@
       "description": "Base url of Codexia."
     },
     {
-      "name": "app.kafka.bootstrap-servers",
-      "type": "java.lang.String",
-      "description": "Kafka `bootstrap.servers` config property."
-    },
-    {
       "name": "app.cron.bot.found-on-hackernews",
       "type": "java.lang.String",
       "description": "Cron expression for bot.found-on-hackernews."
