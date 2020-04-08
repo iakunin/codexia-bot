@@ -8,11 +8,11 @@ build-jar:
 	bash bin/gradle_in_docker.sh clean -Pversion=$(VERSION) build
 
 sentry-create-release:
-	sentry-cli releases new -p $SENTRY_PROJECT $VERSION && \
-	sentry-cli releases set-commits $VERSION --auto
+	sentry-cli releases new -p $(SENTRY_PROJECT) $(VERSION) && \
+	sentry-cli releases set-commits $(VERSION) --auto
 
 sentry-finalize-release:
-	sentry-cli releases finalize $VERSION
+	sentry-cli releases finalize $(VERSION)
 
 docker-build-and-push-image:
 	docker build -t eu.gcr.io/codexia-bot/backend:$(VERSION) . && \
@@ -24,7 +24,7 @@ k8s-set-image:
 	--namespace=codexia-bot
 
 sentry-deploy-release:
-	sentry-cli releases deploys $SENTRY_RELEASE new -e Production
+	sentry-cli releases deploys $(VERSION) new -e Production
 
 deploy: sentry-create-release build-jar sentry-finalize-release docker-build-and-push-image k8s-set-image sentry-deploy-release
 
