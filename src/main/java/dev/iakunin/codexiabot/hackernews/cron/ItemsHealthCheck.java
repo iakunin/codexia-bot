@@ -1,6 +1,7 @@
 package dev.iakunin.codexiabot.hackernews.cron;
 
 import dev.iakunin.codexiabot.github.GithubModule;
+import dev.iakunin.codexiabot.github.GithubModule.Source;
 import dev.iakunin.codexiabot.github.entity.GithubRepoSource;
 import dev.iakunin.codexiabot.hackernews.HackernewsModule;
 import java.util.stream.Stream;
@@ -24,9 +25,9 @@ public class ItemsHealthCheck {
     public void run() {
         log.info("Running {}", this.getClass().getName());
 
-        try (Stream<GithubRepoSource> allRepoSources = this.githubModule.findAllRepoSources(GithubModule.Source.HACKERNEWS)) {
+        try (Stream<GithubRepoSource> sources = this.githubModule.findAllRepoSources(Source.HACKERNEWS)) {
             this.hackernewsModule.healthCheckItems(
-                allRepoSources.parallel()
+                sources.parallel()
                     .map(GithubRepoSource::getExternalId)
                     .map(Integer::valueOf)
             );
