@@ -59,6 +59,16 @@ jobs:
                     image: backend
                     registry-url: eu.gcr.io
                     tag: $CIRCLE_TAG
+            -   run:
+                    name: creating-a-sentry-release
+                    command: |
+                        curl -sL https://sentry.io/get-cli/ | bash
+                        export SENTRY_RELEASE=$CIRCLE_TAG
+                        export SENTRY_ORG=iakunin
+                        export SENTRY_PROJECT=codexia-bot
+                        sentry-cli releases new -p $SENTRY_PROJECT $SENTRY_RELEASE
+                        sentry-cli releases set-commits --auto $SENTRY_RELEASE
+                        sentry-cli releases finalize $SENTRY_RELEASE
     rollout-image:
         description: Deploy application to Google Kubernetes Engine
         machine: true
@@ -75,15 +85,11 @@ jobs:
                     namespace: codexia-bot
                     tag: $CIRCLE_TAG
             -   run:
-                    name: creating-a-sentry-release
+                    name: deploying-a-sentry-release
                     command: |
                         curl -sL https://sentry.io/get-cli/ | bash
                         export SENTRY_RELEASE=$CIRCLE_TAG
-                        export SENTRY_ORG=iakunin
-                        export SENTRY_PROJECT=codexia-bot
-                        sentry-cli releases new -p $SENTRY_PROJECT $SENTRY_RELEASE
-                        sentry-cli releases set-commits --auto $SENTRY_RELEASE
-                        sentry-cli releases finalize $SENTRY_RELEASE
+                        sentry-cli releases deploys $SENTRY_RELEASE new -e Production
 workflows:
     main:
         jobs:
