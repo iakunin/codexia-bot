@@ -11,7 +11,7 @@
 
     </springProfile>
 
-    <springProfile name="prod, stage">
+    <springProfile name="prod">
         <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
             <encoder class="de.siegmar.logbackgelf.GelfEncoder">
                 <originHost>localhost</originHost>
@@ -40,12 +40,15 @@
                 <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
             </encoder>
         </appender>
+
+        <root level="info">
+            <appender-ref ref="SENTRY" />
+        </root>
     </springProfile>
 
-    <springProfile name="prod, dev, stage">
+    <springProfile name="prod, dev">
         <root level="info">
             <appender-ref ref="STDOUT" />
-            <appender-ref ref="SENTRY" />
         </root>
 
         <logger name="feign.Logger" additivity="false" level="debug">
