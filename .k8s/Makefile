@@ -1,3 +1,6 @@
+include ../.env
+export $(shell sed 's/=.*//' ../.env)
+
 apply-backend:
 	kubectl apply -f 01-namespace.yml && \
 	kubectl create secret generic spring-datasource \
@@ -13,3 +16,12 @@ delete-backend:
 	kubectl delete secret spring-datasource --namespace=codexia-bot && \
 	kubectl delete secret app --namespace=codexia-bot && \
 	kubectl delete -f 01-namespace.yml
+
+install-datadog:
+	helm install datadog -f datadog/values.yaml  --set datadog.apiKey=$(DATADOG_API_KEY) stable/datadog
+
+upgrade-datadog:
+	helm upgrade datadog -f datadog/values.yaml  --set datadog.apiKey=$(DATADOG_API_KEY) stable/datadog
+
+delete-datadog:
+	helm uninstall datadog
