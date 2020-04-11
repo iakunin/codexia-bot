@@ -51,7 +51,11 @@ public final class CodexiaModuleImpl implements CodexiaModule {
                 savedReview.getUuid().toString()
             );
         } catch (FeignException e) {
-            log.warn("Exception occurred during review creation in Codexia", e);
+            log.warn(
+                "Exception occurred during review creation in Codexia; externalId='{}'",
+                review.getCodexiaProject().getExternalId(),
+                e
+            );
             this.codexiaReviewNotificationRepository.save(
                 savedNotification
                     .setStatus(
@@ -82,7 +86,11 @@ public final class CodexiaModuleImpl implements CodexiaModule {
                 metaValue
             );
         } catch (Exception e) {
-            log.error("Exception occurred during sending meta to Codexia", e);
+            log.warn(
+                "Exception occurred during sending meta to Codexia; externalId='{}'",
+                codexiaProject.getExternalId(),
+                e
+            );
         }
     }
 
