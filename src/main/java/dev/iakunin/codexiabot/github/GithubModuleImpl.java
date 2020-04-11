@@ -37,6 +37,16 @@ public final class GithubModuleImpl implements GithubModule {
         this.saveRepoSource(arguments, githubRepo);
     }
 
+    public void updateStat(GithubRepo githubRepo) throws IOException {
+        log.info("--- Begin calling GitHub SDK");
+        final GHRepository repository = this.github.getRepository(githubRepo.getFullName());
+        log.info("--- End calling GitHub SDK");
+
+        this.githubRepoStatRepository.save(
+            GithubRepoStat.Factory.from(repository).setGithubRepo(githubRepo)
+        );
+    }
+
     @Override
     public void removeAllRepoSources(DeleteArguments arguments) {
         log.info("Removing all repo sources for {}", arguments);

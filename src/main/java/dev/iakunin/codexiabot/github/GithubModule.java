@@ -11,6 +11,8 @@ public interface GithubModule {
 
     void createRepo(CreateArguments arguments) throws IOException;
 
+    void updateStat(GithubRepo githubRepo) throws IOException;
+
     void removeAllRepoSources(DeleteArguments arguments);
 
     //@TODO: rewrite in much common way: `List<GithubRepo> findAllExistsInAllSources(Set<Source> sources)`

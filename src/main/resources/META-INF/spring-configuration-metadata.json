@@ -66,6 +66,11 @@
       "description": "Cron expression for github.stat.lines-of-code."
     },
     {
+      "name": "app.cron.github.stat.github",
+      "type": "java.lang.String",
+      "description": "Cron expression for github.stat.github."
+    },
+    {
       "name": "app.cron.hackernews.gaps-filler",
       "type": "java.lang.String",
       "description": "Cron expression for hackernews.gaps-filler."
