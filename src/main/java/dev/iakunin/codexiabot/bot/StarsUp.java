@@ -3,8 +3,10 @@ package dev.iakunin.codexiabot.bot;
 import dev.iakunin.codexiabot.bot.entity.StarsUpResult;
 import dev.iakunin.codexiabot.bot.repository.StarsUpResultRepository;
 import dev.iakunin.codexiabot.codexia.CodexiaModule;
+import dev.iakunin.codexiabot.codexia.entity.CodexiaProject;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaReview;
 import dev.iakunin.codexiabot.github.GithubModule;
+import dev.iakunin.codexiabot.github.entity.GithubRepo;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat.GithubApi;
 import java.time.ZoneOffset;
@@ -39,21 +41,13 @@ public class StarsUp {
         this.githubModule.findAllInCodexia()
             .stream()
             .map(
-                repo -> Pair.with(
-                    repo,
-                    this.starsUpResultRepository.findFirstByGithubRepoOrderByIdDesc(repo)
-                )
+                repo -> Pair.with(repo, this.getLastProcessedStatId(repo))
             )
             .map(
-                pair -> Pair.with(
+                pair -> this.githubModule.findAllGithubApiStat(
                     pair.getValue0(),
-                    pair.getValue1().map(
-                        result -> result.getGithubRepoStat().getId()
-                    ).orElse(0L)
+                    pair.getValue1()
                 )
-            )
-            .map(
-                pair -> this.githubModule.findAllGithubApiStat(pair.getValue0(), pair.getValue1())
             )
             .filter(statList -> statList.size() >= 2)
             .filter(
@@ -62,55 +56,29 @@ public class StarsUp {
                     (GithubApi) statList.getLast().getStat()
                 )
             )
-            .forEach(this::processStatList)
-        ;
+            .forEach(this::processStatList);
 
         log.info("Exiting from {}", this.getClass().getName());
+    }
+
+    private Long getLastProcessedStatId(GithubRepo repo) {
+        return this.starsUpResultRepository
+            .findFirstByGithubRepoOrderByIdDesc(repo)
+            .map(
+                starsUpResult -> starsUpResult.getGithubRepoStat().getId()
+            )
+            .orElse(0L);
     }
 
     // @todo #6 add test case with transaction rollback
     @Transactional
     protected void processStatList(Deque<GithubRepoStat> deque) {
-        final GithubRepoStat first = deque.getFirst();
-        final GithubRepoStat last = deque.getLast();
-        final GithubApi firstStat = (GithubApi) first.getStat();
-        final GithubApi lastStat = (GithubApi) last.getStat();
-
-        final CodexiaReview review = new CodexiaReview()
-            .setText(
-                String.format(
-                    "The repo gained %d stars since %s " +
-                    "(was: %d stars, now: %d stars). " +
-                    "See the stars history [here](https://star-history.t9t.io/#%s).",
-                    lastStat.getStars() - firstStat.getStars(),
-                    ZonedDateTime.of(
-                        first.getCreatedAt(),
-                        ZoneOffset.UTC
-                    ).toString(),
-                    firstStat.getStars(),
-                    lastStat.getStars(),
-                    first.getGithubRepo().getFullName()
-                )
-            )
-            .setAuthor(BOT_TYPE.name())
-            .setReason(String.valueOf(lastStat.getStars()))
-            .setCodexiaProject(
-                this.codexiaModule
-                    .findCodexiaProject(last.getGithubRepo())
-                    .orElseThrow(
-                        () -> new RuntimeException(
-                            String.format(
-                                "Unable to find CodexiaProject for githubRepoId='%s'",
-                                last.getGithubRepo().getId()
-                            )
-                        )
-                    )
-            );
+        final CodexiaReview review = this.createReview(deque.getFirst(), deque.getLast());
 
         this.starsUpResultRepository.save(
             new StarsUpResult()
-                .setGithubRepo(last.getGithubRepo())
-                .setGithubRepoStat(last)
+                .setGithubRepo(deque.getLast().getGithubRepo())
+                .setGithubRepoStat(deque.getLast())
         );
         this.codexiaModule.sendReview(review);
         this.codexiaModule.sendMeta(
@@ -124,35 +92,47 @@ public class StarsUp {
         );
     }
 
-    private boolean shouldReviewBeSubmitted(GithubApi firstStat, GithubApi lastStat) {
-        final int increase = lastStat.getStars() - firstStat.getStars();
+    private CodexiaReview createReview(GithubRepoStat first, GithubRepoStat last) {
+        final GithubApi firstStat = (GithubApi) first.getStat();
+        final GithubApi lastStat = (GithubApi) last.getStat();
+
+        return new CodexiaReview()
+            .setText(
+                String.format(
+                    "The repo gained %d stars since %s (was: %d stars, now: %d stars). " +
+                    "See the stars history [here](https://star-history.t9t.io/#%s).",
+                    lastStat.getStars() - firstStat.getStars(),
+                    ZonedDateTime.of(first.getCreatedAt(), ZoneOffset.UTC).toString(),
+                    firstStat.getStars(),
+                    lastStat.getStars(),
+                    first.getGithubRepo().getFullName()
+                )
+            )
+            .setAuthor(BOT_TYPE.name())
+            .setReason(String.valueOf(lastStat.getStars()))
+            .setCodexiaProject(this.getCodexiaProject(last));
+    }
+
+    private CodexiaProject getCodexiaProject(GithubRepoStat last) {
+        return this.codexiaModule
+            .findCodexiaProject(last.getGithubRepo())
+            .orElseThrow(
+                () -> new RuntimeException(
+                    String.format(
+                        "Unable to find CodexiaProject for githubRepoId='%s'",
+                        last.getGithubRepo().getId()
+                    )
+                )
+            );
+    }
+
+    private boolean shouldReviewBeSubmitted(GithubApi first, GithubApi last) {
+        final int increase = last.getStars() - first.getStars();
 
         if (increase < 10) {
-            log.info(
-                "Increase is smaller than 10; increase={}; firstStat={}; lastStat={};",
-                increase,
-                firstStat,
-                lastStat
-            );
             return false;
         }
 
-        if (increase >= (firstStat.getStars() * 0.05)) {
-            log.info(
-                "Review should be submitted; increase={}; firstStat={}; lastStat={};",
-                increase,
-                firstStat,
-                lastStat
-            );
-            return true;
-        }
-
-        log.info(
-            "Review should not be submitted; increase={}; firstStat={}; lastStat={};",
-            increase,
-            firstStat,
-            lastStat
-        );
-        return false;
+        return increase >= (first.getStars() * 0.05);
     }
 }
