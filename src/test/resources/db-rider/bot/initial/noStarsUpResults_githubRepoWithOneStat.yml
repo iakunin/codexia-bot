@@ -20,4 +20,4 @@ github_repo_stat:
         github_repo_id: 1
         type: "GITHUB_API"
 
-stars_up_result:
+stars_up_result: []

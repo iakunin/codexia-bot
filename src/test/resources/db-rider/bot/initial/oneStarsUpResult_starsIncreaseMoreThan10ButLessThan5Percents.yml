@@ -5,6 +5,17 @@ github_repo:
         external_id: "150713223"
         full_name: "test-project1/test-repo1"
 
+codexia_project:
+    -
+        id: 5
+        uuid: "groovy: UUID.randomUUID().toString()"
+        external_id: 12
+        coordinates: "test-project1/test-repo1"
+        author: "some-first-author"
+        author_id: 44
+        deleted: null
+        project_created_at: "2019-12-20 12:01:02"
+
 github_repo_source:
     -
         id: 1
@@ -20,17 +31,26 @@ github_repo_stat:
         github_repo_id: 1
         type: "GITHUB_API"
         stat: '{"type": "GITHUB_API", "stars": 402}'
-    -
-        id: 2
-        uuid: "groovy: UUID.randomUUID().toString()"
-        github_repo_id: 1
-        type: "GITHUB_API"
-        stat: '{"type": "GITHUB_API", "stars": 412}'
+        created_at: "2020-02-11 10:06:16.123456"
     -
         id: 3
         uuid: "groovy: UUID.randomUUID().toString()"
         github_repo_id: 1
         type: "GITHUB_API"
-        stat: '{"type": "GITHUB_API", "stars": 414}'
+        stat: '{"type": "GITHUB_API", "stars": 459}'
+        created_at: "2020-02-16 18:46:09.652645"
+    -
+        id: 4
+        uuid: "groovy: UUID.randomUUID().toString()"
+        github_repo_id: 1
+        type: "GITHUB_API"
+        stat: '{"type": "GITHUB_API", "stars": 481}'
+        created_at: "2020-02-17 11:23:03.112312"
 
-stars_up_result: []
+stars_up_result:
+    -
+        uuid: "groovy: UUID.randomUUID().toString()"
+        github_repo_id: 1
+        github_repo_stat_id: 3
+
+codexia_review: []

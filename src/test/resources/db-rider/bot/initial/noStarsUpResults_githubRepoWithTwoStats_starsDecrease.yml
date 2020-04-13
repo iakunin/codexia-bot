@@ -27,4 +27,4 @@ github_repo_stat:
         type: "GITHUB_API"
         stat: '{"type": "GITHUB_API", "stars": 99}'
 
-stars_up_result:
+stars_up_result: []

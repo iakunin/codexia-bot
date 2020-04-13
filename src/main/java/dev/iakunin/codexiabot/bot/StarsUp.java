@@ -65,17 +65,10 @@ public class StarsUp {
             .forEach(this::processStatList)
         ;
 
-
-        // Тест-кейсы с двумя последовательными запусками с изменениями состояния бота (бот сработал)
-        // Тест-кейсы с двумя последовательными запусками с изменениями состояния github-статистики
-        //    (бот может как сработать, так и нет)
-
-
-        // - Remote-call exception with transaction rollback
-
         log.info("Exiting from {}", this.getClass().getName());
     }
 
+    // @todo #6 add test case with transaction rollback
     @Transactional
     protected void processStatList(Deque<GithubRepoStat> deque) {
         final GithubRepoStat first = deque.getFirst();
@@ -114,6 +107,11 @@ public class StarsUp {
                     )
             );
 
+        this.starsUpResultRepository.save(
+            new StarsUpResult()
+                .setGithubRepo(last.getGithubRepo())
+                .setGithubRepoStat(last)
+        );
         this.codexiaModule.sendReview(review);
         this.codexiaModule.sendMeta(
             review.getCodexiaProject(),
@@ -123,11 +121,6 @@ public class StarsUp {
                 .stream()
                 .map(CodexiaReview::getReason)
                 .collect(Collectors.joining(","))
-        );
-        this.starsUpResultRepository.save(
-            new StarsUpResult()
-                .setGithubRepo(last.getGithubRepo())
-                .setGithubRepoStat(last)
         );
     }
 
