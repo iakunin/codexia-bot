@@ -9,5 +9,5 @@ public interface CodexiaReviewRepository extends JpaRepository<CodexiaReview, Lo
 
     boolean existsByCodexiaProjectAndAuthorAndReason(CodexiaProject codexiaProject, String author, String reason);
 
-    List<CodexiaReview> findAllByCodexiaProjectAndAuthor(CodexiaProject codexiaProject, String author);
+    List<CodexiaReview> findAllByCodexiaProjectAndAuthorOrderByIdAsc(CodexiaProject codexiaProject, String author);
 }

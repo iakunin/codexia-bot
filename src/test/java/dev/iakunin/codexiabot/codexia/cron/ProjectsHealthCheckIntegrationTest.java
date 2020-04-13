@@ -22,25 +22,25 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProjectsHealthCheckIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
-    ProjectsHealthCheck projectsHealthCheck;
+    private ProjectsHealthCheck projectsHealthCheck;
 
     @Test
     @Transactional
     @DataSet(
-        value = "db-rider/codexia/cron/projects-health-check/initial/two-deleted-projects.yml",
+        value = "db-rider/codexia/cron/projects-health-check/initial/noActiveProjectsInRepo.yml",
         cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/codexia/cron/projects-health-check/expected/two-deleted-projects.yml")
+    @ExpectedDataSet("db-rider/codexia/cron/projects-health-check/expected/noActiveProjectsInRepo.yml")
     public void noActiveProjectsInRepo() {
         projectsHealthCheck.run();
     }
 
     @Test
     @DataSet(
-        value = "db-rider/codexia/cron/projects-health-check/initial/two-active-projects.yml",
+        value = "db-rider/codexia/cron/projects-health-check/initial/twoActiveProjectsInRepoButDeletedInCodexia.yml",
         cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/codexia/cron/projects-health-check/expected/two-active-projects.yml")
+    @ExpectedDataSet("db-rider/codexia/cron/projects-health-check/expected/twoActiveProjectsInRepoButDeletedInCodexia.yml")
     public void twoActiveProjectsInRepoButDeletedInCodexia() {
         WireMockServer.getInstance().stubFor(
             get(urlPathMatching("/p/\\d+\\.json"))
@@ -49,6 +49,7 @@ public class ProjectsHealthCheckIntegrationTest extends AbstractIntegrationTest 
                     .withBody(
                         new Joined(
                             "\n",
+                            // @todo #6 extract to json-file
                             "{",
                             "    \"id\": {{ replace request.requestLine.pathSegments.[1] '.json' '' }},",
                             "    \"coordinates\": \"test-project/test-repo\",",

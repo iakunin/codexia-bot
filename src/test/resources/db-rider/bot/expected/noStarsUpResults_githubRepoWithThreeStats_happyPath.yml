@@ -1,0 +1,15 @@
+stars_up_result:
+    -
+        github_repo_id: 1
+        github_repo_stat_id: 4
+
+codexia_review:
+    -
+        codexia_project_id: 6
+        author: "STARS_UP"
+        reason: "473"
+        text: >-
+            The repo gained 71 stars since 2020-02-09T11:07:16.654321Z
+            (was: 402 stars, now: 473 stars).
+            See the stars history
+            [here](https://star-history.t9t.io/#test-project1/test-repo1).

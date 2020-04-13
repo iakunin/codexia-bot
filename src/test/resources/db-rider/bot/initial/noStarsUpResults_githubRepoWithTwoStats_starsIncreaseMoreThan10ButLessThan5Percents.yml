@@ -1,0 +1,30 @@
+github_repo:
+    -
+        id: 1
+        uuid: "groovy: UUID.randomUUID().toString()"
+        external_id: "150713223"
+        full_name: "test-project1/test-repo1"
+
+github_repo_source:
+    -
+        id: 1
+        uuid: "groovy: UUID.randomUUID().toString()"
+        github_repo_id: 1
+        source: "CODEXIA"
+        external_id: "12"
+
+github_repo_stat:
+    -
+        id: 1
+        uuid: "groovy: UUID.randomUUID().toString()"
+        github_repo_id: 1
+        type: "GITHUB_API"
+        stat: '{"type": "GITHUB_API", "stars": 402}'
+    -
+        id: 3
+        uuid: "groovy: UUID.randomUUID().toString()"
+        github_repo_id: 1
+        type: "GITHUB_API"
+        stat: '{"type": "GITHUB_API", "stars": 414}'
+
+stars_up_result: []

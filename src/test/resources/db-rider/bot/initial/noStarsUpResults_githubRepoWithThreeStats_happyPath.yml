@@ -1,0 +1,52 @@
+github_repo:
+    -
+        id: 1
+        uuid: "groovy: UUID.randomUUID().toString()"
+        external_id: "150713223"
+        full_name: "test-project1/test-repo1"
+
+codexia_project:
+    -
+        id: 6
+        uuid: "groovy: UUID.randomUUID().toString()"
+        external_id: 44
+        coordinates: "test-project1/test-repo1"
+        author: "some-first-author"
+        author_id: 44
+        deleted: null
+        project_created_at: "2019-12-20 12:01:02"
+
+github_repo_source:
+    -
+        id: 1
+        uuid: "groovy: UUID.randomUUID().toString()"
+        github_repo_id: 1
+        source: "CODEXIA"
+        external_id: "44"
+
+github_repo_stat:
+    -
+        id: 1
+        uuid: "groovy: UUID.randomUUID().toString()"
+        github_repo_id: 1
+        type: "GITHUB_API"
+        stat: '{"type": "GITHUB_API", "stars": 402}'
+        created_at: "2020-02-09 11:07:16.654321"
+    -
+        id: 2
+        uuid: "groovy: UUID.randomUUID().toString()"
+        github_repo_id: 1
+        type: "GITHUB_API"
+        stat: '{"type": "GITHUB_API", "stars": 459}'
+        created_at: "2020-02-12 21:08:55.112233"
+    -
+        id: 4
+        uuid: "groovy: UUID.randomUUID().toString()"
+        github_repo_id: 1
+        type: "GITHUB_API"
+        stat: '{"type": "GITHUB_API", "stars": 473}'
+        created_at: "2020-02-16 18:46:09.652645"
+
+stars_up_result: []
+
+codexia_review: []

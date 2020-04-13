@@ -20,6 +20,11 @@ Bots list:
 - stars-up: `The repo gained 120 stars in 7 days`
 - forks-up: `The repo was forked 40 times in 7 days`
      5% increase/decrease in both metrics
+     If the difference is smaller than 10 stars, the bot stays quiet.
+     From 0 to 200 stars bot will be sending 1 review per 10 stars increase.
+     From 200 to 220 stars bot will be sending 1 review per 11 stars increase.
+     From 220 to 240 stars bot will be sending 1 review per 12 stars increase.
+     And so on.
 
 
 ### Ideas backlog

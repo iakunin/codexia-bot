@@ -70,7 +70,9 @@ public interface CodexiaClient {
         private Integer authorId;
         private String deleted;
 
+        // @todo #6 write tests for different timezones
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss Z")
+        // @todo #6 replace `Date` with `ZonedDateTime`
         private Date created;
     }
 }

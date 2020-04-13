@@ -7,6 +7,8 @@ import dev.iakunin.codexiabot.codexia.repository.CodexiaProjectRepository;
 import dev.iakunin.codexiabot.codexia.repository.CodexiaReviewNotificationRepository;
 import dev.iakunin.codexiabot.codexia.repository.CodexiaReviewRepository;
 import dev.iakunin.codexiabot.codexia.sdk.CodexiaClient;
+import dev.iakunin.codexiabot.github.GithubModule;
+import dev.iakunin.codexiabot.github.entity.GithubRepo;
 import feign.FeignException;
 import java.util.List;
 import java.util.Optional;
@@ -30,6 +32,8 @@ public final class CodexiaModuleImpl implements CodexiaModule {
     private final CodexiaReviewNotificationRepository codexiaReviewNotificationRepository;
 
     private final CodexiaClient codexiaClient;
+
+    private final GithubModule githubModule;
 
     @Override
     public void sendReview(CodexiaReview review) {
@@ -64,7 +68,7 @@ public final class CodexiaModuleImpl implements CodexiaModule {
                             : CodexiaReviewNotification.Status.ERROR
                     )
                     .setResponseCode(e.status())
-                    .setResponse(e.contentUTF8())
+                    .setResponse(e.content() != null ? e.contentUTF8() : "")
             );
             return;
         }
@@ -95,8 +99,17 @@ public final class CodexiaModuleImpl implements CodexiaModule {
     }
 
     @Override
-    public Optional<CodexiaProject> findByExternalId(Integer externalId) {
-        return this.codexiaProjectRepository.findByExternalId(externalId);
+    public Optional<CodexiaProject> findCodexiaProject(GithubRepo repo) {
+        return this.githubModule
+            .findAllRepoSources(repo)
+            .stream()
+            .filter(source -> source.getSource() == GithubModule.Source.CODEXIA)
+            .findFirst()
+            .flatMap(
+                source -> this.codexiaProjectRepository.findByExternalId(
+                    Integer.valueOf(source.getExternalId())
+                )
+            );
     }
 
     @Override
@@ -106,6 +119,6 @@ public final class CodexiaModuleImpl implements CodexiaModule {
 
     @Override
     public List<CodexiaReview> findAllReviews(CodexiaProject codexiaProject, String author) {
-        return this.codexiaReviewRepository.findAllByCodexiaProjectAndAuthor(codexiaProject, author);
+        return this.codexiaReviewRepository.findAllByCodexiaProjectAndAuthorOrderByIdAsc(codexiaProject, author);
     }
 }
