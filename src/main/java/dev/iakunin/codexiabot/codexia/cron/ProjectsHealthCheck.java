@@ -23,7 +23,7 @@ public final class ProjectsHealthCheck {
 
     @Scheduled(cron="${app.cron.codexia.projects-health-check:-}")
     public void run() {
-        //@TODO: extract this logs to some scheduled decorator
+        // @todo #0 extract these `Running` and `Exiting` logs to some scheduled decorator
         log.info("Running {}", this.getClass().getName());
 
          this.repository.findAllActive()
@@ -37,7 +37,6 @@ public final class ProjectsHealthCheck {
                  this.updateEntity(p);
              });
 
-        //@TODO: extract this logs to some scheduled decorator
         log.info("Exiting from {}", this.getClass().getName());
     }
 

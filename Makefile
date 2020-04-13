@@ -45,3 +45,12 @@ upload-remote-db-to-local:
 	--table=github_repo_source \
 	--table=github_repo_stat \
 	| PGPASSWORD="codexia-bot" psql -h 127.0.0.1 -U codexia-bot -p 54322 codexia-bot
+
+pdd:
+	docker run \
+	--tty \
+	--interactive \
+	--workdir=/main \
+	--volume=${PWD}:/main \
+	--rm iakunin/pdd:0.20.5 \
+	pdd --source=/main --exclude=.idea/**/* --verbose --file=/dev/null
