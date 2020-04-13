@@ -49,7 +49,7 @@ public class ProjectsHealthCheckIntegrationTest extends AbstractIntegrationTest 
                     .withBody(
                         new Joined(
                             "\n",
-                            //@TODO: extract to json-file
+                            // @todo #6 extract to json-file
                             "{",
                             "    \"id\": {{ replace request.requestLine.pathSegments.[1] '.json' '' }},",
                             "    \"coordinates\": \"test-project/test-repo\",",

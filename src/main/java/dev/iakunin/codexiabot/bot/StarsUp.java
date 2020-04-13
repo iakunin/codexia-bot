@@ -73,6 +73,8 @@ public class StarsUp {
         // Тест-кейсы с двумя последовательными запусками с изменениями состояния github-статистики
         //    (бот может как сработать, так и нет)
 
+        // - Assert the full review text (including timezone!)
+
 
         log.info("Exiting from {}", this.getClass().getName());
     }
@@ -94,7 +96,7 @@ public class StarsUp {
                     ZonedDateTime.of(
                         first.getCreatedAt(),
                         ZoneOffset.UTC
-                    ).toString(), //@TODO: check the timezone
+                    ).toString(),
                     firstStat.getStars(),
                     lastStat.getStars(),
                     first.getGithubRepo().getFullName()

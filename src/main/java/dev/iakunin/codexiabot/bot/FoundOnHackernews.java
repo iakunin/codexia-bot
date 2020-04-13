@@ -110,7 +110,7 @@ public final class FoundOnHackernews {
     }
 
     @Value
-    //@TODO: rewrite using org.javatuples.Pair
+    // @todo #6 get rid of FoundOnHackernews.TmpDto using `org.javatuples.Pair`
     private static final class TmpDto {
         private CodexiaProject codexiaProject;
         private GithubRepoSource hackernewsSource;

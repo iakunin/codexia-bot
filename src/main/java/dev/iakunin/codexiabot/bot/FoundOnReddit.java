@@ -94,7 +94,7 @@ public final class FoundOnReddit {
     }
 
     @Value
-    //@TODO: rewrite using org.javatuples.Pair
+    // @todo #6 get rid of FoundOnReddit.TmpDto using `org.javatuples.Pair`
     private static final class TmpDto {
         private CodexiaProject codexiaProject;
         private GithubRepoSource redditSource;

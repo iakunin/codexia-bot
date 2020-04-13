@@ -33,7 +33,7 @@ public abstract class AbstractEntity {
     @Column(updatable = false)
     @CreationTimestamp
     private LocalDateTime createdAt;
-    //@TODO: choose better created_at postgres-format (with or without TZ).
+    // @todo #6 choose better created_at postgres-format (with or without TZ).
     //  Also think of ZonedDateTime in createdAt field.
     //  ZonedDateTime + timestamptz seems the best way.
     //  - Test changing of postgres server timezone.
