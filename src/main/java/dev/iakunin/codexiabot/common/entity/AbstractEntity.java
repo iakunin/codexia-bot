@@ -39,8 +39,8 @@ public abstract class AbstractEntity {
     //  - Test changing of postgres server timezone.
     //  - Test changing of hibernate.time_zone property.
     //  - Test changing of JVM timezone.
-    //  In all of there cases there MUST be valid timestamptz in postgres.
-    //  In all of there cases there MUST be valid ZonedDateTime in code.
+    //  In all of these cases there MUST be valid timestamptz in postgres.
+    //  In all of these cases there MUST be valid ZonedDateTime in code.
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
