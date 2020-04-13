@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProjectsHealthCheckIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
-    ProjectsHealthCheck projectsHealthCheck;
+    private ProjectsHealthCheck projectsHealthCheck;
 
     @Test
     @Transactional
@@ -49,6 +49,7 @@ public class ProjectsHealthCheckIntegrationTest extends AbstractIntegrationTest 
                     .withBody(
                         new Joined(
                             "\n",
+                            //@TODO: extract to json-file
                             "{",
                             "    \"id\": {{ replace request.requestLine.pathSegments.[1] '.json' '' }},",
                             "    \"coordinates\": \"test-project/test-repo\",",

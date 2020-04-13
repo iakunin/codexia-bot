@@ -51,18 +51,12 @@ public final class FoundOnHackernews {
                 githubRepo -> {
                     final Set<GithubRepoSource> allRepoSources = this.githubModule.findAllRepoSources(githubRepo);
 
-                    final CodexiaProject codexiaProject = allRepoSources.stream()
-                        .filter(source -> source.getSource() == GithubModule.Source.CODEXIA)
-                        .findFirst()
-                        .flatMap(
-                            source -> this.codexiaModule.findByExternalId(Integer.valueOf(source.getExternalId()))
-                        )
+                    final CodexiaProject codexiaProject = this.codexiaModule
+                        .findCodexiaProject(githubRepo)
                         .orElseThrow(
                             () -> new RuntimeException(
                                 String.format(
-                                    "Unable to find source with type='%s' for githubRepoId='%s' " +
-                                    "or codexiaProject by externalId",
-                                    GithubModule.Source.CODEXIA.name(),
+                                    "Unable to find CodexiaProject for githubRepoId='%s'",
                                     githubRepo.getId()
                                 )
                             )
@@ -116,6 +110,7 @@ public final class FoundOnHackernews {
     }
 
     @Value
+    //@TODO: rewrite using org.javatuples.Pair
     private static final class TmpDto {
         private CodexiaProject codexiaProject;
         private GithubRepoSource hackernewsSource;

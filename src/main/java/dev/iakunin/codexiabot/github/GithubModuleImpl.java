@@ -9,6 +9,7 @@ import dev.iakunin.codexiabot.github.repository.GithubRepoStatRepository;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Deque;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -76,6 +77,15 @@ public final class GithubModuleImpl implements GithubModule {
     @Override
     public Stream<GithubRepoSource> findAllRepoSources(Source source) {
         return this.githubRepoSourceRepository.findAllBySource(source);
+    }
+
+    @Override
+    public Deque<GithubRepoStat> findAllGithubApiStat(GithubRepo repo, Long idGreaterThan) {
+        return this.githubRepoStatRepository.findAllByGithubRepoAndTypeAndIdGreaterThanEqualOrderByIdAsc(
+            repo,
+            GithubRepoStat.Type.GITHUB_API,
+            idGreaterThan
+        );
     }
 
     private GithubRepo saveRepo(CreateArguments arguments) throws IOException {

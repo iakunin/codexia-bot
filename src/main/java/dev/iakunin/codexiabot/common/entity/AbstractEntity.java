@@ -33,6 +33,14 @@ public abstract class AbstractEntity {
     @Column(updatable = false)
     @CreationTimestamp
     private LocalDateTime createdAt;
+    //@TODO: choose better created_at postgres-format (with or without TZ).
+    //  Also think of ZonedDateTime in createdAt field.
+    //  ZonedDateTime + timestamptz seems the best way.
+    //  - Test changing of postgres server timezone.
+    //  - Test changing of hibernate.time_zone property.
+    //  - Test changing of JVM timezone.
+    //  In all of there cases there MUST be valid timestamptz in postgres.
+    //  In all of there cases there MUST be valid ZonedDateTime in code.
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;

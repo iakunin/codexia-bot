@@ -47,6 +47,7 @@ dependencies {
 
     implementation 'de.siegmar:logback-gelf:2.0.1'
     implementation 'org.cactoos:cactoos:0.43'
+    implementation 'org.javatuples:javatuples:1.2'
 
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:2.1.1.RELEASE'
     implementation 'io.github.openfeign:feign-jackson:9.3.1'
@@ -65,6 +66,7 @@ dependencies {
     testImplementation 'com.github.javafaker:javafaker:1.0.2'
     testImplementation 'com.github.tomakehurst:wiremock:2.26.3'
     testImplementation 'org.codehaus.groovy:groovy-all:3.0.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.6.2'
 }
 
 springBoot {
@@ -84,6 +86,7 @@ lombok {
     version = '1.18.10'
     config['lombok.accessors.chain'] = 'true'
     config['lombok.equalsAndHashCode.callSuper'] = 'skip'
+    config['lombok.toString.callSuper'] = 'call'
 }
 
 sonarqube {
