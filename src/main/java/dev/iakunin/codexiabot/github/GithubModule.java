@@ -15,10 +15,12 @@ public interface GithubModule {
 
     void removeAllRepoSources(DeleteArguments arguments);
 
-    //@TODO: rewrite in much common way: `List<GithubRepo> findAllExistsInAllSources(Set<Source> sources)`
+    /*
+     * @todo #0 rewrite in much common way: `List<GithubRepo> findAllExistsInAllSources(Set<Source> sources)`
+     *  and remove `findAllInCodexiaAndHackernews()` and `findAllInCodexia()` methods
+     */
     Set<GithubRepo> findAllInCodexiaAndHackernews();
 
-    //@TODO: rewrite in much common way: `List<GithubRepo> findAllExistsInAllSources(Set<Source> sources)`
     Set<GithubRepo> findAllInCodexia();
 
     Set<GithubRepoSource> findAllRepoSources(GithubRepo repo);
