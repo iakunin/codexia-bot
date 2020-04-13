@@ -65,16 +65,13 @@ public class StarsUp {
             .forEach(this::processStatList)
         ;
 
-        // Тест-кейс, когда githubModule.findAllGithubApiStat возвращает больше 2х записей
-        // Тест-кейс, когда githubModule.findAllGithubApiStat возвращает точно 2 записи
-        // Тест-кейс, когда githubModule.findAllGithubApiStat возвращает меньше 2х записей
 
         // Тест-кейсы с двумя последовательными запусками с изменениями состояния бота (бот сработал)
         // Тест-кейсы с двумя последовательными запусками с изменениями состояния github-статистики
         //    (бот может как сработать, так и нет)
 
-        // - Assert the full review text (including timezone!)
 
+        // - Remote-call exception with transaction rollback
 
         log.info("Exiting from {}", this.getClass().getName());
     }

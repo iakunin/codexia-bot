@@ -68,7 +68,7 @@ public final class CodexiaModuleImpl implements CodexiaModule {
                             : CodexiaReviewNotification.Status.ERROR
                     )
                     .setResponseCode(e.status())
-                    .setResponse(e.contentUTF8())
+                    .setResponse(e.content() != null ? e.contentUTF8() : "")
             );
             return;
         }

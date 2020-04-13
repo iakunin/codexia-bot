@@ -27,20 +27,20 @@ public class ProjectsHealthCheckIntegrationTest extends AbstractIntegrationTest 
     @Test
     @Transactional
     @DataSet(
-        value = "db-rider/codexia/cron/projects-health-check/initial/two-deleted-projects.yml",
+        value = "db-rider/codexia/cron/projects-health-check/initial/noActiveProjectsInRepo.yml",
         cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/codexia/cron/projects-health-check/expected/two-deleted-projects.yml")
+    @ExpectedDataSet("db-rider/codexia/cron/projects-health-check/expected/noActiveProjectsInRepo.yml")
     public void noActiveProjectsInRepo() {
         projectsHealthCheck.run();
     }
 
     @Test
     @DataSet(
-        value = "db-rider/codexia/cron/projects-health-check/initial/two-active-projects.yml",
+        value = "db-rider/codexia/cron/projects-health-check/initial/twoActiveProjectsInRepoButDeletedInCodexia.yml",
         cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/codexia/cron/projects-health-check/expected/two-active-projects.yml")
+    @ExpectedDataSet("db-rider/codexia/cron/projects-health-check/expected/twoActiveProjectsInRepoButDeletedInCodexia.yml")
     public void twoActiveProjectsInRepoButDeletedInCodexia() {
         WireMockServer.getInstance().stubFor(
             get(urlPathMatching("/p/\\d+\\.json"))
