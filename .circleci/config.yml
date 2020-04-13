@@ -3,6 +3,14 @@ orbs:
     gcr: circleci/gcp-gcr@0.6.1
     gke: circleci/gcp-gke@1.0.3
 jobs:
+    pdd:
+        docker:
+            -   image: iakunin/pdd:0.20.5
+        steps:
+            - checkout
+            -   run:
+                    name: validate pdd
+                    command: pdd --source=$(pwd) --verbose --file=/dev/null && echo OK
     build-jar:
         machine:
             image: ubuntu-1604:201903-01
@@ -92,6 +100,7 @@ jobs:
 workflows:
     main:
         jobs:
+            -   pdd
             -   build-jar:
                     context: SonarCloud
                     filters:
