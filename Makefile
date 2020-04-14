@@ -54,3 +54,6 @@ pdd:
 	--volume=${PWD}:/main \
 	--rm iakunin/pdd:0.20.5 \
 	pdd --source=/main --exclude=.idea/**/* --verbose --file=/dev/null
+
+build:
+	bash bin/gradle_in_docker.sh clean build --info
