@@ -11,6 +11,7 @@ import dev.iakunin.codexiabot.github.entity.GithubRepoStat;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat.GithubApi;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Deque;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -99,12 +100,15 @@ public class StarsUp {
         return new CodexiaReview()
             .setText(
                 String.format(
-                    "The repo gained %d stars since %s (was: %d stars, now: %d stars). " +
+                    "The repo gained %d stars: from %d (at %s) to %d (at %s). " +
                     "See the stars history [here](https://star-history.t9t.io/#%s).",
                     lastStat.getStars() - firstStat.getStars(),
-                    ZonedDateTime.of(first.getCreatedAt(), ZoneOffset.UTC).toString(),
                     firstStat.getStars(),
+                    ZonedDateTime.of(first.getCreatedAt(), ZoneOffset.UTC)
+                        .truncatedTo(ChronoUnit.SECONDS),
                     lastStat.getStars(),
+                    ZonedDateTime.of(last.getCreatedAt(), ZoneOffset.UTC)
+                        .truncatedTo(ChronoUnit.SECONDS),
                     first.getGithubRepo().getFullName()
                 )
             )
