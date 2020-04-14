@@ -9,7 +9,8 @@ codexia_review:
         author: "STARS_UP"
         reason: "459"
         text: >-
-            The repo gained 57 stars since 2020-02-11T10:06:16.123456Z
-            (was: 402 stars, now: 459 stars).
+            The repo gained 57 stars:
+            from 402 (at 2020-02-11T10:06:16Z)
+            to 459 (at 2020-02-16T18:46:09Z).
             See the stars history
             [here](https://star-history.t9t.io/#test-project1/test-repo1).
