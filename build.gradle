@@ -100,13 +100,6 @@ sonarqube {
     }
 }
 
-if (hasProperty('pullRequestKey') && property('pullRequestKey')) {
-    println 'FOUND!'
-    println 'pullRequestKey2=' + property('pullRequestKey').toString()
-} else {
-    println 'NOT FOUND!'
-}
-
 jacocoTestReport {
     reports {
         xml.enabled true
