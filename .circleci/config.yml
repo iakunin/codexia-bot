@@ -16,6 +16,19 @@ jobs:
             image: ubuntu-1604:201903-01
         steps:
             - checkout
+            -   run:
+                    name: Workaround for SonarCloud merge check
+                    # For more info see:
+                    # https://community.sonarsource.com/t/code-is-empty-on-pull-request-reviews/822/14
+                    # https://discuss.circleci.com/t/git-checkout-of-a-branch-destroys-local-reference-to-master/23781/7
+                    command: git branch -f master origin/master
+            -   run:
+                    name: Setup PR_NUMBER environment variable
+                    command: |
+                        TMP=$(echo $CIRCLE_PULL_REQUEST | rev | cut -d/ -f1 | rev)
+                        echo "TMP=$TMP"
+                        echo "export PR_NUMBER=$TMP" >> $BASH_ENV
+                        source $BASH_ENV
             -   restore_cache:
                     keys:
                         - gradle-dependencies-v1-{{ checksum "build.gradle" }}
@@ -33,7 +46,10 @@ jobs:
                             --volume=/var/run/docker.sock:/var/run/docker.sock \
                             --workdir=/home/gradle/project \
                             gradle:6.0.1-jdk11 \
-                            gradle clean -Pversion=$CIRCLE_TAG build sonarqube --info
+                            gradle clean build sonarqube \
+                                -Pversion=$CIRCLE_TAG \
+                                -PpullRequestKey=$PR_NUMBER \
+                                --info
             -   run:
                     name: codecov
                     command: bash <(curl -s https://codecov.io/bash)
@@ -100,7 +116,7 @@ jobs:
 workflows:
     main:
         jobs:
-            -   pdd
+            - pdd
             -   build-jar:
                     context: SonarCloud
                     filters:
