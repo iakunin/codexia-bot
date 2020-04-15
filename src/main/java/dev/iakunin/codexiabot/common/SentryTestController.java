@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 public final class SentryTestController {
 
     @GetMapping(value = "/sentry/test")
-    ResponseEntity<String> testSentry(
+    public ResponseEntity<String> testSentry(
     ) {
         this.throwRuntimeException();
 
