@@ -94,6 +94,7 @@ sonarqube {
         property 'sonar.projectKey', 'iakunin_codexia-bot'
         property 'sonar.organization', 'iakunin'
         property 'sonar.host.url', 'https://sonarcloud.io'
+        property 'sonar.pullrequest.key', '30'
     }
 }
 
