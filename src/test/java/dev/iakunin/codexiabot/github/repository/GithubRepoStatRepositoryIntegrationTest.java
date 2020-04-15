@@ -9,10 +9,12 @@ import java.util.LinkedList;
 import javax.persistence.EntityManager;
 import org.cactoos.collection.CollectionOf;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+@Disabled
 public class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
