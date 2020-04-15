@@ -10,7 +10,6 @@ import dev.iakunin.codexiabot.AbstractIntegrationTest;
 import dev.iakunin.codexiabot.util.WireMockServer;
 import org.cactoos.text.Joined;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.util.TestPropertyValues;
@@ -19,7 +18,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-@Disabled
 @ContextConfiguration(initializers = ProjectsHealthCheckIntegrationTest.Initializer.class)
 public class ProjectsHealthCheckIntegrationTest extends AbstractIntegrationTest {
 

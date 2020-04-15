@@ -3,12 +3,10 @@ package dev.iakunin.codexiabot.bot;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import dev.iakunin.codexiabot.AbstractIntegrationTest;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-@Disabled
 public class StarsUpIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
