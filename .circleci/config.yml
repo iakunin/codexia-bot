@@ -41,9 +41,9 @@ jobs:
                             --workdir=/home/gradle/project \
                             gradle:6.0.1-jdk11 \
                             gradle clean build sonarqube \
-                            -Pversion=$CIRCLE_TAG \
-                            -PpullRequestKey=$PR_NUMBER \
-                            --info
+                                -Pversion=$CIRCLE_TAG \
+                                -PpullRequestKey=$PR_NUMBER \
+                                --info
             -   run:
                     name: codecov
                     command: bash <(curl -s https://codecov.io/bash)
