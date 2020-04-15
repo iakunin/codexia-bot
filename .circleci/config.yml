@@ -17,10 +17,11 @@ jobs:
         steps:
             - checkout
             -   run:
-                    name: Setup CIRCLE_PR_NUMBER environment variables
+                    name: Setup PR_NUMBER environment variables
                     command: |
                         TMP=$(echo $CIRCLE_PULL_REQUEST | rev | cut -d/ -f1 | rev)
-                        echo 'export CIRCLE_PR_NUMBER=$TMP' >> $BASH_ENV
+                        echo "TMP=$TMP"
+                        echo "export PR_NUMBER=$TMP" >> $BASH_ENV
                         source $BASH_ENV
             -   run:
                     name: env
@@ -44,7 +45,7 @@ jobs:
                             gradle:6.0.1-jdk11 \
                             gradle clean build sonarqube \
                                 -Pversion=$CIRCLE_TAG \
-                                -PpullRequestKey=$CIRCLE_PR_NUMBER \
+                                -PpullRequestKey=$PR_NUMBER \
                                 --info
             -   run:
                     name: codecov
