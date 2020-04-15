@@ -19,8 +19,9 @@ jobs:
             -   run:
                     name: Setup CIRCLE_PR_NUMBER environment variables
                     command: |
-                        CIRCLE_PR_NUMBER=$(echo $CIRCLE_PULL_REQUEST | rev | cut -d/ -f1 | rev)
-                        echo 'export CIRCLE_PR_NUMBER=$CIRCLE_PR_NUMBER' >> $BASH_ENV
+                        TMP=$(echo $CIRCLE_PULL_REQUEST | rev | cut -d/ -f1 | rev)
+                        echo 'export CIRCLE_PR_NUMBER=$TMP' >> $BASH_ENV
+                        source $BASH_ENV
             -   run:
                     name: env
                     command: env
