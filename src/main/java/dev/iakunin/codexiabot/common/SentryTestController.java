@@ -1,5 +1,6 @@
 package dev.iakunin.codexiabot.common;
 
+import java.util.HashMap;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,11 +18,15 @@ public final class SentryTestController {
     }
 
     @GetMapping(value = "/sentry/test2")
-    ResponseEntity<String> testSentry2(
+    ResponseEntity<HashMap> testSentry2(
     ) {
+        final HashMap<Object, Object> hashMap = new HashMap<>() {{
+            put("testKey", "testValue");
+        }};
+
         this.throwRuntimeException();
 
-        return new ResponseEntity<>("", HttpStatus.OK);
+        return new ResponseEntity<>(hashMap, HttpStatus.OK);
     }
 
     private void throwRuntimeException() {
