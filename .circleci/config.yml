@@ -16,6 +16,14 @@ jobs:
             image: ubuntu-1604:201903-01
         steps:
             - checkout
+            -   run:
+                    name: Setup CIRCLE_PR_NUMBER environment variables
+                    command: |
+                        CIRCLE_PR_NUMBER=$(echo $CIRCLE_PULL_REQUEST | rev | cut -d/ -f1 | rev)
+                        echo 'export CIRCLE_PR_NUMBER=$CIRCLE_PR_NUMBER' >> $BASH_ENV
+            -   run:
+                    name: env
+                    command: env
             -   restore_cache:
                     keys:
                         - gradle-dependencies-v1-{{ checksum "build.gradle" }}
@@ -33,7 +41,10 @@ jobs:
                             --volume=/var/run/docker.sock:/var/run/docker.sock \
                             --workdir=/home/gradle/project \
                             gradle:6.0.1-jdk11 \
-                            gradle clean -Pversion=$CIRCLE_TAG build sonarqube --info
+                            gradle clean build sonarqube \
+                                -Pversion=$CIRCLE_TAG \
+                                -PpullRequestKey=$CIRCLE_PR_NUMBER \
+                                --info
             -   run:
                     name: codecov
                     command: bash <(curl -s https://codecov.io/bash)
@@ -100,7 +111,7 @@ jobs:
 workflows:
     main:
         jobs:
-            -   pdd
+            - pdd
             -   build-jar:
                     context: SonarCloud
                     filters:

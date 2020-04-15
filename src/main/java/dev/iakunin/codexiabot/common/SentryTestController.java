@@ -16,6 +16,14 @@ public final class SentryTestController {
         return new ResponseEntity<>("", HttpStatus.OK);
     }
 
+    @GetMapping(value = "/sentry/test2")
+    ResponseEntity<String> testSentry2(
+    ) {
+        this.throwRuntimeException();
+
+        return new ResponseEntity<>("", HttpStatus.OK);
+    }
+
     private void throwRuntimeException() {
         throw new RuntimeException("This is a test exception for Sentry");
     }
