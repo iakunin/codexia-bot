@@ -95,7 +95,8 @@ sonarqube {
         property 'sonar.organization', 'iakunin'
         property 'sonar.host.url', 'https://sonarcloud.io'
         if (hasProperty('pullRequestKey') && property('pullRequestKey')) {
-            property 'sonar.pullrequest.key', property('pullRequestKey')
+            println 'pullRequestKey exists: ' + property('pullRequestKey')
+            property('sonar.pullrequest.key', property('pullRequestKey'))
         }
     }
 }
