@@ -16,6 +16,9 @@ jobs:
             image: ubuntu-1604:201903-01
         steps:
             - checkout
+            -   run:
+                    name: env
+                    command: env
             -   restore_cache:
                     keys:
                         - gradle-dependencies-v1-{{ checksum "build.gradle" }}
@@ -100,7 +103,7 @@ jobs:
 workflows:
     main:
         jobs:
-            -   pdd
+            - pdd
             -   build-jar:
                     context: SonarCloud
                     filters:
