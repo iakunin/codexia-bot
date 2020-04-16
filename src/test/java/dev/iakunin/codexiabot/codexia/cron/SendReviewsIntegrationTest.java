@@ -50,7 +50,7 @@ public class SendReviewsIntegrationTest extends AbstractIntegrationTest {
     @Test
     @DataSet(
         value = "db-rider/codexia/cron/send-reviews/initial/reviewSentWithDuplicate_responseBodyExists.yml",
-        cleanAfter = true, cleanBefore = true
+        cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/send-reviews/expected/reviewSentWithDuplicate_responseBodyExists.yml")
     public void reviewSentWithDuplicate_responseBodyExists() {
@@ -68,7 +68,7 @@ public class SendReviewsIntegrationTest extends AbstractIntegrationTest {
     @Test
     @DataSet(
         value = "db-rider/codexia/cron/send-reviews/initial/reviewSentWithDuplicate_responseBodyEmpty.yml",
-        cleanAfter = true, cleanBefore = true
+        cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/send-reviews/expected/reviewSentWithDuplicate_responseBodyEmpty.yml")
     public void reviewSentWithDuplicate_responseBodyEmpty() {
@@ -85,7 +85,7 @@ public class SendReviewsIntegrationTest extends AbstractIntegrationTest {
     @Test
     @DataSet(
         value = "db-rider/codexia/cron/send-reviews/initial/reviewSentWith500.yml",
-        cleanAfter = true, cleanBefore = true
+        cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/send-reviews/expected/reviewSentWith500.yml")
     public void reviewSentWith500() {

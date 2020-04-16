@@ -28,7 +28,7 @@ public class ProjectsHealthCheckIntegrationTest extends AbstractIntegrationTest 
     @Transactional
     @DataSet(
         value = "db-rider/codexia/cron/projects-health-check/initial/noActiveProjectsInRepo.yml",
-        cleanAfter = true
+        cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/projects-health-check/expected/noActiveProjectsInRepo.yml")
     public void noActiveProjectsInRepo() {
@@ -38,7 +38,7 @@ public class ProjectsHealthCheckIntegrationTest extends AbstractIntegrationTest 
     @Test
     @DataSet(
         value = "db-rider/codexia/cron/projects-health-check/initial/twoActiveProjectsInRepoButDeletedInCodexia.yml",
-        cleanAfter = true
+        cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/projects-health-check/expected/twoActiveProjectsInRepoButDeletedInCodexia.yml")
     public void twoActiveProjectsInRepoButDeletedInCodexia() {
