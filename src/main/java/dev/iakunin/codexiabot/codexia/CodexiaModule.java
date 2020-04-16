@@ -8,14 +8,11 @@ import java.util.Optional;
 
 public interface CodexiaModule {
 
-    // @todo #6 split codexiaModule.sendReview() to codexiaModule.createReview() and codexiaModule.sendReview()
-    //  - codexiaModule.createReview() - just a saving to DB.
-    //  - codexiaModule.sendReview() - real sending review to Codexia api.
-    //  - codexiaModule.sendReview() must be used ONLY inside a cron-job.
-    //  - In other code there should be only a codexiaModule.createReview() calls.
-    //  - All the codexiaModule.createReview() calls MUST be inside a transaction/
-    void sendReview(CodexiaReview review);
+    // @todo #19 All the codexiaModule.createReview() calls MUST be inside a transaction
+    void saveReview(CodexiaReview review);
 
+    // @todo #19 sending meta should also be asynchronous (via cron)
+    //  here should be only a saving Meta (as saving Review)
     void sendMeta(CodexiaProject codexiaProject, String metaKey, String metaValue);
 
     Optional<CodexiaProject> findCodexiaProject(GithubRepo repo);

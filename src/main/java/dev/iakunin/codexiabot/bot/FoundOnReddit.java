@@ -77,7 +77,7 @@ public final class FoundOnReddit {
             )
             .forEach(
                 review -> {
-                    this.codexiaModule.sendReview(review);
+                    this.codexiaModule.saveReview(review);
                     this.codexiaModule.sendMeta(
                         review.getCodexiaProject(),
                         "reddit-id",

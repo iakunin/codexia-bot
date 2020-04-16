@@ -81,7 +81,7 @@ public class StarsUp {
                 .setGithubRepo(deque.getLast().getGithubRepo())
                 .setGithubRepoStat(deque.getLast())
         );
-        this.codexiaModule.sendReview(review);
+        this.codexiaModule.saveReview(review);
         this.codexiaModule.sendMeta(
             review.getCodexiaProject(),
             "stars-count",
