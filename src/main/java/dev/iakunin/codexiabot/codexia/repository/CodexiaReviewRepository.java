@@ -20,6 +20,5 @@ public interface CodexiaReviewRepository extends JpaRepository<CodexiaReview, Lo
         "where crn.id is null " +
         "order by cr.id asc"
     )
-    // @todo #19 write integration test here
     List<CodexiaReview> findAllWithoutNotifications();
 }
