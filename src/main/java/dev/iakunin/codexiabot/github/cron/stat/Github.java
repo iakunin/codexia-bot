@@ -20,7 +20,9 @@ public final class Github {
     public void run() {
         log.info("Running {}", this.getClass().getName());
 
-        this.githubModule.findAllInCodexia().forEach(this::updateStat);
+        this.githubModule
+            .findAllInCodexia()
+            .forEach(this::updateStat);
 
         log.info("Exiting from {}", this.getClass().getName());
     }

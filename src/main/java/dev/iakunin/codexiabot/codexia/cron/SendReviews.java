@@ -30,7 +30,9 @@ public final class SendReviews {
     public void run() {
         log.info("Running {}", this.getClass().getName());
 
-        this.codexiaReviewRepository.findAllWithoutNotifications().forEach(this::process);
+        this.codexiaReviewRepository
+            .findAllWithoutNotifications()
+            .forEach(this::process);
 
         log.info("Exiting from {}", this.getClass().getName());
     }
