@@ -90,8 +90,7 @@ public class SendReviewsIntegrationTest extends AbstractIntegrationTest {
     @Test
     @DataSet(
         value = "db-rider/codexia/cron/send-reviews/initial/reviewSentWith500.yml",
-        executeScriptsBefore = "db-rider/cleanup.sql", executeScriptsAfter = "db-rider/cleanup.sql",
-        strategy = SeedStrategy.INSERT
+        cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/send-reviews/expected/reviewSentWith500.yml")
     public void reviewSentWith500() {
