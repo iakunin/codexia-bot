@@ -1,8 +1,8 @@
 package dev.iakunin.codexiabot.codexia.cron;
 
-import dev.iakunin.codexiabot.codexia.CodexiaModule;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaReviewNotification;
 import dev.iakunin.codexiabot.codexia.repository.CodexiaReviewNotificationRepository;
+import dev.iakunin.codexiabot.codexia.service.ReviewSender;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ public final class ResendErroneousReviews {
 
     private final CodexiaReviewNotificationRepository codexiaReviewNotificationRepository;
 
-    private final CodexiaModule codexiaModule;
+    private final ReviewSender reviewSender;
 
     @Scheduled(cron="${app.cron.codexia.resend-erroneous-reviews:-}")
     public void run() {
@@ -24,7 +24,7 @@ public final class ResendErroneousReviews {
 
         this.codexiaReviewNotificationRepository.findAllByLastStatus(CodexiaReviewNotification.Status.ERROR)
             .forEach(
-                reviewNotification -> this.codexiaModule.saveReview(reviewNotification.getCodexiaReview())
+                notification -> this.reviewSender.send(notification.getCodexiaReview())
             );
 
         log.info("Exiting from {}", this.getClass().getName());
