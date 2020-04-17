@@ -1,0 +1,14 @@
+codexia_review:
+    -
+        id: 1
+        codexia_project_id: 5
+        author: Review author
+        reason: Review reason
+        text: Review text
+
+codexia_review_notification:
+    -
+        codexia_review_id: 1
+        status: "SUCCESS"
+        response_code: 200
+        response: "regex:^<200 OK OK,.*"

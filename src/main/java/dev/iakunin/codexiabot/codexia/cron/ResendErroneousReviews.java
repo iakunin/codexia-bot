@@ -24,7 +24,7 @@ public final class ResendErroneousReviews {
 
         this.codexiaReviewNotificationRepository.findAllByLastStatus(CodexiaReviewNotification.Status.ERROR)
             .forEach(
-                reviewNotification -> this.codexiaModule.sendReview(reviewNotification.getCodexiaReview())
+                reviewNotification -> this.codexiaModule.saveReview(reviewNotification.getCodexiaReview())
             );
 
         log.info("Exiting from {}", this.getClass().getName());

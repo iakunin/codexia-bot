@@ -22,8 +22,7 @@ public final class Github {
 
         this.githubModule
             .findAllInCodexia()
-            .forEach(this::updateStat)
-        ;
+            .forEach(this::updateStat);
 
         log.info("Exiting from {}", this.getClass().getName());
     }

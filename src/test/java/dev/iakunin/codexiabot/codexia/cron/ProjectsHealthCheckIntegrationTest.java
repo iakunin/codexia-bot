@@ -2,6 +2,7 @@ package dev.iakunin.codexiabot.codexia.cron;
 
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
+import com.github.database.rider.core.api.dataset.SeedStrategy;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.tomakehurst.wiremock.client.WireMock.ok;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
@@ -28,7 +29,8 @@ public class ProjectsHealthCheckIntegrationTest extends AbstractIntegrationTest 
     @Transactional
     @DataSet(
         value = "db-rider/codexia/cron/projects-health-check/initial/noActiveProjectsInRepo.yml",
-        cleanAfter = true
+        executeScriptsBefore = "db-rider/cleanup.sql", executeScriptsAfter = "db-rider/cleanup.sql",
+        strategy = SeedStrategy.INSERT
     )
     @ExpectedDataSet("db-rider/codexia/cron/projects-health-check/expected/noActiveProjectsInRepo.yml")
     public void noActiveProjectsInRepo() {
@@ -38,7 +40,8 @@ public class ProjectsHealthCheckIntegrationTest extends AbstractIntegrationTest 
     @Test
     @DataSet(
         value = "db-rider/codexia/cron/projects-health-check/initial/twoActiveProjectsInRepoButDeletedInCodexia.yml",
-        cleanAfter = true
+        executeScriptsBefore = "db-rider/cleanup.sql", executeScriptsAfter = "db-rider/cleanup.sql",
+        strategy = SeedStrategy.INSERT
     )
     @ExpectedDataSet("db-rider/codexia/cron/projects-health-check/expected/twoActiveProjectsInRepoButDeletedInCodexia.yml")
     public void twoActiveProjectsInRepoButDeletedInCodexia() {

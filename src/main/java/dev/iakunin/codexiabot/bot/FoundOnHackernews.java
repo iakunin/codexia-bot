@@ -93,7 +93,7 @@ public final class FoundOnHackernews {
             )
             .forEach(
                 review -> {
-                    this.codexiaModule.sendReview(review);
+                    this.codexiaModule.saveReview(review);
                     this.codexiaModule.sendMeta(
                         review.getCodexiaProject(),
                         "hacker-news-id",

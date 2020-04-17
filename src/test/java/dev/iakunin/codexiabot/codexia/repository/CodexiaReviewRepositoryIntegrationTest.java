@@ -4,6 +4,7 @@ import com.github.javafaker.Faker;
 import dev.iakunin.codexiabot.AbstractIntegrationTest;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaProject;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaReview;
+import dev.iakunin.codexiabot.codexia.entity.CodexiaReviewNotification;
 import java.time.LocalDateTime;
 import javax.persistence.EntityManager;
 import org.cactoos.list.ListOf;
@@ -28,7 +29,7 @@ public class CodexiaReviewRepositoryIntegrationTest extends AbstractIntegrationT
     @Test
     @Transactional
     public void existsByCodexiaProjectAndAuthorAndReason_happyPath() {
-        var project = this.createCodexiaProject();
+        var project = this.createProject();
         var author = faker.name().username();
         var reason = faker.lorem().word();
         var review = new CodexiaReview()
@@ -50,8 +51,8 @@ public class CodexiaReviewRepositoryIntegrationTest extends AbstractIntegrationT
     @Test
     @Transactional
     public void existsByCodexiaProjectAndAuthorAndReason_wrongProject() {
-        var project = this.createCodexiaProject();
-        var anotherProject = this.createCodexiaProject();
+        var project = this.createProject();
+        var anotherProject = this.createProject();
         var author = faker.name().username();
         var reason = faker.lorem().word();
         var review = new CodexiaReview()
@@ -75,7 +76,7 @@ public class CodexiaReviewRepositoryIntegrationTest extends AbstractIntegrationT
     @Test
     @Transactional
     public void existsByCodexiaProjectAndAuthorAndReason_wrongAuthor() {
-        var project = this.createCodexiaProject();
+        var project = this.createProject();
         var author = faker.name().username();
         var reason = faker.lorem().word();
         var review = new CodexiaReview()
@@ -97,7 +98,7 @@ public class CodexiaReviewRepositoryIntegrationTest extends AbstractIntegrationT
     @Test
     @Transactional
     public void existsByCodexiaProjectAndAuthorAndReason_wrongReason() {
-        var project = this.createCodexiaProject();
+        var project = this.createProject();
         var author = faker.name().username();
         var reason = faker.lorem().word();
         var review = new CodexiaReview()
@@ -119,10 +120,10 @@ public class CodexiaReviewRepositoryIntegrationTest extends AbstractIntegrationT
     @Test
     @Transactional
     public void findAll_happyPath() {
-        var project = this.createCodexiaProject();
+        var project = this.createProject();
         var author = faker.name().username();
-        var firstReview = this.createCodexiaReview(project, author);
-        var secondReview = this.createCodexiaReview(project, author);
+        var firstReview = this.createReview(project, author);
+        var secondReview = this.createReview(project, author);
         entityManager.persist(project);
         entityManager.persist(secondReview);
         entityManager.persist(firstReview);
@@ -141,8 +142,8 @@ public class CodexiaReviewRepositoryIntegrationTest extends AbstractIntegrationT
     @Transactional
     public void findAll_wrongAuthor() {
         var author = faker.name().username();
-        var project = this.createCodexiaProject();
-        var review = this.createCodexiaReview(project, author);
+        var project = this.createProject();
+        var review = this.createReview(project, author);
         entityManager.persist(project);
         entityManager.persist(review);
         entityManager.flush();
@@ -159,9 +160,9 @@ public class CodexiaReviewRepositoryIntegrationTest extends AbstractIntegrationT
     @Transactional
     public void findAll_wrongProject() {
         var author = faker.name().username();
-        var firstProject = this.createCodexiaProject();
-        var secondProject = this.createCodexiaProject();
-        var review = this.createCodexiaReview(firstProject, author);
+        var firstProject = this.createProject();
+        var secondProject = this.createProject();
+        var review = this.createReview(firstProject, author);
         entityManager.persist(firstProject);
         entityManager.persist(secondProject);
         entityManager.persist(review);
@@ -176,7 +177,46 @@ public class CodexiaReviewRepositoryIntegrationTest extends AbstractIntegrationT
         entityManager.remove(secondProject);
     }
 
-    private CodexiaProject createCodexiaProject() {
+    @Test
+    @Transactional
+    public void findAllWithoutNotifications_happyPath() {
+        var author = faker.name().username();
+        var project = this.createProject();
+        var review = this.createReview(project, author);
+        entityManager.persist(project);
+        entityManager.persist(review);
+        entityManager.flush();
+
+        var actual = this.repository.findAllWithoutNotifications();
+
+        assertEquals(new ListOf<>(review), actual);
+
+        entityManager.remove(review);
+        entityManager.remove(project);
+    }
+
+    @Test
+    @Transactional
+    public void findAllWithoutNotifications_notFound() {
+        var author = faker.name().username();
+        var project = this.createProject();
+        var review = this.createReview(project, author);
+        var notification = this.createNotification(review);
+        entityManager.persist(project);
+        entityManager.persist(review);
+        entityManager.persist(notification);
+        entityManager.flush();
+
+        var actual = this.repository.findAllWithoutNotifications();
+
+        assertEquals(new ListOf<>(), actual);
+
+        entityManager.remove(notification);
+        entityManager.remove(review);
+        entityManager.remove(project);
+    }
+
+    private CodexiaProject createProject() {
         return new CodexiaProject()
             .setExternalId(faker.random().nextInt(Integer.MAX_VALUE))
             .setCoordinates(this.getGithubRepoFullName())
@@ -185,7 +225,11 @@ public class CodexiaReviewRepositoryIntegrationTest extends AbstractIntegrationT
             .setProjectCreatedAt(LocalDateTime.now());
     }
 
-    private CodexiaReview createCodexiaReview(CodexiaProject project, String author) {
+    private String getGithubRepoFullName() {
+        return faker.regexify("[a-z]{2,10}/[a-z]{2,10}");
+    }
+
+    private CodexiaReview createReview(CodexiaProject project, String author) {
         return new CodexiaReview()
             .setCodexiaProject(project)
             .setAuthor(author)
@@ -193,7 +237,9 @@ public class CodexiaReviewRepositoryIntegrationTest extends AbstractIntegrationT
             .setText(faker.lorem().sentence());
     }
 
-    private String getGithubRepoFullName() {
-        return faker.regexify("[a-z]{2,10}/[a-z]{2,10}");
+    private CodexiaReviewNotification createNotification(CodexiaReview review) {
+        return new CodexiaReviewNotification()
+            .setCodexiaReview(review)
+            .setStatus(CodexiaReviewNotification.Status.NEW);
     }
 }

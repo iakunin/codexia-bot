@@ -56,6 +56,11 @@
       "description": "Cron expression for codexia.missing-filler."
     },
     {
+      "name": "app.cron.codexia.send-reviews",
+      "type": "java.lang.String",
+      "description": "Cron expression for codexia.send-reviews."
+    },
+    {
       "name": "app.cron.codexia.resend-erroneous-reviews",
       "type": "java.lang.String",
       "description": "Cron expression for codexia.resend-erroneous-reviews."

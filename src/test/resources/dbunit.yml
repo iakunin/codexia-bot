@@ -1,4 +1,7 @@
+cacheConnection: true
+cacheTableNames: true
 caseInsensitiveStrategy: !!com.github.database.rider.core.api.configuration.Orthography 'LOWERCASE'
-cacheConnection: false
 properties:
     datatypeFactory: !!dev.iakunin.codexiabot.dbunit.CustomPostgresqlDataTypeFactory {}
+    batchedStatements:  true
+    caseSensitiveTableNames: false
