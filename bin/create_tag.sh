@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-
 usage() { echo "Usage: $0 [-n Skip fetching tags]" 1>&2; exit 1; }
 
 while getopts "n:" o; do

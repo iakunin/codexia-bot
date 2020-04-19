@@ -7,7 +7,7 @@ docker run \
     --rm \
     --volume=${PWD}:/home/gradle/project \
     --volume=${HOME}/.m2:/root/.m2 \
-    --volume=billing-gradle-cache:/home/gradle/.gradle \
+    --volume=codexia-bot-gradle-cache:/home/gradle/.gradle \
     --volume=/var/run/docker.sock:/var/run/docker.sock \
     --workdir=/home/gradle/project \
     gradle:6.0.1-jdk11 \
@@ -19,9 +19,6 @@ docker run \
     --privileged \
     --rm \
     --volume=${PWD}:/home/gradle/project \
-    --volume=${HOME}/.m2:/root/.m2 \
-    --volume=billing-gradle-cache:/home/gradle/.gradle \
-    --volume=/var/run/docker.sock:/var/run/docker.sock \
     --workdir=/home/gradle/project \
     gradle:6.0.1-jdk11 \
     chown -R $(id -u):$(id -g) .
