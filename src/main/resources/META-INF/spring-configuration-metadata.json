@@ -41,6 +41,11 @@
       "description": "Cron expression for bot.stars-up."
     },
     {
+      "name": "app.cron.bot.forks-up",
+      "type": "java.lang.String",
+      "description": "Cron expression for bot.forks-up."
+    },
+    {
       "name": "app.cron.bot.found-on-reddit",
       "type": "java.lang.String",
       "description": "Cron expression for bot.found-on-reddit."

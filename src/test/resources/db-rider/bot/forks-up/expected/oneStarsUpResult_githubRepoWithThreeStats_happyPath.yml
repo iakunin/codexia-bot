@@ -1,0 +1,17 @@
+forks_up_result:
+    -
+        github_repo_id: 1
+        github_repo_stat_id: 3
+    -
+        github_repo_id: 1
+        github_repo_stat_id: 4
+
+codexia_review:
+    -
+        codexia_project_id: 5
+        author: "FORKS_UP"
+        reason: "502"
+        text: >-
+            The repo gained 43 forks:
+            from 459 (at 2020-02-16T18:46:09Z)
+            to 502 (at 2020-02-21T07:12:34Z).
