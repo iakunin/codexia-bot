@@ -39,6 +39,7 @@ public final class Up implements Runnable {
     }
 
     public void run() {
+        log.info("Bot type: {}", upBot.getClass().getName());
         this.githubModule.findAllInCodexia()
             .stream()
             .map(
