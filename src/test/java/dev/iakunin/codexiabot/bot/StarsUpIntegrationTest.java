@@ -6,12 +6,14 @@ import com.github.database.rider.core.api.dataset.SeedStrategy;
 import dev.iakunin.codexiabot.AbstractIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.transaction.annotation.Transactional;
 
 public class StarsUpIntegrationTest extends AbstractIntegrationTest {
 
+    @Qualifier("starsUp")
     @Autowired
-    private StarsUp starsUp;
+    private Up starsUp;
 
     @Test
     @Transactional

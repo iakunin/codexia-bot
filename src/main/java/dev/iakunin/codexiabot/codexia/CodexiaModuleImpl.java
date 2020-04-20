@@ -1,5 +1,6 @@
 package dev.iakunin.codexiabot.codexia;
 
+import dev.iakunin.codexiabot.codexia.entity.CodexiaMeta;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaProject;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaReview;
 import dev.iakunin.codexiabot.codexia.repository.CodexiaProjectRepository;
@@ -34,17 +35,17 @@ public final class CodexiaModuleImpl implements CodexiaModule {
     }
 
     @Override
-    public void sendMeta(CodexiaProject codexiaProject, String metaKey, String metaValue) {
+    public void sendMeta(CodexiaMeta meta) {
         try {
             this.codexiaClient.setMeta(
-                codexiaProject.getExternalId(),
-                metaKey,
-                metaValue
+                meta.getCodexiaProject().getExternalId(),
+                meta.getKey(),
+                meta.getValue()
             );
         } catch (Exception e) {
             log.warn(
                 "Exception occurred during sending meta to Codexia; externalId='{}'",
-                codexiaProject.getExternalId(),
+                meta.getCodexiaProject().getExternalId(),
                 e
             );
         }
@@ -60,6 +61,19 @@ public final class CodexiaModuleImpl implements CodexiaModule {
             .flatMap(
                 source -> this.codexiaProjectRepository.findByExternalId(
                     Integer.valueOf(source.getExternalId())
+                )
+            );
+    }
+
+    @Override
+    public CodexiaProject getCodexiaProject(GithubRepo repo) {
+        return this.findCodexiaProject(repo)
+            .orElseThrow(
+                () -> new RuntimeException(
+                    String.format(
+                        "Unable to find CodexiaProject for githubRepoId='%s'",
+                        repo.getId()
+                    )
                 )
             );
     }
