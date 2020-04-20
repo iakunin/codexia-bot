@@ -53,6 +53,12 @@ public final class Up implements Runnable {
             )
             .filter(statList -> statList.size() >= 2)
             .filter(
+                statList ->
+                    statList.getFirst().getStat() != null
+                        &&
+                    statList.getLast().getStat() != null
+            )
+            .filter(
                 statList -> this.bot.shouldSubmit(
                     (GithubApi) statList.getFirst().getStat(),
                     (GithubApi) statList.getLast().getStat()

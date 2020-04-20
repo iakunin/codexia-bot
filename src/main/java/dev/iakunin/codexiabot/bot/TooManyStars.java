@@ -51,6 +51,10 @@ public final class TooManyStars implements Runnable {
     }
 
     private boolean shouldSubmit(GithubRepoStat stat) {
+        if (stat.getStat() == null) {
+            return false;
+        }
+
         return ((GithubApi) stat.getStat()).getStars() > 10_000L;
     }
 

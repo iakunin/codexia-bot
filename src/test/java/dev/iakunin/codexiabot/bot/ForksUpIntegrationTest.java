@@ -45,6 +45,16 @@ public class ForksUpIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     @DataSet(
+        value = "db-rider/bot/forks-up/initial/noResults_githubRepoWithTwoEmptyStats.yml",
+        cleanBefore = true, cleanAfter = true
+    )
+    @ExpectedDataSet("db-rider/bot/forks-up/expected/noResults_githubRepoWithTwoEmptyStats.yml")
+    public void noResults_githubRepoWithTwoEmptyStats() {
+        forksUp.run();
+    }
+
+    @Test
+    @DataSet(
         value = "db-rider/bot/forks-up/initial/noResults_githubRepoWithTwoStats_withTwoEqualForks.yml",
         cleanBefore = true, cleanAfter = true
     )
