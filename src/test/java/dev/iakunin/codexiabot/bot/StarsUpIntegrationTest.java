@@ -142,7 +142,7 @@ public class StarsUpIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/stars-up/expected/oneResult_githubRepoWithThreeStats_happyPath.yml")
-    public void oneStarsUpResult_githubRepoWithThreeStats_happyPath() {
+    public void oneResult_githubRepoWithThreeStats_happyPath() {
         starsUp.run();
     }
 
@@ -153,7 +153,7 @@ public class StarsUpIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/stars-up/expected/oneResult_githubRepoWithFourStats_happyPath.yml")
-    public void oneStarsUpResult_githubRepoWithFourStats_happyPath() {
+    public void oneResult_githubRepoWithFourStats_happyPath() {
         starsUp.run();
     }
 
@@ -164,7 +164,7 @@ public class StarsUpIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/stars-up/expected/oneResult_noNewGithubStats.yml")
-    public void oneStarsUpResult_noNewGithubStats() {
+    public void oneResult_noNewGithubStats() {
         starsUp.run();
     }
 
@@ -175,7 +175,7 @@ public class StarsUpIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/stars-up/expected/oneResult_starsDecrease.yml")
-    public void oneStarsUpResult_starsDecrease() {
+    public void oneResult_starsDecrease() {
         starsUp.run();
     }
 
@@ -186,7 +186,7 @@ public class StarsUpIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/stars-up/expected/oneResult_starsIncreaseLessThan10.yml")
-    public void oneStarsUpResult_starsIncreaseLessThan10() {
+    public void oneResult_starsIncreaseLessThan10() {
         starsUp.run();
     }
 
@@ -197,7 +197,7 @@ public class StarsUpIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/stars-up/expected/oneResult_starsIncreaseMoreThan10ButLessThan5Percents.yml")
-    public void oneStarsUpResult_starsIncreaseMoreThan10ButLessThan5Percents() {
+    public void oneResult_starsIncreaseMoreThan10ButLessThan5Percents() {
         starsUp.run();
     }
 }
