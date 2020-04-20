@@ -2,7 +2,6 @@ package dev.iakunin.codexiabot.codexia.cron;
 
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
-import com.github.database.rider.core.api.dataset.SeedStrategy;
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.ok;
 import static com.github.tomakehurst.wiremock.client.WireMock.post;
@@ -26,8 +25,7 @@ public class SendReviewsIntegrationTest extends AbstractIntegrationTest {
     @Test
     @DataSet(
         value = "db-rider/codexia/cron/send-reviews/initial/noReviewsToSend.yml",
-        executeScriptsBefore = "db-rider/cleanup.sql", executeScriptsAfter = "db-rider/cleanup.sql",
-        strategy = SeedStrategy.INSERT
+        cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/send-reviews/expected/noReviewsToSend.yml")
     public void noReviewsToSend() {
@@ -37,8 +35,7 @@ public class SendReviewsIntegrationTest extends AbstractIntegrationTest {
     @Test
     @DataSet(
         value = "db-rider/codexia/cron/send-reviews/initial/reviewSuccessfullySent.yml",
-        executeScriptsBefore = "db-rider/cleanup.sql", executeScriptsAfter = "db-rider/cleanup.sql",
-        strategy = SeedStrategy.INSERT
+        cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/send-reviews/expected/reviewSuccessfullySent.yml")
     public void reviewSuccessfullySent() {
@@ -53,8 +50,7 @@ public class SendReviewsIntegrationTest extends AbstractIntegrationTest {
     @Test
     @DataSet(
         value = "db-rider/codexia/cron/send-reviews/initial/reviewSentWithDuplicate_responseBodyExists.yml",
-        executeScriptsBefore = "db-rider/cleanup.sql", executeScriptsAfter = "db-rider/cleanup.sql",
-        strategy = SeedStrategy.INSERT
+        cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/send-reviews/expected/reviewSentWithDuplicate_responseBodyExists.yml")
     public void reviewSentWithDuplicate_responseBodyExists() {
@@ -72,8 +68,7 @@ public class SendReviewsIntegrationTest extends AbstractIntegrationTest {
     @Test
     @DataSet(
         value = "db-rider/codexia/cron/send-reviews/initial/reviewSentWithDuplicate_responseBodyEmpty.yml",
-        executeScriptsBefore = "db-rider/cleanup.sql", executeScriptsAfter = "db-rider/cleanup.sql",
-        strategy = SeedStrategy.INSERT
+        cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/send-reviews/expected/reviewSentWithDuplicate_responseBodyEmpty.yml")
     public void reviewSentWithDuplicate_responseBodyEmpty() {
@@ -90,8 +85,7 @@ public class SendReviewsIntegrationTest extends AbstractIntegrationTest {
     @Test
     @DataSet(
         value = "db-rider/codexia/cron/send-reviews/initial/reviewSentWith500.yml",
-        executeScriptsBefore = "db-rider/cleanup.sql", executeScriptsAfter = "db-rider/cleanup.sql",
-        strategy = SeedStrategy.INSERT
+        cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/send-reviews/expected/reviewSentWith500.yml")
     public void reviewSentWith500() {
