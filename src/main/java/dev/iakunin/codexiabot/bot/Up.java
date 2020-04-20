@@ -39,24 +39,23 @@ public final class Up implements Runnable {
     }
 
     public void run() {
-        log.info("Bot type: {}", bot.getClass().getName());
+        log.info("Bot type: {}", this.bot.getClass().getName());
         this.github.findAllInCodexia()
             .stream()
             .map(
                 repo -> Pair.with(repo, this.getLastProcessedStatId(repo))
             )
-            .map(
-                pair -> this.github.findAllGithubApiStat(
+            .map(pair ->
+                this.github.findAllGithubApiStat(
                     pair.getValue0(),
                     pair.getValue1()
                 )
             )
             .filter(statList -> statList.size() >= 2)
-            .filter(
-                statList ->
-                    statList.getFirst().getStat() != null
-                        &&
-                    statList.getLast().getStat() != null
+            .filter(statList ->
+                statList.getFirst().getStat() != null
+                    &&
+                statList.getLast().getStat() != null
             )
             .filter(
                 statList -> this.bot.shouldSubmit(
