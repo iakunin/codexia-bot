@@ -6,5 +6,6 @@ public interface Bot {
         FOUND_ON_REDDIT,
         STARS_UP,
         FORKS_UP,
+        TOO_MANY_STARS,
     }
 }

@@ -13,21 +13,21 @@ import org.springframework.context.annotation.Configuration;
 @AllArgsConstructor
 public class ForksUpConfig {
 
-    private final GithubModule githubModule;
+    private final GithubModule github;
 
-    private final CodexiaModule codexiaModule;
+    private final CodexiaModule codexia;
 
-    private final ForksUpResultRepository forksUpResultRepository;
+    private final ForksUpResultRepository repository;
 
-    private final Forks forksUpBot;
+    private final Forks bot;
 
     @Bean
     public Up forksUp() {
         return new Up(
-            this.githubModule,
-            this.forksUpResultRepository,
-            this.forksUpBot,
-            this.codexiaModule
+            this.github,
+            this.repository,
+            this.bot,
+            this.codexia
         );
     }
 }

@@ -6,6 +6,7 @@ import dev.iakunin.codexiabot.github.entity.GithubRepo;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat.Type;
 import java.util.LinkedList;
+import java.util.Optional;
 import javax.persistence.EntityManager;
 import org.cactoos.collection.CollectionOf;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -165,6 +166,72 @@ public class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegration
 
         entityManager.remove(secondStat);
         entityManager.remove(firstStat);
+        entityManager.remove(repo);
+    }
+
+    @Test
+    @Transactional
+    public void findFirst_happyPath() {
+        var repo = this.createGithubRepo();
+        var type = Type.GITHUB_API;
+        var firstStat = this.createGithubRepoStat(repo, type);
+        var secondStat = this.createGithubRepoStat(repo, type);
+        entityManager.persist(repo);
+        entityManager.persist(firstStat);
+        entityManager.persist(secondStat);
+        entityManager.flush();
+
+        var actual = this.repository
+            .findFirstByGithubRepoAndTypeOrderByIdDesc(repo, type);
+
+        assertEquals(
+            Optional.of(secondStat),
+            actual
+        );
+
+        entityManager.remove(secondStat);
+        entityManager.remove(firstStat);
+        entityManager.remove(repo);
+    }
+
+    @Test
+    @Transactional
+    public void findFirst_empty() {
+        var repo = this.createGithubRepo();
+        var type = Type.GITHUB_API;
+        entityManager.persist(repo);
+        entityManager.flush();
+
+        var actual = this.repository
+            .findFirstByGithubRepoAndTypeOrderByIdDesc(repo, type);
+
+        assertEquals(
+            Optional.empty(),
+            actual
+        );
+
+        entityManager.remove(repo);
+    }
+
+    @Test
+    @Transactional
+    public void findFirst_wrongType() {
+        var repo = this.createGithubRepo();
+        var type = Type.GITHUB_API;
+        var stat = this.createGithubRepoStat(repo, type);
+        entityManager.persist(repo);
+        entityManager.persist(stat);
+        entityManager.flush();
+
+        var actual = this.repository
+            .findFirstByGithubRepoAndTypeOrderByIdDesc(repo, Type.LINES_OF_CODE);
+
+        assertEquals(
+            Optional.empty(),
+            actual
+        );
+
+        entityManager.remove(stat);
         entityManager.remove(repo);
     }
 

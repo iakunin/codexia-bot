@@ -16,7 +16,6 @@ import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 
 @ContextConfiguration(initializers = ProjectsHealthCheckIntegrationTest.Initializer.class)
 public class ProjectsHealthCheckIntegrationTest extends AbstractIntegrationTest {
@@ -25,7 +24,6 @@ public class ProjectsHealthCheckIntegrationTest extends AbstractIntegrationTest 
     private ProjectsHealthCheck projectsHealthCheck;
 
     @Test
-    @Transactional
     @DataSet(
         value = "db-rider/codexia/cron/projects-health-check/initial/noActiveProjectsInRepo.yml",
         cleanBefore = true, cleanAfter = true

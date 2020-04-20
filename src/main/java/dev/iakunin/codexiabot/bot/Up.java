@@ -18,51 +18,56 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 public final class Up implements Runnable {
 
-    private final GithubModule githubModule;
+    private final GithubModule github;
 
-    private final ResultRepository resultRepository;
+    private final ResultRepository repository;
 
-    private final dev.iakunin.codexiabot.bot.up.Bot upBot;
+    private final dev.iakunin.codexiabot.bot.up.Bot bot;
 
-    private final Processor processor;
+    private final Submitter submitter;
 
     public Up(
-        GithubModule githubModule,
-        ResultRepository resultRepository,
-        Bot upBot,
+        GithubModule github,
+        ResultRepository repository,
+        Bot bot,
         CodexiaModule codexiaModule
     ) {
-        this.githubModule = githubModule;
-        this.resultRepository = resultRepository;
-        this.upBot = upBot;
-        this.processor = new Processor(upBot, resultRepository, codexiaModule);
+        this.github = github;
+        this.repository = repository;
+        this.bot = bot;
+        this.submitter = new Submitter(bot, repository, codexiaModule);
     }
 
     public void run() {
-        log.info("Bot type: {}", upBot.getClass().getName());
-        this.githubModule.findAllInCodexia()
+        log.info("Bot type: {}", this.bot.getClass().getName());
+        this.github.findAllInCodexia()
             .stream()
             .map(
                 repo -> Pair.with(repo, this.getLastProcessedStatId(repo))
             )
-            .map(
-                pair -> this.githubModule.findAllGithubApiStat(
+            .map(pair ->
+                this.github.findAllGithubApiStat(
                     pair.getValue0(),
                     pair.getValue1()
                 )
             )
             .filter(statList -> statList.size() >= 2)
+            .filter(statList ->
+                statList.getFirst().getStat() != null
+                    &&
+                statList.getLast().getStat() != null
+            )
             .filter(
-                statList -> this.upBot.shouldReviewBeSubmitted(
+                statList -> this.bot.shouldSubmit(
                     (GithubApi) statList.getFirst().getStat(),
                     (GithubApi) statList.getLast().getStat()
                 )
             )
-            .forEach(this.processor::process);
+            .forEach(this.submitter::submit);
     }
 
     private Long getLastProcessedStatId(GithubRepo repo) {
-        return this.resultRepository
+        return this.repository
             .findFirstByGithubRepoOrderByIdDesc(repo)
             .map(
                 result -> result.getGithubRepoStat().getId()
@@ -72,25 +77,25 @@ public final class Up implements Runnable {
 
     @Slf4j
     @AllArgsConstructor(onConstructor_={@Autowired})
-    private static class Processor {
+    private static class Submitter {
 
-        private final dev.iakunin.codexiabot.bot.up.Bot upBot;
+        private final dev.iakunin.codexiabot.bot.up.Bot bot;
 
-        private final ResultRepository resultRepository;
+        private final ResultRepository repository;
 
-        private final CodexiaModule codexiaModule;
+        private final CodexiaModule codexia;
 
         // @todo #6 add test case with transaction rollback
         @Transactional
-        public void process(Deque<GithubRepoStat> deque) {
-            final CodexiaReview review = this.upBot.createReview(deque.getFirst(), deque.getLast());
+        public void submit(Deque<GithubRepoStat> deque) {
+            final CodexiaReview review = this.bot.review(deque.getFirst(), deque.getLast());
 
-            this.resultRepository.save(
-                this.upBot.createResult(deque.getLast())
+            this.repository.save(
+                this.bot.result(deque.getLast())
             );
-            this.codexiaModule.saveReview(review);
-            this.codexiaModule.sendMeta(
-                this.upBot.createMeta(review)
+            this.codexia.saveReview(review);
+            this.codexia.sendMeta(
+                this.bot.meta(review)
             );
         }
     }
