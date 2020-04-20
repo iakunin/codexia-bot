@@ -1,5 +1,6 @@
 package dev.iakunin.codexiabot.codexia;
 
+import dev.iakunin.codexiabot.codexia.entity.CodexiaMeta;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaProject;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaReview;
 import dev.iakunin.codexiabot.github.entity.GithubRepo;
@@ -13,9 +14,11 @@ public interface CodexiaModule {
 
     // @todo #19 sending meta should also be asynchronous (via cron)
     //  here should be only a saving Meta (as saving Review)
-    void sendMeta(CodexiaProject codexiaProject, String metaKey, String metaValue);
+    void sendMeta(CodexiaMeta meta);
 
     Optional<CodexiaProject> findCodexiaProject(GithubRepo repo);
+
+    CodexiaProject getCodexiaProject(GithubRepo repo);
 
     boolean isReviewExist(CodexiaProject codexiaProject, String author, String reason);
 

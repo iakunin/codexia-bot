@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
-public final class StarsUpResult extends AbstractEntity implements Result {
+public final class ForksUpResult extends AbstractEntity implements Result {
 
     @ManyToOne
     private GithubRepo githubRepo;

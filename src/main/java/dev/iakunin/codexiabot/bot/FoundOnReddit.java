@@ -1,6 +1,7 @@
 package dev.iakunin.codexiabot.bot;
 
 import dev.iakunin.codexiabot.codexia.CodexiaModule;
+import dev.iakunin.codexiabot.codexia.entity.CodexiaMeta;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaProject;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaReview;
 import dev.iakunin.codexiabot.github.GithubModule;
@@ -35,21 +36,13 @@ public final class FoundOnReddit {
                 githubRepo -> {
                     final Set<GithubRepoSource> allRepoSources = this.githubModule.findAllRepoSources(githubRepo);
 
-                    final CodexiaProject codexiaProject = this.codexiaModule
-                        .findCodexiaProject(githubRepo)
-                        .orElseThrow(
-                            () -> new RuntimeException(
-                                String.format(
-                                    "Unable to find CodexiaProject for githubRepoId='%s'",
-                                    githubRepo.getId()
-                                )
-                            )
-                        );
-
                     return allRepoSources.stream()
                         .filter(githubRepoSource -> githubRepoSource.getSource() == GithubModule.Source.REDDIT)
                         .map(
-                            redditSource -> new TmpDto(codexiaProject, redditSource)
+                            redditSource -> new TmpDto(
+                                this.codexiaModule.getCodexiaProject(githubRepo),
+                                redditSource
+                            )
                         );
                 }
             )
@@ -79,13 +72,16 @@ public final class FoundOnReddit {
                 review -> {
                     this.codexiaModule.saveReview(review);
                     this.codexiaModule.sendMeta(
-                        review.getCodexiaProject(),
-                        "reddit-id",
-                        this.codexiaModule
-                            .findAllReviews(review.getCodexiaProject(), review.getAuthor())
-                            .stream()
-                            .map(CodexiaReview::getReason)
-                            .collect(Collectors.joining(","))
+                        new CodexiaMeta()
+                            .setCodexiaProject(review.getCodexiaProject())
+                            .setKey("reddit-id")
+                            .setValue(
+                                this.codexiaModule
+                                    .findAllReviews(review.getCodexiaProject(), review.getAuthor())
+                                    .stream()
+                                    .map(CodexiaReview::getReason)
+                                    .collect(Collectors.joining(","))
+                            )
                     );
                 }
             );
