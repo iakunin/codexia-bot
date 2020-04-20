@@ -55,6 +55,16 @@ public class StarsUpIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     @DataSet(
+        value = "db-rider/bot/stars-up/initial/noResults_githubRepoWithOneEmptyAndOneNonEmptyStat.yml",
+        cleanBefore = true, cleanAfter = true
+    )
+    @ExpectedDataSet("db-rider/bot/stars-up/expected/noResults_githubRepoWithOneEmptyAndOneNonEmptyStat.yml")
+    public void noResults_githubRepoWithOneEmptyAndOneNonEmptyStat() {
+        starsUp.run();
+    }
+
+    @Test
+    @DataSet(
         value = "db-rider/bot/stars-up/initial/noResults_githubRepoWithTwoStats_withTwoEqualStars.yml",
         cleanBefore = true, cleanAfter = true
     )
