@@ -1,0 +1,10 @@
+codexia_review:
+    -
+        id: 1
+        codexia_project_id: 5
+        author: "FOUND_ON_REDDIT"
+        reason: "9xsr9i"
+        text: >-
+            This project is found on Reddit:
+            [web link](https://www.reddit.com/comments/9xsr9i),
+            [api link](https://www.reddit.com/api/info.json?id=t3_9xsr9i).

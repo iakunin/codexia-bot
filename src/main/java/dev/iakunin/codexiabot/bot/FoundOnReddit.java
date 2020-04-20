@@ -59,7 +59,7 @@ public final class FoundOnReddit {
                         String.format(
                             "This project is found on Reddit: " +
                             "[web link](https://www.reddit.com/comments/%s), " +
-                            "[api link](https://www.reddit.com/api/info.json?id=t3_%s)",
+                            "[api link](https://www.reddit.com/api/info.json?id=t3_%s).",
                             dto.getRedditSource().getExternalId(),
                             dto.getRedditSource().getExternalId()
                         )
