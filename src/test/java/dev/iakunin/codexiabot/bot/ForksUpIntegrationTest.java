@@ -50,66 +50,66 @@ public class ForksUpIntegrationTest extends AbstractIntegrationTest {
     @Test
     @Transactional
     @DataSet(
-        value = "db-rider/bot/forks-up/initial/noResults_githubRepoWithTwoStats_withTwoEqualStars.yml",
+        value = "db-rider/bot/forks-up/initial/noResults_githubRepoWithTwoStats_withTwoEqualForks.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/bot/forks-up/expected/noResults_githubRepoWithTwoStats_withTwoEqualStars.yml")
-    public void noResults_githubRepoWithTwoStats_withTwoEqualStars() {
+    @ExpectedDataSet("db-rider/bot/forks-up/expected/noResults_githubRepoWithTwoStats_withTwoEqualForks.yml")
+    public void noResults_githubRepoWithTwoStats_withTwoEqualForks() {
         forksUp.run();
     }
 
     @Test
     @Transactional
     @DataSet(
-        value = "db-rider/bot/forks-up/initial/noResults_githubRepoWithTwoStats_starsDecrease.yml",
+        value = "db-rider/bot/forks-up/initial/noResults_githubRepoWithTwoStats_forksDecrease.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/bot/forks-up/expected/noResults_githubRepoWithTwoStats_starsDecrease.yml")
-    public void noResults_githubRepoWithTwoStats_starsDecrease() {
+    @ExpectedDataSet("db-rider/bot/forks-up/expected/noResults_githubRepoWithTwoStats_forksDecrease.yml")
+    public void noResults_githubRepoWithTwoStats_forksDecrease() {
         forksUp.run();
     }
 
     @Test
     @Transactional
     @DataSet(
-        value = "db-rider/bot/forks-up/initial/noResults_githubRepoWithTwoStats_starsIncreaseLessThan10.yml",
+        value = "db-rider/bot/forks-up/initial/noResults_githubRepoWithTwoStats_forksIncreaseLessThan10.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/bot/forks-up/expected/noResults_githubRepoWithTwoStats_starsIncreaseLessThan10.yml")
-    public void noResults_githubRepoWithTwoStats_starsIncreaseLessThan10() {
+    @ExpectedDataSet("db-rider/bot/forks-up/expected/noResults_githubRepoWithTwoStats_forksIncreaseLessThan10.yml")
+    public void noResults_githubRepoWithTwoStats_forksIncreaseLessThan10() {
         forksUp.run();
     }
 
     @Test
     @Transactional
     @DataSet(
-        value = "db-rider/bot/forks-up/initial/noResults_githubRepoWithThreeStats_starsIncreaseLessThan10.yml",
+        value = "db-rider/bot/forks-up/initial/noResults_githubRepoWithThreeStats_forksIncreaseLessThan10.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/bot/forks-up/expected/noResults_githubRepoWithThreeStats_starsIncreaseLessThan10.yml")
-    public void noResults_githubRepoWithThreeStats_starsIncreaseLessThan10() {
+    @ExpectedDataSet("db-rider/bot/forks-up/expected/noResults_githubRepoWithThreeStats_forksIncreaseLessThan10.yml")
+    public void noResults_githubRepoWithThreeStats_forksIncreaseLessThan10() {
         forksUp.run();
     }
 
     @Test
     @Transactional
     @DataSet(
-        value = "db-rider/bot/forks-up/initial/noResults_githubRepoWithTwoStats_starsIncreaseMoreThan10ButLessThan5Percents.yml",
+        value = "db-rider/bot/forks-up/initial/noResults_githubRepoWithTwoStats_forksIncreaseMoreThan10ButLessThan5Percents.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/bot/forks-up/expected/noResults_githubRepoWithTwoStats_starsIncreaseMoreThan10ButLessThan5Percents.yml")
-    public void noResults_githubRepoWithTwoStats_starsIncreaseMoreThan10ButLessThan5Percents() {
+    @ExpectedDataSet("db-rider/bot/forks-up/expected/noResults_githubRepoWithTwoStats_forksIncreaseMoreThan10ButLessThan5Percents.yml")
+    public void noResults_githubRepoWithTwoStats_forksIncreaseMoreThan10ButLessThan5Percents() {
         forksUp.run();
     }
 
     @Test
     @Transactional
     @DataSet(
-        value = "db-rider/bot/forks-up/initial/noResults_githubRepoWithThreeStats_starsIncreaseMoreThan10ButLessThan5Percents.yml",
+        value = "db-rider/bot/forks-up/initial/noResults_githubRepoWithThreeStats_forksIncreaseMoreThan10ButLessThan5Percents.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/bot/forks-up/expected/noResults_githubRepoWithThreeStats_starsIncreaseMoreThan10ButLessThan5Percents.yml")
-    public void noResults_githubRepoWithThreeStats_starsIncreaseMoreThan10ButLessThan5Percents() {
+    @ExpectedDataSet("db-rider/bot/forks-up/expected/noResults_githubRepoWithThreeStats_forksIncreaseMoreThan10ButLessThan5Percents.yml")
+    public void noResults_githubRepoWithThreeStats_forksIncreaseMoreThan10ButLessThan5Percents() {
         forksUp.run();
     }
 
@@ -142,7 +142,7 @@ public class ForksUpIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/forks-up/expected/oneResult_githubRepoWithThreeStats_happyPath.yml")
-    public void oneStarsUpResult_githubRepoWithThreeStats_happyPath() {
+    public void oneResult_githubRepoWithThreeStats_happyPath() {
         forksUp.run();
     }
 
@@ -153,7 +153,7 @@ public class ForksUpIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/forks-up/expected/oneResult_githubRepoWithFourStats_happyPath.yml")
-    public void oneStarsUpResult_githubRepoWithFourStats_happyPath() {
+    public void oneResult_githubRepoWithFourStats_happyPath() {
         forksUp.run();
     }
 
@@ -164,40 +164,40 @@ public class ForksUpIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/forks-up/expected/oneResult_noNewGithubStats.yml")
-    public void oneStarsUpResult_noNewGithubStats() {
+    public void oneResult_noNewGithubStats() {
         forksUp.run();
     }
 
     @Test
     @Transactional
     @DataSet(
-        value = "db-rider/bot/forks-up/initial/oneResult_starsDecrease.yml",
+        value = "db-rider/bot/forks-up/initial/oneResult_forksDecrease.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/bot/forks-up/expected/oneResult_starsDecrease.yml")
-    public void oneStarsUpResult_starsDecrease() {
+    @ExpectedDataSet("db-rider/bot/forks-up/expected/oneResult_forksDecrease.yml")
+    public void oneResult_forksDecrease() {
         forksUp.run();
     }
 
     @Test
     @Transactional
     @DataSet(
-        value = "db-rider/bot/forks-up/initial/oneResult_starsIncreaseLessThan10.yml",
+        value = "db-rider/bot/forks-up/initial/oneResult_forksIncreaseLessThan10.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/bot/forks-up/expected/oneResult_starsIncreaseLessThan10.yml")
-    public void oneStarsUpResult_starsIncreaseLessThan10() {
+    @ExpectedDataSet("db-rider/bot/forks-up/expected/oneResult_forksIncreaseLessThan10.yml")
+    public void oneResult_forksIncreaseLessThan10() {
         forksUp.run();
     }
 
     @Test
     @Transactional
     @DataSet(
-        value = "db-rider/bot/forks-up/initial/oneResult_starsIncreaseMoreThan10ButLessThan5Percents.yml",
+        value = "db-rider/bot/forks-up/initial/oneResult_forksIncreaseMoreThan10ButLessThan5Percents.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/bot/forks-up/expected/oneResult_starsIncreaseMoreThan10ButLessThan5Percents.yml")
-    public void oneStarsUpResult_starsIncreaseMoreThan10ButLessThan5Percents() {
+    @ExpectedDataSet("db-rider/bot/forks-up/expected/oneResult_forksIncreaseMoreThan10ButLessThan5Percents.yml")
+    public void oneResult_forksIncreaseMoreThan10ButLessThan5Percents() {
         forksUp.run();
     }
 }
