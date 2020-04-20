@@ -6,7 +6,6 @@ import dev.iakunin.codexiabot.AbstractIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.transaction.annotation.Transactional;
 
 public class ForksUpIntegrationTest extends AbstractIntegrationTest {
 
@@ -15,7 +14,6 @@ public class ForksUpIntegrationTest extends AbstractIntegrationTest {
     private Up forksUp;
 
     @Test
-    @Transactional
     @DataSet(
         value = "db-rider/bot/forks-up/initial/emptyDatabase.yml",
         cleanBefore = true, cleanAfter = true
@@ -26,7 +24,6 @@ public class ForksUpIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @Transactional
     @DataSet(
         value = "db-rider/bot/forks-up/initial/noResults_githubRepoWithoutStat.yml",
         cleanBefore = true, cleanAfter = true
@@ -37,7 +34,6 @@ public class ForksUpIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @Transactional
     @DataSet(
         value = "db-rider/bot/forks-up/initial/noResults_githubRepoWithOneStat.yml",
         cleanBefore = true, cleanAfter = true
@@ -48,7 +44,6 @@ public class ForksUpIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @Transactional
     @DataSet(
         value = "db-rider/bot/forks-up/initial/noResults_githubRepoWithTwoStats_withTwoEqualForks.yml",
         cleanBefore = true, cleanAfter = true
@@ -59,7 +54,6 @@ public class ForksUpIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @Transactional
     @DataSet(
         value = "db-rider/bot/forks-up/initial/noResults_githubRepoWithTwoStats_forksDecrease.yml",
         cleanBefore = true, cleanAfter = true
@@ -70,7 +64,6 @@ public class ForksUpIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @Transactional
     @DataSet(
         value = "db-rider/bot/forks-up/initial/noResults_githubRepoWithTwoStats_forksIncreaseLessThan10.yml",
         cleanBefore = true, cleanAfter = true
@@ -81,7 +74,6 @@ public class ForksUpIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @Transactional
     @DataSet(
         value = "db-rider/bot/forks-up/initial/noResults_githubRepoWithThreeStats_forksIncreaseLessThan10.yml",
         cleanBefore = true, cleanAfter = true
@@ -92,7 +84,6 @@ public class ForksUpIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @Transactional
     @DataSet(
         value = "db-rider/bot/forks-up/initial/noResults_githubRepoWithTwoStats_forksIncreaseMoreThan10ButLessThan5Percents.yml",
         cleanBefore = true, cleanAfter = true
@@ -103,7 +94,6 @@ public class ForksUpIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @Transactional
     @DataSet(
         value = "db-rider/bot/forks-up/initial/noResults_githubRepoWithThreeStats_forksIncreaseMoreThan10ButLessThan5Percents.yml",
         cleanBefore = true, cleanAfter = true
@@ -114,7 +104,6 @@ public class ForksUpIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @Transactional
     @DataSet(
         value = "db-rider/bot/forks-up/initial/noResults_githubRepoWithTwoStats_happyPath.yml",
         cleanBefore = true, cleanAfter = true
@@ -125,7 +114,6 @@ public class ForksUpIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @Transactional
     @DataSet(
         value = "db-rider/bot/forks-up/initial/noResults_githubRepoWithThreeStats_happyPath.yml",
         cleanBefore = true, cleanAfter = true
@@ -136,7 +124,6 @@ public class ForksUpIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @Transactional
     @DataSet(
         value = "db-rider/bot/forks-up/initial/oneResult_githubRepoWithThreeStats_happyPath.yml",
         cleanBefore = true, cleanAfter = true
@@ -147,7 +134,6 @@ public class ForksUpIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @Transactional
     @DataSet(
         value = "db-rider/bot/forks-up/initial/oneResult_githubRepoWithFourStats_happyPath.yml",
         cleanBefore = true, cleanAfter = true
@@ -158,7 +144,6 @@ public class ForksUpIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @Transactional
     @DataSet(
         value = "db-rider/bot/forks-up/initial/oneResult_noNewGithubStats.yml",
         cleanBefore = true, cleanAfter = true
@@ -169,7 +154,6 @@ public class ForksUpIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @Transactional
     @DataSet(
         value = "db-rider/bot/forks-up/initial/oneResult_forksDecrease.yml",
         cleanBefore = true, cleanAfter = true
@@ -180,7 +164,6 @@ public class ForksUpIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @Transactional
     @DataSet(
         value = "db-rider/bot/forks-up/initial/oneResult_forksIncreaseLessThan10.yml",
         cleanBefore = true, cleanAfter = true
@@ -191,7 +174,6 @@ public class ForksUpIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @Transactional
     @DataSet(
         value = "db-rider/bot/forks-up/initial/oneResult_forksIncreaseMoreThan10ButLessThan5Percents.yml",
         cleanBefore = true, cleanAfter = true
