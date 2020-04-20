@@ -88,6 +88,14 @@ public final class GithubModuleImpl implements GithubModule {
         );
     }
 
+    @Override
+    public Optional<GithubRepoStat> findLastGithubApiStat(GithubRepo repo) {
+        return this.githubRepoStatRepository.findFirstByGithubRepoAndTypeOrderByIdDesc(
+            repo,
+            GithubRepoStat.Type.GITHUB_API
+        );
+    }
+
     private GithubRepo saveRepo(CreateArguments arguments) throws IOException {
         URL repoUrl = new URL(arguments.getUrl());
 

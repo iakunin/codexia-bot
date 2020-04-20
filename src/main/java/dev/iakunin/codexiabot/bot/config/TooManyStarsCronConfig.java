@@ -1,8 +1,7 @@
 package dev.iakunin.codexiabot.bot.config;
 
-import dev.iakunin.codexiabot.bot.Up;
+import dev.iakunin.codexiabot.bot.TooManyStars;
 import dev.iakunin.codexiabot.common.runnable.Logging;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,29 +9,29 @@ import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
 @Configuration
-public class StarsUpCronConfig implements SchedulingConfigurer {
+public class TooManyStarsCronConfig implements SchedulingConfigurer {
 
-    private final Up starsUp;
+    private final TooManyStars tooManyStars;
 
     private final String cronExpression;
 
-    public StarsUpCronConfig(
-        @Qualifier("starsUp") Up starsUp,
-        @Value("${app.cron.bot.stars-up:-}") String cronExpression
+    public TooManyStarsCronConfig(
+        TooManyStars tooManyStars,
+        @Value("${app.cron.bot.too-many-stars:-}") String cronExpression
     ) {
-        this.starsUp = starsUp;
+        this.tooManyStars = tooManyStars;
         this.cronExpression = cronExpression;
     }
 
     @Bean
-    public Runnable starsUpRunnable() {
-        return new Logging(this.starsUp);
+    public Runnable tooManyStarsRunnable() {
+        return new Logging(this.tooManyStars);
     }
 
     @Override
     public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
         taskRegistrar.addCronTask(
-            this.starsUpRunnable(),
+            this.tooManyStarsRunnable(),
             this.cronExpression
         );
     }

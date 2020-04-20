@@ -6,11 +6,11 @@ import dev.iakunin.codexiabot.codexia.entity.CodexiaReview;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat;
 
 public interface Bot {
-    boolean shouldReviewBeSubmitted(GithubRepoStat.GithubApi first, GithubRepoStat.GithubApi last);
+    boolean shouldSubmit(GithubRepoStat.GithubApi first, GithubRepoStat.GithubApi last);
 
-    Result createResult(GithubRepoStat stat);
+    Result result(GithubRepoStat stat);
 
-    CodexiaMeta createMeta(CodexiaReview review);
+    CodexiaMeta meta(CodexiaReview review);
 
-    CodexiaReview createReview(GithubRepoStat first, GithubRepoStat last);
+    CodexiaReview review(GithubRepoStat first, GithubRepoStat last);
 }

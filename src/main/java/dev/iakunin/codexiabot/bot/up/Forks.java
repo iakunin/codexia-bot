@@ -22,7 +22,7 @@ public final class Forks implements Bot {
     private final CodexiaModule codexiaModule;
 
     @Override
-    public boolean shouldReviewBeSubmitted(GithubApi first, GithubApi last) {
+    public boolean shouldSubmit(GithubApi first, GithubApi last) {
         final int increase = last.getForks() - first.getForks();
 
         if (increase < 10) {
@@ -33,14 +33,14 @@ public final class Forks implements Bot {
     }
 
     @Override
-    public Result createResult(GithubRepoStat stat) {
+    public Result result(GithubRepoStat stat) {
         return new ForksUpResult()
             .setGithubRepo(stat.getGithubRepo())
             .setGithubRepoStat(stat);
     }
 
     @Override
-    public CodexiaMeta createMeta(CodexiaReview review) {
+    public CodexiaMeta meta(CodexiaReview review) {
         return new CodexiaMeta()
             .setCodexiaProject(review.getCodexiaProject())
             .setKey("forks-count")
@@ -54,7 +54,7 @@ public final class Forks implements Bot {
     }
 
     @Override
-    public CodexiaReview createReview(GithubRepoStat first, GithubRepoStat last) {
+    public CodexiaReview review(GithubRepoStat first, GithubRepoStat last) {
         final GithubApi firstStat = (GithubApi) first.getStat();
         final GithubApi lastStat = (GithubApi) last.getStat();
 
