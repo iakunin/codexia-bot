@@ -95,6 +95,7 @@ public final class TooManyStars implements Runnable {
                 );
         }
 
+        // @todo #10 Get rid of TooManyStarsResult - Review is enough (see FoundOnHackernews)
         private Result result(GithubRepoStat stat) {
             return new TooManyStarsResult()
                 .setGithubRepo(stat.getGithubRepo())

@@ -74,8 +74,8 @@ public final class FoundOnHackernews {
                     .setText(
                         String.format(
                             "This project is found on Hackernews: " +
-                                "[web link](https://news.ycombinator.com/item?id=%s), " +
-                                "[api link](https://hacker-news.firebaseio.com/v0/item/%s.json), ",
+                            "[web link](https://news.ycombinator.com/item?id=%s), " +
+                            "[api link](https://hacker-news.firebaseio.com/v0/item/%s.json).",
                             dto.getHackernewsSource().getExternalId(),
                             dto.getHackernewsSource().getExternalId()
                         )

@@ -1,0 +1,43 @@
+github_repo:
+    -
+        id: 1
+        uuid: "groovy: UUID.randomUUID().toString()"
+        external_id: "150713223"
+        full_name: "test-project1/test-repo1"
+
+codexia_project:
+    -
+        id: 5
+        uuid: "groovy: UUID.randomUUID().toString()"
+        external_id: 12
+        coordinates: "test-project1/test-repo1"
+        author: "some-first-author"
+        author_id: 44
+        deleted: null
+        project_created_at: "2019-12-20 12:01:02"
+
+github_repo_source:
+    -
+        id: 1
+        uuid: "groovy: UUID.randomUUID().toString()"
+        github_repo_id: 1
+        source: "CODEXIA"
+        external_id: "12"
+    -
+        id: 2
+        uuid: "groovy: UUID.randomUUID().toString()"
+        github_repo_id: 1
+        source: "HACKERNEWS"
+        external_id: "99912"
+
+codexia_review:
+    -
+        id: 1
+        uuid: "groovy: UUID.randomUUID().toString()"
+        codexia_project_id: 5
+        author: "FOUND_ON_HACKERNEWS"
+        reason: "99912"
+        text: >-
+            This project is found on Hackernews:
+            [web link](https://news.ycombinator.com/item?id=99912),
+            [api link](https://hacker-news.firebaseio.com/v0/item/99912.json).

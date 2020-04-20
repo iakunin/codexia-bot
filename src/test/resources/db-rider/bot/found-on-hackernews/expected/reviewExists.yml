@@ -1,0 +1,10 @@
+codexia_review:
+    -
+        id: 1
+        codexia_project_id: 5
+        author: "FOUND_ON_HACKERNEWS"
+        reason: "99912"
+        text: >-
+            This project is found on Hackernews:
+            [web link](https://news.ycombinator.com/item?id=99912),
+            [api link](https://hacker-news.firebaseio.com/v0/item/99912.json).
