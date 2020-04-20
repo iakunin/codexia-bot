@@ -62,7 +62,7 @@ public final class TooManyStars implements Runnable {
 
         private final CodexiaModule codexia;
 
-        // @todo #50 add test case with transaction rollback
+        // @todo #50 TooManyStars: add test case with transaction rollback
         @Transactional
         public void submit(GithubRepoStat stat) {
             final CodexiaReview review = this.review(stat);
