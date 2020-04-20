@@ -1,0 +1,12 @@
+too_many_stars_result:
+    -
+        github_repo_id: 1
+        github_repo_stat_id: 3
+
+codexia_review:
+    -
+        codexia_project_id: 5
+        author: "TOO_MANY_STARS"
+        reason: "10111"
+        text: >-
+            The repo gained too many stars: 10111 (at 2020-02-23T07:08:09Z).
