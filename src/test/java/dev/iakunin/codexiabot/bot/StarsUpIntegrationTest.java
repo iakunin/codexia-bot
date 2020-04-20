@@ -28,120 +28,120 @@ public class StarsUpIntegrationTest extends AbstractIntegrationTest {
     @Test
     @Transactional
     @DataSet(
-        value = "db-rider/bot/stars-up/initial/noStarsUpResults_githubRepoWithoutStat.yml",
+        value = "db-rider/bot/stars-up/initial/noResults_githubRepoWithoutStat.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/bot/stars-up/expected/noStarsUpResults_githubRepoWithoutStat.yml")
-    public void noStarsUpResults_githubRepoWithoutStat() {
+    @ExpectedDataSet("db-rider/bot/stars-up/expected/noResults_githubRepoWithoutStat.yml")
+    public void noResults_githubRepoWithoutStat() {
         starsUp.run();
     }
 
     @Test
     @Transactional
     @DataSet(
-        value = "db-rider/bot/stars-up/initial/noStarsUpResults_githubRepoWithOneStat.yml",
+        value = "db-rider/bot/stars-up/initial/noResults_githubRepoWithOneStat.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/bot/stars-up/expected/noStarsUpResults_githubRepoWithOneStat.yml")
-    public void noStarsUpResults_githubRepoWithOneStat() {
+    @ExpectedDataSet("db-rider/bot/stars-up/expected/noResults_githubRepoWithOneStat.yml")
+    public void noResults_githubRepoWithOneStat() {
         starsUp.run();
     }
 
     @Test
     @Transactional
     @DataSet(
-        value = "db-rider/bot/stars-up/initial/noStarsUpResults_githubRepoWithTwoStats_withTwoEqualStars.yml",
+        value = "db-rider/bot/stars-up/initial/noResults_githubRepoWithTwoStats_withTwoEqualStars.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/bot/stars-up/expected/noStarsUpResults_githubRepoWithTwoStats_withTwoEqualStars.yml")
-    public void noStarsUpResults_githubRepoWithTwoStats_withTwoEqualStars() {
+    @ExpectedDataSet("db-rider/bot/stars-up/expected/noResults_githubRepoWithTwoStats_withTwoEqualStars.yml")
+    public void noResults_githubRepoWithTwoStats_withTwoEqualStars() {
         starsUp.run();
     }
 
     @Test
     @Transactional
     @DataSet(
-        value = "db-rider/bot/stars-up/initial/noStarsUpResults_githubRepoWithTwoStats_starsDecrease.yml",
+        value = "db-rider/bot/stars-up/initial/noResults_githubRepoWithTwoStats_starsDecrease.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/bot/stars-up/expected/noStarsUpResults_githubRepoWithTwoStats_starsDecrease.yml")
-    public void noStarsUpResults_githubRepoWithTwoStats_starsDecrease() {
+    @ExpectedDataSet("db-rider/bot/stars-up/expected/noResults_githubRepoWithTwoStats_starsDecrease.yml")
+    public void noResults_githubRepoWithTwoStats_starsDecrease() {
         starsUp.run();
     }
 
     @Test
     @Transactional
     @DataSet(
-        value = "db-rider/bot/stars-up/initial/noStarsUpResults_githubRepoWithTwoStats_starsIncreaseLessThan10.yml",
+        value = "db-rider/bot/stars-up/initial/noResults_githubRepoWithTwoStats_starsIncreaseLessThan10.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/bot/stars-up/expected/noStarsUpResults_githubRepoWithTwoStats_starsIncreaseLessThan10.yml")
-    public void noStarsUpResults_githubRepoWithTwoStats_starsIncreaseLessThan10() {
+    @ExpectedDataSet("db-rider/bot/stars-up/expected/noResults_githubRepoWithTwoStats_starsIncreaseLessThan10.yml")
+    public void noResults_githubRepoWithTwoStats_starsIncreaseLessThan10() {
         starsUp.run();
     }
 
     @Test
     @Transactional
     @DataSet(
-        value = "db-rider/bot/stars-up/initial/noStarsUpResults_githubRepoWithThreeStats_starsIncreaseLessThan10.yml",
+        value = "db-rider/bot/stars-up/initial/noResults_githubRepoWithThreeStats_starsIncreaseLessThan10.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/bot/stars-up/expected/noStarsUpResults_githubRepoWithThreeStats_starsIncreaseLessThan10.yml")
-    public void noStarsUpResults_githubRepoWithThreeStats_starsIncreaseLessThan10() {
+    @ExpectedDataSet("db-rider/bot/stars-up/expected/noResults_githubRepoWithThreeStats_starsIncreaseLessThan10.yml")
+    public void noResults_githubRepoWithThreeStats_starsIncreaseLessThan10() {
         starsUp.run();
     }
 
     @Test
     @Transactional
     @DataSet(
-        value = "db-rider/bot/stars-up/initial/noStarsUpResults_githubRepoWithTwoStats_starsIncreaseMoreThan10ButLessThan5Percents.yml",
+        value = "db-rider/bot/stars-up/initial/noResults_githubRepoWithTwoStats_starsIncreaseMoreThan10ButLessThan5Percents.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/bot/stars-up/expected/noStarsUpResults_githubRepoWithTwoStats_starsIncreaseMoreThan10ButLessThan5Percents.yml")
-    public void noStarsUpResults_githubRepoWithTwoStats_starsIncreaseMoreThan10ButLessThan5Percents() {
+    @ExpectedDataSet("db-rider/bot/stars-up/expected/noResults_githubRepoWithTwoStats_starsIncreaseMoreThan10ButLessThan5Percents.yml")
+    public void noResults_githubRepoWithTwoStats_starsIncreaseMoreThan10ButLessThan5Percents() {
         starsUp.run();
     }
 
     @Test
     @Transactional
     @DataSet(
-        value = "db-rider/bot/stars-up/initial/noStarsUpResults_githubRepoWithThreeStats_starsIncreaseMoreThan10ButLessThan5Percents.yml",
+        value = "db-rider/bot/stars-up/initial/noResults_githubRepoWithThreeStats_starsIncreaseMoreThan10ButLessThan5Percents.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/bot/stars-up/expected/noStarsUpResults_githubRepoWithThreeStats_starsIncreaseMoreThan10ButLessThan5Percents.yml")
-    public void noStarsUpResults_githubRepoWithThreeStats_starsIncreaseMoreThan10ButLessThan5Percents() {
+    @ExpectedDataSet("db-rider/bot/stars-up/expected/noResults_githubRepoWithThreeStats_starsIncreaseMoreThan10ButLessThan5Percents.yml")
+    public void noResults_githubRepoWithThreeStats_starsIncreaseMoreThan10ButLessThan5Percents() {
         starsUp.run();
     }
 
     @Test
     @Transactional
     @DataSet(
-        value = "db-rider/bot/stars-up/initial/noStarsUpResults_githubRepoWithTwoStats_happyPath.yml",
+        value = "db-rider/bot/stars-up/initial/noResults_githubRepoWithTwoStats_happyPath.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/bot/stars-up/expected/noStarsUpResults_githubRepoWithTwoStats_happyPath.yml")
-    public void noStarsUpResults_githubRepoWithTwoStats_happyPath() {
+    @ExpectedDataSet("db-rider/bot/stars-up/expected/noResults_githubRepoWithTwoStats_happyPath.yml")
+    public void noResults_githubRepoWithTwoStats_happyPath() {
         starsUp.run();
     }
 
     @Test
     @Transactional
     @DataSet(
-        value = "db-rider/bot/stars-up/initial/noStarsUpResults_githubRepoWithThreeStats_happyPath.yml",
+        value = "db-rider/bot/stars-up/initial/noResults_githubRepoWithThreeStats_happyPath.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/bot/stars-up/expected/noStarsUpResults_githubRepoWithThreeStats_happyPath.yml")
-    public void noStarsUpResults_githubRepoWithThreeStats_happyPath() {
+    @ExpectedDataSet("db-rider/bot/stars-up/expected/noResults_githubRepoWithThreeStats_happyPath.yml")
+    public void noResults_githubRepoWithThreeStats_happyPath() {
         starsUp.run();
     }
 
     @Test
     @Transactional
     @DataSet(
-        value = "db-rider/bot/stars-up/initial/oneStarsUpResult_githubRepoWithThreeStats_happyPath.yml",
+        value = "db-rider/bot/stars-up/initial/oneResult_githubRepoWithThreeStats_happyPath.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/bot/stars-up/expected/oneStarsUpResult_githubRepoWithThreeStats_happyPath.yml")
+    @ExpectedDataSet("db-rider/bot/stars-up/expected/oneResult_githubRepoWithThreeStats_happyPath.yml")
     public void oneStarsUpResult_githubRepoWithThreeStats_happyPath() {
         starsUp.run();
     }
@@ -149,10 +149,10 @@ public class StarsUpIntegrationTest extends AbstractIntegrationTest {
     @Test
     @Transactional
     @DataSet(
-        value = "db-rider/bot/stars-up/initial/oneStarsUpResult_githubRepoWithFourStats_happyPath.yml",
+        value = "db-rider/bot/stars-up/initial/oneResult_githubRepoWithFourStats_happyPath.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/bot/stars-up/expected/oneStarsUpResult_githubRepoWithFourStats_happyPath.yml")
+    @ExpectedDataSet("db-rider/bot/stars-up/expected/oneResult_githubRepoWithFourStats_happyPath.yml")
     public void oneStarsUpResult_githubRepoWithFourStats_happyPath() {
         starsUp.run();
     }
@@ -160,10 +160,10 @@ public class StarsUpIntegrationTest extends AbstractIntegrationTest {
     @Test
     @Transactional
     @DataSet(
-        value = "db-rider/bot/stars-up/initial/oneStarsUpResult_noNewGithubStats.yml",
+        value = "db-rider/bot/stars-up/initial/oneResult_noNewGithubStats.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/bot/stars-up/expected/oneStarsUpResult_noNewGithubStats.yml")
+    @ExpectedDataSet("db-rider/bot/stars-up/expected/oneResult_noNewGithubStats.yml")
     public void oneStarsUpResult_noNewGithubStats() {
         starsUp.run();
     }
@@ -171,10 +171,10 @@ public class StarsUpIntegrationTest extends AbstractIntegrationTest {
     @Test
     @Transactional
     @DataSet(
-        value = "db-rider/bot/stars-up/initial/oneStarsUpResult_starsDecrease.yml",
+        value = "db-rider/bot/stars-up/initial/oneResult_starsDecrease.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/bot/stars-up/expected/oneStarsUpResult_starsDecrease.yml")
+    @ExpectedDataSet("db-rider/bot/stars-up/expected/oneResult_starsDecrease.yml")
     public void oneStarsUpResult_starsDecrease() {
         starsUp.run();
     }
@@ -182,10 +182,10 @@ public class StarsUpIntegrationTest extends AbstractIntegrationTest {
     @Test
     @Transactional
     @DataSet(
-        value = "db-rider/bot/stars-up/initial/oneStarsUpResult_starsIncreaseLessThan10.yml",
+        value = "db-rider/bot/stars-up/initial/oneResult_starsIncreaseLessThan10.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/bot/stars-up/expected/oneStarsUpResult_starsIncreaseLessThan10.yml")
+    @ExpectedDataSet("db-rider/bot/stars-up/expected/oneResult_starsIncreaseLessThan10.yml")
     public void oneStarsUpResult_starsIncreaseLessThan10() {
         starsUp.run();
     }
@@ -193,10 +193,10 @@ public class StarsUpIntegrationTest extends AbstractIntegrationTest {
     @Test
     @Transactional
     @DataSet(
-        value = "db-rider/bot/stars-up/initial/oneStarsUpResult_starsIncreaseMoreThan10ButLessThan5Percents.yml",
+        value = "db-rider/bot/stars-up/initial/oneResult_starsIncreaseMoreThan10ButLessThan5Percents.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/bot/stars-up/expected/oneStarsUpResult_starsIncreaseMoreThan10ButLessThan5Percents.yml")
+    @ExpectedDataSet("db-rider/bot/stars-up/expected/oneResult_starsIncreaseMoreThan10ButLessThan5Percents.yml")
     public void oneStarsUpResult_starsIncreaseMoreThan10ButLessThan5Percents() {
         starsUp.run();
     }
