@@ -9,9 +9,6 @@ import dev.iakunin.codexiabot.codexia.entity.CodexiaReview;
 import dev.iakunin.codexiabot.github.GithubModule;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat.GithubApi;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -82,10 +79,8 @@ public final class TooManyStars implements Runnable {
             return new CodexiaReview()
                 .setText(
                     String.format(
-                        "The repo gained too many stars: %d (at %s).",
-                        apiStat.getStars(),
-                        ZonedDateTime.of(stat.getCreatedAt(), ZoneOffset.UTC)
-                            .truncatedTo(ChronoUnit.SECONDS)
+                        "The repo gained too many stars: %d.",
+                        apiStat.getStars()
                     )
                 )
                 .setAuthor(Bot.Type.TOO_MANY_STARS.name())
