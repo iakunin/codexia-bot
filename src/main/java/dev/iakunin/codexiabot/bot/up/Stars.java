@@ -5,13 +5,13 @@ import dev.iakunin.codexiabot.bot.entity.StarsUpResult;
 import dev.iakunin.codexiabot.codexia.CodexiaModule;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaMeta;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaReview;
+import dev.iakunin.codexiabot.common.duration.HumanReadable;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat;
 import static dev.iakunin.codexiabot.github.entity.GithubRepoStat.GithubApi;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.time.temporal.ChronoUnit;
+import java.time.Duration;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
+import org.cactoos.text.UncheckedText;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -61,15 +61,19 @@ public final class Stars implements Bot {
         return new CodexiaReview()
             .setText(
                 String.format(
-                    "The repo gained %d stars: from %d (at %s) to %d (at %s). " +
-                        "See the stars history [here](https://star-history.t9t.io/#%s).",
+                    "The repo gained %d stars (from %d to %d) in %s. " +
+                    "See the stars history [here](https://star-history.t9t.io/#%s).",
                     lastStat.getStars() - firstStat.getStars(),
                     firstStat.getStars(),
-                    ZonedDateTime.of(first.getCreatedAt(), ZoneOffset.UTC)
-                        .truncatedTo(ChronoUnit.SECONDS),
                     lastStat.getStars(),
-                    ZonedDateTime.of(last.getCreatedAt(), ZoneOffset.UTC)
-                        .truncatedTo(ChronoUnit.SECONDS),
+                    new UncheckedText(
+                        new HumanReadable(
+                            Duration.between(
+                                first.getCreatedAt(),
+                                last.getCreatedAt()
+                            )
+                        )
+                    ).asString(),
                     first.getGithubRepo().getFullName()
                 )
             )
