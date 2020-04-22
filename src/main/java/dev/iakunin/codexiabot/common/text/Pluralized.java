@@ -8,7 +8,7 @@ import org.cactoos.text.FormattedText;
 import org.cactoos.text.Lowered;
 import org.cactoos.text.Sub;
 
-final public class Pluralized implements Text {
+public final class Pluralized implements Text {
 
     private final Scalar<Text> scalar;
 
