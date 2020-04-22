@@ -45,14 +45,14 @@ github_repo_stat:
         github_repo_id: 1
         type: "GITHUB_API"
         stat: '{"type": "GITHUB_API", "forks": 502}'
-        created_at: "2020-02-21 07:12:34.333421"
+        created_at: "2020-02-16 19:50:00.333421"
     -
         id: 5
         uuid: "groovy: UUID.randomUUID().toString()"
         github_repo_id: 1
         type: "GITHUB_API"
         stat: '{"type": "GITHUB_API", "forks": 528}'
-        created_at: "2020-02-24 15:34:01.223344"
+        created_at: "2020-02-16 21:48:12.223344"
 
 forks_up_result:
     -
