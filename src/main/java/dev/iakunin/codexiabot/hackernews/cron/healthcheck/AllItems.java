@@ -1,4 +1,4 @@
-package dev.iakunin.codexiabot.hackernews.cron;
+package dev.iakunin.codexiabot.hackernews.cron.healthcheck;
 
 import dev.iakunin.codexiabot.github.GithubModule;
 import dev.iakunin.codexiabot.github.GithubModule.Source;
@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 @Slf4j
 @AllArgsConstructor(onConstructor_={@Autowired})
-public class ItemsHealthCheck {
+public class AllItems {
 
     private final GithubModule githubModule;
     private final HackernewsModule hackernewsModule;

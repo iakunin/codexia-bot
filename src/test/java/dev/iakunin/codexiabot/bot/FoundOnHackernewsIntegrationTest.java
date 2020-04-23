@@ -5,11 +5,13 @@ import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import dev.iakunin.codexiabot.AbstractIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 public class FoundOnHackernewsIntegrationTest extends AbstractIntegrationTest {
 
+    @Qualifier("foundOnHackernews")
     @Autowired
-    private FoundOnHackernews foundOnHackernews;
+    private Found foundOnHackernews;
 
     @Test
     @DataSet(
