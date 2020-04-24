@@ -221,7 +221,6 @@ public class CodexiaReviewRepositoryIntegrationTest extends AbstractIntegrationT
             .setExternalId(faker.random().nextInt(Integer.MAX_VALUE))
             .setCoordinates(this.getGithubRepoFullName())
             .setAuthor(faker.name().username())
-            .setAuthorId(faker.random().nextInt(Integer.MAX_VALUE))
             .setProjectCreatedAt(LocalDateTime.now());
     }
 

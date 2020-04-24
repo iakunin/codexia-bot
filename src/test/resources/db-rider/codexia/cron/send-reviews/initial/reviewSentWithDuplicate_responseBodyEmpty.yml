@@ -5,7 +5,6 @@ codexia_project:
         external_id: 12
         coordinates: "test-project1/test-repo1"
         author: "some-first-author"
-        author_id: 44
         project_created_at: "2019-12-20 12:01:02"
 
 codexia_review:
