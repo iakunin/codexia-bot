@@ -1,7 +1,6 @@
 package dev.iakunin.codexiabot.codexia.sdk;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import dev.iakunin.codexiabot.codexia.config.FeignConfig;
 import dev.iakunin.codexiabot.common.config.feign.GeneralClientConfiguration;
 import java.util.Date;
@@ -65,9 +64,6 @@ public interface CodexiaClient {
         private Integer id;
         private String coordinates;
         private String author;
-
-        @JsonProperty("author_id")
-        private Integer authorId;
         private String deleted;
 
         // @todo #6 write tests for different timezones

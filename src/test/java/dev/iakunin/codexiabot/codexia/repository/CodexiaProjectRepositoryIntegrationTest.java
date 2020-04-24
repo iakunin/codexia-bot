@@ -42,7 +42,6 @@ public class CodexiaProjectRepositoryIntegrationTest extends AbstractIntegration
         assertEquals(original.getExternalId(), found.getExternalId());
         assertEquals(original.getCoordinates(), found.getCoordinates());
         assertEquals(original.getAuthor(), found.getAuthor());
-        assertEquals(original.getAuthorId(), found.getAuthorId());
         assertEquals(original.getProjectCreatedAt(), found.getProjectCreatedAt());
 
         entityManager.remove(found);
@@ -130,7 +129,6 @@ public class CodexiaProjectRepositoryIntegrationTest extends AbstractIntegration
             .setExternalId(faker.random().nextInt(Integer.MAX_VALUE))
             .setCoordinates(this.getGithubRepoFullName())
             .setAuthor(faker.name().username())
-            .setAuthorId(faker.random().nextInt(Integer.MAX_VALUE))
             .setProjectCreatedAt(LocalDateTime.now());
     }
 
