@@ -57,6 +57,9 @@ dependencies {
 
     implementation 'io.sentry:sentry-logback:1.7.30'
 
+    implementation 'net.javacrumbs.shedlock:shedlock-spring:4.8.0'
+    implementation 'net.javacrumbs.shedlock:shedlock-provider-jdbc-template:4.8.0'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     testImplementation group: 'com.github.database-rider', name: 'rider-spring', version: '1.13.0', {
