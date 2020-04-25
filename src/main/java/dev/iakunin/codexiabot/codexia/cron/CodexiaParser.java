@@ -9,22 +9,20 @@ import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
 @AllArgsConstructor(onConstructor_={@Autowired})
-public final class CodexiaParser {
+public final class CodexiaParser implements Runnable {
 
     private final CodexiaClient codexiaClient;
+
     private final CodexiaProjectRepository repository;
+
     private final Writer writer;
 
-    @Scheduled(cron="${app.cron.codexia.codexia-parser:-}")
     public void run() {
-        log.info("Running {}", this.getClass().getName());
-
         int page = 0;
         List<CodexiaClient.Project> projectList;
 
@@ -43,7 +41,5 @@ public final class CodexiaParser {
 
             page++;
         } while (!projectList.isEmpty());
-
-        log.info("Exiting from {}", this.getClass().getName());
     }
 }
