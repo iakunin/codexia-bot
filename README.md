@@ -8,26 +8,40 @@
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/iakunin/codexia-bot/blob/master/LICENSE)
 [![Hits-of-Code](https://hitsofcode.com/github/iakunin/codexia-bot)](https://hitsofcode.com/view/github/iakunin/codexia-bot)
 
-
-Bots list:
-
-- not-found: `The repo is absent on GitHub`
-- too-small: `The repo is too small (LoC is 123)`
-- too-many-stars: `The repo is already too popular (5K star)`
-- seen-on-hn: `The repo was seen on Hacker News (link)` 
-- seen-on-reddit: `The repo was seen on Reddit (link)`
-
-- stars-up: `The repo gained 120 stars in 7 days`
-- forks-up: `The repo was forked 40 times in 7 days`
-     5% increase/decrease in both metrics
-     If the difference is smaller than 10 stars, the bot stays quiet.
-     From 0 to 200 stars bot will be sending 1 review per 10 stars increase.
-     From 200 to 220 stars bot will be sending 1 review per 11 stars increase.
-     From 220 to 240 stars bot will be sending 1 review per 12 stars increase.
-     And so on.
+This is a supervised bot for [Codexia (open source incubator)](https://www.codexia.org/). 
 
 
-### Ideas backlog
+# Bots list
+
+## not-found
+`The repo is absent on GitHub`
+
+## too-small
+`The repo is too small (LoC is 123)`
+
+## too-many-stars
+`The repo is already too popular (5K star)`
+
+## seen-on-hn
+`The repo was seen on Hacker News (link)` 
+
+## seen-on-reddit
+`The repo was seen on Reddit (link)`
+
+## forks-up
+`The repo was forked 40 times in 7 days`
+
+## stars-up
+`The repo gained 120 stars in 7 days`
+
+* 5% increase/decrease in both metrics (forks/stars).
+* If the difference is smaller than 10 stars, the bot stays quiet.
+* From 0 to 200 stars bot will be sending 1 review per 10 stars increase.
+* From 200 to 220 stars bot will be sending 1 review per 11 stars increase.
+* From 220 to 240 stars bot will be sending 1 review per 12 stars increase.
+* And so on.
+
+# Ideas backlog
 
 - Codexia review
     - Code quality requirements from @yegor256
@@ -52,6 +66,18 @@ Bots list:
     - Analogue of https://api.codetabs.com/v1/loc?github=jolav/betazone
     - https://stackoverflow.com/a/29012789/388916
     - https://github.com/cgag/loc
+    
+
+- Submitting project to Codexia
+    According the conversation [here](https://github.com/yegor256/codexia/issues/102) there are following rules for submitting a new project to Codexia:
+    * Don't submit if there is no activity over the last year.
+    * Don't submit with less than 100 stars.
+    * Don't submit if there are more than 10K stars.
+    * Don't submit if there are less than 5K lines of code.
+    * Extra:
+        * Don't submit if there is no README in repo.
+        * Don't submit if the language of a README is not English.
+
 
 
 - Github parser
