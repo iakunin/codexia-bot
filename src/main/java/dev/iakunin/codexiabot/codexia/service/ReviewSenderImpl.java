@@ -16,8 +16,6 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor(onConstructor_={@Autowired})
 public final class ReviewSenderImpl implements ReviewSender {
 
-    private static final int REVIEW_ALREADY_EXISTS_STATUS = 404;
-
     private final CodexiaReviewNotificationRepository codexiaReviewNotificationRepository;
 
     private final CodexiaClient codexiaClient;
@@ -72,7 +70,7 @@ public final class ReviewSenderImpl implements ReviewSender {
             notification
                 .setStatus(
                     // @todo #19 rewrite via custom Feign exceptions
-                    e.status() == REVIEW_ALREADY_EXISTS_STATUS
+                    e.status() == CodexiaClient.ReviewStatus.ALREADY_EXISTS.httpStatus()
                         ? CodexiaReviewNotification.Status.SUCCESS
                         : CodexiaReviewNotification.Status.ERROR
                 )

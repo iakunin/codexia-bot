@@ -71,4 +71,18 @@ public interface CodexiaClient {
         // @todo #6 replace `Date` with `ZonedDateTime`
         private Date created;
     }
+
+    enum ReviewStatus {
+        ALREADY_EXISTS(404);
+
+        private final int httpStatus;
+
+        ReviewStatus(int httpStatus) {
+            this.httpStatus = httpStatus;
+        }
+
+        public int httpStatus() {
+            return this.httpStatus;
+        }
+    }
 }

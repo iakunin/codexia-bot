@@ -16,4 +16,18 @@ public interface CodexiaReviewNotificationRepository extends JpaRepository<Codex
         "and m1.status = ?1"
     )
     Set<CodexiaReviewNotification> findAllByLastStatus(CodexiaReviewNotification.Status status);
+
+    @Query(
+        "select m1 " +
+        "from CodexiaReviewNotification m1 " +
+        "left join CodexiaReviewNotification m2 " +
+        "   on (m1.codexiaReview = m2.codexiaReview and m1.id < m2.id) " +
+        "where m2.id is null " +
+        "and m1.status = ?1 " +
+        "and m1.responseCode <> ?2"
+    )
+    Set<CodexiaReviewNotification> findAllByLastStatusExcludingResponseCode(
+        CodexiaReviewNotification.Status status,
+        Integer responseCode
+    );
 }
