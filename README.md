@@ -13,25 +13,25 @@ This is a supervised bot for [Codexia (open source incubator)](https://www.codex
 
 # Bots list
 
-## not-found
+### not-found
 `The repo is absent on GitHub`
 
-## too-small
+### too-small
 `The repo is too small (LoC is 123)`
 
-## too-many-stars
+### too-many-stars
 `The repo is already too popular (5K star)`
 
-## seen-on-hn
+### seen-on-hn
 `The repo was seen on Hacker News (link)` 
 
-## seen-on-reddit
+### seen-on-reddit
 `The repo was seen on Reddit (link)`
 
-## forks-up
+### forks-up
 `The repo was forked 40 times in 7 days`
 
-## stars-up
+### stars-up
 `The repo gained 120 stars in 7 days`
 
 * 5% increase/decrease in both metrics (forks/stars).
