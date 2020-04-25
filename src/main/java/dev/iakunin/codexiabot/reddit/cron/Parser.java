@@ -8,26 +8,22 @@ import lombok.extern.slf4j.Slf4j;
 import net.dean.jraw.RedditClient;
 import net.dean.jraw.models.Submission;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
 @AllArgsConstructor(onConstructor_={@Autowired})
-public final class Parser {
+public final class Parser implements Runnable {
 
-    private final RedditClient redditClient;
+    private final RedditClient reddit;
 
-    private final GithubModule githubModule;
+    private final GithubModule github;
 
-    @Scheduled(cron="${app.cron.reddit.parser:-}")
     public void run() {
-        log.info("Running {}", this.getClass().getName());
-
-        this.githubModule.findAllInCodexia()
+        this.github.findAllInCodexia()
             .forEach(githubRepo ->
                 StreamSupport.stream(
-                    this.redditClient.search()
+                    this.reddit.search()
                         .query(
                             String.format("url:\"%s\"", githubRepo.getHtmlUrl())
                         )
@@ -40,7 +36,7 @@ public final class Parser {
                 .forEach(
                     id -> {
                         try {
-                            this.githubModule.createRepo(
+                            this.github.createRepo(
                                 new GithubModule.CreateArguments()
                                     .setUrl(githubRepo.getHtmlUrl())
                                     .setSource(GithubModule.Source.REDDIT)
@@ -52,7 +48,5 @@ public final class Parser {
                     }
                 )
             );
-
-        log.info("Exiting from {}", this.getClass().getName());
     }
 }
