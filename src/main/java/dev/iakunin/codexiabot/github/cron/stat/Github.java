@@ -6,25 +6,19 @@ import java.io.IOException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
 @AllArgsConstructor(onConstructor_={@Autowired})
-public final class Github {
+public final class Github implements Runnable {
 
     private final GithubModule githubModule;
 
-    @Scheduled(cron="${app.cron.github.stat.github:-}")
     public void run() {
-        log.info("Running {}", this.getClass().getName());
-
         this.githubModule
             .findAllInCodexia()
             .forEach(this::updateStat);
-
-        log.info("Exiting from {}", this.getClass().getName());
     }
 
     private void updateStat(GithubRepo githubRepo) {
