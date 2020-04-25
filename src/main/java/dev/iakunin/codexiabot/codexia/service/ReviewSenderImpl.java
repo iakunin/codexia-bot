@@ -70,7 +70,7 @@ public final class ReviewSenderImpl implements ReviewSender {
             notification
                 .setStatus(
                     // @todo #19 rewrite via custom Feign exceptions
-                    e.status() == CodexiaClient.REVIEW_ALREADY_EXISTS_STATUS
+                    e.status() == CodexiaClient.ReviewStatus.ALREADY_EXISTS.httpStatus()
                         ? CodexiaReviewNotification.Status.SUCCESS
                         : CodexiaReviewNotification.Status.ERROR
                 )

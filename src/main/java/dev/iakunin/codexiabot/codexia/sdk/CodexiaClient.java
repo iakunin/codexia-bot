@@ -23,8 +23,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 )
 public interface CodexiaClient {
 
-    int REVIEW_ALREADY_EXISTS_STATUS = 404;
-
     @GetMapping(
         value = "/recent.json",
         produces = { "application/json" }
@@ -72,5 +70,19 @@ public interface CodexiaClient {
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss Z")
         // @todo #6 replace `Date` with `ZonedDateTime`
         private Date created;
+    }
+
+    enum ReviewStatus {
+        ALREADY_EXISTS(404);
+
+        private final int httpStatus;
+
+        ReviewStatus(int httpStatus) {
+            this.httpStatus = httpStatus;
+        }
+
+        public int httpStatus() {
+            return this.httpStatus;
+        }
     }
 }

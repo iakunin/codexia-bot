@@ -23,7 +23,7 @@ public final class ResendReviewsUntilDuplicated implements Runnable {
         this.codexiaReviewNotificationRepository
             .findAllByLastStatusExcludingResponseCode(
                 CodexiaReviewNotification.Status.SUCCESS,
-                CodexiaClient.REVIEW_ALREADY_EXISTS_STATUS
+                CodexiaClient.ReviewStatus.ALREADY_EXISTS.httpStatus()
             )
             .stream()
             .map(CodexiaReviewNotification::getCodexiaReview)
