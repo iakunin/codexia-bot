@@ -8,24 +8,22 @@ import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
 @AllArgsConstructor(onConstructor_={@Autowired})
-public final class RetryErroneous {
+public final class RetryErroneous implements Runnable{
 
     private static final String EMPTY_TYPE = "";
 
     private final HackernewsItemRepository hackernewsItemRepository;
+
     private final HackernewsClient hackernewsClient;
+
     private final Writer writer;
 
-    @Scheduled(cron="${app.cron.hackernews.retry-erroneous:-}")
     public void run() {
-        log.info("Running {}", this.getClass().getName());
-
         this.hackernewsItemRepository.findAllByType(EMPTY_TYPE)
             .forEach(
                 entity -> {
@@ -47,7 +45,5 @@ public final class RetryErroneous {
                     }
                 }
             );
-
-        log.info("Exiting from {}", this.getClass().getName());
     }
 }
