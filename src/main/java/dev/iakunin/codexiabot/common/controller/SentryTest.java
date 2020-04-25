@@ -11,12 +11,14 @@ public final class SentryTest {
     @GetMapping(value = "/sentry/test")
     public ResponseEntity<String> testSentry(
     ) {
-        this.throwRuntimeException();
+        this.exceptionalRunnable().run();
 
         return new ResponseEntity<>("", HttpStatus.OK);
     }
 
-    private void throwRuntimeException() {
-        throw new RuntimeException("This is a test exception for Sentry");
+    private Runnable exceptionalRunnable() {
+        return () -> {
+            throw new RuntimeException("This is a test exception for Sentry");
+        };
     }
 }
