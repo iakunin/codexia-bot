@@ -9,23 +9,20 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
 @AllArgsConstructor(onConstructor_={@Autowired})
-public final class ProjectsHealthCheck {
+public final class ProjectsHealthCheck implements Runnable {
 
     private final CodexiaClient codexiaClient;
+
     private final CodexiaProjectRepository repository;
+
     private final GithubModule githubModule;
 
-    @Scheduled(cron="${app.cron.codexia.projects-health-check:-}")
     public void run() {
-        // @todo #0 extract these `Running` and `Exiting` logs to some scheduled decorator
-        log.info("Running {}", this.getClass().getName());
-
          this.repository.findAllActive()
              .stream()
              .map(p -> this.codexiaClient.getProject(p.getExternalId()))
@@ -36,8 +33,6 @@ public final class ProjectsHealthCheck {
                  this.deleteRepoSources(p);
                  this.updateEntity(p);
              });
-
-        log.info("Exiting from {}", this.getClass().getName());
     }
 
     private void deleteRepoSources(CodexiaClient.Project project) {

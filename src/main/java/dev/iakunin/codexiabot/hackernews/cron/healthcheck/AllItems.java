@@ -8,31 +8,26 @@ import java.util.stream.Stream;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @Slf4j
 @AllArgsConstructor(onConstructor_={@Autowired})
-public class AllItems {
+public class AllItems implements Runnable {
 
-    private final GithubModule githubModule;
-    private final HackernewsModule hackernewsModule;
+    private final GithubModule github;
 
-    @Scheduled(cron="${app.cron.hackernews.items-health-check:-}")
+    private final HackernewsModule hackernews;
+
     @Transactional // https://stackoverflow.com/a/40593697/3456163
     public void run() {
-        log.info("Running {}", this.getClass().getName());
-
-        try (Stream<GithubRepoSource> sources = this.githubModule.findAllRepoSources(Source.HACKERNEWS)) {
-            this.hackernewsModule.healthCheckItems(
+        try (Stream<GithubRepoSource> sources = this.github.findAllRepoSources(Source.HACKERNEWS)) {
+            this.hackernews.healthCheckItems(
                 sources.parallel()
                     .map(GithubRepoSource::getExternalId)
                     .map(Integer::valueOf)
             );
         }
-
-        log.info("Exiting from {}", this.getClass().getName());
     }
 }
