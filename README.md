@@ -36,6 +36,7 @@ Bots list:
         - CI status on master
     - Code coverage
     - Hits Of Code metrics
+    - Repo has no activity during last year
     - LICENSE type
     - Programming language
 
