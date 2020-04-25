@@ -1,0 +1,6 @@
+codexia_review_notification:
+    -
+        codexia_review_id: 1
+        status: SUCCESS
+        response_code: 404
+        response: Some response

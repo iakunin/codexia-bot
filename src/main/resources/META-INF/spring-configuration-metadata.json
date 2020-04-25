@@ -76,6 +76,11 @@
       "description": "Cron expression for codexia.resend-erroneous-reviews."
     },
     {
+      "name": "app.cron.codexia.resend-reviews-until-duplicated",
+      "type": "java.lang.String",
+      "description": "Cron expression for codexia.resend-reviews-until-duplicated."
+    },
+    {
       "name": "app.cron.codexia.projects-health-check",
       "type": "java.lang.String",
       "description": "Cron expression for codexia.projects-health-check."

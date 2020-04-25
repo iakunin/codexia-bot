@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 )
 public interface CodexiaClient {
 
+    int REVIEW_ALREADY_EXISTS_STATUS = 404;
+
     @GetMapping(
         value = "/recent.json",
         produces = { "application/json" }
