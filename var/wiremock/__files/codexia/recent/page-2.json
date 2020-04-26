@@ -2,7 +2,10 @@
   {
     "id": 106,
     "coordinates": "iranianpep/botonomous",
-    "author": "iakunin-codexia-bot",
+    "submitter": {
+      "id": 123,
+      "login": "iakunin-codexia-bot"
+    },
     "deleted": null,
     "badges": [
       "newbie"
@@ -12,7 +15,10 @@
   {
     "id": 105,
     "coordinates": "IonutBajescu/sylar",
-    "author": "iakunin-codexia-bot",
+    "submitter": {
+      "id": 123,
+      "login": "iakunin-codexia-bot"
+    },
     "deleted": null,
     "badges": [
       "newbie"
@@ -22,7 +28,10 @@
   {
     "id": 104,
     "coordinates": "zumba/swivel",
-    "author": "iakunin-codexia-bot",
+    "submitter": {
+      "id": 123,
+      "login": "iakunin-codexia-bot"
+    },
     "deleted": null,
     "badges": [
       "newbie"
@@ -32,7 +41,10 @@
   {
     "id": 103,
     "coordinates": "NeonHorizon/berryio",
-    "author": "iakunin-codexia-bot",
+    "submitter": {
+      "id": 123,
+      "login": "iakunin-codexia-bot"
+    },
     "deleted": null,
     "badges": [
       "newbie"
@@ -42,7 +54,10 @@
   {
     "id": 102,
     "coordinates": "mobomo/opengraph",
-    "author": "iakunin-codexia-bot",
+    "submitter": {
+      "id": 123,
+      "login": "iakunin-codexia-bot"
+    },
     "deleted": null,
     "badges": [
       "newbie"
@@ -52,7 +67,10 @@
   {
     "id": 101,
     "coordinates": "johndeverall/opengraph-java",
-    "author": "iakunin-codexia-bot",
+    "submitter": {
+      "id": 123,
+      "login": "iakunin-codexia-bot"
+    },
     "deleted": null,
     "badges": [
       "newbie"
@@ -62,7 +80,10 @@
   {
     "id": 100,
     "coordinates": "lensapp/lens",
-    "author": "iakunin-codexia-bot",
+    "submitter": {
+      "id": 123,
+      "login": "iakunin-codexia-bot"
+    },
     "deleted": null,
     "badges": [
       "newbie"
@@ -72,7 +93,10 @@
   {
     "id": 99,
     "coordinates": "go-git/go-git",
-    "author": "iakunin-codexia-bot",
+    "submitter": {
+      "id": 123,
+      "login": "iakunin-codexia-bot"
+    },
     "deleted": null,
     "badges": [
       "newbie"
@@ -82,7 +106,10 @@
   {
     "id": 98,
     "coordinates": "atom/github",
-    "author": "iakunin-codexia-bot",
+    "submitter": {
+      "id": 123,
+      "login": "iakunin-codexia-bot"
+    },
     "deleted": null,
     "badges": [
       "newbie"
@@ -92,7 +119,10 @@
   {
     "id": 97,
     "coordinates": "dockeron/dockeron",
-    "author": "iakunin-codexia-bot",
+    "submitter": {
+      "id": 123,
+      "login": "iakunin-codexia-bot"
+    },
     "deleted": null,
     "badges": [
       "newbie"
@@ -102,7 +132,10 @@
   {
     "id": 96,
     "coordinates": "bottlerocket-os/bottlerocket",
-    "author": "iakunin-codexia-bot",
+    "submitter": {
+      "id": 123,
+      "login": "iakunin-codexia-bot"
+    },
     "deleted": null,
     "badges": [
       "newbie"
@@ -112,7 +145,10 @@
   {
     "id": 95,
     "coordinates": "frostming/pdm",
-    "author": "iakunin-codexia-bot",
+    "submitter": {
+      "id": 123,
+      "login": "iakunin-codexia-bot"
+    },
     "deleted": null,
     "badges": [
       "newbie"
@@ -122,7 +158,10 @@
   {
     "id": 94,
     "coordinates": "hudson-and-thames/mlfinlab",
-    "author": "iakunin-codexia-bot",
+    "submitter": {
+      "id": 123,
+      "login": "iakunin-codexia-bot"
+    },
     "deleted": null,
     "badges": [
       "newbie"
@@ -132,7 +171,10 @@
   {
     "id": 93,
     "coordinates": "tsaikd/gogstash",
-    "author": "iakunin-codexia-bot",
+    "submitter": {
+      "id": 123,
+      "login": "iakunin-codexia-bot"
+    },
     "deleted": null,
     "badges": [
       "newbie"
@@ -142,7 +184,10 @@
   {
     "id": 92,
     "coordinates": "openenclave/openenclave",
-    "author": "iakunin-codexia-bot",
+    "submitter": {
+      "id": 123,
+      "login": "iakunin-codexia-bot"
+    },
     "deleted": null,
     "badges": [
       "newbie"
@@ -152,7 +197,10 @@
   {
     "id": 91,
     "coordinates": "sgrust01/jwtvault",
-    "author": "iakunin-codexia-bot",
+    "submitter": {
+      "id": 123,
+      "login": "iakunin-codexia-bot"
+    },
     "deleted": null,
     "badges": [
       "newbie"
@@ -162,7 +210,10 @@
   {
     "id": 90,
     "coordinates": "ricsinaruto/Seq2seqChatbots",
-    "author": "iakunin-codexia-bot",
+    "submitter": {
+      "id": 123,
+      "login": "iakunin-codexia-bot"
+    },
     "deleted": null,
     "badges": [
       "newbie"
@@ -172,7 +223,10 @@
   {
     "id": 89,
     "coordinates": "doodlewind/beam",
-    "author": "iakunin-codexia-bot",
+    "submitter": {
+      "id": 123,
+      "login": "iakunin-codexia-bot"
+    },
     "deleted": null,
     "badges": [
       "newbie"
@@ -182,7 +236,10 @@
   {
     "id": 88,
     "coordinates": "tgres/tgres",
-    "author": "iakunin-codexia-bot",
+    "submitter": {
+      "id": 123,
+      "login": "iakunin-codexia-bot"
+    },
     "deleted": null,
     "badges": [
       "newbie"
@@ -192,7 +249,10 @@
   {
     "id": 87,
     "coordinates": "tusharmath/observable-air",
-    "author": "iakunin-codexia-bot",
+    "submitter": {
+      "id": 123,
+      "login": "iakunin-codexia-bot"
+    },
     "deleted": null,
     "badges": [
       "newbie"
@@ -202,7 +262,10 @@
   {
     "id": 86,
     "coordinates": "oracle/Skater",
-    "author": "iakunin-codexia-bot",
+    "submitter": {
+      "id": 123,
+      "login": "iakunin-codexia-bot"
+    },
     "deleted": null,
     "badges": [
       "newbie"
@@ -212,7 +275,10 @@
   {
     "id": 85,
     "coordinates": "dioptre/dcrontab",
-    "author": "iakunin-codexia-bot",
+    "submitter": {
+      "id": 123,
+      "login": "iakunin-codexia-bot"
+    },
     "deleted": null,
     "badges": [
       "newbie"
@@ -222,7 +288,10 @@
   {
     "id": 84,
     "coordinates": "UniversalDataTool/universal-data-tool",
-    "author": "iakunin-codexia-bot",
+    "submitter": {
+      "id": 123,
+      "login": "iakunin-codexia-bot"
+    },
     "deleted": null,
     "badges": [
       "newbie"
@@ -232,7 +301,10 @@
   {
     "id": 83,
     "coordinates": "tensorflow/quantum",
-    "author": "iakunin-codexia-bot",
+    "submitter": {
+      "id": 123,
+      "login": "iakunin-codexia-bot"
+    },
     "deleted": null,
     "badges": [
       "newbie"
@@ -242,7 +314,10 @@
   {
     "id": 82,
     "coordinates": "beehive-lab/TornadoVM",
-    "author": "iakunin-codexia-bot",
+    "submitter": {
+      "id": 123,
+      "login": "iakunin-codexia-bot"
+    },
     "deleted": null,
     "badges": [
       "newbie"

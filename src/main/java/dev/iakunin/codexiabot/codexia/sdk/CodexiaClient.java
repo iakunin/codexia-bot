@@ -63,13 +63,19 @@ public interface CodexiaClient {
     class Project {
         private Integer id;
         private String coordinates;
-        private String author;
+        private Submitter submitter;
         private String deleted;
 
         // @todo #6 write tests for different timezones
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss Z")
         // @todo #6 replace `Date` with `ZonedDateTime`
         private Date created;
+
+        @Data
+        public static class Submitter {
+            private Integer id;
+            private String login;
+        }
     }
 
     enum ReviewStatus {

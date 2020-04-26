@@ -1,6 +1,8 @@
 include .env
 export $(shell sed 's/=.*//' .env)
 
+.PHONY: bin build gradle src var
+
 tag:
 	bash bin/create_tag.sh -n1
 
@@ -56,4 +58,4 @@ pdd:
 	pdd --source=/main --exclude=.idea/**/* --verbose --file=/dev/null
 
 build:
-	bash bin/gradle_in_docker.sh clean build --info
+	bash bin/gradle_in_docker.sh clean build --info --console=verbose

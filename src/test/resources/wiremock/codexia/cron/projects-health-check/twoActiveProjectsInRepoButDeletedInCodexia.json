@@ -1,5 +1,5 @@
 {
-  "id": {{ replace request.requestLine.pathSegments.[2] '.json' '' }},
+  "id": {{ replace request.requestLine.pathSegments.[1] '.json' '' }},
   "coordinates": "test-project/test-repo",
   "platform": "github",
   "submitter": {
@@ -7,5 +7,5 @@
     "login": "iakunin-codexia-bot"
   },
   "created": "2020-03-10 19:12:21 +0000",
-  "deleted": null
+  "deleted": "deleted by someone"
 }
