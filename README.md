@@ -79,6 +79,7 @@ This is a supervised bot for [Codexia (open source incubator)](https://www.codex
     * Extra:
         * Don't submit if there is no README in repo.
         * Don't submit if the language of a README is not English.
+    * https://www.codexia.org/focus
 
 
 
