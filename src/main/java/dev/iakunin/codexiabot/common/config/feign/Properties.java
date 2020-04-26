@@ -2,8 +2,10 @@ package dev.iakunin.codexiabot.common.config.feign;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 @Data
+@Component
 @ConfigurationProperties("dev.iakunin.codexiabot.logging")
 public final class Properties {
 
