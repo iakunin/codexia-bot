@@ -2,7 +2,10 @@
   "id": {{ replace request.requestLine.pathSegments.[2] '.json' '' }},
   "coordinates": "test-project/test-repo",
   "platform": "github",
-  "author": "iakunin-codexia-bot",
+  "submitter": {
+    "id": 123,
+    "login": "iakunin-codexia-bot"
+  },
   "created": "2020-03-10 19:12:21 +0000",
   "deleted": null
 }

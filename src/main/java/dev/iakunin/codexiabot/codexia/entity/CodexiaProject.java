@@ -27,7 +27,7 @@ public final class CodexiaProject extends AbstractEntity {
             return new CodexiaProject()
                 .setExternalId(from.getId())
                 .setCoordinates(from.getCoordinates())
-                .setAuthor(from.getAuthor())
+                .setAuthor(from.getSubmitter().getLogin())
                 .setDeleted(from.getDeleted())
                 .setProjectCreatedAt(
                     Factory.toLocalDateTIme(from.getCreated())

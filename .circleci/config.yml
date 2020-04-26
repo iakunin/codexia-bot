@@ -54,7 +54,8 @@ jobs:
                             gradle clean build sonarqube \
                                 -Pversion=$CIRCLE_TAG \
                                 -PpullRequestKey=$PR_NUMBER \
-                                --info
+                                --info \
+                                --console=plain
             -   run:
                     name: codecov
                     command: bash <(curl -s https://codecov.io/bash)
