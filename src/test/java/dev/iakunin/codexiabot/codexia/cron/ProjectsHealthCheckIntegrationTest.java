@@ -8,7 +8,8 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
 import com.github.tomakehurst.wiremock.extension.responsetemplating.ResponseTemplateTransformer;
 import dev.iakunin.codexiabot.AbstractIntegrationTest;
 import dev.iakunin.codexiabot.util.WireMockServer;
-import org.cactoos.text.Joined;
+import org.cactoos.io.ResourceOf;
+import org.cactoos.text.TextOf;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,17 +46,10 @@ public class ProjectsHealthCheckIntegrationTest extends AbstractIntegrationTest 
                 .willReturn(ok()
                     .withHeader("Content-Type",  "application/json")
                     .withBody(
-                        new Joined(
-                            "\n",
-                            // @todo #6 extract to json-file
-                            "{",
-                            "    \"id\": {{ replace request.requestLine.pathSegments.[1] '.json' '' }},",
-                            "    \"coordinates\": \"test-project/test-repo\",",
-                            "    \"platform\": \"github\",",
-                            "    \"author\": \"iakunin-codexia-bot\",",
-                            "    \"created\": \"2020-03-10 19:12:21 +0000\",",
-                            "    \"deleted\": \"deleted by someone\"",
-                            "}"
+                        new TextOf(
+                            new ResourceOf(
+                                "wiremock/codexia/cron/projects-health-check/twoActiveProjectsInRepoButDeletedInCodexia.json"
+                            )
                         ).toString()
                     )
                     .withTransformers(ResponseTemplateTransformer.NAME)
