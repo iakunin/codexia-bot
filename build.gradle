@@ -62,7 +62,7 @@ dependencies {
     testImplementation group: 'com.github.database-rider', name: 'rider-spring', version: '1.13.0', {
         exclude group: 'org.slf4j'
     }
-    testImplementation 'org.testcontainers:postgresql:1.13.0'
+    testImplementation 'org.testcontainers:postgresql:1.14.1'
     testImplementation 'com.github.javafaker:javafaker:1.0.2'
     testImplementation 'com.github.tomakehurst:wiremock:2.26.3'
     testImplementation 'org.codehaus.groovy:groovy-all:3.0.2'
