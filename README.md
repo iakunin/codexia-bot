@@ -66,6 +66,8 @@ This is a supervised bot for [Codexia (open source incubator)](https://www.codex
     - Analogue of https://api.codetabs.com/v1/loc?github=jolav/betazone
     - https://stackoverflow.com/a/29012789/388916
     - https://github.com/cgag/loc
+    - https://github.com/github/linguist
+    - https://developer.github.com/v3/repos/#list-languages
     
 
 - Submitting project to Codexia
