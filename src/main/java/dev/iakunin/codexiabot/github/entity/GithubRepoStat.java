@@ -120,8 +120,8 @@ public final class GithubRepoStat extends AbstractEntity {
                         .setPushedAt(Factory.toLocalDateTime(from.getPushedAt()))
                         .setLanguage(from.getLanguage())
                         .setHomepage(from.getHomepage())
-                        .setForks(from.getForks())
-                        .setWatchers(from.getWatchers())
+                        .setForks(from.getForksCount())
+                        .setWatchers(from.getWatchersCount())
                         .setStars(from.getStargazersCount())
                 )
             ;
