@@ -63,7 +63,7 @@
             <appender-ref ref="NOP" />
         </logger>
 
-        <logger name="Hypersistence Optimizer" additivity="false">
+        <logger name="Hibernate Types" additivity="false">
             <appender-ref ref="NOP" />
         </logger>
     </springProfile>
