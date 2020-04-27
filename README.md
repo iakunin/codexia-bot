@@ -49,10 +49,14 @@ This is a supervised bot for [Codexia (open source incubator)](https://www.codex
         - CI type (CircleCI, Travis, etc.)
         - CI status on master
     - Code coverage
+    - Static analysis tools integration
     - Hits Of Code metrics
     - Repo has no activity during last year
     - LICENSE type
     - Programming language
+    - CONTRIBUTING.md
+    - Github issue and pull-request templates
+    - Documentation (on some popular doc-platforms)
 
 
 - Determine topic of github-repo (games, IoT, etc.)
