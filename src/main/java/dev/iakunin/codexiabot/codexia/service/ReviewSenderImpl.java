@@ -5,6 +5,7 @@ import dev.iakunin.codexiabot.codexia.entity.CodexiaReviewNotification;
 import dev.iakunin.codexiabot.codexia.repository.CodexiaReviewNotificationRepository;
 import dev.iakunin.codexiabot.codexia.sdk.CodexiaClient;
 import feign.FeignException;
+import java.nio.ByteBuffer;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,7 +76,13 @@ public final class ReviewSenderImpl implements ReviewSender {
                         : CodexiaReviewNotification.Status.ERROR
                 )
                 .setResponseCode(e.status())
-                .setResponse(e.content() != null ? e.contentUTF8() : "")
+                .setResponse(
+                    new String(
+                        e.responseBody()
+                            .orElse(ByteBuffer.allocate(0))
+                            .array()
+                    )
+                )
         );
     }
 }
