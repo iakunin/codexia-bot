@@ -6,8 +6,9 @@ import dev.iakunin.codexiabot.codexia.entity.CodexiaReview;
 import dev.iakunin.codexiabot.github.GithubModule;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat.LinesOfCode;
-import java.util.Optional;
 import lombok.AllArgsConstructor;
+import org.javatuples.Pair;
+import org.javatuples.Triplet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,8 @@ public final class TooSmall implements Runnable {
 
     private final GithubModule github;
 
+    private final CodexiaModule codexia;
+
     private final Submitter submitter;
 
     public TooSmall(
@@ -24,6 +27,7 @@ public final class TooSmall implements Runnable {
         CodexiaModule codexia
     ) {
         this.github = github;
+        this.codexia = codexia;
         this.submitter = new Submitter(codexia);
     }
 
@@ -31,21 +35,39 @@ public final class TooSmall implements Runnable {
         this.github.findAllInCodexia()
             .stream()
             .filter(
-                // @todo #92 filter if review already exist
-                repo -> Optional.empty().isEmpty()
+                repo -> this.codexia.findAllReviews(
+                    this.codexia.getCodexiaProject(repo),
+                    Bot.Type.TOO_SMALL.name()
+                ).isEmpty()
             )
-            // @todo #92 add github::findLastLinesOfCodeStat
-            .map(this.github::findLastGithubApiStat)
-            .filter(Optional::isPresent)
-            .map(Optional::get)
+            .map(
+                repo -> new Pair<>(
+                    this.github.findLastGithubApiStat(repo),
+                    this.github.findLastLinesOfCodeStat(repo)
+                )
+            )
+            .filter(
+                pair -> pair.getValue0().isPresent() && pair.getValue1().isPresent()
+            )
+            .map(
+                pair -> new Triplet<>(
+                    pair.getValue0().get().getGithubRepo(),
+                    (GithubRepoStat.GithubApi) pair.getValue0().get().getStat(),
+                    (GithubRepoStat.LinesOfCode) pair.getValue1().get().getStat()
+                )
+            )
             .filter(this::shouldSubmit)
             .forEach(this.submitter::submit);
     }
 
-    private boolean shouldSubmit(GithubRepoStat stat) {
+    private LinesOfCode.Item findDesiredItem(GithubRepoStat.GithubApi githubStat, GithubRepoStat.LinesOfCode linesOfCodeStat) {
+        // @todo #92 implement algorithm of finding current LoC only for repo main language
+        return null;
+    }
+
+    private boolean shouldSubmit(Pair<GithubRepoStat, GithubRepoStat> pair) {
         final LinesOfCode lines = (LinesOfCode) stat.getStat();
 
-        // @todo #92 implement algorithm of finding current LoC only for repo main language
         return false;
     }
 
@@ -72,7 +94,7 @@ public final class TooSmall implements Runnable {
                         lines
                     )
                 )
-                .setAuthor(Bot.Type.TOO_MANY_STARS.name())
+                .setAuthor(Bot.Type.TOO_SMALL.name())
                 .setReason(String.valueOf(lines))
                 .setCodexiaProject(
                     this.codexia.getCodexiaProject(stat.getGithubRepo())

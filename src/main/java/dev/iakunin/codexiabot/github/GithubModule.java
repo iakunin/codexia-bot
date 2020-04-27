@@ -34,6 +34,8 @@ public interface GithubModule {
 
     Optional<GithubRepoStat> findLastGithubApiStat(GithubRepo repo);
 
+    Optional<GithubRepoStat> findLastLinesOfCodeStat(GithubRepo repo);
+
     @Data
     class CreateArguments {
         private String url;
