@@ -56,7 +56,6 @@ This is a supervised bot for [Codexia (open source incubator)](https://www.codex
     - Code coverage
     - Static analysis tools integration
     - Hits Of Code metrics
-    - Repo has no activity during last year
     - LICENSE type
     - Programming language
     - CONTRIBUTING.md
