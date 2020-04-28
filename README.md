@@ -22,7 +22,7 @@ This is a supervised bot for [Codexia (open source incubator)](https://www.codex
 * report when the size of the repo is smaller than the threshold
 * set meta marker once reported
 * don't report anymore, while the meta marker is present
-* remove the marker is the size of the repo is above the threshold
+* report and remove the marker if the size of the repo is above the threshold
 
 ### too-many-stars
 `The repo is already too popular (5K star)`
