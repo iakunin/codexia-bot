@@ -48,6 +48,7 @@ dependencies {
 
     implementation 'de.siegmar:logback-gelf:3.0.0'
     implementation 'org.cactoos:cactoos:0.44'
+    implementation 'io.vavr:vavr:0.10.2'
     implementation 'org.javatuples:javatuples:1.2'
 
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:2.2.2.RELEASE'
