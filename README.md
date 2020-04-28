@@ -8,7 +8,7 @@
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/iakunin/codexia-bot/blob/master/LICENSE)
 [![Hits-of-Code](https://hitsofcode.com/github/iakunin/codexia-bot)](https://hitsofcode.com/view/github/iakunin/codexia-bot)
 
-This is a supervised bot for [Codexia (open source incubator)](https://www.codexia.org/). 
+This is a supervised bot for [Codexia (open source incubator)](https://www.codexia.org/).
 
 
 # Bots list
@@ -19,11 +19,16 @@ This is a supervised bot for [Codexia (open source incubator)](https://www.codex
 ### too-small
 `The repo is too small (LoC is 123)`
 
+* report when the size of the repo is smaller than the threshold
+* set meta marker once reported
+* don't report anymore, while the meta marker is present
+* report and remove the marker if the size of the repo is above the threshold
+
 ### too-many-stars
 `The repo is already too popular (5K star)`
 
 ### seen-on-hn
-`The repo was seen on Hacker News (link)` 
+`The repo was seen on Hacker News (link)`
 
 ### seen-on-reddit
 `The repo was seen on Reddit (link)`
@@ -72,7 +77,7 @@ This is a supervised bot for [Codexia (open source incubator)](https://www.codex
     - https://github.com/cgag/loc
     - https://github.com/github/linguist
     - https://developer.github.com/v3/repos/#list-languages
-    
+
 
 - Submitting project to Codexia
     According the conversation [here](https://github.com/yegor256/codexia/issues/102) there are following rules for submitting a new project to Codexia:
