@@ -50,7 +50,7 @@ This is a supervised bot for [Codexia (open source incubator)](https://www.codex
 
 - Codexia review
     - Code quality requirements from @yegor256
-    - Static analysis tools integration
+    - Static analysis tools integration (like pmd/checkstyle/qulice)
     - LICENSE type
     - Programming language
     - CONTRIBUTING.md
@@ -61,7 +61,8 @@ This is a supervised bot for [Codexia (open source incubator)](https://www.codex
     - README
         - is exist
         - is english language
-    - public artifacts (Docker/jar/mvn)
+    - Public artifacts (Docker/jar/mvn)
+        - is exist
         - downloads count
 
 
