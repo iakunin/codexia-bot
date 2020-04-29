@@ -50,7 +50,6 @@ This is a supervised bot for [Codexia (open source incubator)](https://www.codex
 
 - Codexia review
     - Code quality requirements from @yegor256
-    - Code coverage
     - Static analysis tools integration
     - LICENSE type
     - Programming language
