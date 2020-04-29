@@ -56,6 +56,13 @@ This is a supervised bot for [Codexia (open source incubator)](https://www.codex
     - CONTRIBUTING.md
     - Github issue and pull-request templates
     - Documentation (on some popular doc-platforms)
+    - Community (chats, mailing lists, SO tag)
+    - Throughput of issues / pull-requests
+    - README
+        - is exist
+        - is english language
+    - public artifacts (Docker/jar/mvn)
+        - downloads count
 
 
 - Determine topic of github-repo (games, IoT, etc.)
