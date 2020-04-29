@@ -50,9 +50,6 @@ This is a supervised bot for [Codexia (open source incubator)](https://www.codex
 
 - Codexia review
     - Code quality requirements from @yegor256
-    - Integration with CI
-        - CI type (CircleCI, Travis, etc.)
-        - CI status on master
     - Code coverage
     - Static analysis tools integration
     - LICENSE type
