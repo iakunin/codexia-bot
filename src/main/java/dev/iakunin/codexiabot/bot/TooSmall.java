@@ -18,6 +18,7 @@ import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.cactoos.scalar.Unchecked;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -87,7 +88,8 @@ public final class TooSmall implements Runnable {
                 new LogNotFound(
                     githubStat,
                     linesOfCodeStat,
-                    new ExactItem(githubStat, linesOfCodeStat)
+                    new ExactItem(githubStat, linesOfCodeStat),
+                    LoggerFactory.getLogger(LogNotFound.class)
                 )
             ).value();
     }

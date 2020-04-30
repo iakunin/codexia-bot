@@ -4,11 +4,9 @@ import dev.iakunin.codexiabot.github.entity.GithubRepoStat.GithubApi;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat.LinesOfCode;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat.LinesOfCode.Item;
 import java.util.Optional;
-import lombok.extern.slf4j.Slf4j;
 import org.cactoos.Scalar;
+import org.slf4j.Logger;
 
-// @todo #92 write a unit-test for it
-@Slf4j
 public final class LogNotFound implements Scalar<Optional<Item>> {
 
     private final GithubApi githubStat;
@@ -17,28 +15,31 @@ public final class LogNotFound implements Scalar<Optional<Item>> {
 
     private final Scalar<Optional<Item>> inner;
 
+    private final Logger logger;
+
     public LogNotFound(
         GithubApi githubStat,
         LinesOfCode linesOfCodeStat,
-        Scalar<Optional<Item>> inner
+        Scalar<Optional<Item>> inner,
+        Logger logger
     ) {
         this.githubStat = githubStat;
         this.linesOfCodeStat = linesOfCodeStat;
         this.inner = inner;
+        this.logger = logger;
     }
 
     @Override
     public Optional<Item> value() throws Exception {
-        final Optional<Item> result = inner.value();
+        final Optional<Item> result = this.inner.value();
 
-        result.ifPresentOrElse(
-            item -> {},
-            () -> log.warn(
+        if (result.isEmpty()) {
+            this.logger.warn(
                 "Unable to find proper LoC stat; language='{}'; LoC list='{}'",
                 githubStat.getLanguage(),
                 linesOfCodeStat.getItemList()
-            )
-        );
+            );
+        }
 
         return result;
     }
