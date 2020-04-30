@@ -13,7 +13,6 @@ import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.javatuples.Pair;
-import org.javatuples.Triplet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,45 +45,96 @@ public final class TooSmall implements Runnable {
                 return optional.isEmpty() || optional.get().getState() == TooSmallResult.State.RESET;
             })
             .map(
-                repo -> new Triplet<>(
-                    this.github.findLastLinesOfCodeStat(repo),
-                    this.github.findLastGithubApiStat(repo)
-                        .map(stat -> (GithubApi) stat.getStat()),
-                    this.github.findLastLinesOfCodeStat(repo)
-                        .map(stat -> (LinesOfCode) stat.getStat())
-                )
+                repo -> {
+                    final Optional<GithubApi> githubApi = this.github.findLastGithubApiStat(repo)
+                        .map(stat -> (GithubApi) stat.getStat());
+
+                    final Optional<GithubRepoStat> linesOfCodeStat = this.github.findLastLinesOfCodeStat(repo);
+
+                    final Optional<LinesOfCode> linesOfCode = linesOfCodeStat
+                        .map(stat -> (LinesOfCode) stat.getStat());
+
+                    if (!(linesOfCodeStat.isPresent() && githubApi.isPresent() && linesOfCode.isPresent())) {
+                        return Optional.<Pair<GithubRepoStat, LinesOfCode.Item>>empty();
+                    }
+
+                    final Optional<LinesOfCode.Item> desiredItem = this.findDesiredItem(
+                        new Pair<>(
+                            githubApi.get(),
+                            linesOfCode.get()
+                        )
+                    );
+
+                    if (desiredItem.isEmpty()) {
+                        return Optional.<Pair<GithubRepoStat, LinesOfCode.Item>>empty();
+                    }
+
+                    return flatMap(
+                        new Pair<>(linesOfCodeStat, desiredItem)
+                    );
+
+//                    return Optional.of(
+//                        new Pair<>(
+//                            linesOfCodeStat.get(),
+//                            desiredItem.get()
+//                        )
+//                    );
+                }
             )
-            .filter(
-                pair ->
-                    pair.getValue0().isPresent()
-                    && pair.getValue1().isPresent()
-                    && pair.getValue2().isPresent()
+            .forEach(optional ->
+                optional
+                    .filter(pair -> this.shouldSubmit(pair.getValue1()))
+                    .ifPresent(this.submitter::submit)
             )
-            .map(
-                pair -> new Pair<>(
-                    pair.getValue0().get(),
-                    this.findDesiredItem(
-                        pair.getValue1().get(),
-                        pair.getValue2().get()
-                    )
-                )
+//            .filter(Optional::isPresent)
+//            .map(Optional::get)
+//            .filter(
+//                pair ->
+//                    pair.getValue0().isPresent()
+//                    && pair.getValue1().isPresent()
+//                    && pair.getValue2().isPresent()
+//            )
+//            .map(
+//                pair -> new Pair<>(
+//                    pair.getValue0().get(),
+//                    this.findDesiredItem(
+//                        pair.getValue1().get(),
+//                        pair.getValue2().get()
+//                    )
+//                )
+//            )
+//            .filter(pair -> pair.getValue1().isPresent())
+//            .map(
+//                pair -> new Pair<>(
+//                    pair.getValue0(),
+//                    pair.getValue1().get()
+//                )
+//            )
+//            .filter(pair -> this.shouldSubmit(pair.getValue1()))
+//            .forEach(this.submitter::submit)
+        ;
+    }
+
+    public static <A, B> Optional<Pair<A, B>> flatMap(Pair<Optional<A>, Optional<B>> pair) {
+        if (pair.getValue0().isEmpty() || pair.getValue1().isEmpty()) {
+            return Optional.empty();
+        }
+
+        return Optional.of(
+            new Pair<>(
+                pair.getValue0().get(),
+                pair.getValue1().get()
             )
-            .filter(pair -> pair.getValue1().isPresent())
-            .map(
-                pair -> new Pair<>(
-                    pair.getValue0(),
-                    pair.getValue1().get()
-                )
-            )
-            .filter(pair -> this.shouldSubmit(pair.getValue1()))
-            .forEach(this.submitter::submit);
+        );
     }
 
     // @todo #92 Extract it to a separate class & write a unit-test for it
     private Optional<LinesOfCode.Item> findDesiredItem(
-        GithubApi githubStat,
-        LinesOfCode linesOfCodeStat
+        Pair<GithubApi, LinesOfCode> pair
     ) {
+        final GithubApi githubStat = pair.getValue0();
+        final LinesOfCode linesOfCodeStat = pair.getValue1();
+
         final Optional<LinesOfCode.Item> firstAttempt = linesOfCodeStat
             .getItemList()
             .stream()
