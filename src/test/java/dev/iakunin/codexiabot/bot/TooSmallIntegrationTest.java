@@ -33,6 +33,16 @@ public class TooSmallIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     @DataSet(
+        value = "db-rider/bot/too-small/initial/moreThanThreshold.yml",
+        cleanBefore = true, cleanAfter = true
+    )
+    @ExpectedDataSet("db-rider/bot/too-small/expected/moreThanThreshold.yml")
+    public void moreThanThreshold() {
+        tooSmall.run();
+    }
+
+    @Test
+    @DataSet(
         value = "db-rider/bot/too-small/initial/notInCodexia.yml",
         cleanBefore = true, cleanAfter = true
     )
@@ -41,7 +51,6 @@ public class TooSmallIntegrationTest extends AbstractIntegrationTest {
         tooSmall.run();
     }
 
-
     @Test
     @DataSet(
         value = "db-rider/bot/too-small/initial/oneSetResult.yml",
@@ -49,6 +58,26 @@ public class TooSmallIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/bot/too-small/expected/oneSetResult.yml")
     public void oneSetResult() {
+        tooSmall.run();
+    }
+
+    @Test
+    @DataSet(
+        value = "db-rider/bot/too-small/initial/oneResetResult.yml",
+        cleanBefore = true, cleanAfter = true
+    )
+    @ExpectedDataSet("db-rider/bot/too-small/expected/oneResetResult.yml")
+    public void oneResetResult() {
+        tooSmall.run();
+    }
+
+    @Test
+    @DataSet(
+        value = "db-rider/bot/too-small/initial/linesOfCodeIsAbsent.yml",
+        cleanBefore = true, cleanAfter = true
+    )
+    @ExpectedDataSet("db-rider/bot/too-small/expected/linesOfCodeIsAbsent.yml")
+    public void linesOfCodeIsAbsent() {
         tooSmall.run();
     }
 

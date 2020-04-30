@@ -1,0 +1,12 @@
+too_small_result:
+    -
+        github_repo_id: 1
+        github_repo_stat_id: 4
+        state: RESET
+
+codexia_review:
+    -
+        codexia_project_id: 6
+        author: "TOO_SMALL"
+        reason: "3533"
+        text: The repo is not small anymore (LoC is 6666).
