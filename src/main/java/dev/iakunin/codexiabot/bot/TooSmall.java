@@ -2,6 +2,8 @@ package dev.iakunin.codexiabot.bot;
 
 import dev.iakunin.codexiabot.bot.entity.TooSmallResult;
 import dev.iakunin.codexiabot.bot.repository.TooSmallResultRepository;
+import dev.iakunin.codexiabot.bot.toosmall.ExactItem;
+import dev.iakunin.codexiabot.bot.toosmall.LogNotFound;
 import dev.iakunin.codexiabot.codexia.CodexiaModule;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaMeta;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaReview;
@@ -10,10 +12,12 @@ import dev.iakunin.codexiabot.github.entity.GithubRepo;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat.GithubApi;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat.LinesOfCode;
+import dev.iakunin.codexiabot.github.entity.GithubRepoStat.LinesOfCode.Item;
 import io.vavr.Tuple2;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.cactoos.scalar.Unchecked;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,7 +58,7 @@ public final class TooSmall implements Runnable {
         ;
     }
 
-    private Optional<Tuple2<GithubRepoStat, LinesOfCode.Item>> prepare(GithubRepo repo) {
+    private Optional<Tuple2<GithubRepoStat, Item>> prepare(GithubRepo repo) {
         return
             new Tuple2<>(
                 this.github.findLastGithubApiStat(repo),
@@ -67,54 +71,28 @@ public final class TooSmall implements Runnable {
                     ? Optional.of(new Tuple2<>(fst.get(), snd.get()))
                     : Optional.<Tuple2<GithubApi, LinesOfCode>>empty()
             ).flatMap(
-                o -> o.apply(this::findDesiredItem)
+                o -> o.apply(this::findLinesOfCodeItem)
             ).flatMap(linesOfCodeItem ->
                 this.github.findLastLinesOfCodeStat(repo)
                     .map(stat -> new Tuple2<>(stat, linesOfCodeItem))
             );
     }
 
-    // @todo #92 Extract it to a separate class & write a unit-test for it
-    private Optional<LinesOfCode.Item> findDesiredItem(
+    private Optional<Item> findLinesOfCodeItem(
         GithubApi githubStat,
         LinesOfCode linesOfCodeStat
     ) {
-        final Optional<LinesOfCode.Item> firstAttempt = linesOfCodeStat
-            .getItemList()
-            .stream()
-            .filter(
-                item -> item.getLanguage().toLowerCase().equals(
-                    githubStat.getLanguage().toLowerCase()
+        return
+            new Unchecked<>(
+                new LogNotFound(
+                    githubStat,
+                    linesOfCodeStat,
+                    new ExactItem(githubStat, linesOfCodeStat)
                 )
-            )
-            .findFirst();
-
-        final Optional<LinesOfCode.Item> secondAttempt = linesOfCodeStat
-            .getItemList()
-            .stream()
-            .filter(
-                item ->
-                    item.getLanguage().toLowerCase().contains(githubStat.getLanguage().toLowerCase())
-                        ||
-                    githubStat.getLanguage().toLowerCase().contains(item.getLanguage().toLowerCase())
-            )
-            .findFirst();
-
-        final Optional<LinesOfCode.Item> result = firstAttempt.or(() -> secondAttempt);
-
-        result.ifPresentOrElse(
-            item -> {},
-            () -> log.warn(
-                "Unable to find proper LoC stat; language='{}'; LoC list='{}'",
-                githubStat.getLanguage(),
-                linesOfCodeStat.getItemList()
-            )
-        );
-
-        return result;
+            ).value();
     }
 
-    private boolean shouldSubmit(LinesOfCode.Item item) {
+    private boolean shouldSubmit(Item item) {
         return item.getLinesOfCode() < 5_000L;
     }
 
@@ -129,7 +107,7 @@ public final class TooSmall implements Runnable {
         @Transactional
         public void submit(
             GithubRepoStat stat,
-            LinesOfCode.Item item
+            Item item
         ) {
             final CodexiaReview review = this.review(stat, item);
             this.repository.save(this.result(stat));
@@ -146,7 +124,7 @@ public final class TooSmall implements Runnable {
 
         private CodexiaReview review(
             GithubRepoStat stat,
-            LinesOfCode.Item item
+            Item item
         ) {
             return new CodexiaReview()
                 .setText(
