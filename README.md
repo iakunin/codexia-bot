@@ -75,11 +75,10 @@ This is a supervised bot for [Codexia (open source incubator)](https://www.codex
 
 - Create microservice for determining repo's programming language
     - Analogue of https://api.codetabs.com/v1/loc?github=jolav/betazone
-    - https://stackoverflow.com/a/29012789/388916
-    - https://github.com/cgag/loc
-    - :warning: https://www.npmjs.com/package/cloc
-    - https://github.com/github/linguist
-    - https://developer.github.com/v3/repos/#list-languages
+    - Reference implementation (slow): https://github.com/AlDanial/cloc
+    - NPM-package: https://www.npmjs.com/package/cloc
+    - Go implementation: https://github.com/boyter/scc
+    - Rust implementation: https://github.com/cgag/loc
 
 
 - Submitting project to Codexia
