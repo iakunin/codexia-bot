@@ -47,14 +47,14 @@ public final class TooSmall implements Runnable {
         this.github.findAllInCodexia()
             .stream()
             .filter(repo -> {
-                final var optional = this.repository.findFirstByGithubRepoOrderByIdDesc(repo);
+                final Optional<TooSmallResult> optional = this.repository.findFirstByGithubRepoOrderByIdDesc(repo);
                 return optional.isEmpty() || optional.get().getState() == TooSmallResult.State.RESET;
             })
             .map(this::prepare)
             .forEach(
                 optional -> optional
                     .filter(pair -> this.shouldSubmit(pair._2()))
-                    .ifPresent(pair -> this.submitter.submit(pair._1(), pair._2()))
+                    .ifPresent(pair -> pair.apply(this.submitter::submit))
             )
         ;
     }
@@ -107,7 +107,7 @@ public final class TooSmall implements Runnable {
 
         // @todo #92 TooSmall: add test case with transaction rollback
         @Transactional
-        public void submit(
+        public Void submit(
             GithubRepoStat stat,
             Item item
         ) {
@@ -115,6 +115,7 @@ public final class TooSmall implements Runnable {
             this.repository.save(this.result(stat));
             this.codexia.saveReview(review);
             this.codexia.sendMeta(this.meta(review));
+            return null;
         }
 
         private TooSmallResult result(GithubRepoStat stat) {
