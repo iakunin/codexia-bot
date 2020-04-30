@@ -6,7 +6,10 @@
 [![codecov](https://codecov.io/gh/iakunin/codexia-bot/branch/master/graph/badge.svg)](https://codecov.io/gh/iakunin/codexia-bot)
 [![Maintainability](https://api.codeclimate.com/v1/badges/ad3831a0be7db8b87a5f/maintainability)](https://codeclimate.com/github/iakunin/codexia-bot/maintainability)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/iakunin/codexia-bot/blob/master/LICENSE)
+
 [![Hits-of-Code](https://hitsofcode.com/github/iakunin/codexia-bot)](https://hitsofcode.com/view/github/iakunin/codexia-bot)
+[![Scc Total Lines](https://sloc.xyz/github/iakunin/codexia-bot)](https://github.com/iakunin/codexia-bot)
+[![Scc Code Lines](https://sloc.xyz/github/iakunin/codexia-bot?category=code)](https://github.com/iakunin/codexia-bot)
 
 This is a supervised bot for [Codexia (open source incubator)](https://www.codexia.org/).
 
