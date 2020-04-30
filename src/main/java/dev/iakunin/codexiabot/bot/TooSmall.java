@@ -6,13 +6,14 @@ import dev.iakunin.codexiabot.codexia.CodexiaModule;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaMeta;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaReview;
 import dev.iakunin.codexiabot.github.GithubModule;
-import dev.iakunin.codexiabot.github.entity.GithubRepo;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat;
+import dev.iakunin.codexiabot.github.entity.GithubRepoStat.GithubApi;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat.LinesOfCode;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.javatuples.Pair;
+import org.javatuples.Triplet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,40 +26,46 @@ public final class TooSmall implements Runnable {
 
     private final Submitter submitter;
 
-    private final TooSmallResultRepository resultRepository;
+    private final TooSmallResultRepository repository;
 
     public TooSmall(
         GithubModule github,
         CodexiaModule codexia,
-        TooSmallResultRepository resultRepository
+        TooSmallResultRepository repository
     ) {
         this.github = github;
-        this.resultRepository = resultRepository;
-        this.submitter = new Submitter(codexia);
+        this.repository = repository;
+        this.submitter = new Submitter(codexia, repository);
     }
 
     public void run() {
         this.github.findAllInCodexia()
             .stream()
             .filter(repo -> {
-                final var optional = this.resultRepository.findFirstByGithubRepoOrderByIdDesc(repo);
+                final var optional = this.repository.findFirstByGithubRepoOrderByIdDesc(repo);
                 return optional.isEmpty() || optional.get().getState() == TooSmallResult.State.RESET;
             })
             .map(
-                repo -> new Pair<>(
-                    this.github.findLastGithubApiStat(repo),
+                repo -> new Triplet<>(
+                    this.github.findLastLinesOfCodeStat(repo),
+                    this.github.findLastGithubApiStat(repo)
+                        .map(stat -> (GithubApi) stat.getStat()),
                     this.github.findLastLinesOfCodeStat(repo)
+                        .map(stat -> (LinesOfCode) stat.getStat())
                 )
             )
             .filter(
-                pair -> pair.getValue0().isPresent() && pair.getValue1().isPresent()
+                pair ->
+                    pair.getValue0().isPresent()
+                    && pair.getValue1().isPresent()
+                    && pair.getValue2().isPresent()
             )
             .map(
                 pair -> new Pair<>(
-                    pair.getValue0().get().getGithubRepo(),
+                    pair.getValue0().get(),
                     this.findDesiredItem(
-                        (GithubRepoStat.GithubApi) pair.getValue0().get().getStat(),
-                        (GithubRepoStat.LinesOfCode) pair.getValue1().get().getStat()
+                        pair.getValue1().get(),
+                        pair.getValue2().get()
                     )
                 )
             )
@@ -73,9 +80,10 @@ public final class TooSmall implements Runnable {
             .forEach(this.submitter::submit);
     }
 
+    // @todo #92 Extract it to a separate class & write a unit-test for it
     private Optional<LinesOfCode.Item> findDesiredItem(
-        GithubRepoStat.GithubApi githubStat,
-        GithubRepoStat.LinesOfCode linesOfCodeStat
+        GithubApi githubStat,
+        LinesOfCode linesOfCodeStat
     ) {
         final Optional<LinesOfCode.Item> firstAttempt = linesOfCodeStat
             .getItemList()
@@ -121,15 +129,25 @@ public final class TooSmall implements Runnable {
 
         private final CodexiaModule codexia;
 
+        private final TooSmallResultRepository repository;
+
         // @todo #92 TooSmall: add test case with transaction rollback
         @Transactional
-        public void submit(Pair<GithubRepo, LinesOfCode.Item> pair) {
+        public void submit(Pair<GithubRepoStat, LinesOfCode.Item> pair) {
             final CodexiaReview review = this.review(pair);
+            this.repository.save(this.result(pair.getValue0()));
             this.codexia.saveReview(review);
             this.codexia.sendMeta(this.meta(review));
         }
 
-        private CodexiaReview review(Pair<GithubRepo, LinesOfCode.Item> pair) {
+        private TooSmallResult result(GithubRepoStat stat) {
+            return new TooSmallResult()
+                .setGithubRepo(stat.getGithubRepo())
+                .setGithubRepoStat(stat)
+                .setState(TooSmallResult.State.SET);
+        }
+
+        private CodexiaReview review(Pair<GithubRepoStat, LinesOfCode.Item> pair) {
             return new CodexiaReview()
                 .setText(
                     String.format(
@@ -144,7 +162,7 @@ public final class TooSmall implements Runnable {
                     )
                 )
                 .setCodexiaProject(
-                    this.codexia.getCodexiaProject(pair.getValue0())
+                    this.codexia.getCodexiaProject(pair.getValue0().getGithubRepo())
                 );
         }
 

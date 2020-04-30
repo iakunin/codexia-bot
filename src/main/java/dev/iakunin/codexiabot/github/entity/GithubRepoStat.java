@@ -23,6 +23,7 @@ import org.kohsuke.github.GHRepository;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
+// @todo #92 make this class generic `<T extends AbstractStat>`
 public final class GithubRepoStat extends AbstractEntity {
 
     @ManyToOne

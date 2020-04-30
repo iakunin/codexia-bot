@@ -11,6 +11,5 @@ create table "too_small_result"
     "updated_at"          timestamp
 );
 
-
 create index ix__too_small_result__github_repo_id
     on too_small_result (github_repo_id);
