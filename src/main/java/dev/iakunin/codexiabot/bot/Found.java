@@ -6,10 +6,10 @@ import dev.iakunin.codexiabot.codexia.entity.CodexiaReview;
 import dev.iakunin.codexiabot.github.GithubModule;
 import dev.iakunin.codexiabot.github.entity.GithubRepo;
 import dev.iakunin.codexiabot.github.entity.GithubRepoSource;
+import io.vavr.Tuple2;
 import java.util.stream.Stream;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.javatuples.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Slf4j
@@ -29,12 +29,16 @@ public final class Found implements Runnable {
         this.bot
             .repoStream()
             .flatMap(this::extractAllSources)
-            .filter(this::shouldSubmit)
-            .map(this::createReview)
+            .filter(
+                pair -> pair.apply(this::shouldSubmit)
+            )
+            .map(
+                pair -> pair.apply(this::createReview)
+            )
             .forEach(this::submit);
     }
 
-    private Stream<Pair<CodexiaProject, GithubRepoSource>> extractAllSources(GithubRepo githubRepo) {
+    private Stream<Tuple2<CodexiaProject, GithubRepoSource>> extractAllSources(GithubRepo githubRepo) {
         return this.githubModule
             .findAllRepoSources(githubRepo)
             .stream()
@@ -42,31 +46,37 @@ public final class Found implements Runnable {
                 githubRepoSource -> githubRepoSource.getSource() == this.bot.source()
             )
             .map(
-                source -> new Pair<>(
+                source -> new Tuple2<>(
                     this.codexiaModule.getCodexiaProject(githubRepo),
                     source
                 )
             );
     }
 
-    private boolean shouldSubmit(Pair<CodexiaProject, GithubRepoSource> dto) {
+    private boolean shouldSubmit(
+        CodexiaProject project,
+        GithubRepoSource source
+    ) {
         return !this.codexiaModule.isReviewExist(
-            dto.getValue0(),
+            project,
             this.botType.name(),
-            dto.getValue1().getExternalId()
+            source.getExternalId()
         );
     }
 
-    private CodexiaReview createReview(Pair<CodexiaProject, GithubRepoSource> pair) {
+    private CodexiaReview createReview(
+        CodexiaProject project,
+        GithubRepoSource source
+    ) {
         return new CodexiaReview()
             .setText(
                 this.bot.reviewText(
-                    pair.getValue1().getExternalId()
+                    source.getExternalId()
                 )
             )
             .setAuthor(this.botType.name())
-            .setReason(pair.getValue1().getExternalId())
-            .setCodexiaProject(pair.getValue0());
+            .setReason(source.getExternalId())
+            .setCodexiaProject(project);
     }
 
     private void submit(CodexiaReview review) {

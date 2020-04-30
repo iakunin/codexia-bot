@@ -8,10 +8,10 @@ import dev.iakunin.codexiabot.github.GithubModule;
 import dev.iakunin.codexiabot.github.entity.GithubRepo;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat.GithubApi;
+import io.vavr.Tuple2;
 import java.util.Deque;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.javatuples.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,13 +43,10 @@ public final class Up implements Runnable {
         this.github.findAllInCodexia()
             .stream()
             .map(
-                repo -> Pair.with(repo, this.getLastProcessedStatId(repo))
+                repo -> new Tuple2<>(repo, this.getLastProcessedStatId(repo))
             )
-            .map(pair ->
-                this.github.findAllGithubApiStat(
-                    pair.getValue0(),
-                    pair.getValue1()
-                )
+            .map(
+                pair -> pair.apply(this.github::findAllGithubApiStat)
             )
             .filter(statList -> statList.size() >= 2)
             .filter(statList ->
