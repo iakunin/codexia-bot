@@ -45,6 +45,16 @@ public class NotSmallIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     @DataSet(
+        value = "db-rider/bot/not-small/initial/resultWithTypeReset.yml",
+        cleanBefore = true, cleanAfter = true
+    )
+    @ExpectedDataSet("db-rider/bot/not-small/expected/resultWithTypeReset.yml")
+    public void resultWithTypeReset() {
+        notSmall.run();
+    }
+
+    @Test
+    @DataSet(
         value = "db-rider/bot/not-small/initial/linesOfCodeLessThanThreshold.yml",
         cleanBefore = true, cleanAfter = true
     )
