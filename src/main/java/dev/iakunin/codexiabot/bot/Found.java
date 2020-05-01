@@ -10,10 +10,9 @@ import io.vavr.Tuple2;
 import java.util.stream.Stream;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Slf4j
-@AllArgsConstructor(onConstructor_={@Autowired})
+@AllArgsConstructor
 public final class Found implements Runnable {
 
     private final Bot.Type botType;

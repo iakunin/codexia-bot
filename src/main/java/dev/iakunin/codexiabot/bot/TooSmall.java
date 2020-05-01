@@ -20,36 +20,31 @@ import lombok.extern.slf4j.Slf4j;
 import org.cactoos.scalar.Unchecked;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
-@Service
 public final class TooSmall implements Runnable {
 
     private final GithubModule github;
 
     private final Submitter submitter;
 
-    private final TooSmallResultRepository repository;
+    private final dev.iakunin.codexiabot.bot.toosmall.Bot bot;
 
     public TooSmall(
         GithubModule github,
+        dev.iakunin.codexiabot.bot.toosmall.Bot bot,
         CodexiaModule codexia,
         TooSmallResultRepository repository
     ) {
         this.github = github;
-        this.repository = repository;
+        this.bot = bot;
         this.submitter = new Submitter(codexia, repository);
     }
 
     public void run() {
-        this.github.findAllInCodexia()
-            .stream()
-            .filter(repo -> {
-                final Optional<TooSmallResult> optional = this.repository.findFirstByGithubRepoOrderByIdDesc(repo);
-                return optional.isEmpty() || optional.get().getState() == TooSmallResult.State.RESET;
-            })
+        this.bot
+            .repoStream()
             .map(this::prepare)
             .forEach(
                 optional -> optional

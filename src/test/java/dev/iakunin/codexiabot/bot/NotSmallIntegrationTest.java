@@ -6,29 +6,29 @@ import dev.iakunin.codexiabot.AbstractIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class NotSmallAnymoreIntegrationTest extends AbstractIntegrationTest {
+public class NotSmallIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
-    private NotSmallAnymore notSmallAnymore;
+    private NotSmall notSmall;
 
     @Test
     @DataSet(
-        value = "db-rider/bot/not-small-anymore/initial/emptyDatabase.yml",
+        value = "db-rider/bot/not-small/initial/emptyDatabase.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/bot/not-small-anymore/expected/emptyDatabase.yml")
+    @ExpectedDataSet("db-rider/bot/not-small/expected/emptyDatabase.yml")
     public void emptyDatabase() {
-        notSmallAnymore.run();
+        notSmall.run();
     }
 
     @Test
     @DataSet(
-        value = "db-rider/bot/not-small-anymore/initial/happyPath.yml",
+        value = "db-rider/bot/not-small/initial/happyPath.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/bot/not-small-anymore/expected/happyPath.yml")
+    @ExpectedDataSet("db-rider/bot/not-small/expected/happyPath.yml")
     public void happyPath() {
-        notSmallAnymore.run();
+        notSmall.run();
     }
 
 }
