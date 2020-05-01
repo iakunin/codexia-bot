@@ -38,7 +38,7 @@ github_repo_stat:
                   "lines": 9415,
                   "blanks": 1200,
                   "comments": 682,
-                  "linesOfCode": 6666
+                  "linesOfCode": 3533
                 },
                 {
                   "language": "Total",
@@ -62,13 +62,41 @@ github_repo_stat:
               "language": "TypeScript"
             }
         created_at: "2020-02-16 18:46:09.652645"
+    -
+        id: 6
+        uuid: "groovy: UUID.randomUUID().toString()"
+        github_repo_id: 1
+        type: "LINES_OF_CODE"
+        stat: >-
+            {
+              "type": "LINES_OF_CODE",
+              "itemList": [
+                {
+                  "language": "TypeScript",
+                  "files": 84,
+                  "lines": 9415,
+                  "blanks": 1200,
+                  "comments": 682,
+                  "linesOfCode": 5000
+                },
+                {
+                  "language": "Total",
+                  "files": 173,
+                  "lines": 31482,
+                  "blanks": 1446,
+                  "comments": 706,
+                  "linesOfCode": 29330
+                }
+              ]
+            }
+        created_at: "2020-02-19 11:22:33.123456"
 
 too_small_result:
     -
         uuid: "groovy: UUID.randomUUID().toString()"
         github_repo_id: 1
         github_repo_stat_id: 4
-        state: RESET
+        state: SET
 
 codexia_review:
     -
@@ -76,4 +104,4 @@ codexia_review:
         codexia_project_id: 6
         author: "TOO_SMALL"
         reason: "3533"
-        text: The repo is not small anymore (LoC is 6666).
+        text: The repo is too small (LoC is 3533).

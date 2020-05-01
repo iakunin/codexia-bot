@@ -33,14 +33,6 @@ github_repo_stat:
               "type": "LINES_OF_CODE",
               "itemList": [
                 {
-                  "language": "JSON",
-                  "files": 77,
-                  "lines": 20832,
-                  "blanks": 0,
-                  "comments": 0,
-                  "linesOfCode": 20832
-                },
-                {
                   "language": "TypeScript",
                   "files": 84,
                   "lines": 9415,
