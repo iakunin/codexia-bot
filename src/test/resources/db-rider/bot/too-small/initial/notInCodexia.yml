@@ -1,0 +1,20 @@
+github_repo:
+    -
+        id: 1
+        uuid: "groovy: UUID.randomUUID().toString()"
+        external_id: "150713223"
+        full_name: "test-project1/test-repo1"
+
+codexia_project: []
+
+github_repo_source:
+    -
+        id: 1
+        uuid: "groovy: UUID.randomUUID().toString()"
+        github_repo_id: 1
+        source: "REDDIT"
+        external_id: "aabbcc"
+
+github_repo_stat: []
+
+too_small_result: []

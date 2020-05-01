@@ -12,7 +12,6 @@ import dev.iakunin.codexiabot.github.entity.GithubRepoStat.GithubApi;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
@@ -56,7 +55,7 @@ public final class TooManyStars implements Runnable {
     }
 
     @Slf4j
-    @AllArgsConstructor(onConstructor_={@Autowired})
+    @AllArgsConstructor
     private static class Submitter {
 
         private final ResultRepository repository;

@@ -7,5 +7,6 @@ public interface Bot {
         STARS_UP,
         FORKS_UP,
         TOO_MANY_STARS,
+        TOO_SMALL,
     }
 }

@@ -96,6 +96,14 @@ public final class GithubModuleImpl implements GithubModule {
         );
     }
 
+    @Override
+    public Optional<GithubRepoStat> findLastLinesOfCodeStat(GithubRepo repo) {
+        return this.githubRepoStatRepository.findFirstByGithubRepoAndTypeOrderByIdDesc(
+            repo,
+            GithubRepoStat.Type.LINES_OF_CODE
+        );
+    }
+
     private GithubRepo saveRepo(CreateArguments arguments) throws IOException {
         URL repoUrl = new URL(arguments.getUrl());
 

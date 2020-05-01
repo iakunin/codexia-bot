@@ -1,0 +1,29 @@
+github_repo:
+    -
+        id: 1
+        uuid: "groovy: UUID.randomUUID().toString()"
+        external_id: "150713223"
+        full_name: "test-project1/test-repo1"
+
+codexia_project:
+    -
+        id: 6
+        uuid: "groovy: UUID.randomUUID().toString()"
+        external_id: 12
+        coordinates: "test-project1/test-repo1"
+        author: "some-first-author"
+        project_created_at: "2019-12-20 12:01:02"
+
+github_repo_source:
+    -
+        id: 1
+        uuid: "groovy: UUID.randomUUID().toString()"
+        github_repo_id: 1
+        source: "CODEXIA"
+        external_id: "12"
+
+github_repo_stat: []
+
+too_small_result: []
+
+codexia_review: []
