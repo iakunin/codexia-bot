@@ -1,11 +1,9 @@
 package dev.iakunin.codexiabot.bot;
 
-import dev.iakunin.codexiabot.bot.entity.TooSmallResult;
 import dev.iakunin.codexiabot.bot.repository.TooSmallResultRepository;
 import dev.iakunin.codexiabot.bot.toosmall.ExactItem;
 import dev.iakunin.codexiabot.bot.toosmall.LogNotFound;
 import dev.iakunin.codexiabot.codexia.CodexiaModule;
-import dev.iakunin.codexiabot.codexia.entity.CodexiaMeta;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaReview;
 import dev.iakunin.codexiabot.github.GithubModule;
 import dev.iakunin.codexiabot.github.entity.GithubRepo;
@@ -19,7 +17,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.cactoos.scalar.Unchecked;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
@@ -39,7 +36,7 @@ public final class TooSmall implements Runnable {
     ) {
         this.github = github;
         this.bot = bot;
-        this.submitter = new Submitter(codexia, repository);
+        this.submitter = new Submitter(bot, codexia, repository);
     }
 
     public void run() {
@@ -48,7 +45,7 @@ public final class TooSmall implements Runnable {
             .map(this::prepare)
             .forEach(
                 optional -> optional
-                    .filter(pair -> this.shouldSubmit(pair._2()))
+                    .filter(pair -> this.bot.shouldSubmit(pair._2()))
                     .ifPresent(pair -> pair.apply(this.submitter::submit))
             )
         ;
@@ -89,12 +86,10 @@ public final class TooSmall implements Runnable {
             ).value();
     }
 
-    private boolean shouldSubmit(Item item) {
-        return item.getLinesOfCode() < 5_000L;
-    }
-
-    @AllArgsConstructor(onConstructor_={@Autowired})
+    @AllArgsConstructor
     private static class Submitter {
+
+        private final dev.iakunin.codexiabot.bot.toosmall.Bot bot;
 
         private final CodexiaModule codexia;
 
@@ -106,47 +101,11 @@ public final class TooSmall implements Runnable {
             GithubRepoStat stat,
             Item item
         ) {
-            final CodexiaReview review = this.review(stat, item);
-            this.repository.save(this.result(stat));
+            final CodexiaReview review = this.bot.review(stat, item);
+            this.repository.save(this.bot.result(stat));
             this.codexia.saveReview(review);
-            this.codexia.sendMeta(this.meta(review));
+            this.codexia.sendMeta(this.bot.meta(review));
             return null;
-        }
-
-        private TooSmallResult result(GithubRepoStat stat) {
-            return new TooSmallResult()
-                .setGithubRepo(stat.getGithubRepo())
-                .setGithubRepoStat(stat)
-                .setState(TooSmallResult.State.SET);
-        }
-
-        private CodexiaReview review(
-            GithubRepoStat stat,
-            Item item
-        ) {
-            return new CodexiaReview()
-                .setText(
-                    String.format(
-                        "The repo is too small (LoC is %d).",
-                        item.getLinesOfCode()
-                    )
-                )
-                .setAuthor(Bot.Type.TOO_SMALL.name())
-                .setReason(
-                    String.valueOf(
-                        item.getLinesOfCode()
-                    )
-                )
-                .setCodexiaProject(
-                    this.codexia.getCodexiaProject(stat.getGithubRepo())
-                );
-        }
-
-        private CodexiaMeta meta(CodexiaReview review) {
-            return new CodexiaMeta()
-                .setCodexiaProject(review.getCodexiaProject())
-                .setKey("too-small")
-                .setValue("true");
         }
     }
 }

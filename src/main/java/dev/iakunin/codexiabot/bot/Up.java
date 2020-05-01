@@ -12,7 +12,6 @@ import io.vavr.Tuple2;
 import java.util.Deque;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
@@ -73,7 +72,7 @@ public final class Up implements Runnable {
     }
 
     @Slf4j
-    @AllArgsConstructor(onConstructor_={@Autowired})
+    @AllArgsConstructor
     private static class Submitter {
 
         private final dev.iakunin.codexiabot.bot.up.Bot bot;
