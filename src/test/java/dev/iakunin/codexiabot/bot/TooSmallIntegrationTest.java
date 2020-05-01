@@ -93,4 +93,14 @@ public class TooSmallIntegrationTest extends AbstractIntegrationTest {
         tooSmall.run();
     }
 
+    @Test
+    @DataSet(
+        value = "db-rider/bot/too-small/initial/githubLanguageIsNull.yml",
+        cleanBefore = true, cleanAfter = true
+    )
+    @ExpectedDataSet("db-rider/bot/too-small/expected/githubLanguageIsNull.yml")
+    public void githubLanguageIsNull() {
+        tooSmall.run();
+    }
+
 }
