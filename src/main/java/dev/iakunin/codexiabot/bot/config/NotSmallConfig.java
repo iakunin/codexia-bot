@@ -1,6 +1,6 @@
 package dev.iakunin.codexiabot.bot.config;
 
-import dev.iakunin.codexiabot.bot.NotSmall;
+import dev.iakunin.codexiabot.bot.Small;
 import dev.iakunin.codexiabot.bot.repository.TooSmallResultRepository;
 import dev.iakunin.codexiabot.codexia.CodexiaModule;
 import dev.iakunin.codexiabot.github.GithubModule;
@@ -21,8 +21,8 @@ public class NotSmallConfig {
     private final dev.iakunin.codexiabot.bot.toosmall.NotSmall bot;
 
     @Bean
-    public NotSmall notSmall() {
-        return new NotSmall(
+    public Small notSmall() {
+        return new Small(
             this.github,
             this.bot,
             this.codexia,

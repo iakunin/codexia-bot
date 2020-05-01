@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
-public final class NotSmall implements Runnable {
+public final class Small implements Runnable {
 
     private final GithubModule github;
 
@@ -28,7 +28,7 @@ public final class NotSmall implements Runnable {
 
     private final dev.iakunin.codexiabot.bot.toosmall.Bot bot;
 
-    public NotSmall(
+    public Small(
         GithubModule github,
         dev.iakunin.codexiabot.bot.toosmall.Bot bot,
         CodexiaModule codexia,
@@ -95,7 +95,7 @@ public final class NotSmall implements Runnable {
 
         private final TooSmallResultRepository repository;
 
-        // @todo #92 TooSmall: add test case with transaction rollback
+        // @todo #92 Small: add test case with transaction rollback
         @Transactional
         public Void submit(
             GithubRepoStat stat,
