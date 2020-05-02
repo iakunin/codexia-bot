@@ -1,7 +1,11 @@
 package dev.iakunin.codexiabot.bot.config;
 
 import dev.iakunin.codexiabot.bot.Small;
+import dev.iakunin.codexiabot.bot.repository.TooSmallResultRepository;
+import dev.iakunin.codexiabot.codexia.CodexiaModule;
 import dev.iakunin.codexiabot.common.runnable.Logging;
+import dev.iakunin.codexiabot.github.GithubModule;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -10,7 +14,6 @@ import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
 @Configuration
-// @todo #92 collapse all *CronConfig classes into as inner class of *
 public class TooSmallCronConfig implements SchedulingConfigurer {
 
     private final Small tooSmall;
@@ -36,5 +39,28 @@ public class TooSmallCronConfig implements SchedulingConfigurer {
             this.tooSmallRunnable(),
             this.cronExpression
         );
+    }
+
+    @Configuration
+    @AllArgsConstructor
+    public static class TooSmallConfig {
+
+        private final GithubModule github;
+
+        private final CodexiaModule codexia;
+
+        private final TooSmallResultRepository repository;
+
+        private final dev.iakunin.codexiabot.bot.toosmall.TooSmall bot;
+
+        @Bean
+        public Small tooSmall() {
+            return new Small(
+                this.github,
+                this.bot,
+                this.codexia,
+                this.repository
+            );
+        }
     }
 }
