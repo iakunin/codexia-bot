@@ -39,9 +39,9 @@ public final class GithubModuleImpl implements GithubModule {
     }
 
     public void updateStat(GithubRepo githubRepo) throws IOException {
-        log.info("--- Begin calling GitHub SDK");
+        log.debug("--- Begin calling GitHub SDK");
         final GHRepository repository = this.github.getRepository(githubRepo.getFullName());
-        log.info("--- End calling GitHub SDK");
+        log.debug("--- End calling GitHub SDK");
 
         this.githubRepoStatRepository.save(
             GithubRepoStat.Factory.from(repository).setGithubRepo(githubRepo)
@@ -50,7 +50,7 @@ public final class GithubModuleImpl implements GithubModule {
 
     @Override
     public void removeAllRepoSources(DeleteArguments arguments) {
-        log.info("Removing all repo sources for {}", arguments);
+        log.debug("Removing all repo sources for {}", arguments);
         this.githubRepoSourceRepository.findAllBySourceAndExternalId(
             arguments.getSource(),
             arguments.getExternalId()
@@ -113,14 +113,14 @@ public final class GithubModuleImpl implements GithubModule {
 
             final Optional<GithubRepo> optional = this.githubRepoRepository.findByFullName(githubRepoName);
             if (optional.isPresent()) {
-                log.info("githubRepo with FullName='{}' already exist", githubRepoName);
+                log.debug("githubRepo with FullName='{}' already exist", githubRepoName);
 
                 return optional.get();
             }
 
-            log.info("--- Begin calling GitHub SDK");
+            log.debug("--- Begin calling GitHub SDK");
             repository = this.github.getRepository(githubRepoName);
-            log.info("--- End calling GitHub SDK");
+            log.debug("--- End calling GitHub SDK");
         } catch (GHFileNotFoundException e) {
             throw new RepoNotFoundException(
                 String.format("Unable to find github repo by url='%s'", arguments.getUrl()),
@@ -131,7 +131,7 @@ public final class GithubModuleImpl implements GithubModule {
         final GithubRepo githubRepo = GithubRepo.Factory.from(repository);
         final Optional<GithubRepo> optional = this.githubRepoRepository.findByExternalId(githubRepo.getExternalId());
         if (optional.isEmpty()) {
-            log.info("Saving githubRepo: {}", githubRepo);
+            log.debug("Saving githubRepo: {}", githubRepo);
             final GithubRepo saved = this.githubRepoRepository.save(githubRepo);
             this.githubRepoStatRepository.save(
                 GithubRepoStat.Factory.from(repository).setGithubRepo(saved)
@@ -139,7 +139,7 @@ public final class GithubModuleImpl implements GithubModule {
 
             return saved;
         } else {
-            log.info("githubRepo with externalId='{}' already exist", githubRepo.getExternalId());
+            log.debug("githubRepo with externalId='{}' already exist", githubRepo.getExternalId());
 
             return optional.get();
         }
@@ -153,7 +153,7 @@ public final class GithubModuleImpl implements GithubModule {
                 arguments.getExternalId()
             )
         ) {
-            log.info(
+            log.debug(
                 "Saving GithubRepoSource for githubRepoId='{}'; source='{}', externalId='{}'",
                 githubRepo.getId(),
                 arguments.getSource(),
@@ -168,7 +168,7 @@ public final class GithubModuleImpl implements GithubModule {
             return;
         }
 
-        log.info(
+        log.debug(
             "Skip saving GithubRepoSource for githubRepoId='{}'; source='{}', externalId='{}'",
             githubRepo.getId(),
             arguments.getSource(),

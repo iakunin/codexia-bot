@@ -30,7 +30,7 @@ public final class CodexiaModuleImpl implements CodexiaModule {
 
     @Override
     public void saveReview(CodexiaReview review) {
-        log.info("Saving a review: {}", review);
+        log.debug("Saving a review: {}", review);
         this.codexiaReviewRepository.save(review);
     }
 

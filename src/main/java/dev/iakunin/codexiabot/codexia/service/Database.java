@@ -16,10 +16,10 @@ public final class Database implements Writer {
 
     @Override
     public void write(CodexiaProject project) {
-        log.info("Got CodexiaProject: {}", project);
+        log.debug("Got CodexiaProject: {}", project);
 
         if (!this.repository.existsByExternalId(project.getExternalId())) {
-            log.info("Saving new CodexiaProject: {}", project);
+            log.debug("Saving new CodexiaProject: {}", project);
             this.repository.save(project);
         }
     }

@@ -37,6 +37,9 @@ public class Client {
 
         NetworkAdapter adapter = new OkHttpNetworkAdapter(userAgent);
 
-        return OAuthHelper.automatic(adapter, credentials);
+        final RedditClient client = OAuthHelper.automatic(adapter, credentials);
+        client.setLogHttp(false);
+
+        return client;
     }
 }

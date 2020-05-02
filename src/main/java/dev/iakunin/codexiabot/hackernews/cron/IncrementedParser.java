@@ -25,10 +25,10 @@ public final class IncrementedParser implements Runnable {
 
         for (int errorsCount = 0; errorsCount <= 10; currentExternalId++){
             try {
-                log.info("Trying to get item with externalId='{}'", currentExternalId);
+                log.debug("Trying to get item with externalId='{}'", currentExternalId);
                 final HackernewsClient.Item item = this.hackernews.getItem(currentExternalId).getBody();
                 if (item == null) {
-                    log.info("Empty response body for externalId='{}'", currentExternalId);
+                    log.debug("Empty response body for externalId='{}'", currentExternalId);
                     errorsCount++;
                     continue;
                 }

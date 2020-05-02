@@ -28,10 +28,10 @@ public final class RetryErroneous implements Runnable{
             .forEach(
                 entity -> {
                     try {
-                        log.info("Trying to get item with externalId='{}'", entity.getExternalId());
+                        log.debug("Trying to get item with externalId='{}'", entity.getExternalId());
                         final HackernewsClient.Item item = this.hackernewsClient.getItem(entity.getExternalId()).getBody();
                         Objects.requireNonNull(item);
-                        log.info("Successfully got item with externalId='{}'; {}", entity.getExternalId(), item);
+                        log.debug("Successfully got item with externalId='{}'; {}", entity.getExternalId(), item);
 
                         HackernewsItem.Factory.mutateEntity(entity, item);
 

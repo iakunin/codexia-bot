@@ -23,7 +23,7 @@ public final class GithubRepo implements Writer {
             !item.getUrl().contains("gist.github.com")
         ) {
             try {
-                log.info("Creating github repo for HackernewsItem: {}", item);
+                log.debug("Creating github repo for HackernewsItem: {}", item);
 
                 this.githubModule.createRepo(
                     new GithubModule.CreateArguments()
@@ -32,7 +32,7 @@ public final class GithubRepo implements Writer {
                         .setExternalId(String.valueOf(item.getExternalId()))
                 );
             } catch (RuntimeException| IOException e) {
-                log.info("Unable to create github repo; source url='{}'", item.getUrl(), e);
+                log.error("Unable to create github repo; source url='{}'", item.getUrl(), e);
             }
         }
     }
