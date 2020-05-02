@@ -9,6 +9,18 @@
             </encoder>
         </appender>
 
+        <logger name="dev.iakunin.codexiabot" additivity="false" level="debug">
+            <appender-ref ref="STDOUT" />
+        </logger>
+
+        <logger name="feign.Logger" additivity="false" level="debug">
+            <appender-ref ref="STDOUT" />
+        </logger>
+
+        <logger name="org.kohsuke.github" additivity="false" level="trace">
+            <appender-ref ref="STDOUT" />
+        </logger>
+
     </springProfile>
 
     <springProfile name="prod">
@@ -50,14 +62,6 @@
         <root level="info">
             <appender-ref ref="STDOUT" />
         </root>
-
-        <logger name="feign.Logger" additivity="false" level="info">
-            <appender-ref ref="STDOUT" />
-        </logger>
-
-        <logger name="org.kohsuke.github" additivity="false" level="info">
-            <appender-ref ref="STDOUT" />
-        </logger>
 
         <logger name="Hibernate Types" additivity="false">
             <appender-ref ref="NOP" />
