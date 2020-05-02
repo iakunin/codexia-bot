@@ -11,10 +11,10 @@ public final class Logging implements Runnable {
 
     @Override
     public void run() {
-        log.info("Running {}", this.inner.getClass().getName());
+        log.debug("Running {}", this.inner.getClass().getName());
 
         this.inner.run();
 
-        log.info("Exiting from {}", this.inner.getClass().getName());
+        log.debug("Exiting from {}", this.inner.getClass().getName());
     }
 }
