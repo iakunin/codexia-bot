@@ -15,6 +15,7 @@ import io.vavr.Tuple2;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.cactoos.scalar.Unchecked;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -74,17 +75,15 @@ public final class Small implements Runnable {
         GithubApi githubStat,
         LinesOfCode linesOfCodeStat
     ) {
-        try {
-            return new LogNotFound(
-                githubStat,
-                linesOfCodeStat,
-                new ExactItem(githubStat, linesOfCodeStat),
-                LoggerFactory.getLogger(LogNotFound.class)
+        return
+            new Unchecked<>(
+                new LogNotFound(
+                    githubStat,
+                    linesOfCodeStat,
+                    new ExactItem(githubStat, linesOfCodeStat),
+                    LoggerFactory.getLogger(LogNotFound.class)
+                )
             ).value();
-        } catch (Exception e) {
-            log.error("Unable to find LinesOfCodeItem", e);
-            return Optional.empty();
-        }
     }
 
     @AllArgsConstructor

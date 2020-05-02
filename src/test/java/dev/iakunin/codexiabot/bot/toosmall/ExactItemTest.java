@@ -14,7 +14,7 @@ public final class ExactItemTest {
     private static final String LANGUAGE = "Java";
 
     @Test
-    public void emptyItemList() {
+    public void emptyItemList() throws Exception {
         final Optional<Item> actual = new ExactItem(
             this.createGithub(ExactItemTest.LANGUAGE),
             this.createLinesOfCode(new ListOf<>())
@@ -24,7 +24,7 @@ public final class ExactItemTest {
     }
 
     @Test
-    public void foundExact() {
+    public void foundExact() throws Exception {
         final Optional<Item> actual = new ExactItem(
             this.createGithub(ExactItemTest.LANGUAGE),
             this.createLinesOfCode(
@@ -43,7 +43,7 @@ public final class ExactItemTest {
     }
 
     @Test
-    public void notFoundExact() {
+    public void notFoundExact() throws Exception {
         final Optional<Item> actual = new ExactItem(
             this.createGithub("Other language"),
             this.createLinesOfCode(
@@ -57,7 +57,7 @@ public final class ExactItemTest {
     }
 
     @Test
-    public void foundExactFirst() {
+    public void foundExactFirst() throws Exception {
         final Optional<Item> actual = new ExactItem(
             this.createGithub(ExactItemTest.LANGUAGE),
             this.createLinesOfCode(
@@ -77,7 +77,7 @@ public final class ExactItemTest {
     }
 
     @Test
-    public void foundExactLast() {
+    public void foundExactLast() throws Exception {
         final Optional<Item> actual = new ExactItem(
             this.createGithub(ExactItemTest.LANGUAGE),
             this.createLinesOfCode(
@@ -97,7 +97,7 @@ public final class ExactItemTest {
     }
 
     @Test
-    public void foundApproximateThis() {
+    public void foundApproximateThis() throws Exception {
         final String languageWithPostfix = ExactItemTest.LANGUAGE + " with some postfix";
         final Optional<Item> actual = new ExactItem(
             this.createGithub(ExactItemTest.LANGUAGE),
@@ -117,7 +117,7 @@ public final class ExactItemTest {
     }
 
     @Test
-    public void foundApproximateThisFirst() {
+    public void foundApproximateThisFirst() throws Exception {
         final String languageWithPostfix = ExactItemTest.LANGUAGE + " with some postfix";
         final Optional<Item> actual = new ExactItem(
             this.createGithub(ExactItemTest.LANGUAGE),
@@ -138,7 +138,7 @@ public final class ExactItemTest {
     }
 
     @Test
-    public void foundApproximateThisLast() {
+    public void foundApproximateThisLast() throws Exception {
         final String languageWithPostfix = ExactItemTest.LANGUAGE + " with some postfix";
         final Optional<Item> actual = new ExactItem(
             this.createGithub(ExactItemTest.LANGUAGE),
@@ -159,7 +159,7 @@ public final class ExactItemTest {
     }
 
     @Test
-    public void foundApproximateThat() {
+    public void foundApproximateThat() throws Exception {
         final String languageWithPostfix = ExactItemTest.LANGUAGE + " with another postfix";
         final Optional<Item> actual = new ExactItem(
             this.createGithub(languageWithPostfix),
@@ -179,7 +179,7 @@ public final class ExactItemTest {
     }
 
     @Test
-    public void foundApproximateThatFirst() {
+    public void foundApproximateThatFirst() throws Exception {
         final String languageWithPostfix = ExactItemTest.LANGUAGE + " with another postfix";
         final Optional<Item> actual = new ExactItem(
             this.createGithub(languageWithPostfix),
@@ -200,7 +200,7 @@ public final class ExactItemTest {
     }
 
     @Test
-    public void foundApproximateThatLast() {
+    public void foundApproximateThatLast() throws Exception {
         final String languageWithPostfix = ExactItemTest.LANGUAGE + " with another postfix";
         final Optional<Item> actual = new ExactItem(
             this.createGithub(languageWithPostfix),
@@ -218,6 +218,71 @@ public final class ExactItemTest {
             ),
             actual
         );
+    }
+
+    @Test
+    public void languageIsNull() throws Exception {
+        final Optional<Item> actual = new ExactItem(
+            this.createGithub(null),
+            this.createLinesOfCode(
+                new ListOf<>(
+                    this.createItem(ExactItemTest.LANGUAGE)
+                )
+            )
+        ).value();
+
+        Assertions.assertEquals(Optional.empty(), actual);
+    }
+
+    @Test
+    public void itemListWithNulls() throws Exception {
+        final Optional<Item> actual = new ExactItem(
+            this.createGithub(ExactItemTest.LANGUAGE),
+            this.createLinesOfCode(
+                new ListOf<>(
+                    null,
+                    this.createItem(ExactItemTest.LANGUAGE),
+                    null
+                )
+            )
+        ).value();
+
+        Assertions.assertEquals(
+            Optional.of(
+                this.createItem(ExactItemTest.LANGUAGE)
+            ),
+            actual
+        );
+    }
+
+    @Test
+    public void itemListOnlyNulls() throws Exception {
+        final Optional<Item> actual = new ExactItem(
+            this.createGithub(ExactItemTest.LANGUAGE),
+            this.createLinesOfCode(
+                new ListOf<>(
+                    null,
+                    null
+                )
+            )
+        ).value();
+
+        Assertions.assertEquals(Optional.empty(), actual);
+    }
+
+    @Test
+    public void itemsWithNullLanguage() throws Exception {
+        final Optional<Item> actual = new ExactItem(
+            this.createGithub(ExactItemTest.LANGUAGE),
+            this.createLinesOfCode(
+                new ListOf<>(
+                    this.createItem(null),
+                    this.createItem(null)
+                )
+            )
+        ).value();
+
+        Assertions.assertEquals(Optional.empty(), actual);
     }
 
     private GithubApi createGithub(String language) {
