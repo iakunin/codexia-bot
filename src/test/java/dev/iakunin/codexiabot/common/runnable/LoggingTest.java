@@ -14,11 +14,11 @@ public final class LoggingTest {
         new Logging(() -> {}, logger).run();
 
         InOrder inOrder = Mockito.inOrder(logger);
-        inOrder.verify(logger).debug(
+        inOrder.verify(logger).info(
             Mockito.eq("Running {}"),
             Mockito.any(String.class)
         );
-        inOrder.verify(logger).debug(
+        inOrder.verify(logger).info(
             Mockito.eq("Exiting from {}"),
             Mockito.any(String.class)
         );
