@@ -11,6 +11,7 @@ import org.cactoos.Scalar;
 import org.cactoos.Text;
 import org.cactoos.func.FuncOf;
 import org.cactoos.iterable.Filtered;
+import org.cactoos.iterable.IterableOf;
 import org.cactoos.iterable.Joined;
 import org.cactoos.iterable.Mapped;
 import org.cactoos.scalar.EqualsNullable;
@@ -35,7 +36,10 @@ public final class ExactItem implements Scalar<Optional<Item>> {
 
     private ExactItem(Text language, Iterable<Item> items) {
         this.language = new NoNulls(language);
-        this.items = new Filtered<>(Objects::nonNull, items);
+        this.items = new Filtered<>(
+            Objects::nonNull,
+            Optional.ofNullable(items).orElse(new IterableOf<>())
+        );
     }
 
     @Override
