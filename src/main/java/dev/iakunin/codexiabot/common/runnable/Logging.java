@@ -1,20 +1,32 @@
 package dev.iakunin.codexiabot.common.runnable;
 
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@Slf4j
-@AllArgsConstructor
 public final class Logging implements Runnable {
 
     private final Runnable inner;
 
+    private final Logger logger;
+
+    public Logging(Runnable inner) {
+        this(
+            inner,
+            LoggerFactory.getLogger(Logging.class)
+        );
+    }
+
+    public Logging(Runnable inner, Logger logger) {
+        this.inner = inner;
+        this.logger = logger;
+    }
+
     @Override
     public void run() {
-        log.debug("Running {}", this.inner.getClass().getName());
+        logger.debug("Running {}", this.inner.getClass().getName());
 
         this.inner.run();
 
-        log.debug("Exiting from {}", this.inner.getClass().getName());
+        logger.debug("Exiting from {}", this.inner.getClass().getName());
     }
 }
