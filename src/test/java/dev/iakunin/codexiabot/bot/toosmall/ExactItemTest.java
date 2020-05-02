@@ -285,6 +285,16 @@ public final class ExactItemTest {
         Assertions.assertEquals(Optional.empty(), actual);
     }
 
+    @Test
+    public void nullInsteadOfItems() throws Exception {
+        final Optional<Item> actual = new ExactItem(
+            this.createGithub(ExactItemTest.LANGUAGE),
+            this.createLinesOfCode(null)
+        ).value();
+
+        Assertions.assertEquals(Optional.empty(), actual);
+    }
+
     private GithubApi createGithub(String language) {
         return new GithubApi().setLanguage(language);
     }
