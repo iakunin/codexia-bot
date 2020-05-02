@@ -16,10 +16,10 @@ public final class Database implements Writer {
 
     @Override
     public void write(HackernewsItem item) {
-        log.info("Got Hackernews.Item: {}", item);
+        log.debug("Got Hackernews.Item: {}", item);
 
         if (!this.repository.existsByExternalId(item.getExternalId())) {
-            log.info("Saving new Hackernews.Item: {}", item);
+            log.debug("Saving new Hackernews.Item: {}", item);
             this.repository.save(item);
         }
     }

@@ -26,7 +26,7 @@ public final class GithubRepo implements Writer {
                     .setExternalId(String.valueOf(project.getExternalId()))
             );
         } catch (RuntimeException | IOException e) {
-            log.info("Unable to create github repo; source url='{}'", url, e);
+            log.error("Unable to create github repo; source url='{}'", url, e);
         }
     }
 }

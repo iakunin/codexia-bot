@@ -25,16 +25,16 @@ public final class HackernewsModuleImpl implements HackernewsModule {
         externalIds.forEach(
             externalId -> {
 
-                log.info("Got hackernewsExternalId {}", externalId);
+                log.debug("Got hackernewsExternalId {}", externalId);
 
                 try {
-                    log.info("Trying to get item with externalId='{}'", externalId);
+                    log.debug("Trying to get item with externalId='{}'", externalId);
                     final HackernewsClient.Item item = this.hackernewsClient.getItem(externalId).getBody();
                     Objects.requireNonNull(item);
-                    log.info("Successfully got item with externalId='{}'; {}", externalId, item);
+                    log.debug("Successfully got item with externalId='{}'; {}", externalId, item);
 
                     if (item.isDeleted()) {
-                        log.info("Found deleted item: {}", item);
+                        log.debug("Found deleted item: {}", item);
                         this.githubModule.removeAllRepoSources(
                             new GithubModule.DeleteArguments()
                                 .setSource(GithubModule.Source.HACKERNEWS)
@@ -51,9 +51,9 @@ public final class HackernewsModuleImpl implements HackernewsModule {
 
                         HackernewsItem.Factory.mutateEntity(hackernewsItem, item);
 
-                        log.info("Trying to save to DB; {}", hackernewsItem);
+                        log.debug("Trying to save to DB; {}", hackernewsItem);
                         this.hackernewsItemRepository.save(hackernewsItem);
-                        log.info("Successfully saved to DB; {}", hackernewsItem);
+                        log.debug("Successfully saved to DB; {}", hackernewsItem);
                     }
                 } catch (Exception e) {
                     log.warn("Exception occurred", e);

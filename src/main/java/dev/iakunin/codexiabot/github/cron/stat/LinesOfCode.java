@@ -26,7 +26,7 @@ public final class LinesOfCode implements Runnable {
     public void run() {
         this.githubRepoRepository.findAllWithoutLinesOfCode().forEach(
             githubRepo -> {
-                log.info("Calculating lines of code for {}", githubRepo);
+                log.debug("Calculating lines of code for {}", githubRepo);
                 try {
                     this.githubRepoStatRepository.save(
                         GithubRepoStat.Factory.from(
@@ -45,10 +45,10 @@ public final class LinesOfCode implements Runnable {
                                 .setGithubRepo(githubRepo)
                         );
                     } else {
-                        log.info("TOO_MANY_REQUESTS (429) came from codetabs: retrying", e);
+                        log.debug("TOO_MANY_REQUESTS (429) came from codetabs: retrying", e);
                     }
                 } finally {
-                    log.info("Sleeping...");
+                    log.debug("Sleeping...");
                     sleep(5000);
                 }
             }
