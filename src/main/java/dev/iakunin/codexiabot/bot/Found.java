@@ -24,7 +24,7 @@ public final class Found implements Runnable {
     private final dev.iakunin.codexiabot.bot.found.Bot bot;
 
     public void run() {
-        log.info("Bot: {}", this.bot.getClass().getName());
+        log.debug("Bot: {}", this.bot.getClass().getName());
         this.bot
             .repoStream()
             .flatMap(this::extractAllSources)
