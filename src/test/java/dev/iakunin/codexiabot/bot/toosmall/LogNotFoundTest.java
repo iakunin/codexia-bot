@@ -41,7 +41,7 @@ public final class LogNotFoundTest {
         ).value();
 
         Assertions.assertEquals(Optional.empty(), actual);
-        Mockito.verify(logger, Mockito.times(1)).warn(
+        Mockito.verify(logger, Mockito.times(1)).info(
             "Unable to find proper LoC stat; githubStatId='{}'; locStatId='{}'",
             LogNotFoundTest.GITHUB_STAT_ID,
             LogNotFoundTest.LINES_OF_CODE_STAT_ID

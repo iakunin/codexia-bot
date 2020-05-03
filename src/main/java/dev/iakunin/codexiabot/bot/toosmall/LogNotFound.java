@@ -47,7 +47,7 @@ public final class LogNotFound implements Scalar<Optional<Item>> {
         final Optional<Item> result = this.inner.value();
 
         if (result.isEmpty()) {
-            this.logger.warn(
+            this.logger.info(
                 "Unable to find proper LoC stat; githubStatId='{}'; locStatId='{}'",
                 github.getId(),
                 linesOfCode.getId()

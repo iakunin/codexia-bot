@@ -3,6 +3,7 @@ package dev.iakunin.codexiabot.bot.toosmall;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat.GithubApi;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat.LinesOfCode;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat.LinesOfCode.Item;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
@@ -14,11 +15,15 @@ import org.cactoos.iterable.Filtered;
 import org.cactoos.iterable.IterableOf;
 import org.cactoos.iterable.Joined;
 import org.cactoos.iterable.Mapped;
+import org.cactoos.map.MapEntry;
+import org.cactoos.map.MapOf;
 import org.cactoos.scalar.EqualsNullable;
 import org.cactoos.scalar.FirstOf;
 import org.cactoos.scalar.Or;
 import org.cactoos.text.Lowered;
 import org.cactoos.text.NoNulls;
+import org.cactoos.text.TextEnvelope;
+import org.cactoos.text.TextOf;
 
 @Slf4j
 public final class ExactItem implements Scalar<Optional<Item>> {
@@ -53,6 +58,12 @@ public final class ExactItem implements Scalar<Optional<Item>> {
                     new Joined<>(
                         new Filtered<>(
                             new Exact(this.language),
+                            this.items
+                        ),
+                        new Filtered<>(
+                            new Exact(
+                                new MappedText(this.language)
+                            ),
                             this.items
                         ),
                         new Filtered<>(
@@ -134,6 +145,30 @@ public final class ExactItem implements Scalar<Optional<Item>> {
                     ),
                     () -> false
                 ).value();
+        }
+    }
+
+    private static class MappedText extends TextEnvelope {
+
+        private MappedText(Text source) {
+            this(
+                source,
+                new MapOf<>(
+                    new MapEntry<>(
+                        new TextOf("Vue"),
+                        new TextOf("JavaScript")
+                    )
+                )
+            );
+        }
+
+        private MappedText(Text source, Map<Text, Text> map) {
+            super(
+                (Scalar<String>) () -> map.getOrDefault(
+                    new NoNulls(source),
+                    new NoNulls(source)
+                ).asString()
+            );
         }
     }
 }
