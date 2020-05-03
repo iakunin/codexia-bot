@@ -59,3 +59,9 @@ pdd:
 
 build:
 	bash bin/gradle_in_docker.sh clean build --info --console=verbose
+
+migrate:
+	bash bin/migrate.sh
+
+prod-db:
+	cloud_sql_proxy -instances=codexia-bot:europe-west3:codexia-bot-db=tcp:54323
