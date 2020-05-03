@@ -85,6 +85,7 @@ This is a supervised bot for [Codexia (open source incubator)](https://www.codex
     - NPM-package: https://www.npmjs.com/package/cloc
     - Go implementation: https://github.com/boyter/scc
     - Rust implementation: https://github.com/cgag/loc
+    - Main repo language is the most LoC language after `Total` excluding `YAML`, `XML`, `HTML`, `Text` and others
 
 
 - Submitting project to Codexia
