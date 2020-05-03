@@ -1,11 +1,8 @@
 package dev.iakunin.codexiabot.bot.toosmall;
 
-import dev.iakunin.codexiabot.github.entity.GithubRepoStat.GithubApi;
-import dev.iakunin.codexiabot.github.entity.GithubRepoStat.LinesOfCode;
+import dev.iakunin.codexiabot.github.entity.GithubRepoStat;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat.LinesOfCode.Item;
-import java.util.List;
 import java.util.Optional;
-import org.cactoos.list.ListOf;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -13,9 +10,9 @@ import org.slf4j.Logger;
 
 public final class LogNotFoundTest {
 
-    private static final String LANGUAGE = "some test language";
+    private static final long GITHUB_STAT_ID = 22L;
 
-    private static final List<Item> ITEM_LIST = new ListOf<>();
+    private static final long LINES_OF_CODE_STAT_ID = 33L;
 
     @Test
     public void innerIsPresent() throws Exception {
@@ -45,17 +42,21 @@ public final class LogNotFoundTest {
 
         Assertions.assertEquals(Optional.empty(), actual);
         Mockito.verify(logger, Mockito.times(1)).warn(
-            "Unable to find proper LoC stat; language='{}'; LoC list='{}'",
-            LogNotFoundTest.LANGUAGE,
-            LogNotFoundTest.ITEM_LIST
+            "Unable to find proper LoC stat; githubStatId='{}'; locStatId='{}'",
+            LogNotFoundTest.GITHUB_STAT_ID,
+            LogNotFoundTest.LINES_OF_CODE_STAT_ID
         );
     }
 
-    private GithubApi createGithubStat() {
-        return new GithubApi().setLanguage(LogNotFoundTest.LANGUAGE);
+    private GithubRepoStat createGithubStat() {
+        final GithubRepoStat stat = new GithubRepoStat();
+        stat.setId(LogNotFoundTest.GITHUB_STAT_ID);
+        return stat;
     }
 
-    private LinesOfCode createLinesOfCodeStat() {
-        return new LinesOfCode().setItemList(LogNotFoundTest.ITEM_LIST);
+    private GithubRepoStat createLinesOfCodeStat() {
+        final GithubRepoStat stat = new GithubRepoStat();
+        stat.setId(LogNotFoundTest.LINES_OF_CODE_STAT_ID);
+        return stat;
     }
 }

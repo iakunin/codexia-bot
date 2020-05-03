@@ -16,7 +16,6 @@ import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.cactoos.scalar.Unchecked;
-import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
@@ -56,13 +55,10 @@ public final class Small implements Runnable {
             new Tuple2<>(
                 this.github.findLastGithubApiStat(repo),
                 this.github.findLastLinesOfCodeStat(repo)
-            ).map(
-                o -> o.map(stat -> (GithubApi) stat.getStat()),
-                o -> o.map(stat -> (LinesOfCode) stat.getStat())
             ).apply(
                 (fst, snd) -> fst.isPresent() && snd.isPresent()
                     ? Optional.of(new Tuple2<>(fst.get(), snd.get()))
-                    : Optional.<Tuple2<GithubApi, LinesOfCode>>empty()
+                    : Optional.<Tuple2<GithubRepoStat, GithubRepoStat>>empty()
             ).flatMap(
                 o -> o.apply(this::findLinesOfCodeItem)
             ).flatMap(linesOfCodeItem ->
@@ -72,16 +68,18 @@ public final class Small implements Runnable {
     }
 
     private Optional<Item> findLinesOfCodeItem(
-        GithubApi githubStat,
-        LinesOfCode linesOfCodeStat
+        GithubRepoStat github,
+        GithubRepoStat linesOfCode
     ) {
         return
             new Unchecked<>(
                 new LogNotFound(
-                    githubStat,
-                    linesOfCodeStat,
-                    new ExactItem(githubStat, linesOfCodeStat),
-                    LoggerFactory.getLogger(LogNotFound.class)
+                    github,
+                    linesOfCode,
+                    new ExactItem(
+                        (GithubApi) github.getStat(),
+                        (LinesOfCode) linesOfCode.getStat()
+                    )
                 )
             ).value();
     }
