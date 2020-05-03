@@ -295,6 +295,39 @@ public final class ExactItemTest {
         Assertions.assertEquals(Optional.empty(), actual);
     }
 
+    @Test
+    public void foundWithMapping() throws Exception {
+        final Optional<Item> actual = new ExactItem(
+            this.createGithub("Vue"),
+            this.createLinesOfCode(
+                new ListOf<>(
+                    this.createItem("JavaScript")
+                )
+            )
+        ).value();
+
+        Assertions.assertEquals(
+            Optional.of(
+                this.createItem("JavaScript")
+            ),
+            actual
+        );
+    }
+
+    @Test
+    public void notFoundWithMapping() throws Exception {
+        final Optional<Item> actual = new ExactItem(
+            this.createGithub("SomeAnotherLanguage"),
+            this.createLinesOfCode(
+                new ListOf<>(
+                    this.createItem("JavaScript")
+                )
+            )
+        ).value();
+
+        Assertions.assertEquals(Optional.empty(), actual);
+    }
+
     private GithubApi createGithub(String language) {
         return new GithubApi().setLanguage(language);
     }
