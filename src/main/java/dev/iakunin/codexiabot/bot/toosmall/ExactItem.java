@@ -24,7 +24,6 @@ import org.cactoos.scalar.Unchecked;
 import org.cactoos.text.Lowered;
 import org.cactoos.text.NoNulls;
 import org.cactoos.text.TextEnvelope;
-import org.cactoos.text.TextOf;
 
 @Slf4j
 public final class ExactItem implements Scalar<Optional<Item>> {
@@ -155,21 +154,18 @@ public final class ExactItem implements Scalar<Optional<Item>> {
             this(
                 source,
                 new MapOf<>(
-                    new MapEntry<>(
-                        new TextOf("Vue"),
-                        new TextOf("JavaScript")
-                    )
+                    new MapEntry<>("Vue", "JavaScript")
                 )
             );
         }
 
-        private MappedText(Text source, Map<Text, Text> map) {
+        private MappedText(Text source, Map<String, String> map) {
             super(
                 new Unchecked<>(
                     () -> map.getOrDefault(
-                        new NoNulls(source),
-                        new NoNulls(source)
-                    ).asString()
+                        new NoNulls(source).toString(),
+                        new NoNulls(source).toString()
+                    )
                 )
             );
         }
