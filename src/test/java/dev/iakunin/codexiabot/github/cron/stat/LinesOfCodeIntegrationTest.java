@@ -3,6 +3,7 @@ package dev.iakunin.codexiabot.github.cron.stat;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.github.tomakehurst.wiremock.client.WireMock;
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.tomakehurst.wiremock.client.WireMock.ok;
 import dev.iakunin.codexiabot.AbstractIntegrationTest;
@@ -35,6 +36,16 @@ public class LinesOfCodeIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     @DataSet(
+        value = "db-rider/github/cron/stat/lines-of-code/initial/processedRepo.yml",
+        cleanBefore = true, cleanAfter = true
+    )
+    @ExpectedDataSet("db-rider/github/cron/stat/lines-of-code/expected/processedRepo.yml")
+    public void processedRepo() {
+        linesOfCode.run();
+    }
+
+    @Test
+    @DataSet(
         value = "db-rider/github/cron/stat/lines-of-code/initial/happyPath.yml",
         cleanBefore = true, cleanAfter = true
     )
@@ -51,6 +62,40 @@ public class LinesOfCodeIntegrationTest extends AbstractIntegrationTest {
                             )
                         ).toString()
                     )
+                )
+        );
+
+        linesOfCode.run();
+    }
+
+    @Test
+    @DataSet(
+        value = "db-rider/github/cron/stat/lines-of-code/initial/tooManyRequests.yml",
+        cleanBefore = true, cleanAfter = true
+    )
+    @ExpectedDataSet("db-rider/github/cron/stat/lines-of-code/expected/tooManyRequests.yml")
+    public void tooManyRequests() {
+        WireMockServer.getInstance().stubFor(
+            get(WireMock.urlPathEqualTo("/loc"))
+                .willReturn(aResponse()
+                    .withStatus(429)
+                )
+        );
+
+        linesOfCode.run();
+    }
+
+    @Test
+    @DataSet(
+        value = "db-rider/github/cron/stat/lines-of-code/initial/codetabsException.yml",
+        cleanBefore = true, cleanAfter = true
+    )
+    @ExpectedDataSet("db-rider/github/cron/stat/lines-of-code/expected/codetabsException.yml")
+    public void codetabsException() {
+        WireMockServer.getInstance().stubFor(
+            get(WireMock.urlPathEqualTo("/loc"))
+                .willReturn(aResponse()
+                    .withStatus(500)
                 )
         );
 

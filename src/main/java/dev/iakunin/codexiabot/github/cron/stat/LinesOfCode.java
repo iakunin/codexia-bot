@@ -31,7 +31,8 @@ public final class LinesOfCode implements Runnable {
                     this.githubRepoStatRepository.save(
                         GithubRepoStat.Factory.from(
                             Objects.requireNonNull(
-                                this.codetabsClient.getLinesOfCode(githubRepo.getFullName())
+                                this.codetabsClient
+                                    .getLinesOfCode(githubRepo.getFullName())
                                     .getBody()
                             )
                         ).setGithubRepo(githubRepo)
@@ -49,6 +50,7 @@ public final class LinesOfCode implements Runnable {
                     }
                 } finally {
                     log.debug("Sleeping...");
+                    // @todo #58 configure this timeout for tests
                     sleep(5000);
                 }
             }
