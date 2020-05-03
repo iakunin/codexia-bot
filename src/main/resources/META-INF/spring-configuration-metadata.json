@@ -154,6 +154,11 @@
       "name": "app.reddit.client-secret",
       "type": "java.lang.String",
       "description": "Reddit client secret."
+    },
+    {
+      "name": "app.codetabs.base-url",
+      "type": "java.lang.String",
+      "description": "Base url of Codetabs."
     }
   ]
 }

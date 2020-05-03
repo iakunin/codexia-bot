@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(
     name = "codetabsClient",
-    url = "https://api.codetabs.com/v1/",
+    url = "${app.codetabs.base-url}",
     configuration = GeneralClientConfiguration.class
 )
 public interface CodetabsClient {
