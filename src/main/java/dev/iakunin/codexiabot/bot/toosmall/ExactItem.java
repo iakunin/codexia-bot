@@ -20,6 +20,7 @@ import org.cactoos.map.MapOf;
 import org.cactoos.scalar.EqualsNullable;
 import org.cactoos.scalar.FirstOf;
 import org.cactoos.scalar.Or;
+import org.cactoos.scalar.Unchecked;
 import org.cactoos.text.Lowered;
 import org.cactoos.text.NoNulls;
 import org.cactoos.text.TextEnvelope;
@@ -164,10 +165,12 @@ public final class ExactItem implements Scalar<Optional<Item>> {
 
         private MappedText(Text source, Map<Text, Text> map) {
             super(
-                (Scalar<String>) () -> map.getOrDefault(
-                    new NoNulls(source),
-                    new NoNulls(source)
-                ).asString()
+                new Unchecked<>(
+                    () -> map.getOrDefault(
+                        new NoNulls(source),
+                        new NoNulls(source)
+                    ).asString()
+                )
             );
         }
     }
