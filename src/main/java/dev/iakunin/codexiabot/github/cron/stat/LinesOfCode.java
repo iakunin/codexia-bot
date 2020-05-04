@@ -5,16 +5,14 @@ import dev.iakunin.codexiabot.github.repository.GithubRepoRepository;
 import dev.iakunin.codexiabot.github.repository.GithubRepoStatRepository;
 import dev.iakunin.codexiabot.github.sdk.CodetabsClient;
 import java.util.Objects;
-import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
-@AllArgsConstructor(onConstructor_={@Autowired})
 public final class LinesOfCode implements Runnable {
 
     private final GithubRepoRepository githubRepoRepository;
@@ -22,6 +20,20 @@ public final class LinesOfCode implements Runnable {
     private final GithubRepoStatRepository githubRepoStatRepository;
 
     private final CodetabsClient codetabsClient;
+
+    private final Integer delay;
+
+    public LinesOfCode(
+        GithubRepoRepository githubRepoRepository,
+        GithubRepoStatRepository githubRepoStatRepository,
+        CodetabsClient codetabsClient,
+        @Value("${app.cron.github.stat.lines-of-code.delay}") Integer delay
+    ) {
+        this.githubRepoRepository = githubRepoRepository;
+        this.githubRepoStatRepository = githubRepoStatRepository;
+        this.codetabsClient = codetabsClient;
+        this.delay = delay;
+    }
 
     public void run() {
         this.githubRepoRepository.findAllWithoutLinesOfCode().forEach(
@@ -31,7 +43,8 @@ public final class LinesOfCode implements Runnable {
                     this.githubRepoStatRepository.save(
                         GithubRepoStat.Factory.from(
                             Objects.requireNonNull(
-                                this.codetabsClient.getLinesOfCode(githubRepo.getFullName())
+                                this.codetabsClient
+                                    .getLinesOfCode(githubRepo.getFullName())
                                     .getBody()
                             )
                         ).setGithubRepo(githubRepo)
@@ -49,7 +62,7 @@ public final class LinesOfCode implements Runnable {
                     }
                 } finally {
                     log.debug("Sleeping...");
-                    sleep(5000);
+                    sleep(this.delay);
                 }
             }
         );
