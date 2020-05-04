@@ -111,7 +111,8 @@ public class LinesOfCodeIntegrationTest extends AbstractIntegrationTest {
         @Override
         public void initialize(ConfigurableApplicationContext applicationContext) {
             TestPropertyValues.of(
-                "app.codetabs.base-url=" + WireMockServer.getInstance().baseUrl()
+                "app.codetabs.base-url=" + WireMockServer.getInstance().baseUrl(),
+                "app.cron.github.stat.lines-of-code.delay=0"
             ).applyTo(applicationContext.getEnvironment());
         }
     }

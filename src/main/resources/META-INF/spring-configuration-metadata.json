@@ -159,6 +159,11 @@
       "name": "app.codetabs.base-url",
       "type": "java.lang.String",
       "description": "Base url of Codetabs."
+    },
+    {
+      "name": "app.cron.github.stat.lines-of-code.delay",
+      "type": "java.lang.Integer",
+      "description": "Delay for github.stat.lines-of-code cron."
     }
   ]
 }
