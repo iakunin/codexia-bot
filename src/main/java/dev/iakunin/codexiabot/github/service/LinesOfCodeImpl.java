@@ -4,6 +4,7 @@ import dev.iakunin.codexiabot.github.entity.GithubRepo;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat;
 import dev.iakunin.codexiabot.github.repository.GithubRepoStatRepository;
 import dev.iakunin.codexiabot.github.sdk.CodetabsClient;
+import java.util.List;
 import java.util.Objects;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -36,13 +37,12 @@ public final class LinesOfCodeImpl implements LinesOfCode {
         log.debug("Calculating lines of code for {}", repo);
         try {
             this.repoStatRepository.save(
-                GithubRepoStat.Factory.from(
-                    Objects.requireNonNull(
-                        this.codetabsClient
-                            .getLinesOfCode(repo.getFullName())
-                            .getBody()
-                    )
-                ).setGithubRepo(repo)
+                this.createStat(
+                    repo,
+                    this.codetabsClient
+                        .getLinesOfCode(repo.getFullName())
+                        .getBody()
+                )
             );
         } catch (feign.FeignException e) {
             if (e.status() != HttpStatus.TOO_MANY_REQUESTS.value()) {
@@ -56,13 +56,21 @@ public final class LinesOfCodeImpl implements LinesOfCode {
                 log.debug("TOO_MANY_REQUESTS (429) came from codetabs: retrying", e);
             }
         } finally {
-            log.debug("Sleeping...");
-            sleep(this.delay);
+            this.sleep(this.delay);
         }
+    }
+
+    private GithubRepoStat createStat(GithubRepo repo, List<CodetabsClient.Item> itemList) {
+        return GithubRepoStat.Factory
+            .from(
+                Objects.requireNonNull(itemList)
+            )
+            .setGithubRepo(repo);
     }
 
     @SneakyThrows
     private void sleep(long millis) {
+        log.debug("Sleeping...");
         Thread.sleep(millis);
     }
 }
