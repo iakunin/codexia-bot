@@ -2,7 +2,6 @@ package dev.iakunin.codexiabot.github;
 
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
-import com.google.common.net.HttpHeaders;
 import dev.iakunin.codexiabot.AbstractIntegrationTest;
 import dev.iakunin.codexiabot.CodexiaBotApplication;
 import dev.iakunin.codexiabot.github.GithubModule.RepoNotFoundException;
@@ -12,7 +11,6 @@ import dev.iakunin.codexiabot.util.wiremock.Stub;
 import java.io.IOException;
 import lombok.SneakyThrows;
 import org.cactoos.io.ResourceOf;
-import org.cactoos.map.MapEntry;
 import org.cactoos.text.FormattedText;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -43,16 +41,31 @@ public class GithubModuleIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     @DataSet(
-        value = "db-rider/github/github-module/initial/repoAlreadyExist.yml",
+        value = "db-rider/github/github-module/initial/repoExistsByFullName.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/github/github-module/expected/repoAlreadyExist.yml")
-    public void repoAlreadyExist() throws IOException {
+    @ExpectedDataSet("db-rider/github/github-module/expected/repoExistsByFullName.yml")
+    public void repoExistsByFullName() throws IOException {
         new Stub(
-            "/codexia/recent.json?page=0",
-            new ResourceOf("wiremock/github/github-module/codexia/recent.json")
+            "/github/repos/casbin/casbin-rs",
+            new ResourceOf("wiremock/github/github-module/github/getRepo.json")
         ).run();
-        new Stub("/codexia/recent.json?page=1", "[]").run();
+
+        module.createRepo(
+            new GithubModule.CreateArguments()
+                .setSource(GithubModule.Source.CODEXIA)
+                .setExternalId("1662")
+                .setUrl("https://github.com/casbin/casbin-rs")
+        );
+    }
+
+    @Test
+    @DataSet(
+        value = "db-rider/github/github-module/initial/repoExistsByExternalId.yml",
+        cleanBefore = true, cleanAfter = true
+    )
+    @ExpectedDataSet("db-rider/github/github-module/expected/repoExistsByExternalId.yml")
+    public void repoExistsByExternalId() throws IOException {
         new Stub(
             "/github/repos/casbin/casbin-rs",
             new ResourceOf("wiremock/github/github-module/github/getRepo.json")
@@ -74,18 +87,10 @@ public class GithubModuleIntegrationTest extends AbstractIntegrationTest {
     @ExpectedDataSet("db-rider/github/github-module/expected/notFoundInGithub.yml")
     public void notFoundInGithub() throws IOException {
         new Stub(
-            "/codexia/recent.json?page=0",
-            new ResourceOf("wiremock/github/github-module/codexia/recent.json")
-        ).run();
-        new Stub("/codexia/recent.json?page=1", "[]").run();
-        new Stub(
             "/github/repos/casbin/casbin-rs",
             new Response(
                 HttpStatus.NOT_FOUND.value(),
-                new ResourceOf(
-                    "wiremock/github/github-module/github/repoNotFound.json"
-                ),
-                new MapEntry<>(HttpHeaders.CONTENT_TYPE, "application/json")
+                new ResourceOf("wiremock/github/github-module/github/repoNotFound.json")
             )
         ).run();
 
