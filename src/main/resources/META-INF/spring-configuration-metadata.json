@@ -161,9 +161,9 @@
       "description": "Base url of Codetabs."
     },
     {
-      "name": "app.cron.github.stat.loc.without-loc.delay",
+      "name": "app.github.service.lines-of-code.delay",
       "type": "java.lang.Integer",
-      "description": "Delay for github.stat.loc.without-loc cron."
+      "description": "Delay for LinesOfCode service."
     }
   ]
 }

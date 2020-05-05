@@ -112,7 +112,7 @@ public class WithoutLocIntegrationTest extends AbstractIntegrationTest {
         public void initialize(ConfigurableApplicationContext applicationContext) {
             TestPropertyValues.of(
                 "app.codetabs.base-url=" + WireMockServer.getInstance().baseUrl(),
-                "app.cron.github.stat.loc.without-loc.delay=0"
+                "app.github.service.lines-of-code.delay=0"
             ).applyTo(applicationContext.getEnvironment());
         }
     }
