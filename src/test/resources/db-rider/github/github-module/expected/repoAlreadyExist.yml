@@ -1,9 +1,5 @@
-codexia_project: []
-
 github_repo:
     -
-        id: 1
-        uuid: "groovy: UUID.randomUUID().toString()"
         external_id: "202275988"
         full_name: "casbin/casbin-rs"
         html_url: "https://github.com/casbin/casbin-rs"
@@ -11,7 +7,8 @@ github_repo:
 
 github_repo_source:
     -
-        uuid: "groovy: UUID.randomUUID().toString()"
-        github_repo_id: 1
         source: "HACKERNEWS"
         external_id: "1111"
+    -
+        source: "CODEXIA"
+        external_id: "1662"
