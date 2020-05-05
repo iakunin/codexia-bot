@@ -19,6 +19,14 @@ public final class Response implements Scalar<ResponseDefinitionBuilder> {
 
     private final Scalar<ResponseDefinitionBuilder> inner;
 
+    public Response() {
+        this("");
+    }
+
+    public Response(int code) {
+        this(code, "");
+    }
+
     public Response(String body) {
         this(200, body);
     }

@@ -2,18 +2,20 @@ package dev.iakunin.codexiabot.codexia.cron;
 
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
-import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
-import static com.github.tomakehurst.wiremock.client.WireMock.ok;
-import static com.github.tomakehurst.wiremock.client.WireMock.post;
-import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
+import com.github.tomakehurst.wiremock.client.WireMock;
+import com.github.tomakehurst.wiremock.http.RequestMethod;
 import dev.iakunin.codexiabot.AbstractIntegrationTest;
 import dev.iakunin.codexiabot.util.WireMockServer;
+import dev.iakunin.codexiabot.util.wiremock.Request;
+import dev.iakunin.codexiabot.util.wiremock.Response;
+import dev.iakunin.codexiabot.util.wiremock.Stub;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ContextConfiguration;
 
 @ContextConfiguration(initializers = SendReviewsIntegrationTest.Initializer.class)
@@ -39,10 +41,10 @@ public class SendReviewsIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/codexia/cron/send-reviews/expected/reviewSuccessfullySent.yml")
     public void reviewSuccessfullySent() {
-        WireMockServer.getInstance().stubFor(
-            post(urlPathMatching("/p/\\d+/post"))
-                .willReturn(ok())
-        );
+        new Stub(
+            new Request(RequestMethod.POST, WireMock.urlPathMatching("/p/\\d+/post")),
+            new Response()
+        ).run();
 
         sendReviews.run();
     }
@@ -54,13 +56,10 @@ public class SendReviewsIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/codexia/cron/send-reviews/expected/reviewSentWithDuplicate_responseBodyExists.yml")
     public void reviewSentWithDuplicate_responseBodyExists() {
-        WireMockServer.getInstance().stubFor(
-            post(urlPathMatching("/p/\\d+/post"))
-                .willReturn(aResponse()
-                    .withStatus(404)
-                    .withBody("Review already exists")
-                )
-        );
+        new Stub(
+            new Request(RequestMethod.POST, WireMock.urlPathMatching("/p/\\d+/post")),
+            new Response(HttpStatus.NOT_FOUND.value(), "Review already exists")
+        ).run();
 
         sendReviews.run();
     }
@@ -72,12 +71,10 @@ public class SendReviewsIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/codexia/cron/send-reviews/expected/reviewSentWithDuplicate_responseBodyEmpty.yml")
     public void reviewSentWithDuplicate_responseBodyEmpty() {
-        WireMockServer.getInstance().stubFor(
-            post(urlPathMatching("/p/\\d+/post"))
-                .willReturn(aResponse()
-                    .withStatus(404)
-                )
-        );
+        new Stub(
+            new Request(RequestMethod.POST, WireMock.urlPathMatching("/p/\\d+/post")),
+            new Response(HttpStatus.NOT_FOUND.value())
+        ).run();
 
         sendReviews.run();
     }
@@ -89,12 +86,11 @@ public class SendReviewsIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/codexia/cron/send-reviews/expected/reviewSentWith500.yml")
     public void reviewSentWith500() {
-        WireMockServer.getInstance().stubFor(
-            post(urlPathMatching("/p/\\d+/post"))
-                .willReturn(aResponse()
-                    .withStatus(500)
-                )
-        );
+        new Stub(
+            new Request(RequestMethod.POST, WireMock.urlPathMatching("/p/\\d+/post")),
+            new Response(HttpStatus.INTERNAL_SERVER_ERROR.value())
+        ).run();
+
 
         sendReviews.run();
     }
