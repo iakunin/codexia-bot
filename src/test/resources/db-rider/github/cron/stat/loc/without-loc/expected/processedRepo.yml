@@ -1,9 +1,3 @@
-github_repo:
-    -
-        id: 1
-        external_id: "150713223"
-        full_name: "test-project1/test-repo1"
-
 github_repo_stat:
     -
         id: 1
