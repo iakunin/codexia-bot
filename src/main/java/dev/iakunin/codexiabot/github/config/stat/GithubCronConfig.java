@@ -1,4 +1,4 @@
-package dev.iakunin.codexiabot.github.config;
+package dev.iakunin.codexiabot.github.config.stat;
 
 import dev.iakunin.codexiabot.common.runnable.Logging;
 import dev.iakunin.codexiabot.github.cron.stat.Github;
@@ -24,14 +24,14 @@ public class GithubCronConfig implements SchedulingConfigurer {
     }
 
     @Bean
-    public Runnable githubRunnable() {
+    public Runnable statGithubRunnable() {
         return new Logging(this.github);
     }
 
     @Override
     public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
         taskRegistrar.addCronTask(
-            this.githubRunnable(),
+            this.statGithubRunnable(),
             this.cronExpression
         );
     }

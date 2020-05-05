@@ -1,4 +1,4 @@
-package dev.iakunin.codexiabot.github.cron.stat;
+package dev.iakunin.codexiabot.github.cron.stat.loc;
 
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat;
 import dev.iakunin.codexiabot.github.repository.GithubRepoRepository;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
-public final class LinesOfCode implements Runnable {
+public final class WithoutLoc implements Runnable {
 
     private final GithubRepoRepository githubRepoRepository;
 
@@ -23,11 +23,11 @@ public final class LinesOfCode implements Runnable {
 
     private final Integer delay;
 
-    public LinesOfCode(
+    public WithoutLoc(
         GithubRepoRepository githubRepoRepository,
         GithubRepoStatRepository githubRepoStatRepository,
         CodetabsClient codetabsClient,
-        @Value("${app.cron.github.stat.lines-of-code.delay}") Integer delay
+        @Value("${app.cron.github.stat.loc.without-loc.delay}") Integer delay
     ) {
         this.githubRepoRepository = githubRepoRepository;
         this.githubRepoStatRepository = githubRepoStatRepository;
