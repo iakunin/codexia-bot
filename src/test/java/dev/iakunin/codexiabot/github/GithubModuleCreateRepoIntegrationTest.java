@@ -31,13 +31,33 @@ import org.springframework.test.context.ContextConfiguration;
 
 @SpringBootTest(classes = {
     AbstractIntegrationTest.TestConfig.class,
-    GithubModuleIntegrationTest.TestConfig.class,
+    GithubModuleCreateRepoIntegrationTest.TestConfig.class,
 })
-@ContextConfiguration(initializers = GithubModuleIntegrationTest.Initializer.class)
-public class GithubModuleIntegrationTest extends AbstractIntegrationTest {
+@ContextConfiguration(initializers = GithubModuleCreateRepoIntegrationTest.Initializer.class)
+public class GithubModuleCreateRepoIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private GithubModuleImpl module;
+
+    @Test
+    @DataSet(
+        value = "db-rider/github/github-module/initial/happyPath.yml",
+        cleanBefore = true, cleanAfter = true
+    )
+    @ExpectedDataSet("db-rider/github/github-module/expected/happyPath.yml")
+    public void happyPath() throws IOException {
+        new Stub(
+            "/github/repos/casbin/casbin-rs",
+            new ResourceOf("wiremock/github/github-module/github/getRepo.json")
+        ).run();
+
+        module.createRepo(
+            new GithubModule.CreateArguments()
+                .setSource(GithubModule.Source.CODEXIA)
+                .setExternalId("1662")
+                .setUrl("https://github.com/casbin/casbin-rs")
+        );
+    }
 
     @Test
     @DataSet(
@@ -66,6 +86,26 @@ public class GithubModuleIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/github/github-module/expected/repoExistsByExternalId.yml")
     public void repoExistsByExternalId() throws IOException {
+        new Stub(
+            "/github/repos/casbin/casbin-rs",
+            new ResourceOf("wiremock/github/github-module/github/getRepo.json")
+        ).run();
+
+        module.createRepo(
+            new GithubModule.CreateArguments()
+                .setSource(GithubModule.Source.CODEXIA)
+                .setExternalId("1662")
+                .setUrl("https://github.com/casbin/casbin-rs")
+        );
+    }
+
+    @Test
+    @DataSet(
+        value = "db-rider/github/github-module/initial/repoExistsByCodexiaSource.yml",
+        cleanBefore = true, cleanAfter = true
+    )
+    @ExpectedDataSet("db-rider/github/github-module/expected/repoExistsByCodexiaSource.yml")
+    public void repoExistsByCodexiaSource() throws IOException {
         new Stub(
             "/github/repos/casbin/casbin-rs",
             new ResourceOf("wiremock/github/github-module/github/getRepo.json")
