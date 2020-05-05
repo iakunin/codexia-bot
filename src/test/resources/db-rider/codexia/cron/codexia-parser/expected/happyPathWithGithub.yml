@@ -15,6 +15,5 @@ github_repo:
 
 github_repo_source:
     -
-        github_repo_id: 1
         source: "CODEXIA"
         external_id: "1662"
