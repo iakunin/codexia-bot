@@ -32,7 +32,7 @@ abstract public class AbstractIntegrationTest {
 
     @Configuration
     @Import(CodexiaBotApplication.class)
-    static class TestConfig {
+    public static class TestConfig {
         @Bean
         public RedditClient redditClient() {
             return Mockito.mock(RedditClient.class);
