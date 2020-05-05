@@ -71,6 +71,58 @@ public class CodexiaParserIntegrationTest extends AbstractIntegrationTest {
         codexiaParser.run();
     }
 
+    @Test
+    @DataSet(
+        value = "db-rider/codexia/cron/codexia-parser/initial/repoAlreadyExist.yml",
+        cleanBefore = true, cleanAfter = true
+    )
+    @ExpectedDataSet("db-rider/codexia/cron/codexia-parser/expected/repoAlreadyExist.yml")
+    public void repoAlreadyExist() {
+        this.wiremockWithResource(
+            "/codexia/recent.json?page=0",
+            "wiremock/codexia/cron/codexia-parser/codexia/recent.json"
+        );
+        this.wiremockWithBodyString("/codexia/recent.json?page=1", "[]");
+        this.wiremockWithResource(
+            "/github/repos/casbin/casbin-rs",
+            "wiremock/codexia/cron/codexia-parser/github/getRepo.json"
+        );
+
+        codexiaParser.run();
+    }
+
+    @Test
+    @DataSet(
+        value = "db-rider/codexia/cron/codexia-parser/initial/codexiaProjectAlreadyExist.yml",
+        cleanBefore = true, cleanAfter = true
+    )
+    @ExpectedDataSet("db-rider/codexia/cron/codexia-parser/expected/codexiaProjectAlreadyExist.yml")
+    public void codexiaProjectAlreadyExist() {
+        this.wiremockWithResource(
+            "/codexia/recent.json?page=0",
+            "wiremock/codexia/cron/codexia-parser/codexia/recent.json"
+        );
+        this.wiremockWithBodyString("/codexia/recent.json?page=1", "[]");
+
+        codexiaParser.run();
+    }
+
+    @Test
+    @DataSet(
+        value = "db-rider/codexia/cron/codexia-parser/initial/deletedProject.yml",
+        cleanBefore = true, cleanAfter = true
+    )
+    @ExpectedDataSet("db-rider/codexia/cron/codexia-parser/expected/deletedProject.yml")
+    public void deletedProject() {
+        this.wiremockWithResource(
+            "/codexia/recent.json?page=0",
+            "wiremock/codexia/cron/codexia-parser/codexia/recentWithDeleted.json"
+        );
+        this.wiremockWithBodyString("/codexia/recent.json?page=1", "[]");
+
+        codexiaParser.run();
+    }
+
     private void wiremockWithResource(String url, String resourcePath) {
         this.wiremockWithBodyString(
             url,
