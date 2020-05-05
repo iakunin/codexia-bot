@@ -101,6 +101,11 @@
       "description": "Cron expression for github.stat.loc.without-loc."
     },
     {
+      "name": "app.cron.github.stat.loc.codexia",
+      "type": "java.lang.String",
+      "description": "Cron expression for github.stat.loc.codexia."
+    },
+    {
       "name": "app.cron.github.stat.github",
       "type": "java.lang.String",
       "description": "Cron expression for github.stat.github."
