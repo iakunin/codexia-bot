@@ -1,0 +1,5 @@
+github_repo_stat:
+    -
+        github_repo_id: 1
+        type: "LINES_OF_CODE"
+        stat: '{"itemList":null,"type":"LINES_OF_CODE"}'

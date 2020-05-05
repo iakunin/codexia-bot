@@ -81,6 +81,7 @@ springBoot {
 test {
     useJUnitPlatform()
     failFast = true
+    maxParallelForks = 2
 }
 
 lombok {

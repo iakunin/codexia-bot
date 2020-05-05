@@ -96,9 +96,14 @@
       "description": "Cron expression for codexia.projects-health-check."
     },
     {
-      "name": "app.cron.github.stat.lines-of-code",
+      "name": "app.cron.github.stat.loc.without-loc",
       "type": "java.lang.String",
-      "description": "Cron expression for github.stat.lines-of-code."
+      "description": "Cron expression for github.stat.loc.without-loc."
+    },
+    {
+      "name": "app.cron.github.stat.loc.codexia",
+      "type": "java.lang.String",
+      "description": "Cron expression for github.stat.loc.codexia."
     },
     {
       "name": "app.cron.github.stat.github",
@@ -161,9 +166,9 @@
       "description": "Base url of Codetabs."
     },
     {
-      "name": "app.cron.github.stat.lines-of-code.delay",
+      "name": "app.github.service.lines-of-code.delay",
       "type": "java.lang.Integer",
-      "description": "Delay for github.stat.lines-of-code cron."
+      "description": "Delay for LinesOfCode service."
     }
   ]
 }

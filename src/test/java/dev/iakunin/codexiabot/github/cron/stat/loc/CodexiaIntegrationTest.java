@@ -1,4 +1,4 @@
-package dev.iakunin.codexiabot.github.cron.stat;
+package dev.iakunin.codexiabot.github.cron.stat.loc;
 
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
@@ -18,39 +18,29 @@ import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 
-@ContextConfiguration(initializers = LinesOfCodeIntegrationTest.Initializer.class)
-public class LinesOfCodeIntegrationTest extends AbstractIntegrationTest {
+@ContextConfiguration(initializers = CodexiaIntegrationTest.Initializer.class)
+public class CodexiaIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
-    private LinesOfCode linesOfCode;
+    private Codexia linesOfCode;
 
     @Test
     @DataSet(
-        value = "db-rider/github/cron/stat/lines-of-code/initial/emptyDatabase.yml",
+        value = "db-rider/github/cron/stat/loc/codexia/initial/emptyDatabase.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/github/cron/stat/lines-of-code/expected/emptyDatabase.yml")
+    @ExpectedDataSet("db-rider/github/cron/stat/loc/codexia/expected/emptyDatabase.yml")
     public void emptyDatabase() {
         linesOfCode.run();
     }
 
     @Test
     @DataSet(
-        value = "db-rider/github/cron/stat/lines-of-code/initial/processedRepo.yml",
+        value = "db-rider/github/cron/stat/loc/codexia/initial/processedRepo.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/github/cron/stat/lines-of-code/expected/processedRepo.yml")
+    @ExpectedDataSet("db-rider/github/cron/stat/loc/codexia/expected/processedRepo.yml")
     public void processedRepo() {
-        linesOfCode.run();
-    }
-
-    @Test
-    @DataSet(
-        value = "db-rider/github/cron/stat/lines-of-code/initial/happyPath.yml",
-        cleanBefore = true, cleanAfter = true
-    )
-    @ExpectedDataSet("db-rider/github/cron/stat/lines-of-code/expected/happyPath.yml")
-    public void happyPath() {
         WireMockServer.getInstance().stubFor(
             get(WireMock.urlPathEqualTo("/loc"))
                 .willReturn(ok()
@@ -58,7 +48,7 @@ public class LinesOfCodeIntegrationTest extends AbstractIntegrationTest {
                     .withBody(
                         new TextOf(
                             new ResourceOf(
-                                "wiremock/github/cron/stat/lines-of-code/happyPath.json"
+                                "wiremock/github/cron/stat/loc/happyPath.json"
                             )
                         ).toString()
                     )
@@ -70,10 +60,34 @@ public class LinesOfCodeIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     @DataSet(
-        value = "db-rider/github/cron/stat/lines-of-code/initial/tooManyRequests.yml",
+        value = "db-rider/github/cron/stat/loc/codexia/initial/happyPath.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/github/cron/stat/lines-of-code/expected/tooManyRequests.yml")
+    @ExpectedDataSet("db-rider/github/cron/stat/loc/codexia/expected/happyPath.yml")
+    public void happyPath() {
+        WireMockServer.getInstance().stubFor(
+            get(WireMock.urlPathEqualTo("/loc"))
+                .willReturn(ok()
+                    .withHeader("Content-Type",  "application/json")
+                    .withBody(
+                        new TextOf(
+                            new ResourceOf(
+                                "wiremock/github/cron/stat/loc/happyPath.json"
+                            )
+                        ).toString()
+                    )
+                )
+        );
+
+        linesOfCode.run();
+    }
+
+    @Test
+    @DataSet(
+        value = "db-rider/github/cron/stat/loc/codexia/initial/tooManyRequests.yml",
+        cleanBefore = true, cleanAfter = true
+    )
+    @ExpectedDataSet("db-rider/github/cron/stat/loc/codexia/expected/tooManyRequests.yml")
     public void tooManyRequests() {
         WireMockServer.getInstance().stubFor(
             get(WireMock.urlPathEqualTo("/loc"))
@@ -87,10 +101,10 @@ public class LinesOfCodeIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     @DataSet(
-        value = "db-rider/github/cron/stat/lines-of-code/initial/codetabsException.yml",
+        value = "db-rider/github/cron/stat/loc/codexia/initial/codetabsException.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/github/cron/stat/lines-of-code/expected/codetabsException.yml")
+    @ExpectedDataSet("db-rider/github/cron/stat/loc/codexia/expected/codetabsException.yml")
     public void codetabsException() {
         WireMockServer.getInstance().stubFor(
             get(WireMock.urlPathEqualTo("/loc"))
@@ -112,7 +126,7 @@ public class LinesOfCodeIntegrationTest extends AbstractIntegrationTest {
         public void initialize(ConfigurableApplicationContext applicationContext) {
             TestPropertyValues.of(
                 "app.codetabs.base-url=" + WireMockServer.getInstance().baseUrl(),
-                "app.cron.github.stat.lines-of-code.delay=0"
+                "app.github.service.lines-of-code.delay=0"
             ).applyTo(applicationContext.getEnvironment());
         }
     }
