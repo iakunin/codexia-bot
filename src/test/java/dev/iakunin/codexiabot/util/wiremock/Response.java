@@ -2,6 +2,7 @@ package dev.iakunin.codexiabot.util.wiremock;
 
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
 import com.github.tomakehurst.wiremock.client.WireMock;
+import com.github.tomakehurst.wiremock.extension.responsetemplating.ResponseTemplateTransformer;
 import com.github.tomakehurst.wiremock.http.HttpHeader;
 import com.github.tomakehurst.wiremock.http.HttpHeaders;
 import java.util.Map;
@@ -51,11 +52,7 @@ public final class Response implements Scalar<ResponseDefinitionBuilder> {
         Input body,
         Map.Entry<String, String>... headers
     ) {
-        this(
-            code,
-            new TextOf(body),
-            headers
-        );
+        this(code, new TextOf(body), headers);
     }
 
     @SafeVarargs
@@ -82,6 +79,7 @@ public final class Response implements Scalar<ResponseDefinitionBuilder> {
                     .withBody(
                         new UncheckedText(body).asString()
                     )
+                    .withTransformers(ResponseTemplateTransformer.NAME)
         );
     }
 

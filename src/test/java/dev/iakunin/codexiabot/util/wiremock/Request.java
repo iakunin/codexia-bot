@@ -12,6 +12,10 @@ public final class Request implements Scalar<MappingBuilder> {
     private final Scalar<MappingBuilder> inner;
 
     public Request(String url) {
+        this(WireMock.urlEqualTo(url));
+    }
+
+    public Request(UrlPattern url) {
         this(RequestMethod.GET, url);
     }
 

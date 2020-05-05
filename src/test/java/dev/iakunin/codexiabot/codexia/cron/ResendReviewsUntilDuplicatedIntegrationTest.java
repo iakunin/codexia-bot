@@ -2,17 +2,20 @@ package dev.iakunin.codexiabot.codexia.cron;
 
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
-import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
-import static com.github.tomakehurst.wiremock.client.WireMock.post;
-import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
+import com.github.tomakehurst.wiremock.client.WireMock;
+import com.github.tomakehurst.wiremock.http.RequestMethod;
 import dev.iakunin.codexiabot.AbstractIntegrationTest;
 import dev.iakunin.codexiabot.util.WireMockServer;
+import dev.iakunin.codexiabot.util.wiremock.Request;
+import dev.iakunin.codexiabot.util.wiremock.Response;
+import dev.iakunin.codexiabot.util.wiremock.Stub;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ContextConfiguration;
 
 @ContextConfiguration(initializers = ResendReviewsUntilDuplicatedIntegrationTest.Initializer.class)
@@ -58,14 +61,10 @@ public class ResendReviewsUntilDuplicatedIntegrationTest extends AbstractIntegra
     )
     @ExpectedDataSet("db-rider/codexia/cron/resend-reviews-until-duplicated/expected/happyPath.yml")
     public void happyPath() {
-        WireMockServer.getInstance().stubFor(
-            post(urlPathMatching("/p/\\d+/post"))
-                .willReturn(aResponse()
-                    .withStatus(404)
-                    .withHeader("Content-Type",  "application/text")
-                    .withBody("Review already exists.")
-                )
-        );
+        new Stub(
+            new Request(RequestMethod.POST, WireMock.urlPathMatching("/p/\\d+/post")),
+            new Response(HttpStatus.NOT_FOUND.value(), "Review already exists.")
+        ).run();
 
         cron.run();
     }

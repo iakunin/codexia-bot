@@ -2,14 +2,13 @@ package dev.iakunin.codexiabot.codexia.cron;
 
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
-import static com.github.tomakehurst.wiremock.client.WireMock.get;
-import static com.github.tomakehurst.wiremock.client.WireMock.ok;
-import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
-import com.github.tomakehurst.wiremock.extension.responsetemplating.ResponseTemplateTransformer;
+import com.github.tomakehurst.wiremock.client.WireMock;
 import dev.iakunin.codexiabot.AbstractIntegrationTest;
 import dev.iakunin.codexiabot.util.WireMockServer;
+import dev.iakunin.codexiabot.util.wiremock.Request;
+import dev.iakunin.codexiabot.util.wiremock.Response;
+import dev.iakunin.codexiabot.util.wiremock.Stub;
 import org.cactoos.io.ResourceOf;
-import org.cactoos.text.TextOf;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,20 +40,14 @@ public class ProjectsHealthCheckIntegrationTest extends AbstractIntegrationTest 
     )
     @ExpectedDataSet("db-rider/codexia/cron/projects-health-check/expected/twoActiveProjectsInRepoButDeletedInCodexia.yml")
     public void twoActiveProjectsInRepoButDeletedInCodexia() {
-        WireMockServer.getInstance().stubFor(
-            get(urlPathMatching("/p/\\d+\\.json"))
-                .willReturn(ok()
-                    .withHeader("Content-Type",  "application/json")
-                    .withBody(
-                        new TextOf(
-                            new ResourceOf(
-                                "wiremock/codexia/cron/projects-health-check/twoActiveProjectsInRepoButDeletedInCodexia.json"
-                            )
-                        ).toString()
-                    )
-                    .withTransformers(ResponseTemplateTransformer.NAME)
+        new Stub(
+            new Request(WireMock.urlPathMatching("/p/\\d+\\.json")),
+            new Response(
+                new ResourceOf(
+                    "wiremock/codexia/cron/projects-health-check/twoActiveProjectsInRepoButDeletedInCodexia.json"
                 )
-        );
+            )
+        ).run();
 
         projectsHealthCheck.run();
     }
