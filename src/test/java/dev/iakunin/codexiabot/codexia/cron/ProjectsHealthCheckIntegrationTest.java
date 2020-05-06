@@ -40,14 +40,16 @@ public class ProjectsHealthCheckIntegrationTest extends AbstractIntegrationTest 
     )
     @ExpectedDataSet("db-rider/codexia/cron/projects-health-check/expected/twoActiveProjectsInRepoButDeletedInCodexia.yml")
     public void twoActiveProjectsInRepoButDeletedInCodexia() {
-        new Stub(
-            new Request(WireMock.urlPathMatching("/p/\\d+\\.json")),
-            new Response(
-                new ResourceOf(
-                    "wiremock/codexia/cron/projects-health-check/twoActiveProjectsInRepoButDeletedInCodexia.json"
+        WireMockServer.stub(
+            new Stub(
+                new Request(WireMock.urlPathMatching("/p/\\d+\\.json")),
+                new Response(
+                    new ResourceOf(
+                        "wiremock/codexia/cron/projects-health-check/twoActiveProjectsInRepoButDeletedInCodexia.json"
+                    )
                 )
             )
-        ).run();
+        );
 
         projectsHealthCheck.run();
     }

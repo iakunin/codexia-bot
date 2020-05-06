@@ -39,11 +39,13 @@ public class CodexiaParserIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/codexia/cron/codexia-parser/expected/happyPathWithoutGithub.yml")
     public void happyPathWithoutGithub() {
-        new Stub(
-            "/codexia/recent.json?page=0",
-            new ResourceOf("wiremock/codexia/cron/codexia-parser/codexia/recent.json")
-        ).run();
-        new Stub("/codexia/recent.json?page=1", "[]").run();
+        WireMockServer.stub(
+            new Stub(
+                "/codexia/recent.json?page=0",
+                new ResourceOf("wiremock/codexia/cron/codexia-parser/codexia/recent.json")
+            )
+        );
+        WireMockServer.stub(new Stub("/codexia/recent.json?page=1", "[]"));
 
         codexiaParser.run();
     }
@@ -55,15 +57,19 @@ public class CodexiaParserIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/codexia/cron/codexia-parser/expected/happyPathWithGithub.yml")
     public void happyPathWithGithub() {
-        new Stub(
-            "/codexia/recent.json?page=0",
-            new ResourceOf("wiremock/codexia/cron/codexia-parser/codexia/recent.json")
-        ).run();
-        new Stub("/codexia/recent.json?page=1", "[]").run();
-        new Stub(
-            "/github/repos/casbin/casbin-rs",
-            new ResourceOf("wiremock/codexia/cron/codexia-parser/github/getRepo.json")
-        ).run();
+        WireMockServer.stub(
+            new Stub(
+                "/codexia/recent.json?page=0",
+                new ResourceOf("wiremock/codexia/cron/codexia-parser/codexia/recent.json")
+            )
+        );
+        WireMockServer.stub(new Stub("/codexia/recent.json?page=1", "[]"));
+        WireMockServer.stub(
+            new Stub(
+                "/github/repos/casbin/casbin-rs",
+                new ResourceOf("wiremock/codexia/cron/codexia-parser/github/getRepo.json")
+            )
+        );
 
         codexiaParser.run();
     }
@@ -75,11 +81,13 @@ public class CodexiaParserIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/codexia/cron/codexia-parser/expected/codexiaProjectAlreadyExist.yml")
     public void codexiaProjectAlreadyExist() {
-        new Stub(
-            "/codexia/recent.json?page=0",
-            new ResourceOf("wiremock/codexia/cron/codexia-parser/codexia/recent.json")
-        ).run();
-        new Stub("/codexia/recent.json?page=1", "[]").run();
+        WireMockServer.stub(
+            new Stub(
+                "/codexia/recent.json?page=0",
+                new ResourceOf("wiremock/codexia/cron/codexia-parser/codexia/recent.json")
+            )
+        );
+        WireMockServer.stub(new Stub("/codexia/recent.json?page=1", "[]"));
 
         codexiaParser.run();
     }
@@ -91,11 +99,13 @@ public class CodexiaParserIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/codexia/cron/codexia-parser/expected/deletedProject.yml")
     public void deletedProject() {
-        new Stub(
-            "/codexia/recent.json?page=0",
-            new ResourceOf("wiremock/codexia/cron/codexia-parser/codexia/recentWithDeleted.json")
-        ).run();
-        new Stub("/codexia/recent.json?page=1", "[]").run();
+        WireMockServer.stub(
+            new Stub(
+                "/codexia/recent.json?page=0",
+                new ResourceOf("wiremock/codexia/cron/codexia-parser/codexia/recentWithDeleted.json")
+            )
+        );
+        WireMockServer.stub(new Stub("/codexia/recent.json?page=1", "[]"));
 
         codexiaParser.run();
     }

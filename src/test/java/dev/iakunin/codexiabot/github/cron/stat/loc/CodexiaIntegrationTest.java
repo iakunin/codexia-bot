@@ -41,12 +41,14 @@ public class CodexiaIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/github/cron/stat/loc/codexia/expected/processedRepo.yml")
     public void processedRepo() {
-        new Stub(
-            new Request(WireMock.urlPathEqualTo("/loc")),
-            new Response(
-                new ResourceOf("wiremock/github/cron/stat/loc/happyPath.json")
+        WireMockServer.stub(
+            new Stub(
+                new Request(WireMock.urlPathEqualTo("/loc")),
+                new Response(
+                    new ResourceOf("wiremock/github/cron/stat/loc/happyPath.json")
+                )
             )
-        ).run();
+        );
 
         linesOfCode.run();
     }
@@ -58,12 +60,14 @@ public class CodexiaIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/github/cron/stat/loc/codexia/expected/happyPath.yml")
     public void happyPath() {
-        new Stub(
-            new Request(WireMock.urlPathEqualTo("/loc")),
-            new Response(
-                new ResourceOf("wiremock/github/cron/stat/loc/happyPath.json")
+        WireMockServer.stub(
+            new Stub(
+                new Request(WireMock.urlPathEqualTo("/loc")),
+                new Response(
+                    new ResourceOf("wiremock/github/cron/stat/loc/happyPath.json")
+                )
             )
-        ).run();
+        );
 
         linesOfCode.run();
     }
@@ -75,10 +79,12 @@ public class CodexiaIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/github/cron/stat/loc/codexia/expected/tooManyRequests.yml")
     public void tooManyRequests() {
-        new Stub(
-            new Request(WireMock.urlPathEqualTo("/loc")),
-            new Response(HttpStatus.TOO_MANY_REQUESTS.value())
-        ).run();
+        WireMockServer.stub(
+            new Stub(
+                new Request(WireMock.urlPathEqualTo("/loc")),
+                new Response(HttpStatus.TOO_MANY_REQUESTS.value())
+            )
+        );
 
         linesOfCode.run();
     }
@@ -90,10 +96,12 @@ public class CodexiaIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/github/cron/stat/loc/codexia/expected/codetabsException.yml")
     public void codetabsException() {
-        new Stub(
-            new Request(WireMock.urlPathEqualTo("/loc")),
-            new Response(HttpStatus.INTERNAL_SERVER_ERROR.value())
-        ).run();
+        WireMockServer.stub(
+            new Stub(
+                new Request(WireMock.urlPathEqualTo("/loc")),
+                new Response(HttpStatus.INTERNAL_SERVER_ERROR.value())
+            )
+        );
 
         linesOfCode.run();
     }

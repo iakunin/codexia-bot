@@ -41,10 +41,12 @@ public class SendReviewsIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/codexia/cron/send-reviews/expected/reviewSuccessfullySent.yml")
     public void reviewSuccessfullySent() {
-        new Stub(
-            new Request(RequestMethod.POST, WireMock.urlPathMatching("/p/\\d+/post")),
-            new Response()
-        ).run();
+        WireMockServer.stub(
+            new Stub(
+                new Request(RequestMethod.POST, WireMock.urlPathMatching("/p/\\d+/post")),
+                new Response()
+            )
+        );
 
         sendReviews.run();
     }
@@ -56,10 +58,12 @@ public class SendReviewsIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/codexia/cron/send-reviews/expected/reviewSentWithDuplicate_responseBodyExists.yml")
     public void reviewSentWithDuplicate_responseBodyExists() {
-        new Stub(
-            new Request(RequestMethod.POST, WireMock.urlPathMatching("/p/\\d+/post")),
-            new Response(HttpStatus.NOT_FOUND.value(), "Review already exists")
-        ).run();
+        WireMockServer.stub(
+            new Stub(
+                new Request(RequestMethod.POST, WireMock.urlPathMatching("/p/\\d+/post")),
+                new Response(HttpStatus.NOT_FOUND.value(), "Review already exists")
+            )
+        );
 
         sendReviews.run();
     }
@@ -71,10 +75,12 @@ public class SendReviewsIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/codexia/cron/send-reviews/expected/reviewSentWithDuplicate_responseBodyEmpty.yml")
     public void reviewSentWithDuplicate_responseBodyEmpty() {
-        new Stub(
-            new Request(RequestMethod.POST, WireMock.urlPathMatching("/p/\\d+/post")),
-            new Response(HttpStatus.NOT_FOUND.value())
-        ).run();
+        WireMockServer.stub(
+            new Stub(
+                new Request(RequestMethod.POST, WireMock.urlPathMatching("/p/\\d+/post")),
+                new Response(HttpStatus.NOT_FOUND.value())
+            )
+        );
 
         sendReviews.run();
     }
@@ -86,11 +92,12 @@ public class SendReviewsIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/codexia/cron/send-reviews/expected/reviewSentWith500.yml")
     public void reviewSentWith500() {
-        new Stub(
-            new Request(RequestMethod.POST, WireMock.urlPathMatching("/p/\\d+/post")),
-            new Response(HttpStatus.INTERNAL_SERVER_ERROR.value())
-        ).run();
-
+        WireMockServer.stub(
+            new Stub(
+                new Request(RequestMethod.POST, WireMock.urlPathMatching("/p/\\d+/post")),
+                new Response(HttpStatus.INTERNAL_SERVER_ERROR.value())
+            )
+        );
 
         sendReviews.run();
     }

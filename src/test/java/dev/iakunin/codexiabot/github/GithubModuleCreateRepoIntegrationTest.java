@@ -46,10 +46,12 @@ public class GithubModuleCreateRepoIntegrationTest extends AbstractIntegrationTe
     )
     @ExpectedDataSet("db-rider/github/github-module/expected/happyPath.yml")
     public void happyPath() throws IOException {
-        new Stub(
-            "/github/repos/casbin/casbin-rs",
-            new ResourceOf("wiremock/github/github-module/github/getRepo.json")
-        ).run();
+        WireMockServer.stub(
+            new Stub(
+                "/github/repos/casbin/casbin-rs",
+                new ResourceOf("wiremock/github/github-module/github/getRepo.json")
+            )
+        );
 
         module.createRepo(
             new GithubModule.CreateArguments()
@@ -66,10 +68,12 @@ public class GithubModuleCreateRepoIntegrationTest extends AbstractIntegrationTe
     )
     @ExpectedDataSet("db-rider/github/github-module/expected/repoExistsByFullName.yml")
     public void repoExistsByFullName() throws IOException {
-        new Stub(
-            "/github/repos/casbin/casbin-rs",
-            new ResourceOf("wiremock/github/github-module/github/getRepo.json")
-        ).run();
+        WireMockServer.stub(
+            new Stub(
+                "/github/repos/casbin/casbin-rs",
+                new ResourceOf("wiremock/github/github-module/github/getRepo.json")
+            )
+        );
 
         module.createRepo(
             new GithubModule.CreateArguments()
@@ -86,10 +90,12 @@ public class GithubModuleCreateRepoIntegrationTest extends AbstractIntegrationTe
     )
     @ExpectedDataSet("db-rider/github/github-module/expected/repoExistsByExternalId.yml")
     public void repoExistsByExternalId() throws IOException {
-        new Stub(
-            "/github/repos/casbin/casbin-rs",
-            new ResourceOf("wiremock/github/github-module/github/getRepo.json")
-        ).run();
+        WireMockServer.stub(
+            new Stub(
+                "/github/repos/casbin/casbin-rs",
+                new ResourceOf("wiremock/github/github-module/github/getRepo.json")
+            )
+        );
 
         module.createRepo(
             new GithubModule.CreateArguments()
@@ -106,10 +112,12 @@ public class GithubModuleCreateRepoIntegrationTest extends AbstractIntegrationTe
     )
     @ExpectedDataSet("db-rider/github/github-module/expected/repoExistsByCodexiaSource.yml")
     public void repoExistsByCodexiaSource() throws IOException {
-        new Stub(
-            "/github/repos/casbin/casbin-rs",
-            new ResourceOf("wiremock/github/github-module/github/getRepo.json")
-        ).run();
+        WireMockServer.stub(
+            new Stub(
+                "/github/repos/casbin/casbin-rs",
+                new ResourceOf("wiremock/github/github-module/github/getRepo.json")
+            )
+        );
 
         module.createRepo(
             new GithubModule.CreateArguments()
@@ -126,13 +134,15 @@ public class GithubModuleCreateRepoIntegrationTest extends AbstractIntegrationTe
     )
     @ExpectedDataSet("db-rider/github/github-module/expected/notFoundInGithub.yml")
     public void notFoundInGithub() throws IOException {
-        new Stub(
-            "/github/repos/casbin/casbin-rs",
-            new Response(
-                HttpStatus.NOT_FOUND.value(),
-                new ResourceOf("wiremock/github/github-module/github/repoNotFound.json")
+        WireMockServer.stub(
+            new Stub(
+                "/github/repos/casbin/casbin-rs",
+                new Response(
+                    HttpStatus.NOT_FOUND.value(),
+                    new ResourceOf("wiremock/github/github-module/github/repoNotFound.json")
+                )
             )
-        ).run();
+        );
 
         final RepoNotFoundException exception = assertThrows(
             RepoNotFoundException.class,

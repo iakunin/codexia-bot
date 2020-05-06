@@ -61,10 +61,12 @@ public class ResendReviewsUntilDuplicatedIntegrationTest extends AbstractIntegra
     )
     @ExpectedDataSet("db-rider/codexia/cron/resend-reviews-until-duplicated/expected/happyPath.yml")
     public void happyPath() {
-        new Stub(
-            new Request(RequestMethod.POST, WireMock.urlPathMatching("/p/\\d+/post")),
-            new Response(HttpStatus.NOT_FOUND.value(), "Review already exists.")
-        ).run();
+        WireMockServer.stub(
+            new Stub(
+                new Request(RequestMethod.POST, WireMock.urlPathMatching("/p/\\d+/post")),
+                new Response(HttpStatus.NOT_FOUND.value(), "Review already exists.")
+            )
+        );
 
         cron.run();
     }
