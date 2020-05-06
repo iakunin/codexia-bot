@@ -7,6 +7,7 @@ import dev.iakunin.codexiabot.codexia.CodexiaModule;
 import dev.iakunin.codexiabot.common.runnable.Logging;
 import dev.iakunin.codexiabot.github.GithubModule;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -55,13 +56,21 @@ public class StarsUpCronConfig implements SchedulingConfigurer {
         private final Stars bot;
 
         @Bean
-        public Up starsUp() {
+        @Autowired
+        public Up starsUp(
+            @Qualifier("starsUpSubmitter") Up.Submitter submitter
+        ) {
             return new Up(
                 this.github,
                 this.repository,
                 this.bot,
-                this.codexia
+                submitter
             );
+        }
+
+        @Bean
+        public Up.Submitter starsUpSubmitter() {
+            return new Up.Submitter(this.bot, this.repository, this.codexia);
         }
     }
 }
