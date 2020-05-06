@@ -26,11 +26,11 @@ public final class TooManyStars implements Runnable {
     public TooManyStars(
         GithubModule github,
         ResultRepository repository,
-        CodexiaModule codexia
+        Submitter submitter
     ) {
         this.github = github;
         this.repository = repository;
-        this.submitter = new Submitter(repository, codexia);
+        this.submitter = submitter;
     }
 
     public void run() {
@@ -56,17 +56,15 @@ public final class TooManyStars implements Runnable {
 
     @Slf4j
     @AllArgsConstructor
-    private static class Submitter {
+    public static class Submitter {
 
         private final ResultRepository repository;
 
         private final CodexiaModule codexia;
 
-        // @todo #50 TooManyStars: add test case with transaction rollback
         @Transactional
         public void submit(GithubRepoStat stat) {
             final CodexiaReview review = this.review(stat);
-
             this.repository.save(this.result(stat));
             this.codexia.saveReview(review);
             this.codexia.sendMeta(this.meta(review));

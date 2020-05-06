@@ -19,9 +19,9 @@ import org.springframework.context.annotation.Primary;
 
 @SpringBootTest(classes = {
     AbstractIntegrationTest.TestConfig.class,
-    SmallTransactionRollbackIntegrationTest.TestConfig.class,
+    TooSmallTransactionIntegrationTest.TestConfig.class,
 })
-public class SmallTransactionRollbackIntegrationTest extends AbstractIntegrationTest {
+public class TooSmallTransactionIntegrationTest extends AbstractIntegrationTest {
 
     private static final String EXCEPTION_MESSAGE = "Some error";
 
@@ -31,15 +31,15 @@ public class SmallTransactionRollbackIntegrationTest extends AbstractIntegration
 
     @Test
     @DataSet(
-        value = "db-rider/bot/small-transaction-rollback/initial/transactionRollback.yml",
+        value = "db-rider/bot/too-small-transaction/initial/transactionRollback.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/bot/small-transaction-rollback/expected/transactionRollback.yml")
+    @ExpectedDataSet("db-rider/bot/too-small-transaction/expected/transactionRollback.yml")
     public void transactionRollback() {
         final RuntimeException exception = assertThrows(RuntimeException.class, this.tooSmall::run);
 
         assertEquals(
-            SmallTransactionRollbackIntegrationTest.EXCEPTION_MESSAGE,
+            TooSmallTransactionIntegrationTest.EXCEPTION_MESSAGE,
             exception.getMessage()
         );
     }
@@ -53,7 +53,7 @@ public class SmallTransactionRollbackIntegrationTest extends AbstractIntegration
             final CodexiaModule mock = Mockito.mock(CodexiaModule.class);
             Mockito.doThrow(
                 new RuntimeException(
-                    SmallTransactionRollbackIntegrationTest.EXCEPTION_MESSAGE
+                    TooSmallTransactionIntegrationTest.EXCEPTION_MESSAGE
                 )
             )
                 .when(mock)
