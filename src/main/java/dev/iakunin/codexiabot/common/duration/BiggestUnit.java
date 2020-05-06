@@ -9,7 +9,7 @@ import org.cactoos.Scalar;
 import org.cactoos.iterable.Filtered;
 import org.cactoos.iterable.IterableOf;
 import org.cactoos.iterable.Sorted;
-import org.cactoos.scalar.ItemAt;
+import org.cactoos.scalar.FirstOf;
 import org.cactoos.text.FormattedText;
 
 final class BiggestUnit implements Scalar<TemporalUnit> {
@@ -26,17 +26,7 @@ final class BiggestUnit implements Scalar<TemporalUnit> {
 
     BiggestUnit(Duration duration, Iterable<TemporalUnit> units) {
         this(
-            new ItemAt<TemporalUnit>(
-                0,
-                itr -> {
-                    throw new IOException(
-                        new FormattedText(
-                            "Unable to find biggest unit; duration='%s'; units='%s'",
-                            duration,
-                            units
-                        ).asString()
-                    );
-                },
+            new FirstOf<TemporalUnit>(
                 new Filtered<>(
                     unit -> duration.dividedBy(unit.getDuration()) != 0,
                     new Sorted<>(
@@ -46,7 +36,16 @@ final class BiggestUnit implements Scalar<TemporalUnit> {
                         ),
                         units
                     )
-                )
+                ),
+                () -> {
+                    throw new IOException(
+                        new FormattedText(
+                            "Unable to find biggest unit; duration='%s'; units='%s'",
+                            duration,
+                            units
+                        ).asString()
+                    );
+                }
             )
         );
     }

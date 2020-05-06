@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.cactoos.Func;
 import org.cactoos.Scalar;
 import org.cactoos.Text;
-import org.cactoos.func.FuncOf;
 import org.cactoos.iterable.Filtered;
 import org.cactoos.iterable.IterableOf;
 import org.cactoos.iterable.Joined;
@@ -20,7 +19,9 @@ import org.cactoos.map.MapOf;
 import org.cactoos.scalar.EqualsNullable;
 import org.cactoos.scalar.FirstOf;
 import org.cactoos.scalar.Or;
+import org.cactoos.scalar.ScalarWithFallback;
 import org.cactoos.scalar.Unchecked;
+import org.cactoos.text.Contains;
 import org.cactoos.text.Lowered;
 import org.cactoos.text.NoNulls;
 import org.cactoos.text.TextEnvelope;
@@ -50,9 +51,7 @@ public final class ExactItem implements Scalar<Optional<Item>> {
     @Override
     public Optional<Item> value() throws Exception {
         return
-            new FirstOf<>(
-                // @todo #92 replace with FirstOf with 2-arg-ctor when it's merged to cactoos
-                new FuncOf<>(true),
+            new FirstOf<Optional<Item>>(
                 new Mapped<>(
                     Optional::of,
                     new Joined<>(
@@ -72,7 +71,7 @@ public final class ExactItem implements Scalar<Optional<Item>> {
                         )
                     )
                 ),
-                Optional::<Item>empty
+                Optional::empty
             ).value();
     }
 
@@ -87,7 +86,7 @@ public final class ExactItem implements Scalar<Optional<Item>> {
         @Override
         public Boolean apply(Item item) throws Exception {
             return
-                new FallbackFromNull<>(
+                new ScalarWithFallback<>(
                     new Or(
                         new Contains(
                             new Lowered(
@@ -102,26 +101,9 @@ public final class ExactItem implements Scalar<Optional<Item>> {
                             )
                         )
                     ),
-                    () -> false
+                    RuntimeException.class,
+                    ex -> false
                 ).value();
-        }
-    }
-
-    // @todo #92 extract this class to cactoos and replace when it's merged
-    private static class Contains implements Scalar<Boolean> {
-
-        private final Text origin;
-
-        private final Text other;
-
-        private Contains(Text origin, Text other) {
-            this.origin = origin;
-            this.other = other;
-        }
-
-        @Override
-        public Boolean value() throws Exception {
-            return this.origin.asString().contains(this.other.asString());
         }
     }
 
@@ -136,14 +118,15 @@ public final class ExactItem implements Scalar<Optional<Item>> {
         @Override
         public Boolean apply(Item item) throws Exception {
             return
-                new FallbackFromNull<>(
+                new ScalarWithFallback<>(
                     new EqualsNullable(
                         new Lowered(
                             new NoNulls(item::getLanguage)
                         ),
                         new Lowered(this.reference)
                     ),
-                    () -> false
+                    RuntimeException.class,
+                    ex -> false
                 ).value();
         }
     }

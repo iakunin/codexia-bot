@@ -47,7 +47,7 @@ dependencies {
     implementation 'com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.11.0'
 
     implementation 'de.siegmar:logback-gelf:3.0.0'
-    implementation 'org.cactoos:cactoos:0.44'
+    implementation 'org.cactoos:cactoos:0.46'
     implementation 'io.vavr:vavr:0.10.2'
 
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:2.2.2.RELEASE'
