@@ -39,8 +39,8 @@ public class SmallTransactionRollbackIntegrationTest extends AbstractIntegration
         final RuntimeException exception = assertThrows(RuntimeException.class, this.tooSmall::run);
 
         assertEquals(
-            exception.getMessage(),
-            SmallTransactionRollbackIntegrationTest.EXCEPTION_MESSAGE
+            SmallTransactionRollbackIntegrationTest.EXCEPTION_MESSAGE,
+            exception.getMessage()
         );
     }
 
