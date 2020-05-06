@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication(
     // https://stackoverflow.com/a/27389784/3456163
@@ -16,6 +17,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableAsync
 @EnableScheduling
 @EnableFeignClients
+@EnableTransactionManagement
 public class CodexiaBotApplication {
     public static void main(String[] args) {
         SpringApplication.run(CodexiaBotApplication.class, args);

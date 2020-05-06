@@ -6,6 +6,7 @@ import dev.iakunin.codexiabot.codexia.CodexiaModule;
 import dev.iakunin.codexiabot.common.runnable.Logging;
 import dev.iakunin.codexiabot.github.GithubModule;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -54,13 +55,16 @@ public class NotSmallCronConfig implements SchedulingConfigurer {
         private final dev.iakunin.codexiabot.bot.toosmall.NotSmall bot;
 
         @Bean
-        public Small notSmall() {
-            return new Small(
-                this.github,
-                this.bot,
-                this.codexia,
-                this.repository
-            );
+        @Autowired
+        public Small notSmall(
+            @Qualifier("notSmallSubmitter") Small.Submitter submitter
+        ) {
+            return new Small(this.github, this.bot, submitter);
+        }
+
+        @Bean
+        public Small.Submitter notSmallSubmitter() {
+            return new Small.Submitter(this.bot, this.codexia, this.repository);
         }
     }
 }

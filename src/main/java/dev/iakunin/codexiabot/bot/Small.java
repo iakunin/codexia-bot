@@ -30,12 +30,11 @@ public final class Small implements Runnable {
     public Small(
         GithubModule github,
         dev.iakunin.codexiabot.bot.toosmall.Bot bot,
-        CodexiaModule codexia,
-        TooSmallResultRepository repository
+        Submitter submitter
     ) {
         this.github = github;
         this.bot = bot;
-        this.submitter = new Submitter(bot, codexia, repository);
+        this.submitter = submitter;
     }
 
     public void run() {
@@ -85,7 +84,7 @@ public final class Small implements Runnable {
     }
 
     @AllArgsConstructor
-    private static class Submitter {
+    public static class Submitter {
 
         private final dev.iakunin.codexiabot.bot.toosmall.Bot bot;
 
@@ -93,12 +92,8 @@ public final class Small implements Runnable {
 
         private final TooSmallResultRepository repository;
 
-        // @todo #92 Small: add test case with transaction rollback
         @Transactional
-        public Void submit(
-            GithubRepoStat stat,
-            Item item
-        ) {
+        public Void submit(GithubRepoStat stat, Item item) {
             final CodexiaReview review = this.bot.review(stat, item);
             this.repository.save(this.bot.result(stat));
             this.codexia.saveReview(review);
