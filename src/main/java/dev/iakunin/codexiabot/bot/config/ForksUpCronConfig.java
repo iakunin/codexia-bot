@@ -1,12 +1,14 @@
 package dev.iakunin.codexiabot.bot.config;
 
 import dev.iakunin.codexiabot.bot.Up;
+import dev.iakunin.codexiabot.bot.Up.Submitter;
 import dev.iakunin.codexiabot.bot.repository.ForksUpResultRepository;
 import dev.iakunin.codexiabot.bot.up.Forks;
 import dev.iakunin.codexiabot.codexia.CodexiaModule;
 import dev.iakunin.codexiabot.common.runnable.Logging;
 import dev.iakunin.codexiabot.github.GithubModule;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -55,13 +57,21 @@ public class ForksUpCronConfig implements SchedulingConfigurer {
         private final Forks bot;
 
         @Bean
-        public Up forksUp() {
+        @Autowired
+        public Up forksUp(
+            @Qualifier("forksUpSubmitter") Submitter submitter
+        ) {
             return new Up(
                 this.github,
                 this.repository,
                 this.bot,
-                this.codexia
+                submitter
             );
+        }
+
+        @Bean
+        public Submitter forksUpSubmitter() {
+            return new Submitter(this.bot, this.repository, this.codexia);
         }
     }
 }

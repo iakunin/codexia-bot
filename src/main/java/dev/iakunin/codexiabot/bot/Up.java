@@ -29,12 +29,12 @@ public final class Up implements Runnable {
         GithubModule github,
         ResultRepository repository,
         Bot bot,
-        CodexiaModule codexiaModule
+        Submitter submitter
     ) {
         this.github = github;
         this.repository = repository;
         this.bot = bot;
-        this.submitter = new Submitter(bot, repository, codexiaModule);
+        this.submitter = submitter;
     }
 
     public void run() {
@@ -71,9 +71,8 @@ public final class Up implements Runnable {
             .orElse(0L);
     }
 
-    @Slf4j
     @AllArgsConstructor
-    private static class Submitter {
+    public static class Submitter {
 
         private final dev.iakunin.codexiabot.bot.up.Bot bot;
 
@@ -81,18 +80,12 @@ public final class Up implements Runnable {
 
         private final CodexiaModule codexia;
 
-        // @todo #6 add test case with transaction rollback
         @Transactional
         public void submit(Deque<GithubRepoStat> deque) {
             final CodexiaReview review = this.bot.review(deque.getFirst(), deque.getLast());
-
-            this.repository.save(
-                this.bot.result(deque.getLast())
-            );
+            this.repository.save(this.bot.result(deque.getLast()));
             this.codexia.saveReview(review);
-            this.codexia.sendMeta(
-                this.bot.meta(review)
-            );
+            this.codexia.sendMeta(this.bot.meta(review));
         }
     }
 }
