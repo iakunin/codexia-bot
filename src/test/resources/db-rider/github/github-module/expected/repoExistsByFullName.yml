@@ -1,0 +1,14 @@
+github_repo:
+    -
+        external_id: "202275988"
+        full_name: "casbin/casbin-rs"
+        html_url: "https://github.com/casbin/casbin-rs"
+        repo_created_at: "2019-08-14 04:42:36"
+
+github_repo_source:
+    -
+        source: "HACKERNEWS"
+        external_id: "1111"
+    -
+        source: "CODEXIA"
+        external_id: "1662"

@@ -6,16 +6,16 @@ import dev.iakunin.codexiabot.github.entity.GithubRepoStat;
 import dev.iakunin.codexiabot.github.repository.GithubRepoRepository;
 import dev.iakunin.codexiabot.github.repository.GithubRepoSourceRepository;
 import dev.iakunin.codexiabot.github.repository.GithubRepoStatRepository;
+import dev.iakunin.codexiabot.github.service.GithubRepoName;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.Deque;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.cactoos.scalar.IoChecked;
 import org.kohsuke.github.GHFileNotFoundException;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
@@ -109,7 +109,7 @@ public final class GithubModuleImpl implements GithubModule {
 
         final GHRepository repository;
         try {
-            final String githubRepoName = this.getGithubRepoName(repoUrl);
+            final String githubRepoName = new IoChecked<>(new GithubRepoName(repoUrl)).value();
 
             final Optional<GithubRepo> optional = this.githubRepoRepository.findByFullName(githubRepoName);
             if (optional.isPresent()) {
@@ -174,24 +174,5 @@ public final class GithubModuleImpl implements GithubModule {
             arguments.getSource(),
             arguments.getExternalId()
         );
-    }
-
-    private String getGithubRepoName(URL url) throws InvalidRepoNameException {
-        String repoName;
-        final String path = url.getPath();
-        if (path.charAt(0) == '/') {
-            repoName = path.substring(1);
-        } else {
-            repoName = path;
-        }
-
-        final String[] split = repoName.split("/");
-        if (split.length < 2) {
-            throw new InvalidRepoNameException(
-                String.format("Invalid github repository name: %s", repoName)
-            );
-        }
-
-        return Arrays.stream(split).limit(2).collect(Collectors.joining("/"));
     }
 }

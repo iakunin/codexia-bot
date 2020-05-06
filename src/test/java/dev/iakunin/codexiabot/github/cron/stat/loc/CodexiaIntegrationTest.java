@@ -3,19 +3,19 @@ package dev.iakunin.codexiabot.github.cron.stat.loc;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.github.tomakehurst.wiremock.client.WireMock;
-import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
-import static com.github.tomakehurst.wiremock.client.WireMock.get;
-import static com.github.tomakehurst.wiremock.client.WireMock.ok;
 import dev.iakunin.codexiabot.AbstractIntegrationTest;
 import dev.iakunin.codexiabot.util.WireMockServer;
+import dev.iakunin.codexiabot.util.wiremock.Request;
+import dev.iakunin.codexiabot.util.wiremock.Response;
+import dev.iakunin.codexiabot.util.wiremock.Stub;
 import org.cactoos.io.ResourceOf;
-import org.cactoos.text.TextOf;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ContextConfiguration;
 
 @ContextConfiguration(initializers = CodexiaIntegrationTest.Initializer.class)
@@ -41,18 +41,13 @@ public class CodexiaIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/github/cron/stat/loc/codexia/expected/processedRepo.yml")
     public void processedRepo() {
-        WireMockServer.getInstance().stubFor(
-            get(WireMock.urlPathEqualTo("/loc"))
-                .willReturn(ok()
-                    .withHeader("Content-Type",  "application/json")
-                    .withBody(
-                        new TextOf(
-                            new ResourceOf(
-                                "wiremock/github/cron/stat/loc/happyPath.json"
-                            )
-                        ).toString()
-                    )
+        WireMockServer.stub(
+            new Stub(
+                new Request(WireMock.urlPathEqualTo("/loc")),
+                new Response(
+                    new ResourceOf("wiremock/github/cron/stat/loc/happyPath.json")
                 )
+            )
         );
 
         linesOfCode.run();
@@ -65,18 +60,13 @@ public class CodexiaIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/github/cron/stat/loc/codexia/expected/happyPath.yml")
     public void happyPath() {
-        WireMockServer.getInstance().stubFor(
-            get(WireMock.urlPathEqualTo("/loc"))
-                .willReturn(ok()
-                    .withHeader("Content-Type",  "application/json")
-                    .withBody(
-                        new TextOf(
-                            new ResourceOf(
-                                "wiremock/github/cron/stat/loc/happyPath.json"
-                            )
-                        ).toString()
-                    )
+        WireMockServer.stub(
+            new Stub(
+                new Request(WireMock.urlPathEqualTo("/loc")),
+                new Response(
+                    new ResourceOf("wiremock/github/cron/stat/loc/happyPath.json")
                 )
+            )
         );
 
         linesOfCode.run();
@@ -89,11 +79,11 @@ public class CodexiaIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/github/cron/stat/loc/codexia/expected/tooManyRequests.yml")
     public void tooManyRequests() {
-        WireMockServer.getInstance().stubFor(
-            get(WireMock.urlPathEqualTo("/loc"))
-                .willReturn(aResponse()
-                    .withStatus(429)
-                )
+        WireMockServer.stub(
+            new Stub(
+                new Request(WireMock.urlPathEqualTo("/loc")),
+                new Response(HttpStatus.TOO_MANY_REQUESTS.value())
+            )
         );
 
         linesOfCode.run();
@@ -106,11 +96,11 @@ public class CodexiaIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/github/cron/stat/loc/codexia/expected/codetabsException.yml")
     public void codetabsException() {
-        WireMockServer.getInstance().stubFor(
-            get(WireMock.urlPathEqualTo("/loc"))
-                .willReturn(aResponse()
-                    .withStatus(500)
-                )
+        WireMockServer.stub(
+            new Stub(
+                new Request(WireMock.urlPathEqualTo("/loc")),
+                new Response(HttpStatus.INTERNAL_SERVER_ERROR.value())
+            )
         );
 
         linesOfCode.run();

@@ -2,6 +2,8 @@ package dev.iakunin.codexiabot.util;
 
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import com.github.tomakehurst.wiremock.extension.responsetemplating.ResponseTemplateTransformer;
+import dev.iakunin.codexiabot.util.wiremock.Stub;
+import org.cactoos.scalar.Unchecked;
 
 public final class WireMockServer
 extends com.github.tomakehurst.wiremock.WireMockServer
@@ -24,6 +26,14 @@ implements AutoCloseable {
         }
 
         return SERVER;
+    }
+
+    public static void stub(Stub stub) {
+        WireMockServer
+            .getInstance()
+            .stubFor(
+                new Unchecked<>(stub).value()
+            );
     }
 
     @Override
