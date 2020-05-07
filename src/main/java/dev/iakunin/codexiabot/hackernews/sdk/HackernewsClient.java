@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @FeignClient(
     name = "hackernewsClient",
-    url = "https://hacker-news.firebaseio.com/v0/",
+    url = "${app.hackernews.base-url}",
     configuration = GeneralClientConfiguration.class
 )
 public interface HackernewsClient {

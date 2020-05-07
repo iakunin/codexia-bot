@@ -166,6 +166,11 @@
       "description": "Base url of Codetabs."
     },
     {
+      "name": "app.hackernews.base-url",
+      "type": "java.lang.String",
+      "description": "Base url of Hackernews."
+    },
+    {
       "name": "app.github.service.lines-of-code.delay",
       "type": "java.lang.Integer",
       "description": "Delay for LinesOfCode service."
