@@ -1,0 +1,16 @@
+github_repo_source:
+    -
+        github_repo_id: 1
+        source: "HACKERNEWS"
+        external_id: "2222"
+        deleted_at: regex:^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{1,6}$
+
+hackernews_item:
+    -
+        external_id: 2222
+        type: story
+        by: smartmic
+        title: Title for casbin
+        url: https://github.com/casbin/casbin
+        time: 2009-01-15 05:56:02
+        deleted: true

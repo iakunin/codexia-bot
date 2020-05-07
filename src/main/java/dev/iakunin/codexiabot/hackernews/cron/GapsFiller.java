@@ -23,7 +23,7 @@ public class GapsFiller implements Runnable {
 
     private final Writer writer;
 
-    // @todo #74 get rid of this @Transactional spike
+    // @todo #74 GapsFiller: get rid of this @Transactional spike
     //  to do so it's necessary to get rid of Stream<> in repository
     @Transactional // https://stackoverflow.com/a/40593697/3456163
     public void run() {
