@@ -10,7 +10,7 @@ jobs:
             - checkout
             -   run:
                     name: validate pdd
-                    command: pdd --source=$(pwd) --verbose --file=/dev/null && echo OK
+                    command: pdd && echo OK
     build-jar:
         machine:
             image: ubuntu-1604:201903-01
