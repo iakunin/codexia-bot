@@ -1,0 +1,7 @@
+--verbose
+--source=.
+--exclude=.gradle/**/*
+--exclude=.idea/**/*
+--exclude=build/**/*
+--exclude=out/**/*
+--file=/dev/null
