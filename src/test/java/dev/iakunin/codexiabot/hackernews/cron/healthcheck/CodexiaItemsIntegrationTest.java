@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ContextConfiguration;
 
 @ContextConfiguration(initializers = CodexiaItemsIntegrationTest.Initializer.class)
@@ -90,6 +91,42 @@ public class CodexiaItemsIntegrationTest extends AbstractIntegrationTest {
             new Stub(
                 "/item/2222.json",
                 new ResourceOf("wiremock/hackernews/cron/health-check/deletedItem.json")
+            )
+        );
+
+        codexiaItems.run();
+    }
+
+    @Test
+    @DataSet(
+        value = "db-rider/hackernews/cron/health-check/codexia-items/initial/twoDeletedItems.yml",
+        cleanBefore = true, cleanAfter = true
+    )
+    @ExpectedDataSet("db-rider/hackernews/cron/health-check/codexia-items/expected/twoDeletedItems.yml")
+    public void twoDeletedItems() {
+        WireMockServer.stub(
+            new Stub(
+                new Request(WireMock.urlPathMatching("/item/\\d+\\.json")),
+                new Response(
+                    new ResourceOf("wiremock/hackernews/cron/health-check/deletedItem.json")
+                )
+            )
+        );
+
+        codexiaItems.run();
+    }
+
+    @Test
+    @DataSet(
+        value = "db-rider/hackernews/cron/health-check/codexia-items/initial/hackernewsException.yml",
+        cleanBefore = true, cleanAfter = true
+    )
+    @ExpectedDataSet("db-rider/hackernews/cron/health-check/codexia-items/expected/hackernewsException.yml")
+    public void hackernewsException() {
+        WireMockServer.stub(
+            new Stub(
+                "/item/2222.json",
+                new Response(HttpStatus.INTERNAL_SERVER_ERROR.value())
             )
         );
 

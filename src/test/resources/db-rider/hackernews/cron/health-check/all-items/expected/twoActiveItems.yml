@@ -3,10 +3,12 @@ github_repo_source:
         github_repo_id: 1
         source: "HACKERNEWS"
         external_id: "2222"
+        deleted_at: null
     -
         github_repo_id: 2
         source: "HACKERNEWS"
         external_id: "3333"
+        deleted_at: null
 
 hackernews_item:
     -

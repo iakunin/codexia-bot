@@ -7,7 +7,7 @@ github_repo_source:
     -
         github_repo_id: 1
         source: "CODEXIA"
-        external_id: "999"
+        external_id: "666"
         deleted_at: null
 
 hackernews_item:

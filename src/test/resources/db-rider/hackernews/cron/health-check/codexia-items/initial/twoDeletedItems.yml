@@ -1,0 +1,57 @@
+github_repo:
+    -
+        id: 1
+        uuid: "groovy: UUID.randomUUID().toString()"
+        external_id: 202275988
+        full_name: casbin/casbin
+        html_url: https://github.com/casbin/casbin
+        repo_created_at: 2019-08-14 04:42:36
+    -
+        id: 2
+        uuid: "groovy: UUID.randomUUID().toString()"
+        external_id: 303123123
+        full_name: test/test
+        html_url: https://github.com/test/test
+        repo_created_at: 2017-01-03 12:02:11
+
+github_repo_source:
+    -
+        uuid: "groovy: UUID.randomUUID().toString()"
+        github_repo_id: 1
+        source: "HACKERNEWS"
+        external_id: "2222"
+    -
+        uuid: "groovy: UUID.randomUUID().toString()"
+        github_repo_id: 2
+        source: "HACKERNEWS"
+        external_id: "3333"
+    -
+        uuid: "groovy: UUID.randomUUID().toString()"
+        github_repo_id: 1
+        source: "CODEXIA"
+        external_id: "444"
+    -
+        uuid: "groovy: UUID.randomUUID().toString()"
+        github_repo_id: 2
+        source: "CODEXIA"
+        external_id: "555"
+
+hackernews_item:
+    -
+        uuid: "groovy: UUID.randomUUID().toString()"
+        external_id: 2222
+        type: story
+        by: smartmic
+        title: Title for casbin
+        url: https://github.com/casbin/casbin
+        time: 2020-02-14 18:43:33
+        deleted: false
+    -
+        uuid: "groovy: UUID.randomUUID().toString()"
+        external_id: 3333
+        type: story
+        by: test-author
+        title: Title for test-post
+        url: https://github.com/test/test
+        time: 2002-02-14 18:43:33
+        deleted: false
