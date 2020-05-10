@@ -44,7 +44,7 @@ public class AllItemsIntegrationTest extends AbstractIntegrationTest {
         WireMockServer.stub(
             new Stub(
                 "/item/2222.json",
-                new ResourceOf("wiremock/hackernews/cron/health-check/all-items/activeItem.json")
+                new ResourceOf("wiremock/hackernews/cron/health-check/activeItem.json")
             )
         );
 
@@ -62,7 +62,7 @@ public class AllItemsIntegrationTest extends AbstractIntegrationTest {
             new Stub(
                 new Request(WireMock.urlPathMatching("/item/\\d+\\.json")),
                 new Response(
-                    new ResourceOf("wiremock/hackernews/cron/health-check/all-items/activeItem.json")
+                    new ResourceOf("wiremock/hackernews/cron/health-check/activeItem.json")
                 )
             )
         );
@@ -80,7 +80,7 @@ public class AllItemsIntegrationTest extends AbstractIntegrationTest {
         WireMockServer.stub(
             new Stub(
                 "/item/2222.json",
-                new ResourceOf("wiremock/hackernews/cron/health-check/all-items/deletedItem.json")
+                new ResourceOf("wiremock/hackernews/cron/health-check/deletedItem.json")
             )
         );
 
@@ -98,7 +98,7 @@ public class AllItemsIntegrationTest extends AbstractIntegrationTest {
             new Stub(
                 new Request(WireMock.urlPathMatching("/item/\\d+\\.json")),
                 new Response(
-                    new ResourceOf("wiremock/hackernews/cron/health-check/all-items/deletedItem.json")
+                    new ResourceOf("wiremock/hackernews/cron/health-check/deletedItem.json")
                 )
             )
         );

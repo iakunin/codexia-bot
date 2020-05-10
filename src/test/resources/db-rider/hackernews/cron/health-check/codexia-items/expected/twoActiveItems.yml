@@ -9,6 +9,16 @@ github_repo_source:
         source: "HACKERNEWS"
         external_id: "3333"
         deleted_at: null
+    -
+        github_repo_id: 1
+        source: "CODEXIA"
+        external_id: "999"
+        deleted_at: null
+    -
+        github_repo_id: 2
+        source: "CODEXIA"
+        external_id: "888"
+        deleted_at: null
 
 hackernews_item:
     -
