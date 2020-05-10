@@ -1,0 +1,19 @@
+github_repo_source:
+    -
+        github_repo_id: 1
+        source: "HACKERNEWS"
+        external_id: "2222"
+    -
+        github_repo_id: 1
+        source: "CODEXIA"
+        external_id: "999"
+
+hackernews_item:
+    -
+        external_id: 2222
+        type: story
+        by: smartmic
+        title: Title for casbin
+        url: https://github.com/casbin/casbin
+        time: 2020-02-14 18:43:33
+        deleted: false

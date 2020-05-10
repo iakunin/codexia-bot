@@ -1,0 +1,31 @@
+github_repo:
+    -
+        id: 1
+        uuid: "groovy: UUID.randomUUID().toString()"
+        external_id: 202275988
+        full_name: casbin/casbin
+        html_url: https://github.com/casbin/casbin
+        repo_created_at: 2019-08-14 04:42:36
+
+github_repo_source:
+    -
+        uuid: "groovy: UUID.randomUUID().toString()"
+        github_repo_id: 1
+        source: "HACKERNEWS"
+        external_id: "2222"
+    -
+        uuid: "groovy: UUID.randomUUID().toString()"
+        github_repo_id: 1
+        source: "CODEXIA"
+        external_id: "999"
+
+hackernews_item:
+    -
+        uuid: "groovy: UUID.randomUUID().toString()"
+        external_id: 2222
+        type: story
+        by: smartmic
+        title: Title for casbin
+        url: https://github.com/casbin/casbin
+        time: 2020-02-14 18:43:33
+        deleted: false
