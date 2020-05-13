@@ -31,7 +31,7 @@ public final class GithubRepo implements Writer {
                         .setSource(GithubModule.Source.HACKERNEWS)
                         .setExternalId(String.valueOf(item.getExternalId()))
                 );
-            } catch (RuntimeException| IOException e) {
+            } catch (RuntimeException | IOException e) {
                 log.error("Unable to create github repo; source url='{}'", item.getUrl(), e);
             }
         }

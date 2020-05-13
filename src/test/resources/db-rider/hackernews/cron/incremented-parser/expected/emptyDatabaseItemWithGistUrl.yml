@@ -1,0 +1,9 @@
+hackernews_item:
+    -
+        external_id: 1
+        type: story
+        by: test1author
+        title: Title for item with gist
+        url: https://gist.github.com/iakunin/test123123
+        time: 2009-01-15 05:56:17
+        deleted: false
