@@ -11,7 +11,7 @@ import lombok.SneakyThrows;
 
 public final class PostgreSQLContainer extends org.testcontainers.containers.PostgreSQLContainer<PostgreSQLContainer> {
 
-    private static final String IMAGE_VERSION = "postgres:11.5";
+    private static final String IMAGE_VERSION = "postgres:12.2";
 
     private static PostgreSQLContainer CONTAINER;
 

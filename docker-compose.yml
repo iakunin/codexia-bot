@@ -3,7 +3,7 @@ version: '3.7'
 services:
     db:
         container_name: codexia-bot-db
-        image: postgres:11.5
+        image: postgres:12.2
         restart: always
         environment:
             POSTGRES_DB: codexia-bot
