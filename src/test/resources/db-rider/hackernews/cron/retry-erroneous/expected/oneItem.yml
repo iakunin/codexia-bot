@@ -1,0 +1,9 @@
+hackernews_item:
+    -
+        external_id: 1
+        type: story
+        by: test1author111
+        title: Title for test1_123
+        url: https://example.com/test123
+        time: 2009-01-15 06:12:49
+        deleted: false

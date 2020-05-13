@@ -35,6 +35,7 @@ public final class RetryErroneous implements Runnable{
 
                         HackernewsItem.Factory.mutateEntity(entity, item);
 
+                        this.hackernewsItemRepository.save(entity);
                         this.writer.write(entity);
                     } catch (Exception e) {
                         log.warn(

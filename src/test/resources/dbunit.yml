@@ -5,3 +5,4 @@ properties:
     datatypeFactory: !!dev.iakunin.codexiabot.dbunit.CustomPostgresqlDataTypeFactory {}
     batchedStatements:  true
     caseSensitiveTableNames: false
+    allowEmptyFields: true

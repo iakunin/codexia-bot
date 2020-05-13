@@ -1,0 +1,17 @@
+hackernews_item:
+    -
+        external_id: 1
+        type: ""
+        by: author
+        title: title
+        url: url
+        time: 2000-01-01 00:01:10
+        deleted: false
+    -
+        external_id: 2
+        type: ""
+        by: author
+        title: title
+        url: url
+        time: 2000-01-01 00:01:10
+        deleted: false
