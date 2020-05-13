@@ -1,0 +1,41 @@
+hackernews_item:
+    -
+        external_id: 1
+        type: story
+        by: test1author
+        title: Title for test1
+        url: test 1 url
+        time: 2009-01-15 05:56:17
+        deleted: false
+    -
+        external_id: 3
+        type: story
+        by: test3author
+        title: Title for test3
+        url: test 3 url
+        time: 2009-01-15 05:58:12
+        deleted: false
+    -
+        external_id: 5
+        type: story
+        by: test5author
+        title: Title for test5
+        url: test 5 url
+        time: 2009-01-15 06:32:52
+        deleted: false
+    -
+        external_id: 2
+        type: story
+        by: test2author
+        title: Title for test2
+        url: test 2 url
+        time: 2009-01-15 06:12:49
+        deleted: false
+    -
+        external_id: 4
+        type: story
+        by: test4author
+        title: Title for test4
+        url: test 4 url
+        time: 2009-01-15 06:12:53
+        deleted: false
