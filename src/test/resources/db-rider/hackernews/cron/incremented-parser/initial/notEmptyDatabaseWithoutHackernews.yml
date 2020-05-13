@@ -4,7 +4,7 @@ hackernews_item:
         type: story
         by: test1author
         title: Title for test1
-        url: https://github.com/test1/test1
+        url: https://test1.com
         time: 2009-01-15 05:56:17
         deleted: false
     -
@@ -12,6 +12,6 @@ hackernews_item:
         type: story
         by: test2author
         title: Title for test2
-        url: https://github.com/test2/test2
+        url: https://test2.com
         time: 2009-01-15 05:42:03
         deleted: false

@@ -7,11 +7,3 @@ hackernews_item:
         url: https://test1.com
         time: 2009-01-15 05:56:17
         deleted: false
-    -
-        external_id: 2
-        type: story
-        by: test2author
-        title: Title for test2
-        url: https://test2.com
-        time: 2009-01-15 05:42:03
-        deleted: false

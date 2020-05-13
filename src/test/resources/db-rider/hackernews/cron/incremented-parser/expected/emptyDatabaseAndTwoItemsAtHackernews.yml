@@ -12,6 +12,6 @@ hackernews_item:
         type: story
         by: test2author
         title: Title for test2
-        url: https://github.com/test2/test2
+        url: https://example.com
         time: 2009-01-15 05:42:03
         deleted: false
