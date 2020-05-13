@@ -81,7 +81,7 @@ springBoot {
 test {
     useJUnitPlatform()
     failFast = true
-    maxParallelForks = 2
+    maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
 }
 
 lombok {
