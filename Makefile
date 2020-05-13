@@ -35,8 +35,8 @@ VERSION := $(shell git tag -l --sort=v:refname | tail -n 1)
 upload-remote-db-to-local:
 	PGPASSWORD="$(REMOTE_DB_PASSWORD)" pg_dump \
 	--username=codexia-bot \
-	--host=127.0.0.1 \
-	--port=54323  \
+	--host=$(REMOTE_DB_HOST) \
+	--port=5432  \
 	--dbname=codexia-bot \
 	--schema=public \
 	--data-only  \
@@ -46,7 +46,7 @@ upload-remote-db-to-local:
 	--table=github_repo \
 	--table=github_repo_source \
 	--table=github_repo_stat \
-	| PGPASSWORD="codexia-bot" psql -h 127.0.0.1 -U codexia-bot -p 54322 codexia-bot
+	| PGPASSWORD="codexia-bot" psql --host=127.0.0.1 --username=codexia-bot --port=54322 codexia-bot
 
 pdd:
 	docker run \
