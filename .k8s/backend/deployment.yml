@@ -20,13 +20,16 @@ spec:
     spec:
       containers:
         - name: backend
-          image: eu.gcr.io/codexia-bot/backend:0.0.114
+          image: eu.gcr.io/codexia-bot/backend:0.0.124
           imagePullPolicy: IfNotPresent
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: prod
             - name: APP_DATABASE_HOST
-              value: 10.35.48.3
+              valueFrom:
+                secretKeyRef:
+                  name: spring-datasource
+                  key: host
             - name: APP_DATABASE_PORT
               value: "5432"
             - name: SPRING_DATASOURCE_PASSWORD
@@ -46,8 +49,6 @@ spec:
                   key: codexia.token
             - name: APP_CODEXIA_BASEURL
               value: "https://www.codexia.org/"
-            - name: APP_KAFKA_BOOTSTRAPSERVERS
-              value: bootstrap.kafka:9092
             - name: APP_REDDIT_USERNAME
               value: iakunin
             - name: APP_REDDIT_PASSWORD
