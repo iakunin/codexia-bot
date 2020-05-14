@@ -1,0 +1,5 @@
+github_repo_source:
+    -
+        github_repo_id: 1
+        source: "HACKERNEWS"
+        external_id: "2222"

@@ -27,6 +27,5 @@ services:
             - "/var/wiremock/lib/*:/var/wiremock/extensions/*"
             - "com.github.tomakehurst.wiremock.standalone.WireMockServerRunner"
             - "--local-response-templating"
-            - "--port"
-            - "80"
+            - "--port=80"
             - "--verbose"
