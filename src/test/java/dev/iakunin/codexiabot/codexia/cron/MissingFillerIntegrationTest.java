@@ -3,24 +3,18 @@ package dev.iakunin.codexiabot.codexia.cron;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import dev.iakunin.codexiabot.AbstractIntegrationTest;
-import dev.iakunin.codexiabot.CodexiaBotApplication;
+import dev.iakunin.codexiabot.config.GithubConfig;
 import dev.iakunin.codexiabot.util.WireMockServer;
 import dev.iakunin.codexiabot.util.wiremock.Stub;
-import lombok.SneakyThrows;
 import org.cactoos.io.ResourceOf;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import org.kohsuke.github.GitHub;
-import org.kohsuke.github.GitHubBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 
 @SpringBootTest(classes = {
     AbstractIntegrationTest.TestConfig.class,
-    MissingFillerIntegrationTest.TestConfig.class,
+    GithubConfig.class,
 })
 public class MissingFillerIntegrationTest extends AbstractIntegrationTest {
 
@@ -56,7 +50,7 @@ public class MissingFillerIntegrationTest extends AbstractIntegrationTest {
     public void oneWithoutGithubRepo() {
         WireMockServer.stub(
             new Stub(
-                "/repos/instaloader/instaloader",
+                "/github/repos/instaloader/instaloader",
                 new ResourceOf("wiremock/codexia/cron/missing-filler/instaloader.json")
             )
         );
@@ -73,13 +67,13 @@ public class MissingFillerIntegrationTest extends AbstractIntegrationTest {
     public void twoWithoutGithubRepo() {
         WireMockServer.stub(
             new Stub(
-                "/repos/instaloader/instaloader",
+                "/github/repos/instaloader/instaloader",
                 new ResourceOf("wiremock/codexia/cron/missing-filler/instaloader.json")
             )
         );
         WireMockServer.stub(
             new Stub(
-                "/repos/arpit9667/algorithms-js",
+                "/github/repos/arpit9667/algorithms-js",
                 new ResourceOf("wiremock/codexia/cron/missing-filler/algorithms-js.json")
             )
         );
@@ -90,18 +84,5 @@ public class MissingFillerIntegrationTest extends AbstractIntegrationTest {
     @AfterEach
     void after() {
         WireMockServer.getInstance().resetAll();
-    }
-
-    @Configuration
-    @Import(CodexiaBotApplication.class)
-    static class TestConfig {
-        @SneakyThrows
-        @Bean
-        public GitHub gitHub() {
-            return new GitHubBuilder()
-                .withEndpoint(
-                    WireMockServer.getInstance().baseUrl()
-                ).build();
-        }
     }
 }
