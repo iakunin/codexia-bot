@@ -11,17 +11,12 @@ import dev.iakunin.codexiabot.util.wiremock.Stub;
 import java.io.IOException;
 import org.cactoos.io.ResourceOf;
 import org.cactoos.text.FormattedText;
-import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.util.TestPropertyValues;
-import org.springframework.context.ApplicationContextInitializer;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.context.ContextConfiguration;
 
 @SpringBootTest(classes = {
     AbstractIntegrationTest.TestConfig.class,
@@ -153,10 +148,5 @@ public class GithubModuleCreateRepoIntegrationTest extends AbstractIntegrationTe
                 "https://github.com/casbin/casbin-rs"
             ).asString()
         );
-    }
-
-    @AfterEach
-    void after() {
-        WireMockServer.getInstance().resetAll();
     }
 }

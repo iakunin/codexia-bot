@@ -70,7 +70,6 @@ abstract public class AbstractIntegrationTest {
     }
 
     @AfterEach
-    // @todo: check all child classes
     void after() {
         WireMockServer.getInstance().resetAll();
     }
