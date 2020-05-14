@@ -1,7 +1,6 @@
 package dev.iakunin.codexiabot.reddit.config;
 
 import net.dean.jraw.RedditClient;
-import net.dean.jraw.http.NetworkAdapter;
 import net.dean.jraw.http.OkHttpNetworkAdapter;
 import net.dean.jraw.http.UserAgent;
 import net.dean.jraw.oauth.Credentials;
@@ -21,23 +20,22 @@ public class Client {
         @Value("${app.reddit.client-id}") String clientId,
         @Value("${app.reddit.client-secret}") String clientSecret
     ) {
-        UserAgent userAgent = new UserAgent(
-            "bot",
-            "dev.iakunin.codexiabot",
-            "v0.1",
-            username
+        final RedditClient client = OAuthHelper.automatic(
+            new OkHttpNetworkAdapter(
+                new UserAgent(
+                    "bot",
+                    "dev.iakunin.codexiabot",
+                    "v0.1",
+                    username
+                )
+            ),
+            Credentials.script(
+                username,
+                password,
+                clientId,
+                clientSecret
+            )
         );
-
-        Credentials credentials = Credentials.script(
-            username,
-            password,
-            clientId,
-            clientSecret
-        );
-
-        NetworkAdapter adapter = new OkHttpNetworkAdapter(userAgent);
-
-        final RedditClient client = OAuthHelper.automatic(adapter, credentials);
         client.setLogHttp(false);
 
         return client;

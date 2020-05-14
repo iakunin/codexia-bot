@@ -8,15 +8,10 @@ import dev.iakunin.codexiabot.util.wiremock.Request;
 import dev.iakunin.codexiabot.util.wiremock.Response;
 import dev.iakunin.codexiabot.util.wiremock.Stub;
 import org.cactoos.io.ResourceOf;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.util.TestPropertyValues;
-import org.springframework.context.ApplicationContextInitializer;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.http.HttpStatus;
 
-@ContextConfiguration(initializers = RetryErroneousIntegrationTest.Initializer.class)
 public class RetryErroneousIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
@@ -51,8 +46,8 @@ public class RetryErroneousIntegrationTest extends AbstractIntegrationTest {
     public void hackernewsException() {
         WireMockServer.stub(
             new Stub(
-                new Request("/item/1.json"),
-                new Response(500)
+                new Request("/hackernews/item/1.json"),
+                new Response(HttpStatus.INTERNAL_SERVER_ERROR.value())
             )
         );
 
@@ -68,7 +63,7 @@ public class RetryErroneousIntegrationTest extends AbstractIntegrationTest {
     public void oneItem() {
         WireMockServer.stub(
             new Stub(
-                new Request("/item/1.json"),
+                new Request("/hackernews/item/1.json"),
                 new Response(
                     new ResourceOf("wiremock/hackernews/cron/retry-erroneous/1.json")
                 )
@@ -87,7 +82,7 @@ public class RetryErroneousIntegrationTest extends AbstractIntegrationTest {
     public void twoItems() {
         WireMockServer.stub(
             new Stub(
-                new Request("/item/1.json"),
+                new Request("/hackernews/item/1.json"),
                 new Response(
                     new ResourceOf("wiremock/hackernews/cron/retry-erroneous/1.json")
                 )
@@ -95,7 +90,7 @@ public class RetryErroneousIntegrationTest extends AbstractIntegrationTest {
         );
         WireMockServer.stub(
             new Stub(
-                new Request("/item/2.json"),
+                new Request("/hackernews/item/2.json"),
                 new Response(
                     new ResourceOf("wiremock/hackernews/cron/retry-erroneous/2.json")
                 )
@@ -103,19 +98,5 @@ public class RetryErroneousIntegrationTest extends AbstractIntegrationTest {
         );
 
         retryErroneous.run();
-    }
-
-    @AfterEach
-    void after() {
-        WireMockServer.getInstance().resetAll();
-    }
-
-    static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
-        @Override
-        public void initialize(ConfigurableApplicationContext applicationContext) {
-            TestPropertyValues.of(
-                "app.hackernews.base-url=" + WireMockServer.getInstance().baseUrl()
-            ).applyTo(applicationContext.getEnvironment());
-        }
     }
 }

@@ -1,5 +1,5 @@
 {
-  "id": {{ replace request.requestLine.pathSegments.[1] '.json' '' }},
+  "id": {{ replace request.requestLine.pathSegments.[2] '.json' '' }},
   "coordinates": "test-project/test-repo",
   "platform": "github",
   "submitter": {

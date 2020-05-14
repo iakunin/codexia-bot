@@ -1,0 +1,16 @@
+codexia_review_notification:
+    -
+        codexia_review_id: 2
+        status: "SUCCESS"
+        response_code: 500
+        response: ""
+    -
+        codexia_review_id: 3
+        status: "ERROR"
+        response_code: 500
+        response: ""
+    -
+        codexia_review_id: 3
+        status: "SUCCESS"
+        response_code: 200
+        response: "regex:^<200 OK OK,Review successfully sent.*"

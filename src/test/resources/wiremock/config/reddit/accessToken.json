@@ -1,0 +1,6 @@
+{
+  "access_token": "some_access_token",
+  "expires_in": 99999,
+  "scope": "some_scope",
+  "refresh_token": "some_refresh_token"
+}

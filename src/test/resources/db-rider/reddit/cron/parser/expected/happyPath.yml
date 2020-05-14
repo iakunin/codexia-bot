@@ -1,0 +1,17 @@
+github_repo_source:
+    -
+        github_repo_id: 1
+        source: "CODEXIA"
+        external_id: "2222"
+    -
+        github_repo_id: 1
+        source: "REDDIT"
+        external_id: "f3an2d"
+    -
+        github_repo_id: 1
+        source: "REDDIT"
+        external_id: "f38bpw"
+    -
+        github_repo_id: 1
+        source: "REDDIT"
+        external_id: "f3tc36"

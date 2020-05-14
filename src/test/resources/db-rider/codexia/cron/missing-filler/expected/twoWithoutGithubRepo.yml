@@ -1,0 +1,31 @@
+codexia_project:
+    -
+        external_id: 1662
+        coordinates: "instaloader/instaloader"
+        author: "iakunin"
+        deleted: null
+        project_created_at: "2020-05-05 10:29:21"
+    -
+        external_id: 1999
+        coordinates: "arpit9667/algorithms-js"
+        author: "iakunin"
+        deleted: null
+        project_created_at: "2020-05-07 11:06:40"
+
+github_repo:
+    -
+        external_id: "61200117"
+        full_name: "instaloader/instaloader"
+        html_url: "https://github.com/instaloader/instaloader"
+    -
+        external_id: "253000011"
+        full_name: "arpit9667/algorithms-js"
+        html_url: "https://github.com/arpit9667/algorithms-js"
+
+github_repo_source:
+    -
+        source: "CODEXIA"
+        external_id: "1662"
+    -
+        source: "CODEXIA"
+        external_id: "1999"

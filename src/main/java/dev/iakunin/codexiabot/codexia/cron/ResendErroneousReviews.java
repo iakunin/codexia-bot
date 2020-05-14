@@ -13,15 +13,15 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor(onConstructor_={@Autowired})
 public final class ResendErroneousReviews implements Runnable {
 
-    private final CodexiaReviewNotificationRepository codexiaReviewNotificationRepository;
+    private final CodexiaReviewNotificationRepository repository;
 
-    private final ReviewSender reviewSender;
+    private final ReviewSender sender;
 
     public void run() {
-        this.codexiaReviewNotificationRepository
+        this.repository
             .findAllByLastStatus(CodexiaReviewNotification.Status.ERROR)
             .stream()
             .map(CodexiaReviewNotification::getCodexiaReview)
-            .forEach(this.reviewSender::send);
+            .forEach(this.sender::send);
     }
 }

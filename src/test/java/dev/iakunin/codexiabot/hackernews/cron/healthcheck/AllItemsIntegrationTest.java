@@ -9,16 +9,10 @@ import dev.iakunin.codexiabot.util.wiremock.Request;
 import dev.iakunin.codexiabot.util.wiremock.Response;
 import dev.iakunin.codexiabot.util.wiremock.Stub;
 import org.cactoos.io.ResourceOf;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.util.TestPropertyValues;
-import org.springframework.context.ApplicationContextInitializer;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.context.ContextConfiguration;
 
-@ContextConfiguration(initializers = AllItemsIntegrationTest.Initializer.class)
 public class AllItemsIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
@@ -43,7 +37,7 @@ public class AllItemsIntegrationTest extends AbstractIntegrationTest {
     public void oneActiveItem() {
         WireMockServer.stub(
             new Stub(
-                "/item/2222.json",
+                "/hackernews/item/2222.json",
                 new ResourceOf("wiremock/hackernews/cron/health-check/activeItem.json")
             )
         );
@@ -60,7 +54,7 @@ public class AllItemsIntegrationTest extends AbstractIntegrationTest {
     public void twoActiveItems() {
         WireMockServer.stub(
             new Stub(
-                new Request(WireMock.urlPathMatching("/item/\\d+\\.json")),
+                new Request(WireMock.urlPathMatching("/hackernews/item/\\d+\\.json")),
                 new Response(
                     new ResourceOf("wiremock/hackernews/cron/health-check/activeItem.json")
                 )
@@ -79,7 +73,7 @@ public class AllItemsIntegrationTest extends AbstractIntegrationTest {
     public void oneDeletedItem() {
         WireMockServer.stub(
             new Stub(
-                "/item/2222.json",
+                "/hackernews/item/2222.json",
                 new ResourceOf("wiremock/hackernews/cron/health-check/deletedItem.json")
             )
         );
@@ -96,7 +90,7 @@ public class AllItemsIntegrationTest extends AbstractIntegrationTest {
     public void twoDeletedItems() {
         WireMockServer.stub(
             new Stub(
-                new Request(WireMock.urlPathMatching("/item/\\d+\\.json")),
+                new Request(WireMock.urlPathMatching("/hackernews/item/\\d+\\.json")),
                 new Response(
                     new ResourceOf("wiremock/hackernews/cron/health-check/deletedItem.json")
                 )
@@ -115,25 +109,11 @@ public class AllItemsIntegrationTest extends AbstractIntegrationTest {
     public void hackernewsException() {
         WireMockServer.stub(
             new Stub(
-                "/item/2222.json",
+                "/hackernews/item/2222.json",
                 new Response(HttpStatus.INTERNAL_SERVER_ERROR.value())
             )
         );
 
         allItems.run();
-    }
-
-    @AfterEach
-    void after() {
-        WireMockServer.getInstance().resetAll();
-    }
-
-    static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
-        @Override
-        public void initialize(ConfigurableApplicationContext applicationContext) {
-            TestPropertyValues.of(
-                "app.hackernews.base-url=" + WireMockServer.getInstance().baseUrl()
-            ).applyTo(applicationContext.getEnvironment());
-        }
     }
 }
