@@ -9,16 +9,10 @@ import dev.iakunin.codexiabot.util.wiremock.Request;
 import dev.iakunin.codexiabot.util.wiremock.Response;
 import dev.iakunin.codexiabot.util.wiremock.Stub;
 import org.cactoos.io.ResourceOf;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.util.TestPropertyValues;
-import org.springframework.context.ApplicationContextInitializer;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.context.ContextConfiguration;
 
-@ContextConfiguration(initializers = CodexiaIntegrationTest.Initializer.class)
 public class CodexiaIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
@@ -43,7 +37,7 @@ public class CodexiaIntegrationTest extends AbstractIntegrationTest {
     public void processedRepo() {
         WireMockServer.stub(
             new Stub(
-                new Request(WireMock.urlPathEqualTo("/loc")),
+                new Request(WireMock.urlPathEqualTo("/codetabs/loc")),
                 new Response(
                     new ResourceOf("wiremock/github/cron/stat/loc/happyPath.json")
                 )
@@ -62,7 +56,7 @@ public class CodexiaIntegrationTest extends AbstractIntegrationTest {
     public void happyPath() {
         WireMockServer.stub(
             new Stub(
-                new Request(WireMock.urlPathEqualTo("/loc")),
+                new Request(WireMock.urlPathEqualTo("/codetabs/loc")),
                 new Response(
                     new ResourceOf("wiremock/github/cron/stat/loc/happyPath.json")
                 )
@@ -81,7 +75,7 @@ public class CodexiaIntegrationTest extends AbstractIntegrationTest {
     public void tooManyRequests() {
         WireMockServer.stub(
             new Stub(
-                new Request(WireMock.urlPathEqualTo("/loc")),
+                new Request(WireMock.urlPathEqualTo("/codetabs/loc")),
                 new Response(HttpStatus.TOO_MANY_REQUESTS.value())
             )
         );
@@ -98,26 +92,11 @@ public class CodexiaIntegrationTest extends AbstractIntegrationTest {
     public void codetabsException() {
         WireMockServer.stub(
             new Stub(
-                new Request(WireMock.urlPathEqualTo("/loc")),
+                new Request(WireMock.urlPathEqualTo("/codetabs/loc")),
                 new Response(HttpStatus.INTERNAL_SERVER_ERROR.value())
             )
         );
 
         linesOfCode.run();
-    }
-
-    @AfterEach
-    void after() {
-        WireMockServer.getInstance().resetAll();
-    }
-
-    static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
-        @Override
-        public void initialize(ConfigurableApplicationContext applicationContext) {
-            TestPropertyValues.of(
-                "app.codetabs.base-url=" + WireMockServer.getInstance().baseUrl(),
-                "app.github.service.lines-of-code.delay=0"
-            ).applyTo(applicationContext.getEnvironment());
-        }
     }
 }

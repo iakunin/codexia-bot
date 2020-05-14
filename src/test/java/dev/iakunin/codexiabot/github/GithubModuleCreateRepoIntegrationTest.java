@@ -27,7 +27,6 @@ import org.springframework.test.context.ContextConfiguration;
     AbstractIntegrationTest.TestConfig.class,
     GithubConfig.class,
 })
-@ContextConfiguration(initializers = GithubModuleCreateRepoIntegrationTest.Initializer.class)
 public class GithubModuleCreateRepoIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
@@ -159,14 +158,5 @@ public class GithubModuleCreateRepoIntegrationTest extends AbstractIntegrationTe
     @AfterEach
     void after() {
         WireMockServer.getInstance().resetAll();
-    }
-
-    static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
-        @Override
-        public void initialize(ConfigurableApplicationContext applicationContext) {
-            TestPropertyValues.of(
-                "app.codexia.base-url=" + WireMockServer.getInstance().baseUrl() + "/codexia"
-            ).applyTo(applicationContext.getEnvironment());
-        }
     }
 }

@@ -8,15 +8,9 @@ import dev.iakunin.codexiabot.util.wiremock.Request;
 import dev.iakunin.codexiabot.util.wiremock.Response;
 import dev.iakunin.codexiabot.util.wiremock.Stub;
 import org.cactoos.io.ResourceOf;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.util.TestPropertyValues;
-import org.springframework.context.ApplicationContextInitializer;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.test.context.ContextConfiguration;
 
-@ContextConfiguration(initializers = GapsFillerIntegrationTest.Initializer.class)
 public class GapsFillerIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
@@ -41,7 +35,7 @@ public class GapsFillerIntegrationTest extends AbstractIntegrationTest {
     public void oneMissing() {
         WireMockServer.stub(
             new Stub(
-                new Request("/item/2.json"),
+                new Request("/hackernews/item/2.json"),
                 new Response(
                     new ResourceOf("wiremock/hackernews/cron/gaps-filler/2.json")
                 )
@@ -60,7 +54,7 @@ public class GapsFillerIntegrationTest extends AbstractIntegrationTest {
     public void twoMissing() {
         WireMockServer.stub(
             new Stub(
-                new Request("/item/2.json"),
+                new Request("/hackernews/item/2.json"),
                 new Response(
                     new ResourceOf("wiremock/hackernews/cron/gaps-filler/2.json")
                 )
@@ -68,7 +62,7 @@ public class GapsFillerIntegrationTest extends AbstractIntegrationTest {
         );
         WireMockServer.stub(
             new Stub(
-                new Request("/item/4.json"),
+                new Request("/hackernews/item/4.json"),
                 new Response(
                     new ResourceOf("wiremock/hackernews/cron/gaps-filler/4.json")
                 )
@@ -76,19 +70,5 @@ public class GapsFillerIntegrationTest extends AbstractIntegrationTest {
         );
 
         gapsFiller.run();
-    }
-
-    @AfterEach
-    void after() {
-        WireMockServer.getInstance().resetAll();
-    }
-
-    static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
-        @Override
-        public void initialize(ConfigurableApplicationContext applicationContext) {
-            TestPropertyValues.of(
-                "app.hackernews.base-url=" + WireMockServer.getInstance().baseUrl()
-            ).applyTo(applicationContext.getEnvironment());
-        }
     }
 }

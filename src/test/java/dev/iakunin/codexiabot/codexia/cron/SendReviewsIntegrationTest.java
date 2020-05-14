@@ -9,16 +9,10 @@ import dev.iakunin.codexiabot.util.WireMockServer;
 import dev.iakunin.codexiabot.util.wiremock.Request;
 import dev.iakunin.codexiabot.util.wiremock.Response;
 import dev.iakunin.codexiabot.util.wiremock.Stub;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.util.TestPropertyValues;
-import org.springframework.context.ApplicationContextInitializer;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.context.ContextConfiguration;
 
-@ContextConfiguration(initializers = SendReviewsIntegrationTest.Initializer.class)
 public class SendReviewsIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
@@ -43,7 +37,7 @@ public class SendReviewsIntegrationTest extends AbstractIntegrationTest {
     public void reviewSuccessfullySent() {
         WireMockServer.stub(
             new Stub(
-                new Request(RequestMethod.POST, WireMock.urlPathMatching("/p/\\d+/post")),
+                new Request(RequestMethod.POST, WireMock.urlPathMatching("/codexia/p/\\d+/post")),
                 new Response()
             )
         );
@@ -60,7 +54,7 @@ public class SendReviewsIntegrationTest extends AbstractIntegrationTest {
     public void reviewSentWithDuplicate_responseBodyExists() {
         WireMockServer.stub(
             new Stub(
-                new Request(RequestMethod.POST, WireMock.urlPathMatching("/p/\\d+/post")),
+                new Request(RequestMethod.POST, WireMock.urlPathMatching("/codexia/p/\\d+/post")),
                 new Response(HttpStatus.NOT_FOUND.value(), "Review already exists")
             )
         );
@@ -77,7 +71,7 @@ public class SendReviewsIntegrationTest extends AbstractIntegrationTest {
     public void reviewSentWithDuplicate_responseBodyEmpty() {
         WireMockServer.stub(
             new Stub(
-                new Request(RequestMethod.POST, WireMock.urlPathMatching("/p/\\d+/post")),
+                new Request(RequestMethod.POST, WireMock.urlPathMatching("/codexia/p/\\d+/post")),
                 new Response(HttpStatus.NOT_FOUND.value())
             )
         );
@@ -94,25 +88,11 @@ public class SendReviewsIntegrationTest extends AbstractIntegrationTest {
     public void reviewSentWith500() {
         WireMockServer.stub(
             new Stub(
-                new Request(RequestMethod.POST, WireMock.urlPathMatching("/p/\\d+/post")),
+                new Request(RequestMethod.POST, WireMock.urlPathMatching("/codexia/p/\\d+/post")),
                 new Response(HttpStatus.INTERNAL_SERVER_ERROR.value())
             )
         );
 
         sendReviews.run();
-    }
-
-    @AfterEach
-    void after() {
-        WireMockServer.getInstance().resetAll();
-    }
-
-    static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
-        @Override
-        public void initialize(ConfigurableApplicationContext applicationContext) {
-            TestPropertyValues.of(
-                "app.codexia.base-url=" + WireMockServer.getInstance().baseUrl()
-            ).applyTo(applicationContext.getEnvironment());
-        }
     }
 }

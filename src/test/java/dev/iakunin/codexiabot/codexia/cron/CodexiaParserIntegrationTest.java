@@ -20,7 +20,6 @@ import org.springframework.test.context.ContextConfiguration;
     AbstractIntegrationTest.TestConfig.class,
     GithubConfig.class,
 })
-@ContextConfiguration(initializers = CodexiaParserIntegrationTest.Initializer.class)
 public class CodexiaParserIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
@@ -102,19 +101,5 @@ public class CodexiaParserIntegrationTest extends AbstractIntegrationTest {
         WireMockServer.stub(new Stub("/codexia/recent.json?page=1", "[]"));
 
         codexiaParser.run();
-    }
-
-    @AfterEach
-    void after() {
-        WireMockServer.getInstance().resetAll();
-    }
-
-    static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
-        @Override
-        public void initialize(ConfigurableApplicationContext applicationContext) {
-            TestPropertyValues.of(
-                "app.codexia.base-url=" + WireMockServer.getInstance().baseUrl() + "/codexia"
-            ).applyTo(applicationContext.getEnvironment());
-        }
     }
 }

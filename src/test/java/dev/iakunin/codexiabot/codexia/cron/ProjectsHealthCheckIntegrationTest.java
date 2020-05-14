@@ -17,7 +17,6 @@ import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 
-@ContextConfiguration(initializers = ProjectsHealthCheckIntegrationTest.Initializer.class)
 public class ProjectsHealthCheckIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
@@ -42,7 +41,7 @@ public class ProjectsHealthCheckIntegrationTest extends AbstractIntegrationTest 
     public void twoActiveProjectsInRepoButDeletedInCodexia() {
         WireMockServer.stub(
             new Stub(
-                new Request(WireMock.urlPathMatching("/p/\\d+\\.json")),
+                new Request(WireMock.urlPathMatching("/codexia/p/\\d+\\.json")),
                 new Response(
                     new ResourceOf(
                         "wiremock/codexia/cron/projects-health-check/twoActiveProjectsInRepoButDeletedInCodexia.json"
@@ -52,19 +51,5 @@ public class ProjectsHealthCheckIntegrationTest extends AbstractIntegrationTest 
         );
 
         projectsHealthCheck.run();
-    }
-
-    @AfterEach
-    void after() {
-        WireMockServer.getInstance().resetAll();
-    }
-
-    static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
-        @Override
-        public void initialize(ConfigurableApplicationContext applicationContext) {
-            TestPropertyValues.of(
-                "app.codexia.base-url=" + WireMockServer.getInstance().baseUrl()
-            ).applyTo(applicationContext.getEnvironment());
-        }
     }
 }

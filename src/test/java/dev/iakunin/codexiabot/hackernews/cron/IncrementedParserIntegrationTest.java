@@ -14,9 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.test.context.ContextConfiguration;
 
-@ContextConfiguration(initializers = IncrementedParserIntegrationTest.Initializer.class)
 public class IncrementedParserIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
@@ -41,7 +39,7 @@ public class IncrementedParserIntegrationTest extends AbstractIntegrationTest {
     public void emptyDatabaseItemWithoutUrl() {
         WireMockServer.stub(
             new Stub(
-                new Request("/item/1.json"),
+                new Request("/hackernews/item/1.json"),
                 new Response(
                     new ResourceOf("wiremock/hackernews/cron/incremented-parser/itemWithoutUrl.json")
                 )
@@ -60,7 +58,7 @@ public class IncrementedParserIntegrationTest extends AbstractIntegrationTest {
     public void emptyDatabaseItemWithGithubUrl() {
         WireMockServer.stub(
             new Stub(
-                new Request("/item/1.json"),
+                new Request("/hackernews/item/1.json"),
                 new Response(
                     new ResourceOf("wiremock/hackernews/cron/incremented-parser/itemWithGithubUrl.json")
                 )
@@ -79,7 +77,7 @@ public class IncrementedParserIntegrationTest extends AbstractIntegrationTest {
     public void emptyDatabaseItemWithGistUrl() {
         WireMockServer.stub(
             new Stub(
-                new Request("/item/1.json"),
+                new Request("/hackernews/item/1.json"),
                 new Response(
                     new ResourceOf("wiremock/hackernews/cron/incremented-parser/itemWithGistUrl.json")
                 )
@@ -98,7 +96,7 @@ public class IncrementedParserIntegrationTest extends AbstractIntegrationTest {
     public void emptyDatabaseEmptyResponse() {
         WireMockServer.stub(
             new Stub(
-                new Request("/item/1.json"),
+                new Request("/hackernews/item/1.json"),
                 new Response("")
             )
         );
@@ -115,7 +113,7 @@ public class IncrementedParserIntegrationTest extends AbstractIntegrationTest {
     public void emptyDatabaseAndTwoItemsAtHackernews() {
         WireMockServer.stub(
             new Stub(
-                new Request("/item/1.json"),
+                new Request("/hackernews/item/1.json"),
                 new Response(
                     new ResourceOf("wiremock/hackernews/cron/incremented-parser/itemWithoutUrl.json")
                 )
@@ -123,7 +121,7 @@ public class IncrementedParserIntegrationTest extends AbstractIntegrationTest {
         );
         WireMockServer.stub(
             new Stub(
-                new Request("/item/2.json"),
+                new Request("/hackernews/item/2.json"),
                 new Response(
                     new ResourceOf("wiremock/hackernews/cron/incremented-parser/itemWithUrl.json")
                 )
@@ -152,7 +150,7 @@ public class IncrementedParserIntegrationTest extends AbstractIntegrationTest {
     public void notEmptyDatabaseExistsInRepo() {
         WireMockServer.stub(
             new Stub(
-                new Request("/item/2.json"),
+                new Request("/hackernews/item/2.json"),
                 new Response(
                     new ResourceOf("wiremock/hackernews/cron/incremented-parser/itemWithoutUrl.json")
                 )
@@ -160,19 +158,5 @@ public class IncrementedParserIntegrationTest extends AbstractIntegrationTest {
         );
 
         incrementedParser.run();
-    }
-
-    @AfterEach
-    void after() {
-        WireMockServer.getInstance().resetAll();
-    }
-
-    static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
-        @Override
-        public void initialize(ConfigurableApplicationContext applicationContext) {
-            TestPropertyValues.of(
-                "app.hackernews.base-url=" + WireMockServer.getInstance().baseUrl()
-            ).applyTo(applicationContext.getEnvironment());
-        }
     }
 }
