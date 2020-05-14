@@ -17,7 +17,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.SneakyThrows;
 import org.kohsuke.github.GHRepository;
 
 @Entity
@@ -111,7 +110,6 @@ public final class GithubRepoStat extends AbstractEntity {
     public static final class Factory {
         private Factory() {}
 
-        @SneakyThrows
         public static GithubRepoStat from(GHRepository from) {
             return new GithubRepoStat()
                 .setStat(
@@ -127,7 +125,6 @@ public final class GithubRepoStat extends AbstractEntity {
             ;
         }
 
-        @SneakyThrows
         public static GithubRepoStat from(List<CodetabsClient.Item> from) {
             return new GithubRepoStat()
                 .setStat(
