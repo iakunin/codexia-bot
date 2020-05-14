@@ -235,6 +235,35 @@ public class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegration
         entityManager.remove(repo);
     }
 
+    @Test
+    @Transactional
+    public void persistStatWithEmptyStat() {
+        var repo = this.createGithubRepo();
+        var stat = new GithubRepoStat().setGithubRepo(repo).setType(Type.GITHUB_API);
+        entityManager.persist(repo);
+        entityManager.persist(stat);
+        entityManager.flush();
+
+        entityManager.remove(stat);
+        entityManager.remove(repo);
+    }
+
+    @Test
+    @Transactional
+    public void persistHealthCheckStat() {
+        var repo = this.createGithubRepo();
+        var stat = new GithubRepoStat()
+            .setGithubRepo(repo)
+            .setType(Type.HEALTH_CHECK)
+            .setStat(new GithubRepoStat.HealthCheck());
+        entityManager.persist(repo);
+        entityManager.persist(stat);
+        entityManager.flush();
+
+        entityManager.remove(stat);
+        entityManager.remove(repo);
+    }
+
     private GithubRepo createGithubRepo() {
         return new GithubRepo()
             .setExternalId(

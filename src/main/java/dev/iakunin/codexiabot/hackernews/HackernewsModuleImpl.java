@@ -24,41 +24,34 @@ public final class HackernewsModuleImpl implements HackernewsModule {
     public void healthCheckItems(Stream<Integer> externalIds) {
         externalIds.forEach(
             externalId -> {
-
-                log.debug("Got hackernewsExternalId {}", externalId);
-
                 try {
-                    log.debug("Trying to get item with externalId='{}'", externalId);
                     final HackernewsClient.Item item = this.hackernewsClient.getItem(externalId).getBody();
                     Objects.requireNonNull(item);
-                    log.debug("Successfully got item with externalId='{}'; {}", externalId, item);
-
                     if (item.isDeleted()) {
-                        log.debug("Found deleted item: {}", item);
-                        this.githubModule.removeAllRepoSources(
-                            new GithubModule.DeleteArguments()
-                                .setSource(GithubModule.Source.HACKERNEWS)
-                                .setExternalId(String.valueOf(externalId))
-                        );
-
-                        final HackernewsItem hackernewsItem = this.hackernewsItemRepository
-                            .findByExternalId(externalId)
-                            .orElseThrow(
-                                () -> new RuntimeException(
-                                    String.format("Unable to find HackernewsItem by externalId='%s'", externalId)
-                                )
-                            );
-
-                        HackernewsItem.Factory.mutateEntity(hackernewsItem, item);
-
-                        log.debug("Trying to save to DB; {}", hackernewsItem);
-                        this.hackernewsItemRepository.save(hackernewsItem);
-                        log.debug("Successfully saved to DB; {}", hackernewsItem);
+                        this.updateEntities(externalId, item);
                     }
                 } catch (Exception e) {
                     log.warn("Exception occurred", e);
                 }
             }
         );
+    }
+
+    private void updateEntities(Integer externalId, HackernewsClient.Item item) {
+        this.githubModule.removeAllRepoSources(
+            new GithubModule.DeleteArguments(
+                GithubModule.Source.HACKERNEWS,
+                String.valueOf(externalId)
+            )
+        );
+        final HackernewsItem hackernewsItem = this.hackernewsItemRepository
+            .findByExternalId(externalId)
+            .orElseThrow(
+                () -> new RuntimeException(
+                    String.format("Unable to find HackernewsItem by externalId='%s'", externalId)
+                )
+            );
+        HackernewsItem.Factory.mutateEntity(hackernewsItem, item);
+        this.hackernewsItemRepository.save(hackernewsItem);
     }
 }

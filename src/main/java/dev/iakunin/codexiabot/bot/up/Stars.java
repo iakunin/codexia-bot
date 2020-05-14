@@ -55,32 +55,38 @@ public final class Stars implements Bot {
 
     @Override
     public CodexiaReview review(GithubRepoStat first, GithubRepoStat last) {
-        final GithubApi firstStat = (GithubApi) first.getStat();
-        final GithubApi lastStat = (GithubApi) last.getStat();
-
         return new CodexiaReview()
-            .setText(
-                String.format(
-                    "The repo gained %d stars (from %d to %d) in %s. " +
-                    "See the stars history [here](https://star-history.t9t.io/#%s).",
-                    lastStat.getStars() - firstStat.getStars(),
-                    firstStat.getStars(),
-                    lastStat.getStars(),
-                    new UncheckedText(
-                        new HumanReadable(
-                            Duration.between(
-                                first.getCreatedAt(),
-                                last.getCreatedAt()
-                            )
-                        )
-                    ).asString(),
-                    first.getGithubRepo().getFullName()
+            .setText(this.reviewText(first, last))
+            .setAuthor(dev.iakunin.codexiabot.bot.Bot.Type.STARS_UP.name())
+            .setReason(
+                String.valueOf(
+                    ((GithubApi) last.getStat()).getStars()
                 )
             )
-            .setAuthor(dev.iakunin.codexiabot.bot.Bot.Type.STARS_UP.name())
-            .setReason(String.valueOf(lastStat.getStars()))
             .setCodexiaProject(
                 this.codexiaModule.getCodexiaProject(last.getGithubRepo())
             );
+    }
+
+    private String reviewText(GithubRepoStat first, GithubRepoStat last) {
+        final GithubApi firstStat = (GithubApi) first.getStat();
+        final GithubApi lastStat = (GithubApi) last.getStat();
+
+        return String.format(
+            "The repo gained %d stars (from %d to %d) in %s. " +
+            "See the stars history [here](https://star-history.t9t.io/#%s).",
+            lastStat.getStars() - firstStat.getStars(),
+            firstStat.getStars(),
+            lastStat.getStars(),
+            new UncheckedText(
+                new HumanReadable(
+                    Duration.between(
+                        first.getCreatedAt(),
+                        last.getCreatedAt()
+                    )
+                )
+            ).asString(),
+            first.getGithubRepo().getFullName()
+        );
     }
 }

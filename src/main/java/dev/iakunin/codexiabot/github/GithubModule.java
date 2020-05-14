@@ -8,11 +8,13 @@ import java.util.Deque;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
-import lombok.Data;
+import lombok.Value;
 
 public interface GithubModule {
 
     void createRepo(CreateArguments arguments) throws IOException;
+
+    void addRepoSource(AddSourceArguments arguments);
 
     void updateStat(GithubRepo githubRepo) throws IOException;
 
@@ -36,17 +38,24 @@ public interface GithubModule {
 
     Optional<GithubRepoStat> findLastLinesOfCodeStat(GithubRepo repo);
 
-    @Data
+    @Value
     class CreateArguments {
-        private String url;
-        private Source source;
-        private String externalId;
+        String url;
+        Source source;
+        String externalId;
     }
 
-    @Data
+    @Value
+    class AddSourceArguments {
+        GithubRepo githubRepo;
+        Source source;
+        String externalId;
+    }
+
+    @Value
     class DeleteArguments {
-        private Source source;
-        private String externalId;
+        Source source;
+        String externalId;
     }
 
     enum Source {

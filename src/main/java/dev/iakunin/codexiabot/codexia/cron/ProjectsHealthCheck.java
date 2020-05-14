@@ -37,9 +37,10 @@ public final class ProjectsHealthCheck implements Runnable {
 
     private void deleteRepoSources(CodexiaClient.Project project) {
         this.githubModule.removeAllRepoSources(
-            new GithubModule.DeleteArguments()
-                .setSource(GithubModule.Source.CODEXIA)
-                .setExternalId(String.valueOf(project.getId()))
+            new GithubModule.DeleteArguments(
+                GithubModule.Source.CODEXIA,
+                String.valueOf(project.getId())
+            )
         );
     }
 

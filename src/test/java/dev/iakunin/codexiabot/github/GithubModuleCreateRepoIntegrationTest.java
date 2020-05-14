@@ -42,10 +42,11 @@ public class GithubModuleCreateRepoIntegrationTest extends AbstractIntegrationTe
         );
 
         module.createRepo(
-            new GithubModule.CreateArguments()
-                .setSource(GithubModule.Source.CODEXIA)
-                .setExternalId("1662")
-                .setUrl("https://github.com/casbin/casbin-rs")
+            new GithubModule.CreateArguments(
+                "https://github.com/casbin/casbin-rs",
+                GithubModule.Source.CODEXIA,
+                "1662"
+            )
         );
     }
 
@@ -64,10 +65,11 @@ public class GithubModuleCreateRepoIntegrationTest extends AbstractIntegrationTe
         );
 
         module.createRepo(
-            new GithubModule.CreateArguments()
-                .setSource(GithubModule.Source.CODEXIA)
-                .setExternalId("1662")
-                .setUrl("https://github.com/casbin/casbin-rs")
+            new GithubModule.CreateArguments(
+                "https://github.com/casbin/casbin-rs",
+                GithubModule.Source.CODEXIA,
+                "1662"
+            )
         );
     }
 
@@ -86,10 +88,11 @@ public class GithubModuleCreateRepoIntegrationTest extends AbstractIntegrationTe
         );
 
         module.createRepo(
-            new GithubModule.CreateArguments()
-                .setSource(GithubModule.Source.CODEXIA)
-                .setExternalId("1662")
-                .setUrl("https://github.com/casbin/casbin-rs")
+            new GithubModule.CreateArguments(
+                "https://github.com/casbin/casbin-rs",
+                GithubModule.Source.CODEXIA,
+                "1662"
+            )
         );
     }
 
@@ -108,10 +111,11 @@ public class GithubModuleCreateRepoIntegrationTest extends AbstractIntegrationTe
         );
 
         module.createRepo(
-            new GithubModule.CreateArguments()
-                .setSource(GithubModule.Source.CODEXIA)
-                .setExternalId("1662")
-                .setUrl("https://github.com/casbin/casbin-rs")
+            new GithubModule.CreateArguments(
+                "https://github.com/casbin/casbin-rs",
+                GithubModule.Source.CODEXIA,
+                "1662"
+            )
         );
     }
 
@@ -135,17 +139,18 @@ public class GithubModuleCreateRepoIntegrationTest extends AbstractIntegrationTe
         final RepoNotFoundException exception = assertThrows(
             RepoNotFoundException.class,
             () -> module.createRepo(
-                new GithubModule.CreateArguments()
-                    .setSource(GithubModule.Source.CODEXIA)
-                    .setExternalId("1662")
-                    .setUrl("https://github.com/casbin/casbin-rs")
+                new GithubModule.CreateArguments(
+                    "https://github.com/casbin/casbin-rs",
+                    GithubModule.Source.CODEXIA,
+                    "1662"
+                )
             )
         );
         assertEquals(
             exception.getMessage(),
             new FormattedText(
-                "Unable to find github repo by url='%s'",
-                "https://github.com/casbin/casbin-rs"
+                "Unable to find github repo by name='%s'",
+                "casbin/casbin-rs"
             ).asString()
         );
     }

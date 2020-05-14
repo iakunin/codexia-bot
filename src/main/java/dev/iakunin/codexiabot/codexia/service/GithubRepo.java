@@ -20,10 +20,11 @@ public final class GithubRepo implements Writer {
         final String url = "https://github.com/" + project.getCoordinates();
         try {
             this.githubModule.createRepo(
-                new GithubModule.CreateArguments()
-                    .setUrl(url)
-                    .setSource(GithubModule.Source.CODEXIA)
-                    .setExternalId(String.valueOf(project.getExternalId()))
+                new GithubModule.CreateArguments(
+                    url,
+                    GithubModule.Source.CODEXIA,
+                    String.valueOf(project.getExternalId())
+                )
             );
         } catch (RuntimeException | IOException e) {
             log.error("Unable to create github repo; source url='{}'", url, e);
