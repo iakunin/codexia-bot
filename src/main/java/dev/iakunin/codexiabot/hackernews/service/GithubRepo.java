@@ -23,13 +23,12 @@ public final class GithubRepo implements Writer {
             !item.getUrl().contains("gist.github.com")
         ) {
             try {
-                log.debug("Creating github repo for HackernewsItem: {}", item);
-
                 this.githubModule.createRepo(
-                    new GithubModule.CreateArguments()
-                        .setUrl(item.getUrl())
-                        .setSource(GithubModule.Source.HACKERNEWS)
-                        .setExternalId(String.valueOf(item.getExternalId()))
+                    new GithubModule.CreateArguments(
+                        item.getUrl(),
+                        GithubModule.Source.HACKERNEWS,
+                        String.valueOf(item.getExternalId())
+                    )
                 );
             } catch (RuntimeException | IOException e) {
                 log.error("Unable to create github repo; source url='{}'", item.getUrl(), e);

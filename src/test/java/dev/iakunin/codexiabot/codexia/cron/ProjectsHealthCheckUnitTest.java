@@ -97,9 +97,10 @@ public class ProjectsHealthCheckUnitTest {
 
         Mockito.verify(codexiaClient).getProject(externalId);
         Mockito.verify(githubModule).removeAllRepoSources(
-            new GithubModule.DeleteArguments()
-                .setSource(GithubModule.Source.CODEXIA)
-                .setExternalId(String.valueOf(externalId))
+            new GithubModule.DeleteArguments(
+                GithubModule.Source.CODEXIA,
+                String.valueOf(externalId)
+            )
         );
         Mockito.verify(repository).findByExternalId(externalId);
         Mockito.verify(repository).save(codexiaProject.setDeleted(deleted));
@@ -135,9 +136,10 @@ public class ProjectsHealthCheckUnitTest {
         );
         Mockito.verify(codexiaClient).getProject(externalId);
         Mockito.verify(githubModule).removeAllRepoSources(
-            new GithubModule.DeleteArguments()
-                .setSource(GithubModule.Source.CODEXIA)
-                .setExternalId(String.valueOf(externalId))
+            new GithubModule.DeleteArguments(
+                GithubModule.Source.CODEXIA,
+                String.valueOf(externalId)
+            )
         );
         Mockito.verify(repository).findByExternalId(externalId);
         Mockito.verify(repository, Mockito.never()).save(Mockito.any());
