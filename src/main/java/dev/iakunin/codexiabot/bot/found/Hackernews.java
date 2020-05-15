@@ -18,15 +18,15 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor(onConstructor_={@Autowired})
 public final class Hackernews implements Bot {
 
-    private final GithubModule github;
+    private final GithubModule githubModule;
 
-    private final CodexiaModule codexia;
+    private final CodexiaModule codexiaModule;
 
-    private final HackernewsModule hackernews;
+    private final HackernewsModule hackernewsModule;
 
     @Override
     public Stream<GithubRepo> repoStream() {
-        return this.github
+        return this.githubModule
             .findAllInCodexiaAndHackernews()
             .stream();
     }
@@ -58,7 +58,7 @@ public final class Hackernews implements Bot {
             .setCodexiaProject(review.getCodexiaProject())
             .setKey("hacker-news-id")
             .setValue(
-                this.codexia
+                this.codexiaModule
                     .findAllReviews(review.getCodexiaProject(), review.getAuthor())
                     .stream()
                     .map(CodexiaReview::getReason)
@@ -67,7 +67,7 @@ public final class Hackernews implements Bot {
     }
 
     private int upvotes(String externalId) {
-        return this.hackernews
+        return this.hackernewsModule
             .getItem(Integer.valueOf(externalId))
             .getScore();
     }
