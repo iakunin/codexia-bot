@@ -5,6 +5,7 @@ import dev.iakunin.codexiabot.codexia.entity.CodexiaMeta;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaReview;
 import dev.iakunin.codexiabot.github.GithubModule;
 import dev.iakunin.codexiabot.github.entity.GithubRepo;
+import dev.iakunin.codexiabot.hackernews.HackernewsModule;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.AllArgsConstructor;
@@ -17,13 +18,15 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor(onConstructor_={@Autowired})
 public final class Hackernews implements Bot {
 
-    private final GithubModule githubModule;
+    private final GithubModule github;
 
-    private final CodexiaModule codexiaModule;
+    private final CodexiaModule codexia;
+
+    private final HackernewsModule hackernews;
 
     @Override
     public Stream<GithubRepo> repoStream() {
-        return this.githubModule
+        return this.github
             .findAllInCodexiaAndHackernews()
             .stream();
     }
@@ -39,10 +42,11 @@ public final class Hackernews implements Bot {
             new FormattedText(
                 new Joined(
                     " ",
-                    "This project is found on Hackernews:",
+                    "This project is found on Hackernews (%d upvotes):",
                     "[web link](https://news.ycombinator.com/item?id=%s),",
                     "[api link](https://hacker-news.firebaseio.com/v0/item/%s.json)."
                 ),
+                this.upvotes(externalId),
                 externalId,
                 externalId
             ).toString();
@@ -54,11 +58,17 @@ public final class Hackernews implements Bot {
             .setCodexiaProject(review.getCodexiaProject())
             .setKey("hacker-news-id")
             .setValue(
-                this.codexiaModule
+                this.codexia
                     .findAllReviews(review.getCodexiaProject(), review.getAuthor())
                     .stream()
                     .map(CodexiaReview::getReason)
                     .collect(Collectors.joining(","))
             );
+    }
+
+    private int upvotes(String externalId) {
+        return this.hackernews
+            .getItem(Integer.valueOf(externalId))
+            .getScore();
     }
 }
