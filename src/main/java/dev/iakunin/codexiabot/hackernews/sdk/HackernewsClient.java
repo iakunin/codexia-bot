@@ -31,5 +31,6 @@ public interface HackernewsClient {
         private String url;
         private Instant time;
         private boolean deleted = false;
+        private Integer score = 0;
     }
 }
