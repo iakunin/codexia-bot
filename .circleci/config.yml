@@ -50,7 +50,7 @@ jobs:
                             --volume=${HOME}/.m2:/root/.m2 \
                             --volume=/var/run/docker.sock:/var/run/docker.sock \
                             --workdir=/home/gradle/project \
-                            gradle:6.0.1-jdk11 \
+                            gradle:6.3-jdk11 \
                             gradle clean build sonarqube \
                                 -Pversion=$CIRCLE_TAG \
                                 -PpullRequestKey=$PR_NUMBER \
