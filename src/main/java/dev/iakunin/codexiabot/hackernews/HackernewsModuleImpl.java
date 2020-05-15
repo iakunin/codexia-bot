@@ -25,8 +25,7 @@ public final class HackernewsModuleImpl implements HackernewsModule {
         externalIds.forEach(
             externalId -> {
                 try {
-                    final HackernewsClient.Item item = this.hackernewsClient.getItem(externalId).getBody();
-                    Objects.requireNonNull(item);
+                    final HackernewsClient.Item item = this.getItem(externalId);
                     if (item.isDeleted()) {
                         this.updateEntities(externalId, item);
                     }
@@ -35,6 +34,14 @@ public final class HackernewsModuleImpl implements HackernewsModule {
                 }
             }
         );
+    }
+
+    @Override
+    public HackernewsClient.Item getItem(Integer id) {
+        final HackernewsClient.Item item = this.hackernewsClient.getItem(id).getBody();
+        Objects.requireNonNull(item);
+
+        return item;
     }
 
     private void updateEntities(Integer externalId, HackernewsClient.Item item) {
