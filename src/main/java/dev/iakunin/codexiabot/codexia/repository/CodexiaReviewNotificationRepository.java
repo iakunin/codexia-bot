@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 public interface CodexiaReviewNotificationRepository extends JpaRepository<CodexiaReviewNotification, Long> {
 
     @Query(
-        "select m1 " +
+        "select distinct m1 " +
         "from CodexiaReviewNotification m1 " +
         "left join CodexiaReviewNotification m2 " +
         "   on (m1.codexiaReview = m2.codexiaReview and m1.id < m2.id) " +
@@ -18,7 +18,16 @@ public interface CodexiaReviewNotificationRepository extends JpaRepository<Codex
     Set<CodexiaReviewNotification> findAllByLastStatus(CodexiaReviewNotification.Status status);
 
     @Query(
-        "select m1 " +
+        "select distinct m1 " +
+        "from CodexiaReviewNotification m1 " +
+        "left join CodexiaReviewNotification m2 " +
+        "   on (m1.codexiaReview = m2.codexiaReview and m1.id < m2.id) " +
+        "where m2.id is not null"
+    )
+    Set<CodexiaReviewNotification> findAllObsolete();
+
+    @Query(
+        "select distinct m1 " +
         "from CodexiaReviewNotification m1 " +
         "left join CodexiaReviewNotification m2 " +
         "   on (m1.codexiaReview = m2.codexiaReview and m1.id < m2.id) " +

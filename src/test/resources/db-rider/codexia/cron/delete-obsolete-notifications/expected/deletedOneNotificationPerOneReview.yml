@@ -1,0 +1,6 @@
+codexia_review_notification:
+    -
+        codexia_review_id: 2
+        status: SUCCESS
+        response_code: 200
+        response: OK
