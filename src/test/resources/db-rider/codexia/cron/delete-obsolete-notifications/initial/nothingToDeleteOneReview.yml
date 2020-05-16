@@ -1,0 +1,25 @@
+codexia_project:
+    -
+        id: 5
+        uuid: "groovy: UUID.randomUUID().toString()"
+        external_id: 1222
+        coordinates: "test-project1/test-repo1"
+        author: "some-first-author"
+        project_created_at: "2019-12-20 12:01:02"
+
+codexia_review:
+    -
+        id: 2
+        uuid: "groovy: UUID.randomUUID().toString()"
+        codexia_project_id: 5
+        author: Review author
+        reason: Review reason
+        text: Review text
+
+codexia_review_notification:
+    -
+        uuid: "groovy: UUID.randomUUID().toString()"
+        codexia_review_id: 2
+        status: ERROR
+        response_code: 500
+        response: ""
