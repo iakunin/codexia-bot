@@ -4,8 +4,8 @@ import dev.iakunin.codexiabot.codexia.entity.CodexiaMeta;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaProject;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaReview;
 import dev.iakunin.codexiabot.github.entity.GithubRepo;
-import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 public interface CodexiaModule {
 
@@ -22,5 +22,5 @@ public interface CodexiaModule {
 
     boolean isReviewExist(CodexiaProject codexiaProject, String author, String reason);
 
-    List<CodexiaReview> findAllReviews(CodexiaProject codexiaProject, String author);
+    Stream<CodexiaReview> findAllReviews(CodexiaProject codexiaProject, String author);
 }

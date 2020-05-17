@@ -1,7 +1,6 @@
 package dev.iakunin.codexiabot.bot;
 
 import dev.iakunin.codexiabot.bot.repository.ResultRepository;
-import dev.iakunin.codexiabot.bot.up.Bot;
 import dev.iakunin.codexiabot.codexia.CodexiaModule;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaReview;
 import dev.iakunin.codexiabot.github.GithubModule;
@@ -12,10 +11,12 @@ import io.vavr.Tuple2;
 import java.util.Deque;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
-public final class Up implements Runnable {
+@AllArgsConstructor
+public class Up implements Runnable {
 
     private final GithubModule github;
 
@@ -25,18 +26,7 @@ public final class Up implements Runnable {
 
     private final Submitter submitter;
 
-    public Up(
-        GithubModule github,
-        ResultRepository repository,
-        Bot bot,
-        Submitter submitter
-    ) {
-        this.github = github;
-        this.repository = repository;
-        this.bot = bot;
-        this.submitter = submitter;
-    }
-
+    @Transactional
     public void run() {
         log.debug("Bot type: {}", this.bot.getClass().getName());
         this.github.findAllInCodexia()
@@ -80,7 +70,7 @@ public final class Up implements Runnable {
 
         private final CodexiaModule codexia;
 
-        @Transactional
+        @Transactional(propagation = Propagation.REQUIRES_NEW)
         public void submit(Deque<GithubRepoStat> deque) {
             final CodexiaReview review = this.bot.review(deque.getFirst(), deque.getLast());
             this.repository.save(this.bot.result(deque.getLast()));

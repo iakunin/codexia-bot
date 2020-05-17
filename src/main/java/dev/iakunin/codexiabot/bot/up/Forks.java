@@ -47,7 +47,6 @@ public final class Forks implements Bot {
             .setValue(
                 this.codexiaModule
                     .findAllReviews(review.getCodexiaProject(), review.getAuthor())
-                    .stream()
                     .map(CodexiaReview::getReason)
                     .collect(Collectors.joining(","))
             );

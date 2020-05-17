@@ -6,6 +6,7 @@ import dev.iakunin.codexiabot.codexia.entity.CodexiaProject;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaReview;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaReviewNotification;
 import java.time.LocalDateTime;
+import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import org.cactoos.list.ListOf;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -131,7 +132,7 @@ public class CodexiaReviewRepositoryIntegrationTest extends AbstractIntegrationT
 
         var actual = this.repository.findAllByCodexiaProjectAndAuthorOrderByIdAsc(project, author);
 
-        assertEquals(new ListOf<>(secondReview, firstReview), actual);
+        assertEquals(new ListOf<>(secondReview, firstReview), actual.collect(Collectors.toList()));
 
         entityManager.remove(firstReview);
         entityManager.remove(secondReview);
@@ -150,7 +151,7 @@ public class CodexiaReviewRepositoryIntegrationTest extends AbstractIntegrationT
 
         var actual = this.repository.findAllByCodexiaProjectAndAuthorOrderByIdAsc(project, faker.name().username());
 
-        assertEquals(new ListOf<>(), actual);
+        assertEquals(new ListOf<>(), actual.collect(Collectors.toList()));
 
         entityManager.remove(review);
         entityManager.remove(project);
@@ -170,7 +171,7 @@ public class CodexiaReviewRepositoryIntegrationTest extends AbstractIntegrationT
 
         var actual = this.repository.findAllByCodexiaProjectAndAuthorOrderByIdAsc(secondProject, author);
 
-        assertEquals(new ListOf<>(), actual);
+        assertEquals(new ListOf<>(), actual.collect(Collectors.toList()));
 
         entityManager.remove(review);
         entityManager.remove(firstProject);
@@ -189,7 +190,7 @@ public class CodexiaReviewRepositoryIntegrationTest extends AbstractIntegrationT
 
         var actual = this.repository.findAllWithoutNotifications();
 
-        assertEquals(new ListOf<>(review), actual);
+        assertEquals(new ListOf<>(review), actual.collect(Collectors.toList()));
 
         entityManager.remove(review);
         entityManager.remove(project);
@@ -209,7 +210,7 @@ public class CodexiaReviewRepositoryIntegrationTest extends AbstractIntegrationT
 
         var actual = this.repository.findAllWithoutNotifications();
 
-        assertEquals(new ListOf<>(), actual);
+        assertEquals(new ListOf<>(), actual.collect(Collectors.toList()));
 
         entityManager.remove(notification);
         entityManager.remove(review);

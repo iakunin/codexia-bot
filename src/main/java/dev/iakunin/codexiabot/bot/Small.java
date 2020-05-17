@@ -16,27 +16,20 @@ import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.cactoos.scalar.Unchecked;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
-public final class Small implements Runnable {
+@AllArgsConstructor
+public class Small implements Runnable {
 
     private final GithubModule github;
 
-    private final Submitter submitter;
-
     private final dev.iakunin.codexiabot.bot.toosmall.Bot bot;
 
-    public Small(
-        GithubModule github,
-        dev.iakunin.codexiabot.bot.toosmall.Bot bot,
-        Submitter submitter
-    ) {
-        this.github = github;
-        this.bot = bot;
-        this.submitter = submitter;
-    }
+    private final Submitter submitter;
 
+    @Transactional
     public void run() {
         this.bot
             .repoStream()
@@ -92,7 +85,7 @@ public final class Small implements Runnable {
 
         private final TooSmallResultRepository repository;
 
-        @Transactional
+        @Transactional(propagation = Propagation.REQUIRES_NEW)
         public Void submit(GithubRepoStat stat, Item item) {
             final CodexiaReview review = this.bot.review(stat, item);
             this.repository.save(this.bot.result(stat));

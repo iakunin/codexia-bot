@@ -12,10 +12,12 @@ import dev.iakunin.codexiabot.github.entity.GithubRepoStat.GithubApi;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
-public final class TooManyStars implements Runnable {
+@AllArgsConstructor
+public class TooManyStars implements Runnable {
 
     private final GithubModule github;
 
@@ -23,16 +25,7 @@ public final class TooManyStars implements Runnable {
 
     private final Submitter submitter;
 
-    public TooManyStars(
-        GithubModule github,
-        ResultRepository repository,
-        Submitter submitter
-    ) {
-        this.github = github;
-        this.repository = repository;
-        this.submitter = submitter;
-    }
-
+    @Transactional
     public void run() {
         this.github.findAllInCodexia()
             .stream()
@@ -62,7 +55,7 @@ public final class TooManyStars implements Runnable {
 
         private final CodexiaModule codexia;
 
-        @Transactional
+        @Transactional(propagation = Propagation.REQUIRES_NEW)
         public void submit(GithubRepoStat stat) {
             final CodexiaReview review = this.review(stat);
             this.repository.save(this.result(stat));

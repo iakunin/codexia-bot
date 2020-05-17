@@ -56,7 +56,6 @@ public final class Reddit implements Bot {
             .setValue(
                 this.codexiaModule
                     .findAllReviews(review.getCodexiaProject(), review.getAuthor())
-                    .stream()
                     .map(CodexiaReview::getReason)
                     .collect(Collectors.joining(","))
             );
