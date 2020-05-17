@@ -24,7 +24,7 @@ public class CodexiaItems implements Runnable {
             this.githubModule
                 .findAllInCodexiaAndHackernews()
                 .flatMap(
-                    repo -> this.githubModule.findAllRepoSources(repo).stream()
+                    repo -> this.githubModule.findAllRepoSources(repo)
                 )
                 .filter(
                     source -> source.getSource() == GithubModule.Source.HACKERNEWS

@@ -13,7 +13,7 @@ public interface GithubRepoSourceRepository extends JpaRepository<GithubRepoSour
 
     boolean existsByGithubRepoAndSourceAndExternalId(GithubRepo githubRepo, GithubModule.Source source, String externalId);
 
-    Set<GithubRepoSource> findAllByGithubRepo(GithubRepo githubRepo);
+    Stream<GithubRepoSource> findAllByGithubRepo(GithubRepo githubRepo);
 
     Set<GithubRepoSource> findAllBySourceAndExternalId(GithubModule.Source source, String externalId);
 

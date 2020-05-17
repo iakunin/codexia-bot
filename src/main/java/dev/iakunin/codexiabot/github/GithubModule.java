@@ -6,7 +6,6 @@ import dev.iakunin.codexiabot.github.entity.GithubRepoStat;
 import java.io.IOException;
 import java.util.Deque;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Stream;
 import lombok.Value;
 
@@ -28,7 +27,7 @@ public interface GithubModule {
 
     Stream<GithubRepo> findAllInCodexia();
 
-    Set<GithubRepoSource> findAllRepoSources(GithubRepo repo);
+    Stream<GithubRepoSource> findAllRepoSources(GithubRepo repo);
 
     Stream<GithubRepoSource> findAllRepoSources(GithubModule.Source source);
 

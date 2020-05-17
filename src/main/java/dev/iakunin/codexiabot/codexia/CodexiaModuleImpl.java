@@ -55,7 +55,6 @@ public final class CodexiaModuleImpl implements CodexiaModule {
     public Optional<CodexiaProject> findCodexiaProject(GithubRepo repo) {
         return this.githubModule
             .findAllRepoSources(repo)
-            .stream()
             .filter(source -> source.getSource() == GithubModule.Source.CODEXIA)
             .findFirst()
             .flatMap(

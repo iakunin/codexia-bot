@@ -42,7 +42,6 @@ public class Found implements Runnable {
     private Stream<Tuple2<CodexiaProject, GithubRepoSource>> extractAllSources(GithubRepo githubRepo) {
         return this.githubModule
             .findAllRepoSources(githubRepo)
-            .stream()
             .filter(
                 githubRepoSource -> githubRepoSource.getSource() == this.bot.source()
             )

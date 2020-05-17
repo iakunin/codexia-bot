@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Deque;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Stream;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -94,7 +93,7 @@ public final class GithubModuleImpl implements GithubModule {
     }
 
     @Override
-    public Set<GithubRepoSource> findAllRepoSources(GithubRepo repo) {
+    public Stream<GithubRepoSource> findAllRepoSources(GithubRepo repo) {
         return this.githubRepoSourceRepository.findAllByGithubRepo(repo);
     }
 
