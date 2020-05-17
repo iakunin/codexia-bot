@@ -2,15 +2,15 @@ package dev.iakunin.codexiabot.github.repository;
 
 import dev.iakunin.codexiabot.github.entity.GithubRepo;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat;
-import java.util.LinkedList;
 import java.util.Optional;
+import java.util.stream.Stream;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface GithubRepoStatRepository extends JpaRepository<GithubRepoStat, Long> {
 
-    LinkedList<GithubRepoStat> findAllByGithubRepoAndTypeAndIdGreaterThanEqualOrderByIdAsc(
+    Stream<GithubRepoStat> findAllByGithubRepoAndTypeAndIdGreaterThanEqualOrderByIdAsc(
         GithubRepo repo,
         GithubRepoStat.Type type,
         Long id

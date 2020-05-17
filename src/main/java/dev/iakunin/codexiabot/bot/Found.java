@@ -10,10 +10,11 @@ import io.vavr.Tuple2;
 import java.util.stream.Stream;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @AllArgsConstructor
-public final class Found implements Runnable {
+public class Found implements Runnable {
 
     private final Bot.Type botType;
 
@@ -23,6 +24,7 @@ public final class Found implements Runnable {
 
     private final dev.iakunin.codexiabot.bot.found.Bot bot;
 
+    @Transactional
     public void run() {
         log.debug("Bot: {}", this.bot.getClass().getName());
         this.bot
@@ -40,7 +42,6 @@ public final class Found implements Runnable {
     private Stream<Tuple2<CodexiaProject, GithubRepoSource>> extractAllSources(GithubRepo githubRepo) {
         return this.githubModule
             .findAllRepoSources(githubRepo)
-            .stream()
             .filter(
                 githubRepoSource -> githubRepoSource.getSource() == this.bot.source()
             )

@@ -4,9 +4,7 @@ import dev.iakunin.codexiabot.github.entity.GithubRepo;
 import dev.iakunin.codexiabot.github.entity.GithubRepoSource;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat;
 import java.io.IOException;
-import java.util.Deque;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Stream;
 import lombok.Value;
 
@@ -24,15 +22,15 @@ public interface GithubModule {
      * @todo #0 rewrite in much common way: `List<GithubRepo> findAllExistsInAllSources(Set<Source> sources)`
      *  and remove `findAllInCodexiaAndHackernews()` and `findAllInCodexia()` methods
      */
-    Set<GithubRepo> findAllInCodexiaAndHackernews();
+    Stream<GithubRepo> findAllInCodexiaAndHackernews();
 
-    Set<GithubRepo> findAllInCodexia();
+    Stream<GithubRepo> findAllInCodexia();
 
-    Set<GithubRepoSource> findAllRepoSources(GithubRepo repo);
+    Stream<GithubRepoSource> findAllRepoSources(GithubRepo repo);
 
     Stream<GithubRepoSource> findAllRepoSources(GithubModule.Source source);
 
-    Deque<GithubRepoStat> findAllGithubApiStat(GithubRepo repo, Long idGreaterThan);
+    Stream<GithubRepoStat> findAllGithubApiStat(GithubRepo repo, Long idGreaterThan);
 
     Optional<GithubRepoStat> findLastGithubApiStat(GithubRepo repo);
 

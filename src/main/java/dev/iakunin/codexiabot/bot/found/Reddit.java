@@ -24,8 +24,7 @@ public final class Reddit implements Bot {
     @Override
     public Stream<GithubRepo> repoStream() {
         return this.githubModule
-            .findAllInCodexia()
-            .stream();
+            .findAllInCodexia();
     }
 
     @Override
@@ -56,7 +55,6 @@ public final class Reddit implements Bot {
             .setValue(
                 this.codexiaModule
                     .findAllReviews(review.getCodexiaProject(), review.getAuthor())
-                    .stream()
                     .map(CodexiaReview::getReason)
                     .collect(Collectors.joining(","))
             );

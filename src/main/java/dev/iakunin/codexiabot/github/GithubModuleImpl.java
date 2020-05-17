@@ -9,9 +9,7 @@ import dev.iakunin.codexiabot.github.repository.GithubRepoStatRepository;
 import dev.iakunin.codexiabot.github.service.GithubRepoName;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Deque;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Stream;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -84,17 +82,17 @@ public final class GithubModuleImpl implements GithubModule {
     }
 
     @Override
-    public Set<GithubRepo> findAllInCodexia() {
+    public Stream<GithubRepo> findAllInCodexia() {
         return this.githubRepoRepository.findAllInCodexia();
     }
 
     @Override
-    public Set<GithubRepo> findAllInCodexiaAndHackernews() {
+    public Stream<GithubRepo> findAllInCodexiaAndHackernews() {
         return this.githubRepoRepository.findAllInCodexiaAndHackernews();
     }
 
     @Override
-    public Set<GithubRepoSource> findAllRepoSources(GithubRepo repo) {
+    public Stream<GithubRepoSource> findAllRepoSources(GithubRepo repo) {
         return this.githubRepoSourceRepository.findAllByGithubRepo(repo);
     }
 
@@ -104,7 +102,7 @@ public final class GithubModuleImpl implements GithubModule {
     }
 
     @Override
-    public Deque<GithubRepoStat> findAllGithubApiStat(GithubRepo repo, Long idGreaterThan) {
+    public Stream<GithubRepoStat> findAllGithubApiStat(GithubRepo repo, Long idGreaterThan) {
         return this.githubRepoStatRepository.findAllByGithubRepoAndTypeAndIdGreaterThanEqualOrderByIdAsc(
             repo,
             GithubRepoStat.Type.GITHUB_API,

@@ -10,11 +10,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @Slf4j
 @AllArgsConstructor(onConstructor_={@Autowired})
-public final class ProjectsHealthCheck implements Runnable {
+public class ProjectsHealthCheck implements Runnable {
 
     private final CodexiaClient codexiaClient;
 
@@ -22,9 +23,10 @@ public final class ProjectsHealthCheck implements Runnable {
 
     private final GithubModule githubModule;
 
+    @Transactional
     public void run() {
-         this.repository.findAllActive()
-             .stream()
+         this.repository
+             .findAllActive()
              .map(p -> this.codexiaClient.getProject(p.getExternalId()))
              .map(HttpEntity::getBody)
              .map(Objects::requireNonNull)

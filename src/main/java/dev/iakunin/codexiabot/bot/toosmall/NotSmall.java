@@ -28,7 +28,6 @@ public final class NotSmall implements Bot {
     public Stream<GithubRepo> repoStream() {
         return this.github
             .findAllInCodexia()
-            .stream()
             .filter(repo -> {
                 final Optional<TooSmallResult> optional = this.repository.findFirstByGithubRepoOrderByIdDesc(repo);
                 return optional.isPresent() && optional.get().getState() == TooSmallResult.State.SET;

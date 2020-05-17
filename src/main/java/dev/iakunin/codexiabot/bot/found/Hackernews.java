@@ -27,8 +27,7 @@ public final class Hackernews implements Bot {
     @Override
     public Stream<GithubRepo> repoStream() {
         return this.githubModule
-            .findAllInCodexiaAndHackernews()
-            .stream();
+            .findAllInCodexiaAndHackernews();
     }
 
     @Override
@@ -60,7 +59,6 @@ public final class Hackernews implements Bot {
             .setValue(
                 this.codexiaModule
                     .findAllReviews(review.getCodexiaProject(), review.getAuthor())
-                    .stream()
                     .map(CodexiaReview::getReason)
                     .collect(Collectors.joining(","))
             );

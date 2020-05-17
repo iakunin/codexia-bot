@@ -36,6 +36,7 @@ public final class CodexiaParser implements Runnable {
                     project -> !this.repository.existsByExternalId(project.getId())
                 )
                 .map(CodexiaProject.Factory::from)
+                // @todo #150 writer should be fault tolerant
                 .forEach(this.writer::write)
             ;
 

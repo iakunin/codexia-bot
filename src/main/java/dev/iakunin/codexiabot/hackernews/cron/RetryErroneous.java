@@ -1,5 +1,6 @@
 package dev.iakunin.codexiabot.hackernews.cron;
 
+import dev.iakunin.codexiabot.common.runnable.FaultTolerant;
 import dev.iakunin.codexiabot.hackernews.entity.HackernewsItem;
 import dev.iakunin.codexiabot.hackernews.repository.HackernewsItemRepository;
 import dev.iakunin.codexiabot.hackernews.sdk.HackernewsClient;
@@ -9,42 +10,52 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @Slf4j
 @AllArgsConstructor(onConstructor_={@Autowired})
-public final class RetryErroneous implements Runnable{
+public class RetryErroneous implements Runnable{
 
     private static final String EMPTY_TYPE = "";
 
     private final HackernewsItemRepository hackernewsItemRepository;
 
-    private final HackernewsClient hackernewsClient;
+    private final Runner runner;
 
-    private final Writer writer;
-
+    @Transactional
     public void run() {
-        this.hackernewsItemRepository.findAllByType(EMPTY_TYPE)
-            .forEach(
-                entity -> {
-                    try {
-                        log.debug("Trying to get item with externalId='{}'", entity.getExternalId());
-                        final HackernewsClient.Item item = this.hackernewsClient.getItem(entity.getExternalId()).getBody();
-                        Objects.requireNonNull(item);
-                        log.debug("Successfully got item with externalId='{}'; {}", entity.getExternalId(), item);
+        new FaultTolerant(
+            this.hackernewsItemRepository
+                .findAllByType(EMPTY_TYPE)
+                .map(item -> () -> this.runner.run(item)),
+            tr -> log.warn("Exception during RetryErroneous", tr.getCause())
+        ).run();
+    }
 
-                        HackernewsItem.Factory.mutateEntity(entity, item);
+    @Slf4j
+    @AllArgsConstructor
+    @Service
+    public static class Runner {
 
-                        this.hackernewsItemRepository.save(entity);
-                        this.writer.write(entity);
-                    } catch (Exception e) {
-                        log.warn(
-                            "Exception occurred during processing hackernews item '{}'",
-                            entity.getExternalId(),
-                            e
-                        );
-                    }
-                }
+        private final HackernewsClient hackernewsClient;
+
+        private final HackernewsItemRepository hackernewsItemRepository;
+
+        private final Writer writer;
+
+        @Transactional(propagation = Propagation.REQUIRES_NEW)
+        public void run(HackernewsItem entity) {
+            HackernewsItem.Factory.mutateEntity(
+                entity,
+                Objects.requireNonNull(
+                    this.hackernewsClient.getItem(entity.getExternalId()).getBody()
+                )
             );
+            this.hackernewsItemRepository.save(entity);
+            this.writer.write(entity);
+        }
     }
 }

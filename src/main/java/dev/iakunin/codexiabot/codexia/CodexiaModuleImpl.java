@@ -8,8 +8,8 @@ import dev.iakunin.codexiabot.codexia.repository.CodexiaReviewRepository;
 import dev.iakunin.codexiabot.codexia.sdk.CodexiaClient;
 import dev.iakunin.codexiabot.github.GithubModule;
 import dev.iakunin.codexiabot.github.entity.GithubRepo;
-import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +55,6 @@ public final class CodexiaModuleImpl implements CodexiaModule {
     public Optional<CodexiaProject> findCodexiaProject(GithubRepo repo) {
         return this.githubModule
             .findAllRepoSources(repo)
-            .stream()
             .filter(source -> source.getSource() == GithubModule.Source.CODEXIA)
             .findFirst()
             .flatMap(
@@ -84,7 +83,7 @@ public final class CodexiaModuleImpl implements CodexiaModule {
     }
 
     @Override
-    public List<CodexiaReview> findAllReviews(CodexiaProject codexiaProject, String author) {
+    public Stream<CodexiaReview> findAllReviews(CodexiaProject codexiaProject, String author) {
         return this.codexiaReviewRepository.findAllByCodexiaProjectAndAuthorOrderByIdAsc(codexiaProject, author);
     }
 }

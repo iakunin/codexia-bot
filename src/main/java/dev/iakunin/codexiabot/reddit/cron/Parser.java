@@ -8,16 +8,18 @@ import net.dean.jraw.RedditClient;
 import net.dean.jraw.models.Submission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @Slf4j
 @AllArgsConstructor(onConstructor_={@Autowired})
-public final class Parser implements Runnable {
+public class Parser implements Runnable {
 
     private final RedditClient reddit;
 
     private final GithubModule github;
 
+    @Transactional
     public void run() {
         this.github.findAllInCodexia()
             .forEach(githubRepo ->

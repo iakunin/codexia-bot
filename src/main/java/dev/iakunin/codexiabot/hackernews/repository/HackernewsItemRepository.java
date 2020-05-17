@@ -1,8 +1,8 @@
 package dev.iakunin.codexiabot.hackernews.repository;
 
 import dev.iakunin.codexiabot.hackernews.entity.HackernewsItem;
-import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -17,5 +17,5 @@ public interface HackernewsItemRepository extends JpaRepository<HackernewsItem, 
     @Query("select coalesce(max(externalId), 0) from HackernewsItem")
     Integer getMaxExternalId();
 
-    List<HackernewsItem> findAllByType(String type);
+    Stream<HackernewsItem> findAllByType(String type);
 }

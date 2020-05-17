@@ -7,7 +7,6 @@ import dev.iakunin.codexiabot.github.GithubModule;
 import dev.iakunin.codexiabot.github.entity.GithubRepo;
 import dev.iakunin.codexiabot.github.entity.GithubRepoSource;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityManager;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -84,9 +83,9 @@ public class CodexiaProjectRepositoryIntegrationTest extends AbstractIntegration
         entityManager.persist(project);
         entityManager.flush();
 
-        final List<CodexiaProject> allWithoutGithubRepo = repository.findAllWithoutGithubRepo();
+        final var allWithoutGithubRepo = repository.findAllWithoutGithubRepo();
 
-        assertEquals(1, allWithoutGithubRepo.size());
+        assertEquals(1, allWithoutGithubRepo.count());
 
         entityManager.remove(project);
     }
@@ -94,9 +93,9 @@ public class CodexiaProjectRepositoryIntegrationTest extends AbstractIntegration
     @Test
     @Transactional
     public void findAllWithoutGithubRepo_noCodexiaProject() {
-        final List<CodexiaProject> allWithoutGithubRepo = repository.findAllWithoutGithubRepo();
+        final var allWithoutGithubRepo = repository.findAllWithoutGithubRepo();
 
-        assertEquals(0, allWithoutGithubRepo.size());
+        assertEquals(0, allWithoutGithubRepo.count());
     }
 
     @Test
@@ -115,9 +114,9 @@ public class CodexiaProjectRepositoryIntegrationTest extends AbstractIntegration
         entityManager.persist(githubRepoSource);
         entityManager.flush();
 
-        final List<CodexiaProject> allWithoutGithubRepo = repository.findAllWithoutGithubRepo();
+        final var allWithoutGithubRepo = repository.findAllWithoutGithubRepo();
 
-        assertEquals(0, allWithoutGithubRepo.size());
+        assertEquals(0, allWithoutGithubRepo.count());
 
         entityManager.remove(project);
         entityManager.remove(githubRepoSource);

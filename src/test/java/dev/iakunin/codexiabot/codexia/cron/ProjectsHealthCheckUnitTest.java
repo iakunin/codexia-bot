@@ -6,7 +6,7 @@ import dev.iakunin.codexiabot.codexia.repository.CodexiaProjectRepository;
 import dev.iakunin.codexiabot.codexia.sdk.CodexiaClient;
 import dev.iakunin.codexiabot.github.GithubModule;
 import java.util.Optional;
-import org.cactoos.list.ListOf;
+import java.util.stream.Stream;
 import org.junit.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -37,7 +37,7 @@ public class ProjectsHealthCheckUnitTest {
 
     @Test
     public void noActiveProjectsInRepo() {
-        Mockito.when(repository.findAllActive()).thenReturn(new ListOf<>());
+        Mockito.when(repository.findAllActive()).thenReturn(Stream.empty());
 
         projectsHealthCheck.run();
 
@@ -51,7 +51,7 @@ public class ProjectsHealthCheckUnitTest {
     public void projectIsNotDeletedInCodexia() {
         final int externalId = faker.random().nextInt(Integer.MAX_VALUE);
         Mockito.when(repository.findAllActive()).thenReturn(
-            new ListOf<>(
+            Stream.of(
                 new CodexiaProject().setExternalId(externalId)
             )
         );
@@ -76,7 +76,7 @@ public class ProjectsHealthCheckUnitTest {
         final String deleted = faker.regexify("[a-z]{2,10}");
         final CodexiaProject codexiaProject = new CodexiaProject().setExternalId(externalId);
         Mockito.when(repository.findAllActive()).thenReturn(
-            new ListOf<>(codexiaProject)
+            Stream.of(codexiaProject)
         );
         Mockito.when(codexiaClient.getProject(externalId)).thenReturn(
             new ResponseEntity<>(
@@ -111,7 +111,7 @@ public class ProjectsHealthCheckUnitTest {
         final int externalId = faker.random().nextInt(Integer.MAX_VALUE);
         final String deleted = faker.regexify("[a-z]{2,10}");
         Mockito.when(repository.findAllActive()).thenReturn(
-            new ListOf<>(
+            Stream.of(
                 new CodexiaProject().setExternalId(externalId)
             )
         );

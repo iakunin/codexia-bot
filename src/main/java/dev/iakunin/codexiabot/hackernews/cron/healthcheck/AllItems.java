@@ -24,7 +24,6 @@ public class AllItems implements Runnable {
         this.hackernews.healthCheckItems(
             this.github
                 .findAllRepoSources(Source.HACKERNEWS)
-                .parallel()
                 .map(GithubRepoSource::getExternalId)
                 .map(Integer::valueOf)
         );

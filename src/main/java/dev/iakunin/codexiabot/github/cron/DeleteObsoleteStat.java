@@ -7,6 +7,7 @@ import dev.iakunin.codexiabot.github.repository.GithubRepoStatRepository;
 import io.vavr.Tuple2;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -65,7 +66,8 @@ public class DeleteObsoleteStat implements Runnable {
         }
     }
 
-    private <T> Stream<T> withoutFirstAndLast(List<T> list) {
+    private <T> Stream<T> withoutFirstAndLast(Stream<T> stream) {
+        final List<T> list = stream.collect(Collectors.toList());
         if (list.size() <= 2) return Stream.empty();
 
         return list.stream()

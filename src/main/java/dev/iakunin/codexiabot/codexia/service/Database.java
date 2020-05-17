@@ -6,15 +6,18 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service("codexia.service.Database")
 @Slf4j
 @AllArgsConstructor(onConstructor_={@Autowired})
-public final class Database implements Writer {
+public class Database implements Writer {
 
     private final CodexiaProjectRepository repository;
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void write(CodexiaProject project) {
         log.debug("Got CodexiaProject: {}", project);
 
