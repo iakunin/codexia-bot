@@ -1,10 +1,12 @@
 package dev.iakunin.codexiabot.hackernews.cron;
 
+import dev.iakunin.codexiabot.common.runnable.FaultTolerant;
 import dev.iakunin.codexiabot.hackernews.entity.HackernewsItem;
 import dev.iakunin.codexiabot.hackernews.repository.HackernewsItemRepository;
 import dev.iakunin.codexiabot.hackernews.sdk.HackernewsClient;
 import dev.iakunin.codexiabot.hackernews.service.Writer;
 import java.util.Objects;
+import java.util.stream.IntStream;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,18 +25,18 @@ public class GapsFiller implements Runnable {
 
     private final Writer writer;
 
-    // @todo #74 GapsFiller: get rid of this @Transactional spike
-    //  to do so it's necessary to get rid of Stream<> in repository
-    @Transactional // https://stackoverflow.com/a/40593697/3456163
+    @Transactional
     public void run() {
-        this.repository
-            // @todo #186 GapsFiller get rid of this heavy SQL
-            .findAbsentExternalIds(1, this.repository.getMaxExternalId())
-            .map(this.hackernews::getItem)
-            .map(HttpEntity::getBody)
-            .map(Objects::requireNonNull)
-            .map(HackernewsItem.Factory::from)
-            .forEach(this.writer::write)
-        ;
+        new FaultTolerant(
+            IntStream.range(1, this.repository.getMaxExternalId())
+                .filter(i -> !this.repository.existsByExternalId(i))
+                .boxed()
+                .map(this.hackernews::getItem)
+                .map(HttpEntity::getBody)
+                .map(Objects::requireNonNull)
+                .map(HackernewsItem.Factory::from)
+                .map(item -> () -> this.writer.write(item)),
+            tr -> log.debug("Unable to fill the gap", tr.getCause())
+        ).run();
     }
 }
