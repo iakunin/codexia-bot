@@ -29,8 +29,8 @@ public class Up implements Runnable {
     @Transactional
     public void run() {
         log.debug("Bot type: {}", this.bot.getClass().getName());
-        this.github.findAllInCodexia()
-            .stream()
+        this.github
+            .findAllInCodexia()
             .map(
                 repo -> new Tuple2<>(repo, this.getLastProcessedStatId(repo))
             )

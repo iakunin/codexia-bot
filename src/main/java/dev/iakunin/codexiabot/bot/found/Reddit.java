@@ -24,8 +24,7 @@ public final class Reddit implements Bot {
     @Override
     public Stream<GithubRepo> repoStream() {
         return this.githubModule
-            .findAllInCodexia()
-            .stream();
+            .findAllInCodexia();
     }
 
     @Override

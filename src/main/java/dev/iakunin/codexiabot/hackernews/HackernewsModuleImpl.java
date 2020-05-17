@@ -38,10 +38,10 @@ public final class HackernewsModuleImpl implements HackernewsModule {
 
     @Override
     public HackernewsClient.Item getItem(Integer id) {
-        final HackernewsClient.Item item = this.hackernewsClient.getItem(id).getBody();
-        Objects.requireNonNull(item);
-
-        return item;
+        return
+            Objects.requireNonNull(
+                this.hackernewsClient.getItem(id).getBody()
+            );
     }
 
     private void updateEntities(Integer externalId, HackernewsClient.Item item) {

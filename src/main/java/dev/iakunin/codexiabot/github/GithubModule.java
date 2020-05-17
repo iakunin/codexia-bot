@@ -26,7 +26,7 @@ public interface GithubModule {
      */
     Stream<GithubRepo> findAllInCodexiaAndHackernews();
 
-    Set<GithubRepo> findAllInCodexia();
+    Stream<GithubRepo> findAllInCodexia();
 
     Set<GithubRepoSource> findAllRepoSources(GithubRepo repo);
 

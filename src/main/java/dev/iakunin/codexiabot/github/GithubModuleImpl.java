@@ -84,7 +84,7 @@ public final class GithubModuleImpl implements GithubModule {
     }
 
     @Override
-    public Set<GithubRepo> findAllInCodexia() {
+    public Stream<GithubRepo> findAllInCodexia() {
         return this.githubRepoRepository.findAllInCodexia();
     }
 

@@ -2,7 +2,6 @@ package dev.iakunin.codexiabot.github.repository;
 
 import dev.iakunin.codexiabot.github.entity.GithubRepo;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Stream;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -10,7 +9,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface GithubRepoRepository extends JpaRepository<GithubRepo, Long> {
+
     Optional<GithubRepo> findByExternalId(String externalId);
+
     Optional<GithubRepo> findByFullName(String fullName);
 
     @Query(
@@ -42,7 +43,7 @@ public interface GithubRepoRepository extends JpaRepository<GithubRepo, Long> {
             "and grs1.deleted_at is null",
         nativeQuery = true
     )
-    Set<GithubRepo> findAllInCodexia();
+    Stream<GithubRepo> findAllInCodexia();
 
     @Query("select gr from GithubRepo gr")
     Stream<GithubRepo> getAll();

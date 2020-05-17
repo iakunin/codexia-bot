@@ -27,8 +27,8 @@ public class TooManyStars implements Runnable {
 
     @Transactional
     public void run() {
-        this.github.findAllInCodexia()
-            .stream()
+        this.github
+            .findAllInCodexia()
             .filter(
                 repo -> this.repository.findFirstByGithubRepoOrderByIdDesc(repo).isEmpty()
             )
