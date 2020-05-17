@@ -28,6 +28,7 @@ public class GapsFiller implements Runnable {
     @Transactional // https://stackoverflow.com/a/40593697/3456163
     public void run() {
         this.repository
+            // @todo #186 GapsFiller get rid of this heavy SQL
             .findAbsentExternalIds(1, this.repository.getMaxExternalId())
             .map(this.hackernews::getItem)
             .map(HttpEntity::getBody)

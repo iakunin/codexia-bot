@@ -3,6 +3,7 @@ package dev.iakunin.codexiabot.codexia.repository;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaProject;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaReview;
 import java.util.List;
+import java.util.stream.Stream;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -20,5 +21,9 @@ public interface CodexiaReviewRepository extends JpaRepository<CodexiaReview, Lo
         "where crn.id is null " +
         "order by cr.id asc"
     )
+    // @todo #186 CodexiaReviewRepository: Get rid of this query completely
     List<CodexiaReview> findAllWithoutNotifications();
+
+    @Query("select cr from CodexiaReview cr")
+    Stream<CodexiaReview> getAll();
 }
