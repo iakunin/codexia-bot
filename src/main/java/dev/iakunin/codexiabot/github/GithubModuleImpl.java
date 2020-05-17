@@ -89,7 +89,7 @@ public final class GithubModuleImpl implements GithubModule {
     }
 
     @Override
-    public Set<GithubRepo> findAllInCodexiaAndHackernews() {
+    public Stream<GithubRepo> findAllInCodexiaAndHackernews() {
         return this.githubRepoRepository.findAllInCodexiaAndHackernews();
     }
 

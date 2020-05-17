@@ -27,8 +27,7 @@ public final class Hackernews implements Bot {
     @Override
     public Stream<GithubRepo> repoStream() {
         return this.githubModule
-            .findAllInCodexiaAndHackernews()
-            .stream();
+            .findAllInCodexiaAndHackernews();
     }
 
     @Override

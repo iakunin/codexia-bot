@@ -24,7 +24,7 @@ public interface GithubModule {
      * @todo #0 rewrite in much common way: `List<GithubRepo> findAllExistsInAllSources(Set<Source> sources)`
      *  and remove `findAllInCodexiaAndHackernews()` and `findAllInCodexia()` methods
      */
-    Set<GithubRepo> findAllInCodexiaAndHackernews();
+    Stream<GithubRepo> findAllInCodexiaAndHackernews();
 
     Set<GithubRepo> findAllInCodexia();
 
