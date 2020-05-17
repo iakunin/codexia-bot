@@ -2,31 +2,43 @@ package dev.iakunin.codexiabot.codexia.cron;
 
 import dev.iakunin.codexiabot.codexia.entity.CodexiaReviewNotification;
 import dev.iakunin.codexiabot.codexia.repository.CodexiaReviewNotificationRepository;
+import dev.iakunin.codexiabot.codexia.repository.CodexiaReviewRepository;
 import dev.iakunin.codexiabot.codexia.sdk.CodexiaClient;
 import dev.iakunin.codexiabot.codexia.service.ReviewSender;
+import dev.iakunin.codexiabot.common.runnable.FaultTolerant;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Component
 @AllArgsConstructor(onConstructor_={@Autowired})
 // @todo #85 Remove this cron after https://github.com/yegor256/codexia/issues/98 is done
-public final class ResendReviewsUntilDuplicated implements Runnable {
+public class ResendReviewsUntilDuplicated implements Runnable {
 
-    private final CodexiaReviewNotificationRepository codexiaReviewNotificationRepository;
+    private final CodexiaReviewNotificationRepository notificationRepository;
 
-    private final ReviewSender reviewSender;
+    private final CodexiaReviewRepository reviewRepository;
 
+    private final ReviewSender sender;
+
+    @Transactional
     public void run() {
-        this.codexiaReviewNotificationRepository
-            .findAllByLastStatusExcludingResponseCode(
-                CodexiaReviewNotification.Status.SUCCESS,
-                CodexiaClient.ReviewStatus.ALREADY_EXISTS.httpStatus()
-            )
-            .stream()
-            .map(CodexiaReviewNotification::getCodexiaReview)
-            .forEach(this.reviewSender::send);
+        new FaultTolerant(
+            this.reviewRepository
+                .getAll()
+                .flatMap(
+                    review -> this.notificationRepository
+                        .findAllByCodexiaReviewOrderByIdDesc(review)
+                        .limit(1L)
+                )
+                .filter(ntf -> ntf.getStatus() == CodexiaReviewNotification.Status.SUCCESS)
+                .filter(ntf -> ntf.getResponseCode() != CodexiaClient.ReviewStatus.ALREADY_EXISTS.httpStatus())
+                .map(CodexiaReviewNotification::getCodexiaReview)
+                .map(review -> () -> this.sender.send(review)),
+            tr -> log.error("Unable to resend item", tr.getCause())
+        ).run();
     }
 }
