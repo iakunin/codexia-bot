@@ -23,9 +23,7 @@ public class CodexiaItems implements Runnable {
         this.hackernewsModule.healthCheckItems(
             this.githubModule
                 .findAllInCodexiaAndHackernews()
-                .flatMap(
-                    repo -> this.githubModule.findAllRepoSources(repo)
-                )
+                .flatMap(this.githubModule::findAllRepoSources)
                 .filter(
                     source -> source.getSource() == GithubModule.Source.HACKERNEWS
                 )
