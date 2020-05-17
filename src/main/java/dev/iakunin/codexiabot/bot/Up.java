@@ -9,6 +9,8 @@ import dev.iakunin.codexiabot.github.entity.GithubRepoStat;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat.GithubApi;
 import io.vavr.Tuple2;
 import java.util.Deque;
+import java.util.LinkedList;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Propagation;
@@ -36,6 +38,9 @@ public class Up implements Runnable {
             )
             .map(
                 pair -> pair.apply(this.github::findAllGithubApiStat)
+            )
+            .map(
+                stream -> stream.collect(Collectors.toCollection(LinkedList::new))
             )
             .filter(statList -> statList.size() >= 2)
             .filter(statList ->

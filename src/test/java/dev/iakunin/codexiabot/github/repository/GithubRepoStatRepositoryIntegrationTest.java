@@ -5,8 +5,8 @@ import dev.iakunin.codexiabot.AbstractIntegrationTest;
 import dev.iakunin.codexiabot.github.entity.GithubRepo;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat.Type;
-import java.util.LinkedList;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import org.cactoos.list.ListOf;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -40,8 +40,8 @@ public class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegration
             .findAllByGithubRepoAndTypeAndIdGreaterThanEqualOrderByIdAsc(repo, Type.GITHUB_API, 0L);
 
         assertEquals(
-            new LinkedList<>(new ListOf<>(firstStat, secondStat)),
-            actual
+            new ListOf<>(firstStat, secondStat),
+            actual.collect(Collectors.toList())
         );
 
         entityManager.remove(secondStat);
@@ -64,8 +64,8 @@ public class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegration
             .findAllByGithubRepoAndTypeAndIdGreaterThanEqualOrderByIdAsc(anotherRepo, Type.GITHUB_API, 0L);
 
         assertEquals(
-            new LinkedList<>(new ListOf<>()),
-            actual
+            new ListOf<>(),
+            actual.collect(Collectors.toList())
         );
 
         entityManager.remove(stat);
@@ -86,8 +86,8 @@ public class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegration
             .findAllByGithubRepoAndTypeAndIdGreaterThanEqualOrderByIdAsc(repo, Type.LINES_OF_CODE, 0L);
 
         assertEquals(
-            new LinkedList<>(new ListOf<>()),
-            actual
+            new ListOf<>(),
+            actual.collect(Collectors.toList())
         );
 
         entityManager.remove(stat);
@@ -110,8 +110,8 @@ public class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegration
             .findAllByGithubRepoAndTypeAndIdGreaterThanEqualOrderByIdAsc(repo, type, firstStat.getId());
 
         assertEquals(
-            new LinkedList<>(new ListOf<>(firstStat, secondStat)),
-            actual
+            new ListOf<>(firstStat, secondStat),
+            actual.collect(Collectors.toList())
         );
 
         entityManager.remove(secondStat);
@@ -135,8 +135,8 @@ public class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegration
             .findAllByGithubRepoAndTypeAndIdGreaterThanEqualOrderByIdAsc(repo, type, secondStat.getId());
 
         assertEquals(
-            new LinkedList<>(new ListOf<>(secondStat)),
-            actual
+            new ListOf<>(secondStat),
+            actual.collect(Collectors.toList())
         );
 
         entityManager.remove(secondStat);
@@ -160,8 +160,8 @@ public class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegration
             .findAllByGithubRepoAndTypeAndIdGreaterThanEqualOrderByIdAsc(repo, type, secondStat.getId() + 1);
 
         assertEquals(
-            new LinkedList<>(new ListOf<>()),
-            actual
+            new ListOf<>(),
+            actual.collect(Collectors.toList())
         );
 
         entityManager.remove(secondStat);
