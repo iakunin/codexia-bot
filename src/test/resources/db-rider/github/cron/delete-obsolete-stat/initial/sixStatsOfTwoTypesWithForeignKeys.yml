@@ -1,0 +1,56 @@
+github_repo:
+    -
+        id: 1
+        uuid: "groovy: UUID.randomUUID().toString()"
+        external_id: 61200117
+        full_name: instaloader/instaloader
+        html_url: https://github.com/instaloader/instaloader
+        repo_created_at: 2019-08-14 04:42:36
+
+stars_up_result:
+    -
+        uuid: "groovy: UUID.randomUUID().toString()"
+        github_repo_id: 1
+        github_repo_stat_id: 2
+    -
+        uuid: "groovy: UUID.randomUUID().toString()"
+        github_repo_id: 1
+        github_repo_stat_id: 5
+
+github_repo_stat:
+    -
+        id: 1
+        uuid: "groovy: UUID.randomUUID().toString()"
+        github_repo_id: 1
+        type: "GITHUB_API"
+        stat: '{"stars":1561,"type":"GITHUB_API"}'
+    -
+        id: 2
+        uuid: "groovy: UUID.randomUUID().toString()"
+        github_repo_id: 1
+        type: "GITHUB_API"
+        stat: '{"stars":2123,"type":"GITHUB_API"}'
+    -
+        id: 3
+        uuid: "groovy: UUID.randomUUID().toString()"
+        github_repo_id: 1
+        type: "GITHUB_API"
+        stat: '{"stars":3456,"type":"GITHUB_API"}'
+    -
+        id: 4
+        uuid: "groovy: UUID.randomUUID().toString()"
+        github_repo_id: 1
+        type: "LINES_OF_CODE"
+        stat: '{"type": "LINES_OF_CODE", "itemList": [{"language": "Total", "linesOfCode": 29330}]}'
+    -
+        id: 5
+        uuid: "groovy: UUID.randomUUID().toString()"
+        github_repo_id: 1
+        type: "LINES_OF_CODE"
+        stat: '{"type": "LINES_OF_CODE", "itemList": [{"language": "Total", "linesOfCode": 31111}]}'
+    -
+        id: 6
+        uuid: "groovy: UUID.randomUUID().toString()"
+        github_repo_id: 1
+        type: "LINES_OF_CODE"
+        stat: '{"type": "LINES_OF_CODE", "itemList": [{"language": "Total", "linesOfCode": 32222}]}'

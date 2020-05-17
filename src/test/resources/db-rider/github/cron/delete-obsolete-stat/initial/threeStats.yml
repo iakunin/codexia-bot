@@ -1,0 +1,27 @@
+github_repo:
+    -
+        id: 1
+        uuid: "groovy: UUID.randomUUID().toString()"
+        external_id: 61200117
+        full_name: instaloader/instaloader
+        html_url: https://github.com/instaloader/instaloader
+        repo_created_at: 2019-08-14 04:42:36
+
+stars_up_result: []
+
+github_repo_stat:
+    -
+        uuid: "groovy: UUID.randomUUID().toString()"
+        github_repo_id: 1
+        type: "GITHUB_API"
+        stat: '{"stars":1561,"type":"GITHUB_API"}'
+    -
+        uuid: "groovy: UUID.randomUUID().toString()"
+        github_repo_id: 1
+        type: "GITHUB_API"
+        stat: '{"stars":1999,"type":"GITHUB_API"}'
+    -
+        uuid: "groovy: UUID.randomUUID().toString()"
+        github_repo_id: 1
+        type: "GITHUB_API"
+        stat: '{"stars":2100,"type":"GITHUB_API"}'

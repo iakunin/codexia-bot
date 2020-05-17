@@ -1,0 +1,9 @@
+github_repo_stat:
+    -
+        github_repo_id: 1
+        type: "GITHUB_API"
+        stat: '{"stars":1561,"type":"GITHUB_API"}'
+    -
+        github_repo_id: 1
+        type: "GITHUB_API"
+        stat: '{"stars":1999,"type":"GITHUB_API"}'
