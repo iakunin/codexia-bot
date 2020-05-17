@@ -29,6 +29,7 @@ public class GapsFiller implements Runnable {
     public void run() {
         new FaultTolerant(
             IntStream.range(1, this.repository.getMaxExternalId())
+                .parallel()
                 .filter(i -> !this.repository.existsByExternalId(i))
                 .boxed()
                 .map(this.hackernews::getItem)
