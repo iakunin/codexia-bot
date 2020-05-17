@@ -72,7 +72,7 @@ public class DeleteObsoleteStat implements Runnable {
         if (list.size() <= 2) return Stream.empty();
 
         return list.stream()
-            .skip(1)
-            .limit(list.size() - 2);
+            .skip(1L)
+            .limit(list.size() - 2L);
     }
 }
