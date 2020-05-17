@@ -3,7 +3,7 @@ package dev.iakunin.codexiabot.codexia.cron;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaReviewNotification;
 import dev.iakunin.codexiabot.codexia.repository.CodexiaReviewNotificationRepository;
 import dev.iakunin.codexiabot.codexia.repository.CodexiaReviewRepository;
-import io.vavr.control.Try;
+import dev.iakunin.codexiabot.common.runnable.FaultTolerant;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -25,18 +25,17 @@ public class DeleteObsoleteNotifications implements Runnable {
     @Override
     @Transactional
     public void run() {
-        this.reviewRepository
-            .getAll()
-            .flatMap(
-                review -> this.notificationRepository
-                    .findAllByCodexiaReviewOrderByIdDesc(review)
-                    .skip(1L)
-            )
-            .map(
-                item -> Try.run(() -> this.runner.run(item))
-            )
-            .filter(Try::isFailure)
-            .forEach(tr -> log.error("Unable to delete item", tr.getCause()));
+        new FaultTolerant(
+            this.reviewRepository
+                .getAll()
+                .flatMap(
+                    review -> this.notificationRepository
+                        .findAllByCodexiaReviewOrderByIdDesc(review)
+                        .skip(1L)
+                )
+                .map(item -> () -> this.runner.run(item)),
+            tr -> log.error("Unable to delete item", tr.getCause())
+        ).run();
     }
 
     @Slf4j

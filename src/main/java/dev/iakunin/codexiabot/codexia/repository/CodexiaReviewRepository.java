@@ -21,7 +21,6 @@ public interface CodexiaReviewRepository extends JpaRepository<CodexiaReview, Lo
         "where crn.id is null " +
         "order by cr.id asc"
     )
-    // @todo #186 CodexiaReviewRepository: Get rid of this query completely
     List<CodexiaReview> findAllWithoutNotifications();
 
     @Query("select cr from CodexiaReview cr")

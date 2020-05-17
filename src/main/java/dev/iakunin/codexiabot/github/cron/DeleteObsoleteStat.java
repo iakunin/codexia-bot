@@ -1,10 +1,10 @@
 package dev.iakunin.codexiabot.github.cron;
 
+import dev.iakunin.codexiabot.common.runnable.FaultTolerant;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat;
 import dev.iakunin.codexiabot.github.repository.GithubRepoRepository;
 import dev.iakunin.codexiabot.github.repository.GithubRepoStatRepository;
 import io.vavr.Tuple2;
-import io.vavr.control.Try;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
@@ -29,28 +29,25 @@ public class DeleteObsoleteStat implements Runnable {
     @Override
     @Transactional
     public void run() {
-        this.repoRepository
-            .getAll()
-            .flatMap(
-                repo -> Arrays.stream(GithubRepoStat.Type.values())
-                    .map(type -> new Tuple2<>(repo, type))
-            )
-            .map(
-                tuple -> this.statRepository
-                    .findAllByGithubRepoAndTypeAndIdGreaterThanEqualOrderByIdAsc(
-                        tuple._1(),
-                        tuple._2(),
-                        0L
-                    )
-            )
-            .flatMap(this::withoutFirstAndLast)
-            .map(
-                stat -> Try.run(() -> this.runner.run(stat))
-            )
-            .filter(Try::isFailure)
-            .forEach(
-                tr -> log.debug("Unable to delete stat ", tr.getCause())
-            );
+        new FaultTolerant(
+            this.repoRepository
+                .getAll()
+                .flatMap(
+                    repo -> Arrays.stream(GithubRepoStat.Type.values())
+                        .map(type -> new Tuple2<>(repo, type))
+                )
+                .map(
+                    tuple -> this.statRepository
+                        .findAllByGithubRepoAndTypeAndIdGreaterThanEqualOrderByIdAsc(
+                            tuple._1(),
+                            tuple._2(),
+                            0L
+                        )
+                )
+                .flatMap(this::withoutFirstAndLast)
+                .map(stat -> () -> this.runner.run(stat)),
+            tr -> log.debug("Unable to delete stat ", tr.getCause())
+        ).run();
     }
 
     @Slf4j

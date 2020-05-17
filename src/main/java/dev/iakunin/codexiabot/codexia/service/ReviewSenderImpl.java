@@ -11,17 +11,20 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
 @AllArgsConstructor(onConstructor_={@Autowired})
-public final class ReviewSenderImpl implements ReviewSender {
+public class ReviewSenderImpl implements ReviewSender {
 
     private final CodexiaReviewNotificationRepository codexiaReviewNotificationRepository;
 
     private final CodexiaClient codexiaClient;
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void send(CodexiaReview review) {
         final CodexiaReviewNotification savedNotification = this.saveNewNotification(review);
         final ResponseEntity<String> response;
