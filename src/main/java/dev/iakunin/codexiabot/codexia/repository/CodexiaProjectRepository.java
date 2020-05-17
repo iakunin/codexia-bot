@@ -1,8 +1,8 @@
 package dev.iakunin.codexiabot.codexia.repository;
 
 import dev.iakunin.codexiabot.codexia.entity.CodexiaProject;
-import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -19,11 +19,11 @@ public interface CodexiaProjectRepository extends JpaRepository<CodexiaProject, 
             "and grs.source = 'CODEXIA' " +
         "where grs.id is null"
     )
-    List<CodexiaProject> findAllWithoutGithubRepo();
+    Stream<CodexiaProject> findAllWithoutGithubRepo();
 
     @Query(
         "select cp from CodexiaProject cp " +
         "where cp.deleted is null"
     )
-    List<CodexiaProject> findAllActive();
+    Stream<CodexiaProject> findAllActive();
 }

@@ -6,10 +6,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @Slf4j
-public final class MissingFiller implements Runnable {
+public class MissingFiller implements Runnable {
 
     private final CodexiaProjectRepository repository;
 
@@ -24,6 +25,7 @@ public final class MissingFiller implements Runnable {
         this.writer = writer;
     }
 
+    @Transactional
     public void run() {
         this.repository
             .findAllWithoutGithubRepo()

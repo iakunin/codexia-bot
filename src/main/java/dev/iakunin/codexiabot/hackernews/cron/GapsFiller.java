@@ -10,7 +10,6 @@ import java.util.stream.IntStream;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,14 +28,17 @@ public class GapsFiller implements Runnable {
     public void run() {
         new FaultTolerant(
             IntStream.range(1, this.repository.getMaxExternalId())
-                .parallel()
                 .filter(i -> !this.repository.existsByExternalId(i))
                 .boxed()
-                .map(this.hackernews::getItem)
-                .map(HttpEntity::getBody)
-                .map(Objects::requireNonNull)
-                .map(HackernewsItem.Factory::from)
-                .map(item -> () -> this.writer.write(item)),
+                .map(id -> () ->
+                    this.writer.write(
+                        HackernewsItem.Factory.from(
+                            Objects.requireNonNull(
+                                this.hackernews.getItem(id).getBody()
+                            )
+                        )
+                    )
+                ),
             tr -> log.debug("Unable to fill the gap", tr.getCause())
         ).run();
     }
