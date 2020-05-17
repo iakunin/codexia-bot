@@ -3,13 +3,30 @@ package dev.iakunin.codexiabot.codexia.cron;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import dev.iakunin.codexiabot.AbstractIntegrationTest;
+import dev.iakunin.codexiabot.codexia.repository.CodexiaReviewNotificationRepository;
+import dev.iakunin.codexiabot.codexia.repository.CodexiaReviewRepository;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.support.TransactionTemplate;
 
 public class DeleteObsoleteNotificationsIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private DeleteObsoleteNotifications deleteObsoleteNotifications;
+
+    @Autowired
+    private CodexiaReviewRepository reviewRepository;
+
+    @Autowired
+    private CodexiaReviewNotificationRepository notificationRepository;
+
+    @Autowired
+    private DeleteObsoleteNotifications.Runner runner;
+
+    @Autowired
+    private PlatformTransactionManager transactionManager;
 
     @Test
     @DataSet(
@@ -19,6 +36,35 @@ public class DeleteObsoleteNotificationsIntegrationTest extends AbstractIntegrat
     @ExpectedDataSet("db-rider/codexia/cron/delete-obsolete-notifications/expected/emptyDatabase.yml")
     public void emptyDatabase() {
         deleteObsoleteNotifications.run();
+    }
+
+    @Test
+    @DataSet(
+        value = "db-rider/codexia/cron/delete-obsolete-notifications/initial/unableToDelete.yml",
+        cleanBefore = true, cleanAfter = true
+    )
+    @ExpectedDataSet("db-rider/codexia/cron/delete-obsolete-notifications/expected/unableToDelete.yml")
+    public void unableToDelete() {
+        new TransactionTemplate(transactionManager).executeWithoutResult(
+            status -> {
+                final CodexiaReviewNotificationRepository repoMock = Mockito.mock(CodexiaReviewNotificationRepository.class);
+                Mockito.when(repoMock.findAllByCodexiaReviewOrderByIdDesc(Mockito.any()))
+                    .thenAnswer(
+                        invocation -> notificationRepository.findAllByCodexiaReviewOrderByIdDesc(
+                            invocation.getArgument(0)
+                        )
+                    );
+                Mockito.doThrow(new RuntimeException())
+                    .when(repoMock)
+                    .delete(Mockito.any());
+
+                new DeleteObsoleteNotifications(
+                    reviewRepository,
+                    repoMock,
+                    new DeleteObsoleteNotifications.Runner(repoMock)
+                ).run();
+            }
+        );
     }
 
     @Test
