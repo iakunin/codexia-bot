@@ -116,6 +116,11 @@
       "description": "Cron expression for github.stat.github."
     },
     {
+      "name": "app.cron.github.delete-obsolete-stat",
+      "type": "java.lang.String",
+      "description": "Cron expression for github.delete-obsolete-stat."
+    },
+    {
       "name": "app.cron.hackernews.gaps-filler",
       "type": "java.lang.String",
       "description": "Cron expression for hackernews.gaps-filler."

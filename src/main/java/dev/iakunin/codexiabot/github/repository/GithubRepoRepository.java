@@ -4,6 +4,7 @@ import dev.iakunin.codexiabot.github.entity.GithubRepo;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Stream;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -43,4 +44,7 @@ public interface GithubRepoRepository extends JpaRepository<GithubRepo, Long> {
         nativeQuery = true
     )
     Set<GithubRepo> findAllInCodexia();
+
+    @Query("select gr from GithubRepo gr")
+    Stream<GithubRepo> getAll();
 }

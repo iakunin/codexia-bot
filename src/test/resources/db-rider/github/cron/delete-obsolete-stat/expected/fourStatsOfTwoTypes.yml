@@ -1,0 +1,17 @@
+github_repo_stat:
+    -
+        github_repo_id: 1
+        type: "GITHUB_API"
+        stat: '{"stars":1561,"type":"GITHUB_API"}'
+    -
+        github_repo_id: 1
+        type: "GITHUB_API"
+        stat: '{"stars":2123,"type":"GITHUB_API"}'
+    -
+        github_repo_id: 1
+        type: "LINES_OF_CODE"
+        stat: '{"type": "LINES_OF_CODE", "itemList": [{"language": "Total", "linesOfCode": 29330}]}'
+    -
+        github_repo_id: 1
+        type: "LINES_OF_CODE"
+        stat: '{"type": "LINES_OF_CODE", "itemList": [{"language": "Total", "linesOfCode": 31111}]}'
