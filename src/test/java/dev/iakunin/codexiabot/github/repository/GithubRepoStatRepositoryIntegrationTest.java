@@ -6,7 +6,6 @@ import dev.iakunin.codexiabot.github.entity.GithubRepo;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat.Type;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import org.cactoos.list.ListOf;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -41,7 +40,7 @@ public class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegration
 
         assertEquals(
             new ListOf<>(firstStat, secondStat),
-            actual.collect(Collectors.toList())
+            actual
         );
 
         entityManager.remove(secondStat);
@@ -65,7 +64,7 @@ public class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegration
 
         assertEquals(
             new ListOf<>(),
-            actual.collect(Collectors.toList())
+            actual
         );
 
         entityManager.remove(stat);
@@ -87,7 +86,7 @@ public class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegration
 
         assertEquals(
             new ListOf<>(),
-            actual.collect(Collectors.toList())
+            actual
         );
 
         entityManager.remove(stat);
@@ -111,7 +110,7 @@ public class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegration
 
         assertEquals(
             new ListOf<>(firstStat, secondStat),
-            actual.collect(Collectors.toList())
+            actual
         );
 
         entityManager.remove(secondStat);
@@ -136,7 +135,7 @@ public class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegration
 
         assertEquals(
             new ListOf<>(secondStat),
-            actual.collect(Collectors.toList())
+            actual
         );
 
         entityManager.remove(secondStat);
@@ -161,7 +160,7 @@ public class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegration
 
         assertEquals(
             new ListOf<>(),
-            actual.collect(Collectors.toList())
+            actual
         );
 
         entityManager.remove(secondStat);

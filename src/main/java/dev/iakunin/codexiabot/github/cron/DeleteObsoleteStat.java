@@ -30,25 +30,26 @@ public class DeleteObsoleteStat implements Runnable {
     @Override
     @Transactional
     public void run() {
-        new FaultTolerant(
-            this.repoRepository
-                .getAll()
-                .flatMap(
-                    repo -> Arrays.stream(GithubRepoStat.Type.values())
-                        .map(type -> new Tuple2<>(repo, type))
-                )
-                .map(
-                    tuple -> this.statRepository
-                        .findAllByGithubRepoAndTypeAndIdGreaterThanEqualOrderByIdAsc(
-                            tuple._1(),
-                            tuple._2(),
-                            0L
-                        )
-                )
-                .flatMap(this::withoutFirstAndLast)
-                .map(stat -> () -> this.runner.run(stat)),
-            tr -> log.debug("Unable to delete stat ", tr.getCause())
-        ).run();
+        try (var repos = this.repoRepository.getAll()) {
+            new FaultTolerant(
+                repos
+                    .flatMap(
+                        repo -> Arrays.stream(GithubRepoStat.Type.values())
+                            .map(type -> new Tuple2<>(repo, type))
+                    )
+                    .map(
+                        tuple -> this.statRepository
+                            .findAllByGithubRepoAndTypeAndIdGreaterThanEqualOrderByIdAsc(
+                                tuple._1(),
+                                tuple._2(),
+                                0L
+                            ).stream()
+                    )
+                    .flatMap(this::withoutFirstAndLast)
+                    .map(stat -> () -> this.runner.run(stat)),
+                tr -> log.debug("Unable to delete stat ", tr.getCause())
+            ).run();
+        }
     }
 
     @Slf4j

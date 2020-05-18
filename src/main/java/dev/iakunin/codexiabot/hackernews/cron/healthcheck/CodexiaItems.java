@@ -20,15 +20,16 @@ public class CodexiaItems implements Runnable {
 
     @Transactional
     public void run() {
-        this.hackernewsModule.healthCheckItems(
-            this.githubModule
-                .findAllInCodexiaAndHackernews()
-                .flatMap(this.githubModule::findAllRepoSources)
-                .filter(
-                    source -> source.getSource() == GithubModule.Source.HACKERNEWS
-                )
-                .map(GithubRepoSource::getExternalId)
-                .map(Integer::valueOf)
-        );
+        try (var repos = this.githubModule.findAllInCodexiaAndHackernews()) {
+            this.hackernewsModule.healthCheckItems(
+                repos
+                    .flatMap(this.githubModule::findAllRepoSources)
+                    .filter(
+                        source -> source.getSource() == GithubModule.Source.HACKERNEWS
+                    )
+                    .map(GithubRepoSource::getExternalId)
+                    .map(Integer::valueOf)
+            );
+        }
     }
 }

@@ -18,10 +18,8 @@ public class Codexia implements Runnable {
 
     @Transactional
     public void run() {
-        this.github
-            .findAllInCodexia()
-            .forEach(
-                this.linesOfCode::calculate
-            );
+        try (var repos = this.github.findAllInCodexia()) {
+            repos.forEach(this.linesOfCode::calculate);
+        }
     }
 }

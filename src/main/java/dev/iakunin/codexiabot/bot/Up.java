@@ -31,30 +31,31 @@ public class Up implements Runnable {
     @Transactional
     public void run() {
         log.debug("Bot type: {}", this.bot.getClass().getName());
-        this.github
-            .findAllInCodexia()
-            .map(
-                repo -> new Tuple2<>(repo, this.getLastProcessedStatId(repo))
-            )
-            .map(
-                pair -> pair.apply(this.github::findAllGithubApiStat)
-            )
-            .map(
-                stream -> stream.collect(Collectors.toCollection(LinkedList::new))
-            )
-            .filter(statList -> statList.size() >= 2)
-            .filter(statList ->
-                statList.getFirst().getStat() != null
-                    &&
-                statList.getLast().getStat() != null
-            )
-            .filter(
-                statList -> this.bot.shouldSubmit(
-                    (GithubApi) statList.getFirst().getStat(),
-                    (GithubApi) statList.getLast().getStat()
+        try (var repos = this.github.findAllInCodexia()) {
+            repos
+                .map(
+                    repo -> new Tuple2<>(repo, this.getLastProcessedStatId(repo))
                 )
-            )
-            .forEach(this.submitter::submit);
+                .map(
+                    pair -> pair.apply(this.github::findAllGithubApiStat)
+                )
+                .map(
+                    stream -> stream.collect(Collectors.toCollection(LinkedList::new))
+                )
+                .filter(statList -> statList.size() >= 2)
+                .filter(statList ->
+                    statList.getFirst().getStat() != null
+                        &&
+                        statList.getLast().getStat() != null
+                )
+                .filter(
+                    statList -> this.bot.shouldSubmit(
+                        (GithubApi) statList.getFirst().getStat(),
+                        (GithubApi) statList.getLast().getStat()
+                    )
+                )
+                .forEach(this.submitter::submit);
+        }
     }
 
     private Long getLastProcessedStatId(GithubRepo repo) {

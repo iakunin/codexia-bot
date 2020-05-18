@@ -18,10 +18,8 @@ public class WithoutLoc implements Runnable {
 
     @Transactional
     public void run() {
-        this.githubRepoRepository
-            .findAllWithoutLinesOfCode()
-            .forEach(
-                this.linesOfCode::calculate
-            );
+        try (var repos = this.githubRepoRepository.findAllWithoutLinesOfCode()) {
+            repos.forEach(this.linesOfCode::calculate);
+        }
     }
 }

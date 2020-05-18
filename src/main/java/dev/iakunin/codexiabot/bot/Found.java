@@ -27,16 +27,17 @@ public class Found implements Runnable {
     @Transactional
     public void run() {
         log.debug("Bot: {}", this.bot.getClass().getName());
-        this.bot
-            .repoStream()
-            .flatMap(this::extractAllSources)
-            .filter(
-                pair -> pair.apply(this::shouldSubmit)
-            )
-            .map(
-                pair -> pair.apply(this::createReview)
-            )
-            .forEach(this::submit);
+        try (var repos = this.bot.repoStream()) {
+            repos
+                .flatMap(this::extractAllSources)
+                .filter(
+                    pair -> pair.apply(this::shouldSubmit)
+                )
+                .map(
+                    pair -> pair.apply(this::createReview)
+                )
+                .forEach(this::submit);
+        }
     }
 
     private Stream<Tuple2<CodexiaProject, GithubRepoSource>> extractAllSources(GithubRepo githubRepo) {

@@ -21,11 +21,12 @@ public class AllItems implements Runnable {
 
     @Transactional
     public void run() {
-        this.hackernews.healthCheckItems(
-            this.github
-                .findAllRepoSources(Source.HACKERNEWS)
-                .map(GithubRepoSource::getExternalId)
-                .map(Integer::valueOf)
-        );
+        try (var sources = this.github.findAllRepoSources(Source.HACKERNEWS)) {
+            this.hackernews.healthCheckItems(
+                sources
+                    .map(GithubRepoSource::getExternalId)
+                    .map(Integer::valueOf)
+            );
+        }
     }
 }

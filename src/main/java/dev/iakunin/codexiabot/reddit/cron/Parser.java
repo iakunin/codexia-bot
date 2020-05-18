@@ -21,28 +21,28 @@ public class Parser implements Runnable {
 
     @Transactional
     public void run() {
-        this.github.findAllInCodexia()
-            .forEach(githubRepo ->
-                StreamSupport.stream(
-                    this.reddit.search()
-                        .query(
-                            String.format("url:\"%s\"", githubRepo.getHtmlUrl())
-                        )
-                        .build()
-                        .spliterator(),
-                    false
-                )
-                .flatMap(s -> s.getChildren().stream())
-                .map(Submission::getId)
-                .forEach(
-                    id -> this.github.addRepoSource(
-                        new GithubModule.AddSourceArguments(
-                            githubRepo,
-                            GithubModule.Source.REDDIT,
-                            id
-                        )
+        try (var repos = this.github.findAllInCodexia()) {
+            repos
+                .forEach(githubRepo ->
+                    StreamSupport.stream(
+                        this.reddit.search()
+                            .query(
+                                String.format("url:\"%s\"", githubRepo.getHtmlUrl())
+                            )
+                            .build()
+                            .spliterator(),
+                        false
                     )
-                )
-            );
+                        .flatMap(s -> s.getChildren().stream())
+                        .map(Submission::getId)
+                        .forEach(id -> this.github.addRepoSource(
+                            new GithubModule.AddSourceArguments(
+                                githubRepo,
+                                GithubModule.Source.REDDIT,
+                                id
+                            )
+                        ))
+                );
+        }
     }
 }

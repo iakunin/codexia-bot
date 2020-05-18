@@ -93,7 +93,7 @@ public final class GithubModuleImpl implements GithubModule {
 
     @Override
     public Stream<GithubRepoSource> findAllRepoSources(GithubRepo repo) {
-        return this.githubRepoSourceRepository.findAllByGithubRepo(repo);
+        return this.githubRepoSourceRepository.findAllByGithubRepo(repo).stream();
     }
 
     @Override
@@ -107,7 +107,7 @@ public final class GithubModuleImpl implements GithubModule {
             repo,
             GithubRepoStat.Type.GITHUB_API,
             idGreaterThan
-        );
+        ).stream();
     }
 
     @Override
