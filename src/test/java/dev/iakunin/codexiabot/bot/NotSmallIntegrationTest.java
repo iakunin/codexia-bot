@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-public class NotSmallIntegrationTest extends AbstractIntegrationTest {
+class NotSmallIntegrationTest extends AbstractIntegrationTest {
 
     @Qualifier("notSmall")
     @Autowired
@@ -19,7 +19,7 @@ public class NotSmallIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/not-small/expected/emptyDatabase.yml")
-    public void emptyDatabase() {
+    void emptyDatabase() {
         notSmall.run();
     }
 
@@ -29,7 +29,7 @@ public class NotSmallIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/not-small/expected/happyPath.yml")
-    public void happyPath() {
+    void happyPath() {
         notSmall.run();
     }
 
@@ -39,7 +39,7 @@ public class NotSmallIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/not-small/expected/noResult.yml")
-    public void noResult() {
+    void noResult() {
         notSmall.run();
     }
 
@@ -49,7 +49,7 @@ public class NotSmallIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/not-small/expected/resultWithTypeReset.yml")
-    public void resultWithTypeReset() {
+    void resultWithTypeReset() {
         notSmall.run();
     }
 
@@ -59,7 +59,7 @@ public class NotSmallIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/not-small/expected/linesOfCodeLessThanThreshold.yml")
-    public void linesOfCodeLessThanThreshold() {
+    void linesOfCodeLessThanThreshold() {
         notSmall.run();
     }
 

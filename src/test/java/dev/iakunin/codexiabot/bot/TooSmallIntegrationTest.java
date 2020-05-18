@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-public class TooSmallIntegrationTest extends AbstractIntegrationTest {
+class TooSmallIntegrationTest extends AbstractIntegrationTest {
 
     @Qualifier("tooSmall")
     @Autowired
@@ -19,7 +19,7 @@ public class TooSmallIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/too-small/expected/emptyDatabase.yml")
-    public void emptyDatabase() {
+    void emptyDatabase() {
         tooSmall.run();
     }
 
@@ -29,7 +29,7 @@ public class TooSmallIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/too-small/expected/happyPath.yml")
-    public void happyPath() {
+    void happyPath() {
         tooSmall.run();
     }
 
@@ -39,7 +39,7 @@ public class TooSmallIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/too-small/expected/moreThanThreshold.yml")
-    public void moreThanThreshold() {
+    void moreThanThreshold() {
         tooSmall.run();
     }
 
@@ -49,7 +49,7 @@ public class TooSmallIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/too-small/expected/notInCodexia.yml")
-    public void notInCodexia() {
+    void notInCodexia() {
         tooSmall.run();
     }
 
@@ -59,7 +59,7 @@ public class TooSmallIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/too-small/expected/oneSetResult.yml")
-    public void oneSetResult() {
+    void oneSetResult() {
         tooSmall.run();
     }
 
@@ -69,7 +69,7 @@ public class TooSmallIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/too-small/expected/oneResetResult.yml")
-    public void oneResetResult() {
+    void oneResetResult() {
         tooSmall.run();
     }
 
@@ -79,7 +79,7 @@ public class TooSmallIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/too-small/expected/linesOfCodeIsAbsent.yml")
-    public void linesOfCodeIsAbsent() {
+    void linesOfCodeIsAbsent() {
         tooSmall.run();
     }
 
@@ -89,7 +89,7 @@ public class TooSmallIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/too-small/expected/githubStatIsAbsent.yml")
-    public void githubStatIsAbsent() {
+    void githubStatIsAbsent() {
         tooSmall.run();
     }
 
@@ -99,7 +99,7 @@ public class TooSmallIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/too-small/expected/githubLanguageIsNull.yml")
-    public void githubLanguageIsNull() {
+    void githubLanguageIsNull() {
         tooSmall.run();
     }
 

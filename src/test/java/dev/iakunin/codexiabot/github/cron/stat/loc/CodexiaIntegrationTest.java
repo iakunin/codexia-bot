@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
-public class CodexiaIntegrationTest extends AbstractIntegrationTest {
+class CodexiaIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private Codexia linesOfCode;
@@ -24,7 +24,7 @@ public class CodexiaIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/github/cron/stat/loc/codexia/expected/emptyDatabase.yml")
-    public void emptyDatabase() {
+    void emptyDatabase() {
         linesOfCode.run();
     }
 
@@ -34,7 +34,7 @@ public class CodexiaIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/github/cron/stat/loc/codexia/expected/processedRepo.yml")
-    public void processedRepo() {
+    void processedRepo() {
         WireMockServer.stub(
             new Stub(
                 new Request(WireMock.urlPathEqualTo("/codetabs/loc")),
@@ -53,7 +53,7 @@ public class CodexiaIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/github/cron/stat/loc/codexia/expected/happyPath.yml")
-    public void happyPath() {
+    void happyPath() {
         WireMockServer.stub(
             new Stub(
                 new Request(WireMock.urlPathEqualTo("/codetabs/loc")),
@@ -72,7 +72,7 @@ public class CodexiaIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/github/cron/stat/loc/codexia/expected/tooManyRequests.yml")
-    public void tooManyRequests() {
+    void tooManyRequests() {
         WireMockServer.stub(
             new Stub(
                 new Request(WireMock.urlPathEqualTo("/codetabs/loc")),
@@ -89,7 +89,7 @@ public class CodexiaIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/github/cron/stat/loc/codexia/expected/codetabsException.yml")
-    public void codetabsException() {
+    void codetabsException() {
         WireMockServer.stub(
             new Stub(
                 new Request(WireMock.urlPathEqualTo("/codetabs/loc")),

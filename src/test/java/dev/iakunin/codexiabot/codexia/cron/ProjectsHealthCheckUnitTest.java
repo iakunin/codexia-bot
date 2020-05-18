@@ -17,7 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ProjectsHealthCheckUnitTest {
+class ProjectsHealthCheckUnitTest {
 
     private final Faker faker = new Faker();
 
@@ -34,7 +34,7 @@ public class ProjectsHealthCheckUnitTest {
     private ProjectsHealthCheck projectsHealthCheck;
 
     @Test
-    public void noActiveProjectsInRepo() {
+    void noActiveProjectsInRepo() {
         Mockito.when(repository.findAllActive()).thenReturn(Stream.empty());
 
         projectsHealthCheck.run();
@@ -46,7 +46,7 @@ public class ProjectsHealthCheckUnitTest {
     }
 
     @Test
-    public void projectIsNotDeletedInCodexia() {
+    void projectIsNotDeletedInCodexia() {
         final int externalId = faker.random().nextInt(Integer.MAX_VALUE);
         Mockito.when(repository.findAllActive()).thenReturn(
             Stream.of(
@@ -69,7 +69,7 @@ public class ProjectsHealthCheckUnitTest {
     }
 
     @Test
-    public void projectIsDeletedInCodexia() {
+    void projectIsDeletedInCodexia() {
         final int externalId = faker.random().nextInt(Integer.MAX_VALUE);
         final String deleted = faker.regexify("[a-z]{2,10}");
         final CodexiaProject codexiaProject = new CodexiaProject().setExternalId(externalId);
@@ -105,7 +105,7 @@ public class ProjectsHealthCheckUnitTest {
     }
 
     @Test
-    public void projectIsDeletedInCodexiaButNotFoundInRepository() {
+    void projectIsDeletedInCodexiaButNotFoundInRepository() {
         final int externalId = faker.random().nextInt(Integer.MAX_VALUE);
         final String deleted = faker.regexify("[a-z]{2,10}");
         Mockito.when(repository.findAllActive()).thenReturn(

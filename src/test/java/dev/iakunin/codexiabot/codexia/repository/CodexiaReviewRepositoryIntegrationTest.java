@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-public class CodexiaReviewRepositoryIntegrationTest extends AbstractIntegrationTest {
+class CodexiaReviewRepositoryIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private EntityManager entityManager;
@@ -29,7 +29,7 @@ public class CodexiaReviewRepositoryIntegrationTest extends AbstractIntegrationT
 
     @Test
     @Transactional
-    public void existsByCodexiaProjectAndAuthorAndReason_happyPath() {
+    void existsByCodexiaProjectAndAuthorAndReason_happyPath() {
         var project = this.createProject();
         var author = faker.name().username();
         var reason = faker.lorem().word();
@@ -51,7 +51,7 @@ public class CodexiaReviewRepositoryIntegrationTest extends AbstractIntegrationT
 
     @Test
     @Transactional
-    public void existsByCodexiaProjectAndAuthorAndReason_wrongProject() {
+    void existsByCodexiaProjectAndAuthorAndReason_wrongProject() {
         var project = this.createProject();
         var anotherProject = this.createProject();
         var author = faker.name().username();
@@ -76,7 +76,7 @@ public class CodexiaReviewRepositoryIntegrationTest extends AbstractIntegrationT
 
     @Test
     @Transactional
-    public void existsByCodexiaProjectAndAuthorAndReason_wrongAuthor() {
+    void existsByCodexiaProjectAndAuthorAndReason_wrongAuthor() {
         var project = this.createProject();
         var author = faker.name().username();
         var reason = faker.lorem().word();
@@ -98,7 +98,7 @@ public class CodexiaReviewRepositoryIntegrationTest extends AbstractIntegrationT
 
     @Test
     @Transactional
-    public void existsByCodexiaProjectAndAuthorAndReason_wrongReason() {
+    void existsByCodexiaProjectAndAuthorAndReason_wrongReason() {
         var project = this.createProject();
         var author = faker.name().username();
         var reason = faker.lorem().word();
@@ -120,7 +120,7 @@ public class CodexiaReviewRepositoryIntegrationTest extends AbstractIntegrationT
 
     @Test
     @Transactional
-    public void findAll_happyPath() {
+    void findAll_happyPath() {
         var project = this.createProject();
         var author = faker.name().username();
         var firstReview = this.createReview(project, author);
@@ -141,7 +141,7 @@ public class CodexiaReviewRepositoryIntegrationTest extends AbstractIntegrationT
 
     @Test
     @Transactional
-    public void findAll_wrongAuthor() {
+    void findAll_wrongAuthor() {
         var author = faker.name().username();
         var project = this.createProject();
         var review = this.createReview(project, author);
@@ -159,7 +159,7 @@ public class CodexiaReviewRepositoryIntegrationTest extends AbstractIntegrationT
 
     @Test
     @Transactional
-    public void findAll_wrongProject() {
+    void findAll_wrongProject() {
         var author = faker.name().username();
         var firstProject = this.createProject();
         var secondProject = this.createProject();
@@ -180,7 +180,7 @@ public class CodexiaReviewRepositoryIntegrationTest extends AbstractIntegrationT
 
     @Test
     @Transactional
-    public void findAllWithoutNotifications_happyPath() {
+    void findAllWithoutNotifications_happyPath() {
         var author = faker.name().username();
         var project = this.createProject();
         var review = this.createReview(project, author);
@@ -198,7 +198,7 @@ public class CodexiaReviewRepositoryIntegrationTest extends AbstractIntegrationT
 
     @Test
     @Transactional
-    public void findAllWithoutNotifications_notFound() {
+    void findAllWithoutNotifications_notFound() {
         var author = faker.name().username();
         var project = this.createProject();
         var review = this.createReview(project, author);

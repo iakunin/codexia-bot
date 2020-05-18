@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
-public class DeleteObsoleteNotificationsIntegrationTest extends AbstractIntegrationTest {
+class DeleteObsoleteNotificationsIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private DeleteObsoleteNotifications deleteObsoleteNotifications;
@@ -34,7 +34,7 @@ public class DeleteObsoleteNotificationsIntegrationTest extends AbstractIntegrat
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/delete-obsolete-notifications/expected/emptyDatabase.yml")
-    public void emptyDatabase() {
+    void emptyDatabase() {
         deleteObsoleteNotifications.run();
     }
 
@@ -44,7 +44,7 @@ public class DeleteObsoleteNotificationsIntegrationTest extends AbstractIntegrat
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/delete-obsolete-notifications/expected/unableToDelete.yml")
-    public void unableToDelete() {
+    void unableToDelete() {
         new TransactionTemplate(transactionManager).executeWithoutResult(
             status -> {
                 final CodexiaReviewNotificationRepository repoMock = Mockito.mock(CodexiaReviewNotificationRepository.class);
@@ -73,7 +73,7 @@ public class DeleteObsoleteNotificationsIntegrationTest extends AbstractIntegrat
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/delete-obsolete-notifications/expected/nothingToDeleteOneReview.yml")
-    public void nothingToDeleteOneReview() {
+    void nothingToDeleteOneReview() {
         deleteObsoleteNotifications.run();
     }
 
@@ -83,7 +83,7 @@ public class DeleteObsoleteNotificationsIntegrationTest extends AbstractIntegrat
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/delete-obsolete-notifications/expected/nothingToDeleteTwoReviews.yml")
-    public void nothingToDeleteTwoReviews() {
+    void nothingToDeleteTwoReviews() {
         deleteObsoleteNotifications.run();
     }
 
@@ -93,7 +93,7 @@ public class DeleteObsoleteNotificationsIntegrationTest extends AbstractIntegrat
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/delete-obsolete-notifications/expected/deletedOneNotificationPerOneReview.yml")
-    public void deletedOneNotificationPerOneReview() {
+    void deletedOneNotificationPerOneReview() {
         deleteObsoleteNotifications.run();
     }
 
@@ -103,7 +103,7 @@ public class DeleteObsoleteNotificationsIntegrationTest extends AbstractIntegrat
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/delete-obsolete-notifications/expected/deletedTwoNotificationsPerOneReview.yml")
-    public void deletedTwoNotificationsPerOneReview() {
+    void deletedTwoNotificationsPerOneReview() {
         deleteObsoleteNotifications.run();
     }
 
@@ -113,7 +113,7 @@ public class DeleteObsoleteNotificationsIntegrationTest extends AbstractIntegrat
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/delete-obsolete-notifications/expected/deletedOneNotificationPerTwoReviews.yml")
-    public void deletedOneNotificationPerTwoReviews() {
+    void deletedOneNotificationPerTwoReviews() {
         deleteObsoleteNotifications.run();
     }
 
@@ -123,7 +123,7 @@ public class DeleteObsoleteNotificationsIntegrationTest extends AbstractIntegrat
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/delete-obsolete-notifications/expected/deletedTwoNotificationsPerTwoReviews.yml")
-    public void deletedTwoNotificationsPerTwoReviews() {
+    void deletedTwoNotificationsPerTwoReviews() {
         deleteObsoleteNotifications.run();
     }
 }

@@ -11,7 +11,7 @@ import org.cactoos.io.ResourceOf;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class GapsFillerIntegrationTest extends AbstractIntegrationTest {
+class GapsFillerIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private GapsFiller gapsFiller;
@@ -22,7 +22,7 @@ public class GapsFillerIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/hackernews/cron/gaps-filler/expected/emptyDatabase.yml")
-    public void emptyDatabase() {
+    void emptyDatabase() {
         gapsFiller.run();
     }
 
@@ -32,7 +32,7 @@ public class GapsFillerIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/hackernews/cron/gaps-filler/expected/oneMissing.yml")
-    public void oneMissing() {
+    void oneMissing() {
         WireMockServer.stub(
             new Stub(
                 new Request("/hackernews/item/2.json"),
@@ -51,7 +51,7 @@ public class GapsFillerIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/hackernews/cron/gaps-filler/expected/twoMissing.yml")
-    public void twoMissing() {
+    void twoMissing() {
         WireMockServer.stub(
             new Stub(
                 new Request("/hackernews/item/2.json"),

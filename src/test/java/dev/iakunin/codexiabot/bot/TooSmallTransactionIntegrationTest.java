@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Primary;
     AbstractIntegrationTest.TestConfig.class,
     TooSmallTransactionIntegrationTest.TestConfig.class,
 })
-public class TooSmallTransactionIntegrationTest extends AbstractIntegrationTest {
+class TooSmallTransactionIntegrationTest extends AbstractIntegrationTest {
 
     private static final String EXCEPTION_MESSAGE = "Some error";
 
@@ -33,7 +33,7 @@ public class TooSmallTransactionIntegrationTest extends AbstractIntegrationTest 
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/too-small-transaction/expected/transactionRollback.yml")
-    public void transactionRollback() {
+    void transactionRollback() {
         tooSmall.run();
     }
 

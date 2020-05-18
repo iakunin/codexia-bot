@@ -18,7 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
     AbstractIntegrationTest.TestConfig.class,
     RedditConfig.class,
 })
-public class ParserIntegrationTest extends AbstractIntegrationTest {
+class ParserIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private Parser parser;
@@ -29,7 +29,7 @@ public class ParserIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/reddit/cron/parser/expected/emptyDatabase.yml")
-    public void emptyDatabase() {
+    void emptyDatabase() {
         parser.run();
     }
 
@@ -39,7 +39,7 @@ public class ParserIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/reddit/cron/parser/expected/notCodexiaSource.yml")
-    public void notCodexiaSource() {
+    void notCodexiaSource() {
         parser.run();
     }
 
@@ -49,7 +49,7 @@ public class ParserIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/reddit/cron/parser/expected/happyPath.yml")
-    public void happyPath() {
+    void happyPath() {
         WireMockServer.stub(
             new Stub(
                 new Request(WireMock.urlMatching("/reddit/search.+")),

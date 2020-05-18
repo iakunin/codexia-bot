@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-public class FoundOnRedditIntegrationTest extends AbstractIntegrationTest {
+class FoundOnRedditIntegrationTest extends AbstractIntegrationTest {
 
     @Qualifier("foundOnReddit")
     @Autowired
@@ -19,7 +19,7 @@ public class FoundOnRedditIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/found-on-reddit/expected/emptyDatabase.yml")
-    public void emptyDatabase() {
+    void emptyDatabase() {
         foundOnReddit.run();
     }
 
@@ -29,7 +29,7 @@ public class FoundOnRedditIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/found-on-reddit/expected/happyPath.yml")
-    public void happyPath() {
+    void happyPath() {
         foundOnReddit.run();
     }
 
@@ -39,7 +39,7 @@ public class FoundOnRedditIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/found-on-reddit/expected/reviewExists.yml")
-    public void reviewExists() {
+    void reviewExists() {
         foundOnReddit.run();
     }
 
@@ -49,7 +49,7 @@ public class FoundOnRedditIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/found-on-reddit/expected/onlyCodexiaSource.yml")
-    public void onlyCodexiaSource() {
+    void onlyCodexiaSource() {
         foundOnReddit.run();
     }
 
@@ -59,7 +59,7 @@ public class FoundOnRedditIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/found-on-reddit/expected/onlyRedditSource.yml")
-    public void onlyRedditSource() {
+    void onlyRedditSource() {
         foundOnReddit.run();
     }
 }

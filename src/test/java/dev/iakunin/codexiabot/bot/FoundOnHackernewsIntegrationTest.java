@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-public class FoundOnHackernewsIntegrationTest extends AbstractIntegrationTest {
+class FoundOnHackernewsIntegrationTest extends AbstractIntegrationTest {
 
     @Qualifier("foundOnHackernews")
     @Autowired
@@ -22,7 +22,7 @@ public class FoundOnHackernewsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/found-on-hackernews/expected/emptyDatabase.yml")
-    public void emptyDatabase() {
+    void emptyDatabase() {
         foundOnHackernews.run();
     }
 
@@ -32,7 +32,7 @@ public class FoundOnHackernewsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/found-on-hackernews/expected/happyPath.yml")
-    public void happyPath() {
+    void happyPath() {
         WireMockServer.stub(
             new Stub(
                 "/hackernews/item/99912.json",
@@ -49,7 +49,7 @@ public class FoundOnHackernewsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/found-on-hackernews/expected/happyPathNoUpvotes.yml")
-    public void happyPathNoUpvotes() {
+    void happyPathNoUpvotes() {
         WireMockServer.stub(
             new Stub(
                 "/hackernews/item/99912.json",
@@ -66,7 +66,7 @@ public class FoundOnHackernewsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/found-on-hackernews/expected/reviewExists.yml")
-    public void reviewExists() {
+    void reviewExists() {
         foundOnHackernews.run();
     }
 
@@ -76,7 +76,7 @@ public class FoundOnHackernewsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/found-on-hackernews/expected/onlyCodexiaSource.yml")
-    public void onlyCodexiaSource() {
+    void onlyCodexiaSource() {
         foundOnHackernews.run();
     }
 
@@ -86,7 +86,7 @@ public class FoundOnHackernewsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/found-on-hackernews/expected/onlyHackernewsSource.yml")
-    public void onlyHackernewsSource() {
+    void onlyHackernewsSource() {
         foundOnHackernews.run();
     }
 }

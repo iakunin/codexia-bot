@@ -7,10 +7,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 
-public class GithubRepoNameTest {
+class GithubRepoNameTest {
 
     @Test
-    public void happyPath() throws Exception {
+    void happyPath() throws Exception {
         assertEquals(
             "user/repo",
             new GithubRepoName(
@@ -20,7 +20,7 @@ public class GithubRepoNameTest {
     }
 
     @Test
-    public void emptyPath() throws Exception {
+    void emptyPath() throws Exception {
         final GithubModule.InvalidRepoNameException exception = assertThrows(
             GithubModule.InvalidRepoNameException.class,
             () -> new GithubRepoName(
@@ -36,7 +36,7 @@ public class GithubRepoNameTest {
     }
 
     @Test
-    public void pathWithOnlySlash() throws Exception {
+    void pathWithOnlySlash() throws Exception {
         final GithubModule.InvalidRepoNameException exception = assertThrows(
             GithubModule.InvalidRepoNameException.class,
             () -> new GithubRepoName(
@@ -52,7 +52,7 @@ public class GithubRepoNameTest {
     }
 
     @Test
-    public void onlyOnePathItem() throws Exception {
+    void onlyOnePathItem() throws Exception {
         final GithubModule.InvalidRepoNameException exception = assertThrows(
             GithubModule.InvalidRepoNameException.class,
             () -> new GithubRepoName(
@@ -69,7 +69,7 @@ public class GithubRepoNameTest {
     }
 
     @Test
-    public void threePathSegments() throws Exception {
+    void threePathSegments() throws Exception {
         assertEquals(
             "user/repo1",
             new GithubRepoName(
@@ -79,7 +79,7 @@ public class GithubRepoNameTest {
     }
 
     @Test
-    public void fourPathSegments() throws Exception {
+    void fourPathSegments() throws Exception {
         assertEquals(
             "user/first",
             new GithubRepoName(

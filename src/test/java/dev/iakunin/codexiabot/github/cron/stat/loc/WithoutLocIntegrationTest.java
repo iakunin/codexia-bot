@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
-public class WithoutLocIntegrationTest extends AbstractIntegrationTest {
+class WithoutLocIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private WithoutLoc linesOfCode;
@@ -24,7 +24,7 @@ public class WithoutLocIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/github/cron/stat/loc/without-loc/expected/emptyDatabase.yml")
-    public void emptyDatabase() {
+    void emptyDatabase() {
         linesOfCode.run();
     }
 
@@ -34,7 +34,7 @@ public class WithoutLocIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/github/cron/stat/loc/without-loc/expected/processedRepo.yml")
-    public void processedRepo() {
+    void processedRepo() {
         linesOfCode.run();
     }
 
@@ -44,7 +44,7 @@ public class WithoutLocIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/github/cron/stat/loc/without-loc/expected/happyPath.yml")
-    public void happyPath() {
+    void happyPath() {
         WireMockServer.stub(
             new Stub(
                 new Request(WireMock.urlPathEqualTo("/codetabs/loc")),
@@ -63,7 +63,7 @@ public class WithoutLocIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/github/cron/stat/loc/without-loc/expected/tooManyRequests.yml")
-    public void tooManyRequests() {
+    void tooManyRequests() {
         WireMockServer.stub(
             new Stub(
                 new Request(WireMock.urlPathEqualTo("/codetabs/loc")),
@@ -80,7 +80,7 @@ public class WithoutLocIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/github/cron/stat/loc/without-loc/expected/codetabsException.yml")
-    public void codetabsException() {
+    void codetabsException() {
         WireMockServer.stub(
             new Stub(
                 new Request(WireMock.urlPathEqualTo("/codetabs/loc")),

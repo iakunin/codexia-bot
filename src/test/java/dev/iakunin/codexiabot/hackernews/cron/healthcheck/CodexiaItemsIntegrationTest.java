@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
-public class CodexiaItemsIntegrationTest extends AbstractIntegrationTest {
+class CodexiaItemsIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private CodexiaItems codexiaItems;
@@ -24,7 +24,7 @@ public class CodexiaItemsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/hackernews/cron/health-check/codexia-items/expected/emptyDatabase.yml")
-    public void emptyDatabase() {
+    void emptyDatabase() {
         codexiaItems.run();
     }
 
@@ -34,7 +34,7 @@ public class CodexiaItemsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/hackernews/cron/health-check/codexia-items/expected/withoutCodexiaSource.yml")
-    public void withoutCodexiaSource() {
+    void withoutCodexiaSource() {
         codexiaItems.run();
     }
 
@@ -44,7 +44,7 @@ public class CodexiaItemsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/hackernews/cron/health-check/codexia-items/expected/oneActiveItem.yml")
-    public void oneActiveItem() {
+    void oneActiveItem() {
         WireMockServer.stub(
             new Stub(
                 "/hackernews/item/2222.json",
@@ -61,7 +61,7 @@ public class CodexiaItemsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/hackernews/cron/health-check/codexia-items/expected/twoActiveItems.yml")
-    public void twoActiveItems() {
+    void twoActiveItems() {
         WireMockServer.stub(
             new Stub(
                 new Request(WireMock.urlPathMatching("/hackernews/item/\\d+\\.json")),
@@ -80,7 +80,7 @@ public class CodexiaItemsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/hackernews/cron/health-check/codexia-items/expected/oneDeletedItem.yml")
-    public void oneDeletedItem() {
+    void oneDeletedItem() {
         WireMockServer.stub(
             new Stub(
                 "/hackernews/item/2222.json",
@@ -97,7 +97,7 @@ public class CodexiaItemsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/hackernews/cron/health-check/codexia-items/expected/twoDeletedItems.yml")
-    public void twoDeletedItems() {
+    void twoDeletedItems() {
         WireMockServer.stub(
             new Stub(
                 new Request(WireMock.urlPathMatching("/hackernews/item/\\d+\\.json")),
@@ -116,7 +116,7 @@ public class CodexiaItemsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/hackernews/cron/health-check/codexia-items/expected/hackernewsException.yml")
-    public void hackernewsException() {
+    void hackernewsException() {
         WireMockServer.stub(
             new Stub(
                 "/hackernews/item/2222.json",
