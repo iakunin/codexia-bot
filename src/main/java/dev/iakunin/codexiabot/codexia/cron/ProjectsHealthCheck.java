@@ -3,6 +3,7 @@ package dev.iakunin.codexiabot.codexia.cron;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaProject;
 import dev.iakunin.codexiabot.codexia.repository.CodexiaProjectRepository;
 import dev.iakunin.codexiabot.codexia.sdk.CodexiaClient;
+import dev.iakunin.codexiabot.common.runnable.FaultTolerant;
 import dev.iakunin.codexiabot.github.GithubModule;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
@@ -26,15 +27,18 @@ public class ProjectsHealthCheck implements Runnable {
     @Transactional
     public void run() {
         try (var projects = this.repository.findAllActive()) {
-            projects
-                .map(p -> this.codexiaClient.getProject(p.getExternalId()))
-                .map(HttpEntity::getBody)
-                .map(Objects::requireNonNull)
-                .filter(p -> p.getDeleted() != null)
-                .forEach(p -> {
-                    this.deleteRepoSources(p);
-                    this.updateEntity(p);
-                });
+            new FaultTolerant(
+                projects
+                    .map(project -> this.codexiaClient.getProject(project.getExternalId()))
+                    .map(HttpEntity::getBody)
+                    .map(Objects::requireNonNull)
+                    .filter(project -> project.getDeleted() != null)
+                    .map(project -> () -> {
+                        this.deleteRepoSources(project);
+                        this.updateEntity(project);
+                    }),
+                tr -> log.error("Unable to process project", tr.getCause())
+            ).run();
         }
     }
 

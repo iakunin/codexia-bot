@@ -35,11 +35,13 @@ public class ReviewSenderImpl implements ReviewSender {
                 review.getUuid().toString()
             );
         } catch (FeignException e) {
-            log.warn(
-                "Exception occurred during review creation in Codexia; externalId='{}'",
-                review.getCodexiaProject().getExternalId(),
-                e
-            );
+            if (e.status() != CodexiaClient.ReviewStatus.ALREADY_EXISTS.httpStatus()) {
+                log.warn(
+                    "Exception occurred during review creation in Codexia; externalId='{}'",
+                    review.getCodexiaProject().getExternalId(),
+                    e
+                );
+            }
             this.saveExceptionalNotification(savedNotification, e);
             return;
         }

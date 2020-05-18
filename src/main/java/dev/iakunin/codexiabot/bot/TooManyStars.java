@@ -6,6 +6,7 @@ import dev.iakunin.codexiabot.bot.repository.ResultRepository;
 import dev.iakunin.codexiabot.codexia.CodexiaModule;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaMeta;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaReview;
+import dev.iakunin.codexiabot.common.runnable.FaultTolerant;
 import dev.iakunin.codexiabot.github.GithubModule;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat.GithubApi;
@@ -28,15 +29,18 @@ public class TooManyStars implements Runnable {
     @Transactional
     public void run() {
         try (var repos = this.github.findAllInCodexia()) {
-            repos
-                .filter(
-                    repo -> this.repository.findFirstByGithubRepoOrderByIdDesc(repo).isEmpty()
-                )
-                .map(this.github::findLastGithubApiStat)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .filter(this::shouldSubmit)
-                .forEach(this.submitter::submit);
+            new FaultTolerant(
+                repos
+                    .filter(
+                        repo -> this.repository.findFirstByGithubRepoOrderByIdDesc(repo).isEmpty()
+                    )
+                    .map(this.github::findLastGithubApiStat)
+                    .filter(Optional::isPresent)
+                    .map(Optional::get)
+                    .filter(this::shouldSubmit)
+                    .map(stat -> () -> this.submitter.submit(stat)),
+                tr -> log.error("Unable to submit review", tr.getCause())
+            ).run();
         }
     }
 

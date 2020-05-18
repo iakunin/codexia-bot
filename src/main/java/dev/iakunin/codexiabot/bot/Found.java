@@ -3,6 +3,7 @@ package dev.iakunin.codexiabot.bot;
 import dev.iakunin.codexiabot.codexia.CodexiaModule;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaProject;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaReview;
+import dev.iakunin.codexiabot.common.runnable.FaultTolerant;
 import dev.iakunin.codexiabot.github.GithubModule;
 import dev.iakunin.codexiabot.github.entity.GithubRepo;
 import dev.iakunin.codexiabot.github.entity.GithubRepoSource;
@@ -28,15 +29,18 @@ public class Found implements Runnable {
     public void run() {
         log.debug("Bot: {}", this.bot.getClass().getName());
         try (var repos = this.bot.repoStream()) {
-            repos
-                .flatMap(this::extractAllSources)
-                .filter(
-                    pair -> pair.apply(this::shouldSubmit)
-                )
-                .map(
-                    pair -> pair.apply(this::createReview)
-                )
-                .forEach(this::submit);
+            new FaultTolerant(
+                repos
+                    .flatMap(this::extractAllSources)
+                    .filter(
+                        pair -> pair.apply(this::shouldSubmit)
+                    )
+                    .map(
+                        pair -> pair.apply(this::createReview)
+                    )
+                    .map(review -> () -> this.submit(review)),
+                tr -> log.error("Unable to submit review", tr.getCause())
+            ).run();
         }
     }
 

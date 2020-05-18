@@ -5,8 +5,6 @@ import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import dev.iakunin.codexiabot.AbstractIntegrationTest;
 import dev.iakunin.codexiabot.CodexiaBotApplication;
 import dev.iakunin.codexiabot.codexia.CodexiaModule;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,12 +34,7 @@ public class TooSmallTransactionIntegrationTest extends AbstractIntegrationTest 
     )
     @ExpectedDataSet("db-rider/bot/too-small-transaction/expected/transactionRollback.yml")
     public void transactionRollback() {
-        final RuntimeException exception = assertThrows(RuntimeException.class, this.tooSmall::run);
-
-        assertEquals(
-            TooSmallTransactionIntegrationTest.EXCEPTION_MESSAGE,
-            exception.getMessage()
-        );
+        tooSmall.run();
     }
 
     @Configuration

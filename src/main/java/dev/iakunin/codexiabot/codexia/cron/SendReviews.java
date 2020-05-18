@@ -2,6 +2,7 @@ package dev.iakunin.codexiabot.codexia.cron;
 
 import dev.iakunin.codexiabot.codexia.repository.CodexiaReviewRepository;
 import dev.iakunin.codexiabot.codexia.service.ReviewSender;
+import dev.iakunin.codexiabot.common.runnable.FaultTolerant;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,10 @@ public class SendReviews implements Runnable {
     @Transactional
     public void run() {
         try (var reviews = this.codexiaReviewRepository.findAllWithoutNotifications()) {
-            reviews.forEach(this.reviewSender::send);
+            new FaultTolerant(
+                reviews.map(review -> () -> this.reviewSender.send(review)),
+                tr -> log.error("Unable to send review", tr.getCause())
+            ).run();
         }
     }
 }

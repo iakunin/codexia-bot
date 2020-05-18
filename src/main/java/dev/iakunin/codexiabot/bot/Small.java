@@ -5,6 +5,7 @@ import dev.iakunin.codexiabot.bot.toosmall.ExactItem;
 import dev.iakunin.codexiabot.bot.toosmall.LogNotFound;
 import dev.iakunin.codexiabot.codexia.CodexiaModule;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaReview;
+import dev.iakunin.codexiabot.common.runnable.FaultTolerant;
 import dev.iakunin.codexiabot.github.GithubModule;
 import dev.iakunin.codexiabot.github.entity.GithubRepo;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat;
@@ -32,14 +33,16 @@ public class Small implements Runnable {
     @Transactional
     public void run() {
         try (var repos = this.bot.repoStream()) {
-            repos
-                .map(this::prepare)
-                .forEach(
-                    optional -> optional
-                        .filter(pair -> this.bot.shouldSubmit(pair._2()))
-                        .ifPresent(pair -> pair.apply(this.submitter::submit))
-                )
-            ;
+            new FaultTolerant(
+                repos
+                    .map(this::prepare)
+                    .map(
+                        optional -> () -> optional
+                            .filter(pair -> this.bot.shouldSubmit(pair._2()))
+                            .ifPresent(pair -> pair.apply(this.submitter::submit))
+                    ),
+                tr -> log.error("Unable to submit review", tr.getCause())
+            ).run();
         }
     }
 
