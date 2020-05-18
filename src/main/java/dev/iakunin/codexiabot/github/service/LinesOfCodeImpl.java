@@ -4,6 +4,7 @@ import dev.iakunin.codexiabot.github.entity.GithubRepo;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat;
 import dev.iakunin.codexiabot.github.repository.GithubRepoStatRepository;
 import dev.iakunin.codexiabot.github.sdk.CodetabsClient;
+import feign.FeignException;
 import java.util.List;
 import java.util.Objects;
 import lombok.SneakyThrows;
@@ -46,18 +47,7 @@ public final class LinesOfCodeImpl implements LinesOfCode {
                 )
             );
         } catch (feign.FeignException e) {
-            final var ignore = new ListOf<>(
-                HttpStatus.TOO_MANY_REQUESTS.value(),
-                HttpStatus.BAD_REQUEST.value()
-            );
-            if (!ignore.contains(e.status())) {
-                log.error("Error occurred during getting lines of code", e);
-                this.repoStatRepository.save(
-                    new GithubRepoStat()
-                        .setStat(new GithubRepoStat.LinesOfCode())
-                        .setGithubRepo(repo)
-                );
-            }
+            this.processException(repo, e);
         } finally {
             this.sleep(this.delay);
         }
@@ -69,6 +59,22 @@ public final class LinesOfCodeImpl implements LinesOfCode {
                 Objects.requireNonNull(itemList)
             )
             .setGithubRepo(repo);
+    }
+
+    private void processException(GithubRepo repo, FeignException e) {
+        // @todo #93 LinesOfCodeImpl: rewrite via custom Feign exceptions
+        final var ignore = new ListOf<>(
+            HttpStatus.TOO_MANY_REQUESTS.value(),
+            HttpStatus.BAD_REQUEST.value()
+        );
+        if (!ignore.contains(e.status())) {
+            log.error("Error occurred during getting lines of code", e);
+            this.repoStatRepository.save(
+                new GithubRepoStat()
+                    .setStat(new GithubRepoStat.LinesOfCode())
+                    .setGithubRepo(repo)
+            );
+        }
     }
 
     @SneakyThrows
