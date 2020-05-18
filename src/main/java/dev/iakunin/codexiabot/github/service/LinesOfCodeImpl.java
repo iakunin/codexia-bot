@@ -65,7 +65,8 @@ public final class LinesOfCodeImpl implements LinesOfCode {
         // @todo #93 LinesOfCodeImpl: rewrite via custom Feign exceptions
         final var ignore = new ListOf<>(
             HttpStatus.TOO_MANY_REQUESTS.value(),
-            HttpStatus.BAD_REQUEST.value()
+            HttpStatus.BAD_REQUEST.value(),
+            524
         );
         if (!ignore.contains(e.status())) {
             log.error("Error occurred during getting lines of code", e);
