@@ -23,8 +23,7 @@ public final class Reddit implements Bot {
 
     @Override
     public Stream<GithubRepo> repoStream() {
-        return this.githubModule
-            .findAllInCodexia();
+        return this.githubModule.findAllInCodexia();
     }
 
     @Override
@@ -49,14 +48,17 @@ public final class Reddit implements Bot {
 
     @Override
     public CodexiaMeta meta(CodexiaReview review) {
-        return new CodexiaMeta()
-            .setCodexiaProject(review.getCodexiaProject())
-            .setKey("reddit-id")
-            .setValue(
-                this.codexiaModule
-                    .findAllReviews(review.getCodexiaProject(), review.getAuthor())
-                    .map(CodexiaReview::getReason)
-                    .collect(Collectors.joining(","))
-            );
+        try (var reviews = this.codexiaModule
+            .findAllReviews(review.getCodexiaProject(), review.getAuthor())
+        ) {
+            return new CodexiaMeta()
+                .setCodexiaProject(review.getCodexiaProject())
+                .setKey("reddit-id")
+                .setValue(
+                    reviews
+                        .map(CodexiaReview::getReason)
+                        .collect(Collectors.joining(","))
+                );
+        }
     }
 }

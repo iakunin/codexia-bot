@@ -27,12 +27,12 @@ public class RetryErroneous implements Runnable{
 
     @Transactional
     public void run() {
-        new FaultTolerant(
-            this.hackernewsItemRepository
-                .findAllByType(EMPTY_TYPE)
-                .map(item -> () -> this.runner.run(item)),
-            tr -> log.warn("Exception during RetryErroneous", tr.getCause())
-        ).run();
+        try (var items = this.hackernewsItemRepository.findAllByType(EMPTY_TYPE)) {
+            new FaultTolerant(
+                items.map(item -> () -> this.runner.run(item)),
+                tr -> log.warn("Exception during RetryErroneous", tr.getCause())
+            ).run();
+        }
     }
 
     @Slf4j

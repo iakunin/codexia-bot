@@ -18,9 +18,9 @@ public class Github implements Runnable {
 
     @Transactional
     public void run() {
-        this.githubModule
-            .findAllInCodexia()
-            .forEach(this::updateStat);
+        try (var repos = this.githubModule.findAllInCodexia()) {
+            repos.forEach(this::updateStat);
+        }
     }
 
     private void updateStat(GithubRepo githubRepo) {

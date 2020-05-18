@@ -31,15 +31,16 @@ public class Small implements Runnable {
 
     @Transactional
     public void run() {
-        this.bot
-            .repoStream()
-            .map(this::prepare)
-            .forEach(
-                optional -> optional
-                    .filter(pair -> this.bot.shouldSubmit(pair._2()))
-                    .ifPresent(pair -> pair.apply(this.submitter::submit))
-            )
-        ;
+        try (var repos = this.bot.repoStream()) {
+            repos
+                .map(this::prepare)
+                .forEach(
+                    optional -> optional
+                        .filter(pair -> this.bot.shouldSubmit(pair._2()))
+                        .ifPresent(pair -> pair.apply(this.submitter::submit))
+                )
+            ;
+        }
     }
 
     private Optional<Tuple2<GithubRepoStat, Item>> prepare(GithubRepo repo) {

@@ -6,7 +6,6 @@ import dev.iakunin.codexiabot.github.entity.GithubRepo;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat.Type;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import org.cactoos.list.ListOf;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-public class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegrationTest {
+class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private EntityManager entityManager;
@@ -27,7 +26,7 @@ public class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegration
 
     @Test
     @Transactional
-    public void findAll_happyPath() {
+    void findAll_happyPath() {
         var repo = this.createGithubRepo();
         var firstStat = this.createGithubRepoStat(repo, Type.GITHUB_API);
         var secondStat = this.createGithubRepoStat(repo, Type.GITHUB_API);
@@ -41,7 +40,7 @@ public class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegration
 
         assertEquals(
             new ListOf<>(firstStat, secondStat),
-            actual.collect(Collectors.toList())
+            actual
         );
 
         entityManager.remove(secondStat);
@@ -51,7 +50,7 @@ public class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegration
 
     @Test
     @Transactional
-    public void findAll_wrongRepo() {
+    void findAll_wrongRepo() {
         var repo = this.createGithubRepo();
         var anotherRepo = this.createGithubRepo();
         var stat = this.createGithubRepoStat(repo, Type.GITHUB_API);
@@ -65,7 +64,7 @@ public class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegration
 
         assertEquals(
             new ListOf<>(),
-            actual.collect(Collectors.toList())
+            actual
         );
 
         entityManager.remove(stat);
@@ -75,7 +74,7 @@ public class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegration
 
     @Test
     @Transactional
-    public void findAll_wrongType() {
+    void findAll_wrongType() {
         var repo = this.createGithubRepo();
         var stat = this.createGithubRepoStat(repo, Type.GITHUB_API);
         entityManager.persist(repo);
@@ -87,7 +86,7 @@ public class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegration
 
         assertEquals(
             new ListOf<>(),
-            actual.collect(Collectors.toList())
+            actual
         );
 
         entityManager.remove(stat);
@@ -96,7 +95,7 @@ public class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegration
 
     @Test
     @Transactional
-    public void findAll_twoById() {
+    void findAll_twoById() {
         var repo = this.createGithubRepo();
         var type = Type.GITHUB_API;
         var firstStat = this.createGithubRepoStat(repo, type);
@@ -111,7 +110,7 @@ public class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegration
 
         assertEquals(
             new ListOf<>(firstStat, secondStat),
-            actual.collect(Collectors.toList())
+            actual
         );
 
         entityManager.remove(secondStat);
@@ -121,7 +120,7 @@ public class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegration
 
     @Test
     @Transactional
-    public void findAll_oneById() {
+    void findAll_oneById() {
         var repo = this.createGithubRepo();
         var type = Type.GITHUB_API;
         var firstStat = this.createGithubRepoStat(repo, type);
@@ -136,7 +135,7 @@ public class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegration
 
         assertEquals(
             new ListOf<>(secondStat),
-            actual.collect(Collectors.toList())
+            actual
         );
 
         entityManager.remove(secondStat);
@@ -146,7 +145,7 @@ public class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegration
 
     @Test
     @Transactional
-    public void findAll_zeroById() {
+    void findAll_zeroById() {
         var repo = this.createGithubRepo();
         var type = Type.GITHUB_API;
         var firstStat = this.createGithubRepoStat(repo, type);
@@ -161,7 +160,7 @@ public class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegration
 
         assertEquals(
             new ListOf<>(),
-            actual.collect(Collectors.toList())
+            actual
         );
 
         entityManager.remove(secondStat);
@@ -171,7 +170,7 @@ public class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegration
 
     @Test
     @Transactional
-    public void findFirst_happyPath() {
+    void findFirst_happyPath() {
         var repo = this.createGithubRepo();
         var type = Type.GITHUB_API;
         var firstStat = this.createGithubRepoStat(repo, type);
@@ -196,7 +195,7 @@ public class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegration
 
     @Test
     @Transactional
-    public void findFirst_empty() {
+    void findFirst_empty() {
         var repo = this.createGithubRepo();
         var type = Type.GITHUB_API;
         entityManager.persist(repo);
@@ -215,7 +214,7 @@ public class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegration
 
     @Test
     @Transactional
-    public void findFirst_wrongType() {
+    void findFirst_wrongType() {
         var repo = this.createGithubRepo();
         var type = Type.GITHUB_API;
         var stat = this.createGithubRepoStat(repo, type);
@@ -237,7 +236,7 @@ public class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegration
 
     @Test
     @Transactional
-    public void persistStatWithEmptyStat() {
+    void persistStatWithEmptyStat() {
         var repo = this.createGithubRepo();
         var stat = new GithubRepoStat().setGithubRepo(repo).setType(Type.GITHUB_API);
         entityManager.persist(repo);
@@ -250,7 +249,7 @@ public class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegration
 
     @Test
     @Transactional
-    public void persistHealthCheckStat() {
+    void persistHealthCheckStat() {
         var repo = this.createGithubRepo();
         var stat = new GithubRepoStat()
             .setGithubRepo(repo)

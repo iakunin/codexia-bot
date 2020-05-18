@@ -25,17 +25,19 @@ public class DeleteObsoleteNotifications implements Runnable {
     @Override
     @Transactional
     public void run() {
-        new FaultTolerant(
-            this.reviewRepository
-                .getAll()
-                .flatMap(
-                    review -> this.notificationRepository
-                        .findAllByCodexiaReviewOrderByIdDesc(review)
-                        .skip(1L)
-                )
-                .map(item -> () -> this.runner.run(item)),
-            tr -> log.error("Unable to delete item", tr.getCause())
-        ).run();
+        try (var reviews = this.reviewRepository.getAll()) {
+            new FaultTolerant(
+                reviews
+                    .flatMap(
+                        review -> this.notificationRepository
+                            .findAllByCodexiaReviewOrderByIdDesc(review)
+                            .stream()
+                            .skip(1L)
+                    )
+                    .map(item -> () -> this.runner.run(item)),
+                tr -> log.error("Unable to delete item", tr.getCause())
+            ).run();
+        }
     }
 
     @Slf4j

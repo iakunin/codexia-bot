@@ -27,16 +27,17 @@ public class TooManyStars implements Runnable {
 
     @Transactional
     public void run() {
-        this.github
-            .findAllInCodexia()
-            .filter(
-                repo -> this.repository.findFirstByGithubRepoOrderByIdDesc(repo).isEmpty()
-            )
-            .map(this.github::findLastGithubApiStat)
-            .filter(Optional::isPresent)
-            .map(Optional::get)
-            .filter(this::shouldSubmit)
-            .forEach(this.submitter::submit);
+        try (var repos = this.github.findAllInCodexia()) {
+            repos
+                .filter(
+                    repo -> this.repository.findFirstByGithubRepoOrderByIdDesc(repo).isEmpty()
+                )
+                .map(this.github::findLastGithubApiStat)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .filter(this::shouldSubmit)
+                .forEach(this.submitter::submit);
+        }
     }
 
     private boolean shouldSubmit(GithubRepoStat stat) {
