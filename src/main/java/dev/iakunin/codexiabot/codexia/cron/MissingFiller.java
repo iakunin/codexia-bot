@@ -2,6 +2,7 @@ package dev.iakunin.codexiabot.codexia.cron;
 
 import dev.iakunin.codexiabot.codexia.repository.CodexiaProjectRepository;
 import dev.iakunin.codexiabot.codexia.service.Writer;
+import dev.iakunin.codexiabot.common.runnable.FaultTolerant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -28,7 +29,10 @@ public class MissingFiller implements Runnable {
     @Transactional
     public void run() {
         try (var projects = this.repository.findAllWithoutGithubRepo()) {
-            projects.forEach(this.writer::write);
+            new FaultTolerant(
+                projects.map(project -> () -> this.writer.write(project)),
+                tr -> log.error("Unable to write project", tr.getCause())
+            ).run();
         }
     }
 }

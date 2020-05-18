@@ -4,6 +4,7 @@ import dev.iakunin.codexiabot.codexia.entity.CodexiaProject;
 import dev.iakunin.codexiabot.codexia.repository.CodexiaProjectRepository;
 import dev.iakunin.codexiabot.codexia.sdk.CodexiaClient;
 import dev.iakunin.codexiabot.codexia.service.Writer;
+import dev.iakunin.codexiabot.common.runnable.FaultTolerant;
 import java.util.List;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
@@ -30,15 +31,16 @@ public final class CodexiaParser implements Runnable {
             projectList = this.codexiaClient.getRecent(page).getBody();
             Objects.requireNonNull(projectList);
 
-            projectList.stream()
-                .filter(project -> project.getDeleted() == null)
-                .filter(
-                    project -> !this.repository.existsByExternalId(project.getId())
-                )
-                .map(CodexiaProject.Factory::from)
-                // @todo #150 writer should be fault tolerant
-                .forEach(this.writer::write)
-            ;
+            new FaultTolerant(
+                projectList.stream()
+                    .filter(project -> project.getDeleted() == null)
+                    .filter(
+                        project -> !this.repository.existsByExternalId(project.getId())
+                    )
+                    .map(CodexiaProject.Factory::from)
+                    .map(project -> () -> this.writer.write(project)),
+                tr -> log.error("Unable to write project", tr.getCause())
+            ).run();
 
             page++;
         } while (!projectList.isEmpty());

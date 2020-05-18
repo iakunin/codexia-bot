@@ -3,6 +3,7 @@ package dev.iakunin.codexiabot.bot;
 import dev.iakunin.codexiabot.bot.repository.ResultRepository;
 import dev.iakunin.codexiabot.codexia.CodexiaModule;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaReview;
+import dev.iakunin.codexiabot.common.runnable.FaultTolerant;
 import dev.iakunin.codexiabot.github.GithubModule;
 import dev.iakunin.codexiabot.github.entity.GithubRepo;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat;
@@ -32,23 +33,26 @@ public class Up implements Runnable {
     public void run() {
         log.debug("Bot type: {}", this.bot.getClass().getName());
         try (var repos = this.github.findAllInCodexia()) {
-            repos
-                .map(repo -> new Tuple2<>(repo, this.getLastProcessedStatId(repo)))
-                .map(pair -> pair.apply(this.github::findAllGithubApiStat))
-                .map(stream -> stream.collect(Collectors.toCollection(LinkedList::new)))
-                .filter(statList -> statList.size() >= 2)
-                .filter(statList ->
-                    statList.getFirst().getStat() != null
-                        &&
-                    statList.getLast().getStat() != null
-                )
-                .filter(statList ->
-                    this.bot.shouldSubmit(
-                        (GithubApi) statList.getFirst().getStat(),
-                        (GithubApi) statList.getLast().getStat()
+            new FaultTolerant(
+                repos
+                    .map(repo -> new Tuple2<>(repo, this.getLastProcessedStatId(repo)))
+                    .map(pair -> pair.apply(this.github::findAllGithubApiStat))
+                    .map(stream -> stream.collect(Collectors.toCollection(LinkedList::new)))
+                    .filter(statList -> statList.size() >= 2)
+                    .filter(statList ->
+                        statList.getFirst().getStat() != null
+                            &&
+                            statList.getLast().getStat() != null
                     )
-                )
-                .forEach(this.submitter::submit);
+                    .filter(statList ->
+                        this.bot.shouldSubmit(
+                            (GithubApi) statList.getFirst().getStat(),
+                            (GithubApi) statList.getLast().getStat()
+                        )
+                    )
+                    .map(stat -> () -> this.submitter.submit(stat)),
+                tr -> log.error("Unable to submit review", tr.getCause())
+            ).run();
         }
     }
 

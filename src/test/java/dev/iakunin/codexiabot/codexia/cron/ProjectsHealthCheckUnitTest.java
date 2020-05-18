@@ -8,8 +8,6 @@ import dev.iakunin.codexiabot.github.GithubModule;
 import java.util.Optional;
 import java.util.stream.Stream;
 import org.junit.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -125,15 +123,8 @@ public class ProjectsHealthCheckUnitTest {
         );
         Mockito.when(repository.findByExternalId(externalId)).thenReturn(Optional.empty());
 
-        final RuntimeException exception = assertThrows(
-            RuntimeException.class,
-            () -> projectsHealthCheck.run()
-        );
+        projectsHealthCheck.run();
 
-        assertEquals(
-            exception.getMessage(),
-            String.format("Unable to find CodexiaProject by externalId='%s'", externalId)
-        );
         Mockito.verify(codexiaClient).getProject(externalId);
         Mockito.verify(githubModule).removeAllRepoSources(
             new GithubModule.DeleteArguments(

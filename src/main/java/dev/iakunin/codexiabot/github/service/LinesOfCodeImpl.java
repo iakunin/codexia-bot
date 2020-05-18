@@ -4,10 +4,12 @@ import dev.iakunin.codexiabot.github.entity.GithubRepo;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat;
 import dev.iakunin.codexiabot.github.repository.GithubRepoStatRepository;
 import dev.iakunin.codexiabot.github.sdk.CodetabsClient;
+import feign.FeignException;
 import java.util.List;
 import java.util.Objects;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.cactoos.list.ListOf;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -45,16 +47,7 @@ public final class LinesOfCodeImpl implements LinesOfCode {
                 )
             );
         } catch (feign.FeignException e) {
-            if (e.status() != HttpStatus.TOO_MANY_REQUESTS.value()) {
-                log.error("Error occurred during getting lines of code", e);
-                this.repoStatRepository.save(
-                    new GithubRepoStat()
-                        .setStat(new GithubRepoStat.LinesOfCode())
-                        .setGithubRepo(repo)
-                );
-            } else {
-                log.debug("TOO_MANY_REQUESTS (429) came from codetabs: retrying", e);
-            }
+            this.processException(repo, e);
         } finally {
             this.sleep(this.delay);
         }
@@ -66,6 +59,22 @@ public final class LinesOfCodeImpl implements LinesOfCode {
                 Objects.requireNonNull(itemList)
             )
             .setGithubRepo(repo);
+    }
+
+    private void processException(GithubRepo repo, FeignException e) {
+        // @todo #93 LinesOfCodeImpl: rewrite via custom Feign exceptions
+        final var ignore = new ListOf<>(
+            HttpStatus.TOO_MANY_REQUESTS.value(),
+            HttpStatus.BAD_REQUEST.value()
+        );
+        if (!ignore.contains(e.status())) {
+            log.error("Error occurred during getting lines of code", e);
+            this.repoStatRepository.save(
+                new GithubRepoStat()
+                    .setStat(new GithubRepoStat.LinesOfCode())
+                    .setGithubRepo(repo)
+            );
+        }
     }
 
     @SneakyThrows

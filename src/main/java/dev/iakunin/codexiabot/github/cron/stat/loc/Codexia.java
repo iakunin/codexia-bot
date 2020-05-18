@@ -1,5 +1,6 @@
 package dev.iakunin.codexiabot.github.cron.stat.loc;
 
+import dev.iakunin.codexiabot.common.runnable.FaultTolerant;
 import dev.iakunin.codexiabot.github.GithubModule;
 import dev.iakunin.codexiabot.github.service.LinesOfCode;
 import lombok.AllArgsConstructor;
@@ -19,7 +20,10 @@ public class Codexia implements Runnable {
     @Transactional
     public void run() {
         try (var repos = this.github.findAllInCodexia()) {
-            repos.forEach(this.linesOfCode::calculate);
+            new FaultTolerant(
+                repos.map(repo -> () -> this.linesOfCode.calculate(repo)),
+                tr -> log.error("Unable to calculate LoC", tr.getCause())
+            ).run();
         }
     }
 }

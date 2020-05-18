@@ -1,5 +1,6 @@
 package dev.iakunin.codexiabot.github.cron.stat;
 
+import dev.iakunin.codexiabot.common.runnable.FaultTolerant;
 import dev.iakunin.codexiabot.github.GithubModule;
 import dev.iakunin.codexiabot.github.entity.GithubRepo;
 import java.io.IOException;
@@ -19,7 +20,10 @@ public class Github implements Runnable {
     @Transactional
     public void run() {
         try (var repos = this.githubModule.findAllInCodexia()) {
-            repos.forEach(this::updateStat);
+            new FaultTolerant(
+                repos.map(repo -> () -> this.updateStat(repo)),
+                tr -> log.error("Unable to update stat", tr.getCause())
+            ).run();
         }
     }
 
