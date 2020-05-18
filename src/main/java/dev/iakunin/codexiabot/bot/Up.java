@@ -33,23 +33,17 @@ public class Up implements Runnable {
         log.debug("Bot type: {}", this.bot.getClass().getName());
         try (var repos = this.github.findAllInCodexia()) {
             repos
-                .map(
-                    repo -> new Tuple2<>(repo, this.getLastProcessedStatId(repo))
-                )
-                .map(
-                    pair -> pair.apply(this.github::findAllGithubApiStat)
-                )
-                .map(
-                    stream -> stream.collect(Collectors.toCollection(LinkedList::new))
-                )
+                .map(repo -> new Tuple2<>(repo, this.getLastProcessedStatId(repo)))
+                .map(pair -> pair.apply(this.github::findAllGithubApiStat))
+                .map(stream -> stream.collect(Collectors.toCollection(LinkedList::new)))
                 .filter(statList -> statList.size() >= 2)
                 .filter(statList ->
                     statList.getFirst().getStat() != null
                         &&
-                        statList.getLast().getStat() != null
+                    statList.getLast().getStat() != null
                 )
-                .filter(
-                    statList -> this.bot.shouldSubmit(
+                .filter(statList ->
+                    this.bot.shouldSubmit(
                         (GithubApi) statList.getFirst().getStat(),
                         (GithubApi) statList.getLast().getStat()
                     )
