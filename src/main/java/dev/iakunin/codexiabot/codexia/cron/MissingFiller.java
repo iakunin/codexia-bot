@@ -27,9 +27,8 @@ public class MissingFiller implements Runnable {
 
     @Transactional
     public void run() {
-        this.repository
-            .findAllWithoutGithubRepo()
-            .forEach(this.writer::write)
-        ;
+        try (var projects = this.repository.findAllWithoutGithubRepo()) {
+            projects.forEach(this.writer::write);
+        }
     }
 }

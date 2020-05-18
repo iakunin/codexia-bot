@@ -25,16 +25,17 @@ public class ProjectsHealthCheck implements Runnable {
 
     @Transactional
     public void run() {
-         this.repository
-             .findAllActive()
-             .map(p -> this.codexiaClient.getProject(p.getExternalId()))
-             .map(HttpEntity::getBody)
-             .map(Objects::requireNonNull)
-             .filter(p -> p.getDeleted() != null)
-             .forEach(p -> {
-                 this.deleteRepoSources(p);
-                 this.updateEntity(p);
-             });
+        try (var projects = this.repository.findAllActive()) {
+            projects
+                .map(p -> this.codexiaClient.getProject(p.getExternalId()))
+                .map(HttpEntity::getBody)
+                .map(Objects::requireNonNull)
+                .filter(p -> p.getDeleted() != null)
+                .forEach(p -> {
+                    this.deleteRepoSources(p);
+                    this.updateEntity(p);
+                });
+        }
     }
 
     private void deleteRepoSources(CodexiaClient.Project project) {

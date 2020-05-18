@@ -19,8 +19,8 @@ public class SendReviews implements Runnable {
 
     @Transactional
     public void run() {
-        this.codexiaReviewRepository
-            .findAllWithoutNotifications()
-            .forEach(this.reviewSender::send);
+        try (var reviews = this.codexiaReviewRepository.findAllWithoutNotifications()) {
+            reviews.forEach(this.reviewSender::send);
+        }
     }
 }

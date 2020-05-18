@@ -26,19 +26,21 @@ public class ResendReviewsUntilDuplicated implements Runnable {
 
     @Transactional
     public void run() {
-        new FaultTolerant(
-            this.reviewRepository
-                .getAll()
-                .flatMap(
-                    review -> this.notificationRepository
-                        .findAllByCodexiaReviewOrderByIdDesc(review)
-                        .limit(1L)
-                )
-                .filter(ntf -> ntf.getStatus() == CodexiaReviewNotification.Status.SUCCESS)
-                .filter(ntf -> ntf.getResponseCode() != CodexiaClient.ReviewStatus.ALREADY_EXISTS.httpStatus())
-                .map(CodexiaReviewNotification::getCodexiaReview)
-                .map(review -> () -> this.sender.send(review)),
-            tr -> log.error("Unable to resend item", tr.getCause())
-        ).run();
+        try (var reviews = this.reviewRepository.getAll()) {
+            new FaultTolerant(
+                reviews
+                    .flatMap(
+                        review -> this.notificationRepository
+                            .findAllByCodexiaReviewOrderByIdDesc(review)
+                            .stream()
+                            .limit(1L)
+                    )
+                    .filter(ntf -> ntf.getStatus() == CodexiaReviewNotification.Status.SUCCESS)
+                    .filter(ntf -> ntf.getResponseCode() != CodexiaClient.ReviewStatus.ALREADY_EXISTS.httpStatus())
+                    .map(CodexiaReviewNotification::getCodexiaReview)
+                    .map(review -> () -> this.sender.send(review)),
+                tr -> log.error("Unable to resend item", tr.getCause())
+            ).run();
+        }
     }
 }
