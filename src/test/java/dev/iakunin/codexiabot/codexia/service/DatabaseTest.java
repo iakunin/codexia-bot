@@ -5,12 +5,12 @@ import dev.iakunin.codexiabot.codexia.repository.CodexiaProjectRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-public final class DatabaseTest {
+class DatabaseTest {
 
     private static final int EXTERNAL_ID = 333;
 
     @Test
-    public void exists() {
+    void exists() {
         final var repository = Mockito.mock(CodexiaProjectRepository.class);
         final var project = this.project();
         final var database = new Database(repository);
@@ -22,7 +22,7 @@ public final class DatabaseTest {
     }
 
     @Test
-    public void notExists() {
+    void notExists() {
         final var repository = Mockito.mock(CodexiaProjectRepository.class);
         final var project = this.project();
         final var database = new Database(repository);

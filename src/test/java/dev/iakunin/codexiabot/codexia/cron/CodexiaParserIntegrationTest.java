@@ -7,20 +7,15 @@ import dev.iakunin.codexiabot.config.GithubConfig;
 import dev.iakunin.codexiabot.util.WireMockServer;
 import dev.iakunin.codexiabot.util.wiremock.Stub;
 import org.cactoos.io.ResourceOf;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.util.TestPropertyValues;
-import org.springframework.context.ApplicationContextInitializer;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.test.context.ContextConfiguration;
 
 @SpringBootTest(classes = {
     AbstractIntegrationTest.TestConfig.class,
     GithubConfig.class,
 })
-public class CodexiaParserIntegrationTest extends AbstractIntegrationTest {
+class CodexiaParserIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private CodexiaParser codexiaParser;
@@ -31,7 +26,7 @@ public class CodexiaParserIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/codexia-parser/expected/happyPathWithoutGithub.yml")
-    public void happyPathWithoutGithub() {
+    void happyPathWithoutGithub() {
         WireMockServer.stub(
             new Stub(
                 "/codexia/recent.json?page=0",
@@ -49,7 +44,7 @@ public class CodexiaParserIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/codexia-parser/expected/happyPathWithGithub.yml")
-    public void happyPathWithGithub() {
+    void happyPathWithGithub() {
         WireMockServer.stub(
             new Stub(
                 "/codexia/recent.json?page=0",
@@ -73,7 +68,7 @@ public class CodexiaParserIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/codexia-parser/expected/codexiaProjectAlreadyExist.yml")
-    public void codexiaProjectAlreadyExist() {
+    void codexiaProjectAlreadyExist() {
         WireMockServer.stub(
             new Stub(
                 "/codexia/recent.json?page=0",
@@ -91,7 +86,7 @@ public class CodexiaParserIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/codexia-parser/expected/deletedProject.yml")
-    public void deletedProject() {
+    void deletedProject() {
         WireMockServer.stub(
             new Stub(
                 "/codexia/recent.json?page=0",

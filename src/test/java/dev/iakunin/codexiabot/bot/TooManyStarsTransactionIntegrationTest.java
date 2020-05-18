@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Primary;
     AbstractIntegrationTest.TestConfig.class,
     TooManyStarsTransactionIntegrationTest.TestConfig.class,
 })
-public class TooManyStarsTransactionIntegrationTest extends AbstractIntegrationTest {
+class TooManyStarsTransactionIntegrationTest extends AbstractIntegrationTest {
 
     private static final String EXCEPTION_MESSAGE = "Some error";
 
@@ -31,7 +31,7 @@ public class TooManyStarsTransactionIntegrationTest extends AbstractIntegrationT
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/too-many-stars-transaction/expected/transactionRollback.yml")
-    public void transactionRollback() {
+    void transactionRollback() {
         tooManyStars.run();
     }
 

@@ -9,15 +9,10 @@ import dev.iakunin.codexiabot.util.wiremock.Request;
 import dev.iakunin.codexiabot.util.wiremock.Response;
 import dev.iakunin.codexiabot.util.wiremock.Stub;
 import org.cactoos.io.ResourceOf;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.util.TestPropertyValues;
-import org.springframework.context.ApplicationContextInitializer;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.test.context.ContextConfiguration;
 
-public class ProjectsHealthCheckIntegrationTest extends AbstractIntegrationTest {
+class ProjectsHealthCheckIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private ProjectsHealthCheck projectsHealthCheck;
@@ -28,7 +23,7 @@ public class ProjectsHealthCheckIntegrationTest extends AbstractIntegrationTest 
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/projects-health-check/expected/noActiveProjectsInRepo.yml")
-    public void noActiveProjectsInRepo() {
+    void noActiveProjectsInRepo() {
         projectsHealthCheck.run();
     }
 
@@ -38,7 +33,7 @@ public class ProjectsHealthCheckIntegrationTest extends AbstractIntegrationTest 
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/projects-health-check/expected/twoActiveProjectsInRepoButDeletedInCodexia.yml")
-    public void twoActiveProjectsInRepoButDeletedInCodexia() {
+    void twoActiveProjectsInRepoButDeletedInCodexia() {
         WireMockServer.stub(
             new Stub(
                 new Request(WireMock.urlPathMatching("/codexia/p/\\d+\\.json")),

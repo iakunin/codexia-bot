@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-public class ForksUpResultRepositoryIntegrationTest extends AbstractIntegrationTest {
+class ForksUpResultRepositoryIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private EntityManager entityManager;
@@ -25,7 +25,7 @@ public class ForksUpResultRepositoryIntegrationTest extends AbstractIntegrationT
 
     @Test
     @Transactional
-    public void findFirstByGithubRepo_happyPath() {
+    void findFirstByGithubRepo_happyPath() {
         var repo = this.createGithubRepo();
         var repoStat = this.createGithubRepoStat(repo);
         var result = this.createForksUpResult(repo, repoStat);
@@ -45,7 +45,7 @@ public class ForksUpResultRepositoryIntegrationTest extends AbstractIntegrationT
 
     @Test
     @Transactional
-    public void findFirstByGithubRepo_withinMultipleResults() {
+    void findFirstByGithubRepo_withinMultipleResults() {
         var repo = this.createGithubRepo();
         var repoStat = this.createGithubRepoStat(repo);
         var firstResult = this.createForksUpResult(repo, repoStat);
@@ -68,7 +68,7 @@ public class ForksUpResultRepositoryIntegrationTest extends AbstractIntegrationT
 
     @Test
     @Transactional
-    public void findFirstByGithubRepo_noData() {
+    void findFirstByGithubRepo_noData() {
         var repo = this.createGithubRepo();
         entityManager.persist(repo);
 

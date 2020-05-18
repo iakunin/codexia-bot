@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
-public class SendReviewsIntegrationTest extends AbstractIntegrationTest {
+class SendReviewsIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private SendReviews sendReviews;
@@ -24,7 +24,7 @@ public class SendReviewsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/send-reviews/expected/noReviewsToSend.yml")
-    public void noReviewsToSend() {
+    void noReviewsToSend() {
         sendReviews.run();
     }
 
@@ -34,7 +34,7 @@ public class SendReviewsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/send-reviews/expected/reviewSuccessfullySent.yml")
-    public void reviewSuccessfullySent() {
+    void reviewSuccessfullySent() {
         WireMockServer.stub(
             new Stub(
                 new Request(RequestMethod.POST, WireMock.urlPathMatching("/codexia/p/\\d+/post")),
@@ -51,7 +51,7 @@ public class SendReviewsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/send-reviews/expected/reviewSentWithDuplicate_responseBodyExists.yml")
-    public void reviewSentWithDuplicate_responseBodyExists() {
+    void reviewSentWithDuplicate_responseBodyExists() {
         WireMockServer.stub(
             new Stub(
                 new Request(RequestMethod.POST, WireMock.urlPathMatching("/codexia/p/\\d+/post")),
@@ -68,7 +68,7 @@ public class SendReviewsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/send-reviews/expected/reviewSentWithDuplicate_responseBodyEmpty.yml")
-    public void reviewSentWithDuplicate_responseBodyEmpty() {
+    void reviewSentWithDuplicate_responseBodyEmpty() {
         WireMockServer.stub(
             new Stub(
                 new Request(RequestMethod.POST, WireMock.urlPathMatching("/codexia/p/\\d+/post")),
@@ -85,7 +85,7 @@ public class SendReviewsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/send-reviews/expected/reviewSentWith500.yml")
-    public void reviewSentWith500() {
+    void reviewSentWith500() {
         WireMockServer.stub(
             new Stub(
                 new Request(RequestMethod.POST, WireMock.urlPathMatching("/codexia/p/\\d+/post")),

@@ -15,7 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
     AbstractIntegrationTest.TestConfig.class,
     GithubConfig.class,
 })
-public class MissingFillerIntegrationTest extends AbstractIntegrationTest {
+class MissingFillerIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private MissingFiller missingFiller;
@@ -26,7 +26,7 @@ public class MissingFillerIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/missing-filler/expected/emptyDatabase.yml")
-    public void emptyDatabase() {
+    void emptyDatabase() {
         missingFiller.run();
     }
 
@@ -36,7 +36,7 @@ public class MissingFillerIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/missing-filler/expected/oneWithGithubRepo.yml")
-    public void oneWithGithubRepo() {
+    void oneWithGithubRepo() {
         missingFiller.run();
     }
 
@@ -46,7 +46,7 @@ public class MissingFillerIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/missing-filler/expected/oneWithoutGithubRepo.yml")
-    public void oneWithoutGithubRepo() {
+    void oneWithoutGithubRepo() {
         WireMockServer.stub(
             new Stub(
                 "/github/repos/instaloader/instaloader",
@@ -63,7 +63,7 @@ public class MissingFillerIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/missing-filler/expected/twoWithoutGithubRepo.yml")
-    public void twoWithoutGithubRepo() {
+    void twoWithoutGithubRepo() {
         WireMockServer.stub(
             new Stub(
                 "/github/repos/instaloader/instaloader",

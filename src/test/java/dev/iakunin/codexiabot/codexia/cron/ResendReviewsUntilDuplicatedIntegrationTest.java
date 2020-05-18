@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
-public class ResendReviewsUntilDuplicatedIntegrationTest extends AbstractIntegrationTest {
+class ResendReviewsUntilDuplicatedIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private ResendReviewsUntilDuplicated cron;
@@ -24,7 +24,7 @@ public class ResendReviewsUntilDuplicatedIntegrationTest extends AbstractIntegra
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/resend-reviews-until-duplicated/expected/emptyDatabase.yml")
-    public void emptyDatabase() {
+    void emptyDatabase() {
         cron.run();
     }
 
@@ -34,7 +34,7 @@ public class ResendReviewsUntilDuplicatedIntegrationTest extends AbstractIntegra
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/resend-reviews-until-duplicated/expected/oneUnsuccessfulNotification.yml")
-    public void oneUnsuccessfulNotification() {
+    void oneUnsuccessfulNotification() {
         cron.run();
     }
 
@@ -44,7 +44,7 @@ public class ResendReviewsUntilDuplicatedIntegrationTest extends AbstractIntegra
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/resend-reviews-until-duplicated/expected/oneSuccessfulNotificationWithDuplicatedCode.yml")
-    public void oneSuccessfulNotificationWithDuplicatedCode() {
+    void oneSuccessfulNotificationWithDuplicatedCode() {
         cron.run();
     }
 
@@ -54,7 +54,7 @@ public class ResendReviewsUntilDuplicatedIntegrationTest extends AbstractIntegra
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/resend-reviews-until-duplicated/expected/happyPath.yml")
-    public void happyPath() {
+    void happyPath() {
         WireMockServer.stub(
             new Stub(
                 new Request(RequestMethod.POST, WireMock.urlPathMatching("/codexia/p/\\d+/post")),

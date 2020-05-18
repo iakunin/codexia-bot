@@ -9,12 +9,12 @@ import org.cactoos.list.ListOf;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public final class ExactItemTest {
+class ExactItemTest {
 
     private static final String LANGUAGE = "Java";
 
     @Test
-    public void emptyItemList() throws Exception {
+    void emptyItemList() throws Exception {
         final Optional<Item> actual = new ExactItem(
             this.createGithub(ExactItemTest.LANGUAGE),
             this.createLinesOfCode(new ListOf<>())
@@ -24,7 +24,7 @@ public final class ExactItemTest {
     }
 
     @Test
-    public void foundExact() throws Exception {
+    void foundExact() throws Exception {
         final Optional<Item> actual = new ExactItem(
             this.createGithub(ExactItemTest.LANGUAGE),
             this.createLinesOfCode(
@@ -43,7 +43,7 @@ public final class ExactItemTest {
     }
 
     @Test
-    public void notFoundExact() throws Exception {
+    void notFoundExact() throws Exception {
         final Optional<Item> actual = new ExactItem(
             this.createGithub("Other language"),
             this.createLinesOfCode(
@@ -57,7 +57,7 @@ public final class ExactItemTest {
     }
 
     @Test
-    public void foundExactFirst() throws Exception {
+    void foundExactFirst() throws Exception {
         final Optional<Item> actual = new ExactItem(
             this.createGithub(ExactItemTest.LANGUAGE),
             this.createLinesOfCode(
@@ -77,7 +77,7 @@ public final class ExactItemTest {
     }
 
     @Test
-    public void foundExactLast() throws Exception {
+    void foundExactLast() throws Exception {
         final Optional<Item> actual = new ExactItem(
             this.createGithub(ExactItemTest.LANGUAGE),
             this.createLinesOfCode(
@@ -97,7 +97,7 @@ public final class ExactItemTest {
     }
 
     @Test
-    public void foundApproximateThis() throws Exception {
+    void foundApproximateThis() throws Exception {
         final String languageWithPostfix = ExactItemTest.LANGUAGE + " with some postfix";
         final Optional<Item> actual = new ExactItem(
             this.createGithub(ExactItemTest.LANGUAGE),
@@ -117,7 +117,7 @@ public final class ExactItemTest {
     }
 
     @Test
-    public void foundApproximateThisFirst() throws Exception {
+    void foundApproximateThisFirst() throws Exception {
         final String languageWithPostfix = ExactItemTest.LANGUAGE + " with some postfix";
         final Optional<Item> actual = new ExactItem(
             this.createGithub(ExactItemTest.LANGUAGE),
@@ -138,7 +138,7 @@ public final class ExactItemTest {
     }
 
     @Test
-    public void foundApproximateThisLast() throws Exception {
+    void foundApproximateThisLast() throws Exception {
         final String languageWithPostfix = ExactItemTest.LANGUAGE + " with some postfix";
         final Optional<Item> actual = new ExactItem(
             this.createGithub(ExactItemTest.LANGUAGE),
@@ -159,7 +159,7 @@ public final class ExactItemTest {
     }
 
     @Test
-    public void foundApproximateThat() throws Exception {
+    void foundApproximateThat() throws Exception {
         final String languageWithPostfix = ExactItemTest.LANGUAGE + " with another postfix";
         final Optional<Item> actual = new ExactItem(
             this.createGithub(languageWithPostfix),
@@ -179,7 +179,7 @@ public final class ExactItemTest {
     }
 
     @Test
-    public void foundApproximateThatFirst() throws Exception {
+    void foundApproximateThatFirst() throws Exception {
         final String languageWithPostfix = ExactItemTest.LANGUAGE + " with another postfix";
         final Optional<Item> actual = new ExactItem(
             this.createGithub(languageWithPostfix),
@@ -200,7 +200,7 @@ public final class ExactItemTest {
     }
 
     @Test
-    public void foundApproximateThatLast() throws Exception {
+    void foundApproximateThatLast() throws Exception {
         final String languageWithPostfix = ExactItemTest.LANGUAGE + " with another postfix";
         final Optional<Item> actual = new ExactItem(
             this.createGithub(languageWithPostfix),
@@ -221,7 +221,7 @@ public final class ExactItemTest {
     }
 
     @Test
-    public void languageIsNull() throws Exception {
+    void languageIsNull() throws Exception {
         final Optional<Item> actual = new ExactItem(
             this.createGithub(null),
             this.createLinesOfCode(
@@ -235,7 +235,7 @@ public final class ExactItemTest {
     }
 
     @Test
-    public void itemListWithNulls() throws Exception {
+    void itemListWithNulls() throws Exception {
         final Optional<Item> actual = new ExactItem(
             this.createGithub(ExactItemTest.LANGUAGE),
             this.createLinesOfCode(
@@ -256,7 +256,7 @@ public final class ExactItemTest {
     }
 
     @Test
-    public void itemListOnlyNulls() throws Exception {
+    void itemListOnlyNulls() throws Exception {
         final Optional<Item> actual = new ExactItem(
             this.createGithub(ExactItemTest.LANGUAGE),
             this.createLinesOfCode(
@@ -271,7 +271,7 @@ public final class ExactItemTest {
     }
 
     @Test
-    public void itemsWithNullLanguage() throws Exception {
+    void itemsWithNullLanguage() throws Exception {
         final Optional<Item> actual = new ExactItem(
             this.createGithub(ExactItemTest.LANGUAGE),
             this.createLinesOfCode(
@@ -286,7 +286,7 @@ public final class ExactItemTest {
     }
 
     @Test
-    public void nullInsteadOfItems() throws Exception {
+    void nullInsteadOfItems() throws Exception {
         final Optional<Item> actual = new ExactItem(
             this.createGithub(ExactItemTest.LANGUAGE),
             this.createLinesOfCode(null)
@@ -296,7 +296,7 @@ public final class ExactItemTest {
     }
 
     @Test
-    public void foundWithMapping() throws Exception {
+    void foundWithMapping() throws Exception {
         final Optional<Item> actual = new ExactItem(
             this.createGithub("Vue"),
             this.createLinesOfCode(
@@ -315,7 +315,7 @@ public final class ExactItemTest {
     }
 
     @Test
-    public void notFoundWithMapping() throws Exception {
+    void notFoundWithMapping() throws Exception {
         final Optional<Item> actual = new ExactItem(
             this.createGithub("SomeAnotherLanguage"),
             this.createLinesOfCode(
