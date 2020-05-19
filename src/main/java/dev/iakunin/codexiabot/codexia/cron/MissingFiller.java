@@ -28,7 +28,7 @@ public class MissingFiller implements Runnable {
 
     @Transactional
     public void run() {
-        try (var projects = this.repository.findAllWithoutGithubRepo()) {
+        try (var projects = this.repository.findAllActiveWithoutGithubRepo()) {
             new FaultTolerant(
                 projects.map(project -> () -> this.writer.write(project)),
                 tr -> log.error("Unable to write project", tr.getCause())

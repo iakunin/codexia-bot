@@ -83,7 +83,7 @@ class CodexiaProjectRepositoryIntegrationTest extends AbstractIntegrationTest {
         entityManager.persist(project);
         entityManager.flush();
 
-        final var allWithoutGithubRepo = repository.findAllWithoutGithubRepo();
+        final var allWithoutGithubRepo = repository.findAllActiveWithoutGithubRepo();
 
         assertEquals(1, allWithoutGithubRepo.count());
 
@@ -93,7 +93,7 @@ class CodexiaProjectRepositoryIntegrationTest extends AbstractIntegrationTest {
     @Test
     @Transactional
     void findAllWithoutGithubRepo_noCodexiaProject() {
-        final var allWithoutGithubRepo = repository.findAllWithoutGithubRepo();
+        final var allWithoutGithubRepo = repository.findAllActiveWithoutGithubRepo();
 
         assertEquals(0, allWithoutGithubRepo.count());
     }
@@ -114,7 +114,7 @@ class CodexiaProjectRepositoryIntegrationTest extends AbstractIntegrationTest {
         entityManager.persist(githubRepoSource);
         entityManager.flush();
 
-        final var allWithoutGithubRepo = repository.findAllWithoutGithubRepo();
+        final var allWithoutGithubRepo = repository.findAllActiveWithoutGithubRepo();
 
         assertEquals(0, allWithoutGithubRepo.count());
 
