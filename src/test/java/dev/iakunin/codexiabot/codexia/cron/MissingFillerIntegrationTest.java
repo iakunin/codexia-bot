@@ -59,6 +59,16 @@ class MissingFillerIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     @DataSet(
+        value = "db-rider/codexia/cron/missing-filler/initial/oneDeletedWithoutGithubRepo.yml",
+        cleanBefore = true, cleanAfter = true
+    )
+    @ExpectedDataSet("db-rider/codexia/cron/missing-filler/expected/oneDeletedWithoutGithubRepo.yml")
+    void oneDeletedWithoutGithubRepo() {
+        missingFiller.run();
+    }
+
+    @Test
+    @DataSet(
         value = "db-rider/codexia/cron/missing-filler/initial/twoWithoutGithubRepo.yml",
         cleanBefore = true, cleanAfter = true
     )

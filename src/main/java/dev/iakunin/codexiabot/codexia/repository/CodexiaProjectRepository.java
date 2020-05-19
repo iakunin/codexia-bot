@@ -17,9 +17,10 @@ public interface CodexiaProjectRepository extends JpaRepository<CodexiaProject, 
         "left join GithubRepoSource grs " +
             "on cast (cp.externalId as string) = grs.externalId " +
             "and grs.source = 'CODEXIA' " +
-        "where grs.id is null"
+        "where grs.id is null " +
+        "and cp.deleted is null"
     )
-    Stream<CodexiaProject> findAllWithoutGithubRepo();
+    Stream<CodexiaProject> findAllActiveWithoutGithubRepo();
 
     @Query(
         "select cp from CodexiaProject cp " +
