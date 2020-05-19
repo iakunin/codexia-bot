@@ -59,6 +59,24 @@ public interface CodexiaClient {
         @RequestParam("value") String value
     );
 
+    @PostMapping(
+        value = "/p/{projectId}/attach",
+        produces = { "application/json" }
+    )
+    ResponseEntity<String> attachBadge(
+        @PathVariable("projectId") Integer projectId,
+        @RequestParam("text") String badge
+    );
+
+    @PostMapping(
+        value = "/p/{projectId}/detach/{badge}",
+        produces = { "application/json" }
+    )
+    ResponseEntity<String> detachBadge(
+        @PathVariable("projectId") Integer projectId,
+        @PathVariable("badge") String badge
+    );
+
     @Data
     class Project {
         private Integer id;
