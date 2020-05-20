@@ -7,14 +7,13 @@ import dev.iakunin.codexiabot.codexia.service.Writer;
 import dev.iakunin.codexiabot.common.runnable.FaultTolerant;
 import java.util.List;
 import java.util.Objects;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-@AllArgsConstructor(onConstructor_={@Autowired})
+@RequiredArgsConstructor
 public final class CodexiaParser implements Runnable {
 
     private final CodexiaClient codexiaClient;

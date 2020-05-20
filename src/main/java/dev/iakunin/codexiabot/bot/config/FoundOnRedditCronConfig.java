@@ -6,7 +6,7 @@ import dev.iakunin.codexiabot.bot.found.Reddit;
 import dev.iakunin.codexiabot.codexia.CodexiaModule;
 import dev.iakunin.codexiabot.common.runnable.Logging;
 import dev.iakunin.codexiabot.github.GithubModule;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -43,7 +43,7 @@ public class FoundOnRedditCronConfig implements SchedulingConfigurer {
     }
 
     @Configuration
-    @AllArgsConstructor
+    @RequiredArgsConstructor
     public static class FoundOnRedditConfig {
 
         private final GithubModule githubModule;

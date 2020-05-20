@@ -13,14 +13,13 @@ import dev.iakunin.codexiabot.github.GithubModule;
 import dev.iakunin.codexiabot.github.entity.GithubRepo;
 import java.util.Optional;
 import java.util.stream.Stream;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-@AllArgsConstructor(onConstructor_={@Autowired})
+@RequiredArgsConstructor
 public final class CodexiaModuleImpl implements CodexiaModule {
 
     private final CodexiaProjectRepository codexiaProjectRepository;

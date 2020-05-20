@@ -6,9 +6,9 @@ import feign.RequestTemplate;
 import java.util.Collections;
 import java.util.List;
 import java.util.TreeMap;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 final class SessionFingerprintInterceptor implements RequestInterceptor {
 
     private final String sessionFingerprintHeaderName;

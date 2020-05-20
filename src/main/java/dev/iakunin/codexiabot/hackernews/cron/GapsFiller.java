@@ -7,15 +7,14 @@ import dev.iakunin.codexiabot.hackernews.sdk.HackernewsClient;
 import dev.iakunin.codexiabot.hackernews.service.Writer;
 import java.util.Objects;
 import java.util.stream.IntStream;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @Slf4j
-@AllArgsConstructor(onConstructor_={@Autowired})
+@RequiredArgsConstructor
 public class GapsFiller implements Runnable {
 
     private final HackernewsItemRepository repository;

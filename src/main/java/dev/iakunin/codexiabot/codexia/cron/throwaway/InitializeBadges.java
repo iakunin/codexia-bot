@@ -7,10 +7,8 @@ import dev.iakunin.codexiabot.codexia.repository.CodexiaProjectRepository;
 import dev.iakunin.codexiabot.codexia.repository.CodexiaReviewRepository;
 import dev.iakunin.codexiabot.common.runnable.FaultTolerant;
 import java.time.LocalDateTime;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -18,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Component
-@AllArgsConstructor(onConstructor_={@Autowired})
+@RequiredArgsConstructor
 public class InitializeBadges implements Runnable {
 
     private final CodexiaReviewRepository reviewRepository;

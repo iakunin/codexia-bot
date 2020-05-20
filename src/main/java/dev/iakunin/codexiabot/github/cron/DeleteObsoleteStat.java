@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class DeleteObsoleteStat implements Runnable {
 
     private final GithubRepoRepository repoRepository;
@@ -53,7 +53,7 @@ public class DeleteObsoleteStat implements Runnable {
     }
 
     @Slf4j
-    @AllArgsConstructor
+    @RequiredArgsConstructor
     @Service
     public static class Runner {
 

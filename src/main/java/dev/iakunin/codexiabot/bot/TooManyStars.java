@@ -12,13 +12,13 @@ import dev.iakunin.codexiabot.github.GithubModule;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat.GithubApi;
 import java.util.Optional;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class TooManyStars implements Runnable {
 
     private final GithubModule github;
@@ -54,7 +54,7 @@ public class TooManyStars implements Runnable {
     }
 
     @Slf4j
-    @AllArgsConstructor
+    @RequiredArgsConstructor
     public static class Submitter {
 
         private final ResultRepository repository;

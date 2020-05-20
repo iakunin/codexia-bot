@@ -14,14 +14,14 @@ import dev.iakunin.codexiabot.github.entity.GithubRepoStat.LinesOfCode;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat.LinesOfCode.Item;
 import io.vavr.Tuple2;
 import java.util.Optional;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.cactoos.scalar.Unchecked;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class Small implements Runnable {
 
     private final GithubModule github;
@@ -80,7 +80,7 @@ public class Small implements Runnable {
             ).value();
     }
 
-    @AllArgsConstructor
+    @RequiredArgsConstructor
     public static class Submitter {
 
         private final dev.iakunin.codexiabot.bot.toosmall.Bot bot;

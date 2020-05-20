@@ -4,7 +4,7 @@ import dev.iakunin.codexiabot.codexia.entity.CodexiaReviewNotification;
 import dev.iakunin.codexiabot.codexia.repository.CodexiaReviewNotificationRepository;
 import dev.iakunin.codexiabot.codexia.repository.CodexiaReviewRepository;
 import dev.iakunin.codexiabot.common.runnable.FaultTolerant;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class DeleteObsoleteNotifications implements Runnable {
 
     private final CodexiaReviewRepository reviewRepository;
@@ -41,7 +41,7 @@ public class DeleteObsoleteNotifications implements Runnable {
     }
 
     @Slf4j
-    @AllArgsConstructor
+    @RequiredArgsConstructor
     @Service
     public static class Runner {
 
