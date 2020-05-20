@@ -29,7 +29,7 @@ public class BadgeSenderImpl implements BadgeSender {
                 badge.getBadge()
             );
             log.debug(
-                "Badge='{}' successfully attach for project={}",
+                "Badge='{}' successfully attach for project='{}'",
                 badge.getBadge(),
                 badge.getCodexiaProject().getExternalId()
             );
@@ -49,7 +49,7 @@ public class BadgeSenderImpl implements BadgeSender {
                 badge.getBadge()
             );
             log.debug(
-                "Badge='{}' successfully detached for project={}",
+                "Badge='{}' successfully detached for project='{}'",
                 badge.getBadge(),
                 badge.getCodexiaProject().getExternalId()
             );
