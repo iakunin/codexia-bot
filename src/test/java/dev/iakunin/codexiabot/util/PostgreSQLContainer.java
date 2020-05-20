@@ -22,7 +22,6 @@ public final class PostgreSQLContainer extends org.testcontainers.containers.Pos
     public static PostgreSQLContainer getInstance() {
         if (CONTAINER == null) {
             CONTAINER = new PostgreSQLContainer();
-            CONTAINER.setCommand("postgres", "-c", "log_statement=all");
             CONTAINER.start();
             CONTAINER.runMigrations();
             CONTAINER.waitUntilContainerStarted();
