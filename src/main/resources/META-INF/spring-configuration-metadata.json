@@ -81,6 +81,11 @@
       "description": "Cron expression for codexia.send-reviews."
     },
     {
+      "name": "app.cron.codexia.send-badges",
+      "type": "java.lang.String",
+      "description": "Cron expression for codexia.send-badges."
+    },
+    {
       "name": "app.cron.codexia.resend-erroneous-reviews",
       "type": "java.lang.String",
       "description": "Cron expression for codexia.resend-erroneous-reviews."

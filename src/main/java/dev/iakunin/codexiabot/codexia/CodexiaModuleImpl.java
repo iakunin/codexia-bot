@@ -1,11 +1,14 @@
 package dev.iakunin.codexiabot.codexia;
 
+import dev.iakunin.codexiabot.codexia.entity.CodexiaBadge;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaMeta;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaProject;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaReview;
+import dev.iakunin.codexiabot.codexia.repository.CodexiaBadgeRepository;
 import dev.iakunin.codexiabot.codexia.repository.CodexiaProjectRepository;
 import dev.iakunin.codexiabot.codexia.repository.CodexiaReviewRepository;
 import dev.iakunin.codexiabot.codexia.sdk.CodexiaClient;
+import dev.iakunin.codexiabot.codexia.service.BadgeSender;
 import dev.iakunin.codexiabot.github.GithubModule;
 import dev.iakunin.codexiabot.github.entity.GithubRepo;
 import java.util.Optional;
@@ -28,6 +31,10 @@ public final class CodexiaModuleImpl implements CodexiaModule {
 
     private final GithubModule githubModule;
 
+    private final CodexiaBadgeRepository codexiaBadgeRepository;
+
+    private final BadgeSender badgeSender;
+
     @Override
     public void saveReview(CodexiaReview review) {
         log.debug("Saving a review: {}", review);
@@ -49,6 +56,20 @@ public final class CodexiaModuleImpl implements CodexiaModule {
                 e
             );
         }
+    }
+
+    @Override
+    public void applyBadge(CodexiaBadge badge) {
+        this.codexiaBadgeRepository.save(
+            this.codexiaBadgeRepository
+                .findByCodexiaProjectAndBadge(
+                    badge.getCodexiaProject(),
+                    badge.getBadge()
+                )
+                .orElse(badge)
+                .setDeletedAt(badge.getDeletedAt())
+        );
+        this.badgeSender.send(badge);
     }
 
     @Override

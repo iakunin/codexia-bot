@@ -3,11 +3,14 @@ package dev.iakunin.codexiabot.bot.toosmall;
 import dev.iakunin.codexiabot.bot.entity.TooSmallResult;
 import dev.iakunin.codexiabot.bot.repository.TooSmallResultRepository;
 import dev.iakunin.codexiabot.codexia.CodexiaModule;
+import dev.iakunin.codexiabot.codexia.entity.CodexiaBadge;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaMeta;
+import dev.iakunin.codexiabot.codexia.entity.CodexiaProject;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaReview;
 import dev.iakunin.codexiabot.github.GithubModule;
 import dev.iakunin.codexiabot.github.entity.GithubRepo;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.stream.Stream;
 import lombok.AllArgsConstructor;
@@ -73,5 +76,15 @@ public final class NotSmall implements Bot {
             .setCodexiaProject(review.getCodexiaProject())
             .setKey("too-small")
             .setValue("false");
+    }
+
+    @Override
+    public void badge(CodexiaProject project) {
+        this.codexia.applyBadge(
+            new CodexiaBadge()
+                .setCodexiaProject(project)
+                .setBadge("bad")
+                .setDeletedAt(LocalDateTime.now())
+        );
     }
 }

@@ -10,3 +10,5 @@ codexia_review:
         author: "TOO_SMALL"
         reason: "3533"
         text: The repo is not small anymore (LoC is 6666).
+
+codexia_badge: []

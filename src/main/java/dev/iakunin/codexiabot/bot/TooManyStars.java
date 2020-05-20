@@ -4,6 +4,7 @@ import dev.iakunin.codexiabot.bot.entity.Result;
 import dev.iakunin.codexiabot.bot.entity.TooManyStarsResult;
 import dev.iakunin.codexiabot.bot.repository.ResultRepository;
 import dev.iakunin.codexiabot.codexia.CodexiaModule;
+import dev.iakunin.codexiabot.codexia.entity.CodexiaBadge;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaMeta;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaReview;
 import dev.iakunin.codexiabot.common.runnable.FaultTolerant;
@@ -66,6 +67,11 @@ public class TooManyStars implements Runnable {
             this.repository.save(this.result(stat));
             this.codexia.saveReview(review);
             this.codexia.sendMeta(this.meta(review));
+            this.codexia.applyBadge(
+                new CodexiaBadge()
+                    .setCodexiaProject(review.getCodexiaProject())
+                    .setBadge("bad")
+            );
         }
 
         private CodexiaReview review(GithubRepoStat stat) {

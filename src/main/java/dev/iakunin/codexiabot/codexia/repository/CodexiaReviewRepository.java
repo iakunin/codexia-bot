@@ -2,6 +2,7 @@ package dev.iakunin.codexiabot.codexia.repository;
 
 import dev.iakunin.codexiabot.codexia.entity.CodexiaProject;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaReview;
+import java.util.Optional;
 import java.util.stream.Stream;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -11,6 +12,8 @@ public interface CodexiaReviewRepository extends JpaRepository<CodexiaReview, Lo
     boolean existsByCodexiaProjectAndAuthorAndReason(CodexiaProject codexiaProject, String author, String reason);
 
     Stream<CodexiaReview> findAllByCodexiaProjectAndAuthorOrderByIdAsc(CodexiaProject codexiaProject, String author);
+
+    Optional<CodexiaReview> findFirstByCodexiaProjectAndAuthorOrderByIdDesc(CodexiaProject codexiaProject, String author);
 
     @Query(
         "select cr " +
