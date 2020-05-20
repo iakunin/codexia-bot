@@ -95,6 +95,7 @@ public class Small implements Runnable {
             this.repository.save(this.bot.result(stat));
             this.codexia.saveReview(review);
             this.codexia.sendMeta(this.bot.meta(review));
+            this.bot.badge(review.getCodexiaProject());
             return null;
         }
     }

@@ -1,0 +1,61 @@
+codexia_project:
+    -
+        id: 5
+        uuid: "groovy: UUID.randomUUID().toString()"
+        external_id: 123
+        coordinates: "test-project1/test-repo1"
+        author: "some-first-author1"
+        deleted: null
+        project_created_at: "2019-12-20 12:01:02"
+    -
+        id: 6
+        uuid: "groovy: UUID.randomUUID().toString()"
+        external_id: 124
+        coordinates: "test-project2/test-repo2"
+        author: "some-first-author2"
+        deleted: null
+        project_created_at: "2019-12-20 12:01:03"
+    -
+        id: 7
+        uuid: "groovy: UUID.randomUUID().toString()"
+        external_id: 125
+        coordinates: "test-project3/test-repo3"
+        author: "some-first-author3"
+        deleted: null
+        project_created_at: "2019-12-20 12:01:04"
+    -
+        id: 8
+        uuid: "groovy: UUID.randomUUID().toString()"
+        external_id: 126
+        coordinates: "test-project4/test-repo4"
+        author: "some-first-author4"
+        deleted: null
+        project_created_at: "2019-12-20 12:01:05"
+
+codexia_review:
+    -
+        uuid: "groovy: UUID.randomUUID().toString()"
+        codexia_project_id: 5
+        author: TOO_MANY_STARS
+        reason: 12430
+        text: "The repo gained too many stars: 12430."
+    -
+        uuid: "groovy: UUID.randomUUID().toString()"
+        codexia_project_id: 6
+        author: TOO_SMALL
+        reason: 840
+        text: "The repo is too small (LoC is 840)."
+    -
+        uuid: "groovy: UUID.randomUUID().toString()"
+        codexia_project_id: 7
+        author: TOO_SMALL
+        reason: 5010
+        text: "The repo is not small anymore (LoC is 5010)."
+    -
+        uuid: "groovy: UUID.randomUUID().toString()"
+        codexia_project_id: 8
+        author: TOO_MANY_STARS
+        reason: 12555
+        text: "The repo gained too many stars: 12555."
+
+codexia_badge: []

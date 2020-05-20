@@ -1,0 +1,10 @@
+{
+  "request" : {
+    "urlPathPattern": "/codexia/p/\\d+/detach/.+",
+    "method" : "POST"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "The badge successfully detached!"
+  }
+}

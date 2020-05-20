@@ -1,0 +1,23 @@
+codexia_project:
+    -
+        external_id: 123
+        coordinates: "test-project1/test-repo1"
+        author: "some-first-author1"
+        deleted: null
+        project_created_at: "2019-12-20 12:01:02"
+    -
+        external_id: 321
+        coordinates: "test-project2/test-repo2"
+        author: "some-first-author2"
+        deleted: null
+        project_created_at: "2020-01-12 09:10:45"
+
+codexia_badge:
+    -
+        codexia_project_id: 5
+        badge: "bad"
+        deleted_at: null
+    -
+        codexia_project_id: 6
+        badge: "bad"
+        deleted_at: null

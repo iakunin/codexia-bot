@@ -1,5 +1,6 @@
 package dev.iakunin.codexiabot.codexia;
 
+import dev.iakunin.codexiabot.codexia.entity.CodexiaBadge;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaMeta;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaProject;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaReview;
@@ -15,6 +16,8 @@ public interface CodexiaModule {
     // @todo #19 sending meta should also be asynchronous (via cron)
     //  here should be only a saving Meta (as saving Review)
     void sendMeta(CodexiaMeta meta);
+
+    void applyBadge(CodexiaBadge badge);
 
     Optional<CodexiaProject> findCodexiaProject(GithubRepo repo);
 

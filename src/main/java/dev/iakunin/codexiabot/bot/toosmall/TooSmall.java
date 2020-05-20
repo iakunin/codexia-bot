@@ -3,7 +3,9 @@ package dev.iakunin.codexiabot.bot.toosmall;
 import dev.iakunin.codexiabot.bot.entity.TooSmallResult;
 import dev.iakunin.codexiabot.bot.repository.TooSmallResultRepository;
 import dev.iakunin.codexiabot.codexia.CodexiaModule;
+import dev.iakunin.codexiabot.codexia.entity.CodexiaBadge;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaMeta;
+import dev.iakunin.codexiabot.codexia.entity.CodexiaProject;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaReview;
 import dev.iakunin.codexiabot.github.GithubModule;
 import dev.iakunin.codexiabot.github.entity.GithubRepo;
@@ -73,5 +75,14 @@ public final class TooSmall implements Bot {
             .setCodexiaProject(review.getCodexiaProject())
             .setKey("too-small")
             .setValue("true");
+    }
+
+    @Override
+    public void badge(CodexiaProject project) {
+        this.codexia.applyBadge(
+            new CodexiaBadge()
+                .setCodexiaProject(project)
+                .setBadge("bad")
+        );
     }
 }

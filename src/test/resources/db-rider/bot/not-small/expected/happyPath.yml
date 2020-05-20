@@ -19,3 +19,9 @@ codexia_review:
         author: "TOO_SMALL"
         reason: "5000"
         text: The repo is not small anymore (LoC is 5000).
+
+codexia_badge:
+    -
+        codexia_project_id: 6
+        badge: bad
+        deleted_at: regex:^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{1,6}$

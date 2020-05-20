@@ -25,8 +25,9 @@ This is a supervised bot for [Codexia (open source incubator)](https://www.codex
 * report when the size of the repo is smaller than the threshold
 * report text `The repo is too small (LoC is 123)`
 * set meta marker once reported
+* attach a badge `bad` once reported
 * don't report anymore, while the meta marker is present
-* report and remove the marker if the size of the repo is above the threshold
+* report, remove the marker and badge if the size of the repo is above the threshold
 * report text `The repo is not small anymore (LoC is 456)`
 * the threshold is 5K LoC
 
