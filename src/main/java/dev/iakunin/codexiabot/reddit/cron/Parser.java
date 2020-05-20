@@ -7,17 +7,16 @@ import dev.iakunin.codexiabot.github.GithubModule.Source;
 import dev.iakunin.codexiabot.github.entity.GithubRepo;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.dean.jraw.RedditClient;
 import net.dean.jraw.models.Submission;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @Slf4j
-@AllArgsConstructor(onConstructor_={@Autowired})
+@RequiredArgsConstructor
 public class Parser implements Runnable {
 
     private final RedditClient reddit;

@@ -9,12 +9,12 @@ import dev.iakunin.codexiabot.github.entity.GithubRepo;
 import dev.iakunin.codexiabot.github.entity.GithubRepoSource;
 import io.vavr.Tuple2;
 import java.util.stream.Stream;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class Found implements Runnable {
 
     private final Bot.Type botType;

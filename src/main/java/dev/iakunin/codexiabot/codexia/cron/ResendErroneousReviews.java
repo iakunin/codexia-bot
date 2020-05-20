@@ -5,15 +5,14 @@ import dev.iakunin.codexiabot.codexia.repository.CodexiaReviewNotificationReposi
 import dev.iakunin.codexiabot.codexia.repository.CodexiaReviewRepository;
 import dev.iakunin.codexiabot.codexia.service.ReviewSender;
 import dev.iakunin.codexiabot.common.runnable.FaultTolerant;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Component
-@AllArgsConstructor(onConstructor_={@Autowired})
+@RequiredArgsConstructor
 public class ResendErroneousReviews implements Runnable {
 
     private final CodexiaReviewNotificationRepository notificationRepository;

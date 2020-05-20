@@ -3,9 +3,9 @@ package dev.iakunin.codexiabot.common.runnable;
 import io.vavr.control.Try;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 public final class FaultTolerant implements Runnable {
 
     private final Stream<Runnable> stream;

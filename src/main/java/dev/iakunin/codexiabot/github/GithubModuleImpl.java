@@ -11,18 +11,17 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.stream.Stream;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.cactoos.scalar.IoChecked;
 import org.kohsuke.github.GHFileNotFoundException;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-@AllArgsConstructor(onConstructor_={@Autowired})
+@RequiredArgsConstructor
 public final class GithubModuleImpl implements GithubModule {
 
     private final GithubRepoRepository githubRepoRepository;

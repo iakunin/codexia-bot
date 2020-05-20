@@ -6,16 +6,15 @@ import dev.iakunin.codexiabot.codexia.sdk.CodexiaClient;
 import dev.iakunin.codexiabot.common.runnable.FaultTolerant;
 import dev.iakunin.codexiabot.github.GithubModule;
 import java.util.Objects;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @Slf4j
-@AllArgsConstructor(onConstructor_={@Autowired})
+@RequiredArgsConstructor
 public class ProjectsHealthCheck implements Runnable {
 
     private final CodexiaClient codexiaClient;

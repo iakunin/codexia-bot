@@ -3,16 +3,15 @@ package dev.iakunin.codexiabot.hackernews.service;
 import dev.iakunin.codexiabot.github.GithubModule;
 import dev.iakunin.codexiabot.hackernews.entity.HackernewsItem;
 import java.io.IOException;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service("hackernews.service.GithubRepo")
 @Slf4j
-@AllArgsConstructor(onConstructor_={@Autowired})
+@RequiredArgsConstructor
 public class GithubRepo implements Writer {
 
     private final GithubModule githubModule;

@@ -12,13 +12,13 @@ import io.vavr.Tuple2;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.stream.Collectors;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class Up implements Runnable {
 
     private final GithubModule github;
@@ -65,7 +65,7 @@ public class Up implements Runnable {
             .orElse(0L);
     }
 
-    @AllArgsConstructor
+    @RequiredArgsConstructor
     public static class Submitter {
 
         private final dev.iakunin.codexiabot.bot.up.Bot bot;

@@ -6,9 +6,8 @@ import dev.iakunin.codexiabot.codexia.repository.CodexiaReviewNotificationReposi
 import dev.iakunin.codexiabot.codexia.sdk.CodexiaClient;
 import feign.FeignException;
 import java.nio.ByteBuffer;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -16,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
-@AllArgsConstructor(onConstructor_={@Autowired})
+@RequiredArgsConstructor
 public class ReviewSenderImpl implements ReviewSender {
 
     private final CodexiaReviewNotificationRepository codexiaReviewNotificationRepository;

@@ -12,12 +12,11 @@ import dev.iakunin.codexiabot.github.entity.GithubRepo;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat;
 import java.util.Optional;
 import java.util.stream.Stream;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service("bot.toosmall.TooSmall")
-@AllArgsConstructor(onConstructor_={@Autowired})
+@RequiredArgsConstructor
 public final class TooSmall implements Bot {
 
     private final GithubModule github;

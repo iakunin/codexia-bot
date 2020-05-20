@@ -6,15 +6,14 @@ import dev.iakunin.codexiabot.codexia.repository.CodexiaReviewRepository;
 import dev.iakunin.codexiabot.codexia.sdk.CodexiaClient;
 import dev.iakunin.codexiabot.codexia.service.ReviewSender;
 import dev.iakunin.codexiabot.common.runnable.FaultTolerant;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Component
-@AllArgsConstructor(onConstructor_={@Autowired})
+@RequiredArgsConstructor
 // @todo #85 Remove this cron after https://github.com/yegor256/codexia/issues/98 is done
 public class ResendReviewsUntilDuplicated implements Runnable {
 
