@@ -26,6 +26,7 @@ codexia_review:
 
 codexia_badge:
     -
+        uuid: "groovy: UUID.randomUUID().toString()"
         codexia_project_id: 8
         badge: "bad"
         deleted_at: null
