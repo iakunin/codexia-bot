@@ -11,11 +11,12 @@ import dev.iakunin.codexiabot.util.wiremock.Stub;
 import org.cactoos.io.ResourceOf;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 
-class ProjectsHealthCheckIntegrationTest extends AbstractIntegrationTest {
+class UpdateProjectsIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
-    private ProjectsHealthCheck projectsHealthCheck;
+    private UpdateProjects cron;
 
     @Test
     @DataSet(
@@ -24,7 +25,7 @@ class ProjectsHealthCheckIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/codexia/cron/projects-health-check/expected/noActiveProjectsInRepo.yml")
     void noActiveProjectsInRepo() {
-        projectsHealthCheck.run();
+        cron.run();
     }
 
     @Test
@@ -39,12 +40,39 @@ class ProjectsHealthCheckIntegrationTest extends AbstractIntegrationTest {
                 new Request(WireMock.urlPathMatching("/codexia/p/\\d+\\.json")),
                 new Response(
                     new ResourceOf(
-                        "wiremock/codexia/cron/projects-health-check/twoActiveProjectsInRepoButDeletedInCodexia.json"
+                        "wiremock/codexia/cron/projects-health-check/deletedWithBadges.json"
                     )
                 )
             )
         );
 
-        projectsHealthCheck.run();
+        cron.run();
+    }
+
+    @Test
+    @DataSet(
+        value = "db-rider/codexia/cron/projects-health-check/initial/oneSuccessAfterOneException.yml",
+        cleanBefore = true, cleanAfter = true
+    )
+    @ExpectedDataSet("db-rider/codexia/cron/projects-health-check/expected/oneSuccessAfterOneException.yml")
+    void oneSuccessAfterOneException() {
+        WireMockServer.stub(
+            new Stub(
+                new Request(WireMock.urlPathEqualTo("/codexia/p/12.json")),
+                new Response(HttpStatus.INTERNAL_SERVER_ERROR.value())
+            )
+        );
+        WireMockServer.stub(
+            new Stub(
+                new Request(WireMock.urlPathEqualTo("/codexia/p/34.json")),
+                new Response(
+                    new ResourceOf(
+                        "wiremock/codexia/cron/projects-health-check/deletedWithBadges.json"
+                    )
+                )
+            )
+        );
+
+        cron.run();
     }
 }
