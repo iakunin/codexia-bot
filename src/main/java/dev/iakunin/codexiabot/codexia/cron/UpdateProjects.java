@@ -9,9 +9,10 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @Slf4j
@@ -24,11 +25,13 @@ public class UpdateProjects implements Runnable {
 
     private final Updater updater;
 
-    @Transactional
     public void run() {
-        try (var projects = this.repository.findAllActive()) {
+        Page<CodexiaProject> page;
+        int pageNum = 0;
+        do {
+            page = this.repository.findAllActive(PageRequest.of(pageNum, 100));
             new FaultTolerant(
-                projects
+                page.stream()
                     .map(project -> () ->
                         this.updater.update(
                             Objects.requireNonNull(
@@ -40,7 +43,8 @@ public class UpdateProjects implements Runnable {
                     ),
                 tr -> log.error("Unable to update project", tr.getCause())
             ).run();
-        }
+            pageNum++;
+        } while (page.hasNext());
     }
 
     @Service

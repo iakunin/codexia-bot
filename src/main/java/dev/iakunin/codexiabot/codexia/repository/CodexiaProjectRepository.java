@@ -3,6 +3,8 @@ package dev.iakunin.codexiabot.codexia.repository;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaProject;
 import java.util.Optional;
 import java.util.stream.Stream;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -27,4 +29,10 @@ public interface CodexiaProjectRepository extends JpaRepository<CodexiaProject, 
         "where cp.deleted is null"
     )
     Stream<CodexiaProject> findAllActive();
+
+    @Query(
+        "select cp from CodexiaProject cp " +
+        "where cp.deleted is null"
+    )
+    Page<CodexiaProject> findAllActive(Pageable pageable);
 }
