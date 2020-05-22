@@ -6,6 +6,7 @@ import dev.iakunin.codexiabot.common.config.feign.GeneralClientConfiguration;
 import java.util.Date;
 import java.util.List;
 import lombok.Data;
+import org.cactoos.list.ListOf;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -89,10 +90,18 @@ public interface CodexiaClient {
         // @todo #6 replace `Date` with `ZonedDateTime`
         private Date created;
 
+        private List<Badge> badges = new ListOf<>();
+
         @Data
         public static class Submitter {
             private Integer id;
             private String login;
+        }
+
+        @Data
+        public static class Badge {
+            private Integer id;
+            private String text;
         }
     }
 

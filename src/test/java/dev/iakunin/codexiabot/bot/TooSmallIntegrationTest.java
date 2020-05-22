@@ -103,4 +103,14 @@ class TooSmallIntegrationTest extends AbstractIntegrationTest {
         tooSmall.run();
     }
 
+    @Test
+    @DataSet(
+        value = "db-rider/bot/too-small/initial/projectLevelMoreThanZero.yml",
+        cleanBefore = true, cleanAfter = true
+    )
+    @ExpectedDataSet("db-rider/bot/too-small/expected/projectLevelMoreThanZero.yml")
+    void projectLevelMoreThanZero() {
+        tooSmall.run();
+    }
+
 }

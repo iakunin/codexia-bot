@@ -29,6 +29,12 @@ public final class TooSmall implements Bot {
     public Stream<GithubRepo> repoStream() {
         return this.github
             .findAllInCodexia()
+            .filter(repo ->
+                this.codexia
+                    .findCodexiaProject(repo)
+                    .map(project -> project.level() == 0)
+                    .orElse(false)
+            )
             .filter(repo -> {
                 final Optional<TooSmallResult> optional = this.repository.findFirstByGithubRepoOrderByIdDesc(repo);
                 return optional.isEmpty() || optional.get().getState() == TooSmallResult.State.RESET;
