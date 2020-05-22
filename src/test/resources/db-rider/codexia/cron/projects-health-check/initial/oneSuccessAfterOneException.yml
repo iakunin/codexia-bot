@@ -6,6 +6,7 @@ codexia_project:
         coordinates: "test-project1/test-repo1"
         author: "some-first-author"
         deleted: null
+        badges: null
         project_created_at: "2019-12-20 12:01:02"
         created_at: "2019-12-21 15:00:00"
         updated_at: "2019-12-21 15:00:00"
@@ -16,6 +17,7 @@ codexia_project:
         coordinates: "test-project2/test-repo2"
         author: "some-second-author"
         deleted: null
+        badges: null
         project_created_at: "2019-11-22 10:01:02"
         created_at: "2019-12-21 15:00:00"
         updated_at: "2019-12-21 15:00:00"

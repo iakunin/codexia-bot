@@ -2,7 +2,7 @@ codexia_project:
     -
         id: 1
         deleted: null
-        badges: ""
+        badges: null
     -
         id: 2
         deleted: "deleted by someone"
