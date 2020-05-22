@@ -136,8 +136,8 @@ class CodexiaProjectUnitTest {
             project::level
         );
         assertEquals(
-            exception.getMessage(),
-            "Project cannot have more than one level; externalId='null'; levels='l2,l3'"
+            "Project cannot have more than one level; externalId='null'; levels='l2,l3'",
+            exception.getMessage()
         );
     }
 
@@ -152,8 +152,8 @@ class CodexiaProjectUnitTest {
             project::level
         );
         assertEquals(
-            exception.getMessage(),
-            "Project cannot have more than one level; externalId='321'; levels='l2,l3'"
+            "Project cannot have more than one level; externalId='321'; levels='l2,l3'",
+            exception.getMessage()
         );
     }
 }

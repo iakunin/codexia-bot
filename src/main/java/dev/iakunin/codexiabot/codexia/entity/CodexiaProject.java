@@ -42,7 +42,7 @@ public final class CodexiaProject extends AbstractEntity {
                     String.join(",", levels)
                 )
             );
-        } else if (levels.size() == 0) {
+        } else if (levels.isEmpty()) {
             return 0;
         }
 
