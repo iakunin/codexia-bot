@@ -20,6 +20,7 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+    dataDog
 }
 
 repositories {
@@ -68,6 +69,8 @@ dependencies {
     testImplementation 'com.github.tomakehurst:wiremock:2.26.3'
     testImplementation 'org.codehaus.groovy:groovy-all:3.0.4'
     testImplementation 'org.junit.jupiter:junit-jupiter-params:5.6.2'
+
+    dataDog 'com.datadoghq:dd-java-agent:0.52.0'
 }
 
 springBoot {
@@ -110,3 +113,10 @@ jacocoTestReport {
 }
 
 test.finalizedBy jacocoTestReport
+
+task copyDataDog(type: Copy) {
+    from configurations.dataDog
+    into "${project.buildDir}/libs"
+}
+
+assemble.dependsOn copyDataDog

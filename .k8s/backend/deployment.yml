@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: eu.gcr.io/codexia-bot/backend:0.0.124
+          image: eu.gcr.io/codexia-bot/backend:0.0.147
           imagePullPolicy: IfNotPresent
           env:
             - name: SPRING_PROFILES_ACTIVE
@@ -68,6 +68,19 @@ spec:
                 secretKeyRef:
                   name: app
                   key: sentry.dsn
+            - name: DD_TRACE_ANALYTICS_ENABLED
+              value: "true"
+            - name: DD_PROFILING_ENABLED
+              value: "true"
+            - name: DD_PROFILING_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: app
+                  key: datadog.api-key
+            - name: DD_AGENT_HOST
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
           ports:
             - containerPort: 8080
           readinessProbe:
