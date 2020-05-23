@@ -65,3 +65,14 @@ migrate:
 
 prod-db:
 	cloud_sql_proxy -instances=codexia-bot:europe-west3:codexia-bot-db=tcp:54323
+
+show-slow-logs:
+	aws lightsail get-relational-database-log-events \
+	--relational-database-name Codexia-bot-DB \
+	--log-stream-name postgresql \
+	--start-time 1590238537 | grep "duration:"
+
+update-pg-parameter:
+	aws lightsail update-relational-database-parameters \
+	--relational-database-name Codexia-bot-DB \
+	--parameters "parameterName=log_min_duration_statement,parameterValue=500,applyMethod=pending-reboot"
