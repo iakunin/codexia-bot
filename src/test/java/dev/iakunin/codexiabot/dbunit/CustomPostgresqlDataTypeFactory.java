@@ -15,7 +15,7 @@ import org.postgresql.util.PGobject;
 public class CustomPostgresqlDataTypeFactory extends PostgresqlDataTypeFactory {
     @Override
     public DataType createDataType(int sqlType, String sqlTypeName) throws DataTypeException {
-        if (sqlTypeName.equals("json")) {
+        if ("json".equals(sqlTypeName)) {
             return new JsonDataType();
         } else {
             return super.createDataType(sqlType, sqlTypeName);

@@ -17,7 +17,7 @@ public final class GithubRepoName implements Scalar<String> {
     @Override
     public String value() throws Exception {
         final String path = this.url.getPath();
-        if (path.length() == 0 || path.equals("/")) {
+        if (path.length() == 0 || "/".equals(path)) {
             throw new GithubModule.InvalidRepoNameException(
                 "Url with empty path given"
             );
