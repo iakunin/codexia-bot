@@ -70,7 +70,7 @@ show-slow-logs:
 	aws lightsail get-relational-database-log-events \
 	--relational-database-name Codexia-bot-DB \
 	--log-stream-name postgresql \
-	--start-time 1590238537 | grep "duration:"
+	--start-time 1590240000 | grep "duration:"
 
 update-pg-parameter:
 	aws lightsail update-relational-database-parameters \
