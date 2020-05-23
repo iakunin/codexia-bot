@@ -3,6 +3,8 @@ package dev.iakunin.codexiabot.github.repository;
 import dev.iakunin.codexiabot.github.entity.GithubRepo;
 import java.util.Optional;
 import java.util.stream.Stream;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -46,5 +48,5 @@ public interface GithubRepoRepository extends JpaRepository<GithubRepo, Long> {
     Stream<GithubRepo> findAllInCodexia();
 
     @Query("select gr from GithubRepo gr")
-    Stream<GithubRepo> getAll();
+    Page<GithubRepo> getAll(Pageable pageable);
 }
