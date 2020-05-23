@@ -1,6 +1,7 @@
 package dev.iakunin.codexiabot.github.cron;
 
 import dev.iakunin.codexiabot.common.runnable.FaultTolerant;
+import dev.iakunin.codexiabot.github.entity.GithubRepo;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat;
 import dev.iakunin.codexiabot.github.repository.GithubRepoRepository;
 import dev.iakunin.codexiabot.github.repository.GithubRepoStatRepository;
@@ -11,6 +12,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -19,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class DeleteObsoleteStat implements Runnable {
+public final class DeleteObsoleteStat implements Runnable {
 
     private final GithubRepoRepository repoRepository;
 
@@ -28,11 +31,14 @@ public class DeleteObsoleteStat implements Runnable {
     private final Runner runner;
 
     @Override
-    @Transactional
     public void run() {
-        try (var repos = this.repoRepository.getAll()) {
+        Page<GithubRepo> page;
+        int pageNum = 0;
+        do {
+            page = this.repoRepository.getAll(PageRequest.of(pageNum, 500));
             new FaultTolerant(
-                repos
+                page
+                    .stream()
                     .flatMap(
                         repo -> Arrays.stream(GithubRepoStat.Type.values())
                             .map(type -> new Tuple2<>(repo, type))
@@ -47,9 +53,10 @@ public class DeleteObsoleteStat implements Runnable {
                     )
                     .flatMap(this::withoutFirstAndLast)
                     .map(stat -> () -> this.runner.run(stat)),
-                tr -> log.debug("Unable to delete stat ", tr.getCause())
+                tr -> log.debug("Unable to delete stat: {}", tr.getCause().getMessage())
             ).run();
-        }
+            pageNum++;
+        } while (page.hasNext());
     }
 
     @Slf4j
