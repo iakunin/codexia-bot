@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: eu.gcr.io/codexia-bot/backend:0.0.150
+          image: eu.gcr.io/codexia-bot/backend:0.0.151
           imagePullPolicy: IfNotPresent
           env:
             - name: SPRING_PROFILES_ACTIVE
@@ -69,9 +69,9 @@ spec:
                   name: app
                   key: sentry.dsn
             - name: DD_TRACE_ANALYTICS_ENABLED
-              value: "true"
+              value: "false"
             - name: DD_PROFILING_ENABLED
-              value: "true"
+              value: "false"
             - name: DD_PROFILING_API_KEY
               valueFrom:
                 secretKeyRef:
