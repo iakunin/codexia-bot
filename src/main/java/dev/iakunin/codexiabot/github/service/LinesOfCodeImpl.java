@@ -46,7 +46,7 @@ public final class LinesOfCodeImpl implements LinesOfCode {
                         .getBody()
                 )
             );
-        } catch (feign.FeignException e) {
+        } catch (FeignException e) {
             this.processException(repo, e);
         } finally {
             this.sleep(this.delay);
