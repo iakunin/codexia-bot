@@ -5,4 +5,4 @@ COPY build/libs/dd-java-agent-*.jar /dd-java-agent.jar
 
 WORKDIR /
 
-ENTRYPOINT ["java", "-javaagent:/dd-java-agent.jar", "-jar", "/app.jar"]
+ENTRYPOINT ["java", "-XX:FlightRecorderOptions=stackdepth=128", "-javaagent:/dd-java-agent.jar", "-jar", "/app.jar"]
