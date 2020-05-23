@@ -1,5 +1,6 @@
 # codexia-bot
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/9c259dbc079243e7a0107361d755d81c)](https://app.codacy.com/manual/yakuninm-github/codexia-bot?utm_source=github.com&utm_medium=referral&utm_content=iakunin/codexia-bot&utm_campaign=Badge_Grade_Dashboard)
 [![CircleCI](https://circleci.com/gh/iakunin/codexia-bot.svg?style=shield)](https://circleci.com/gh/iakunin/codexia-bot)
 [![PDD status](http://www.0pdd.com/svg?name=iakunin/codexia-bot)](http://www.0pdd.com/p?name=iakunin/codexia-bot)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=iakunin_codexia-bot&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=iakunin_codexia-bot)
