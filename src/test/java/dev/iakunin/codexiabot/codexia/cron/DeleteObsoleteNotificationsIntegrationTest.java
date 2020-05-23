@@ -23,9 +23,6 @@ class DeleteObsoleteNotificationsIntegrationTest extends AbstractIntegrationTest
     private CodexiaReviewNotificationRepository notificationRepository;
 
     @Autowired
-    private DeleteObsoleteNotifications.Runner runner;
-
-    @Autowired
     private PlatformTransactionManager transactionManager;
 
     @Test

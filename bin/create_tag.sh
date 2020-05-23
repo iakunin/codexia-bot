@@ -56,7 +56,7 @@ if ! (git tag "$new_tag"); then
     exit
 fi
 
-git push --progress origin ${new_tag}
+git push --progress origin "${new_tag}"
 if [[ $? -eq 0 ]]; then
     echo ""
     echo "Tag '${new_tag}' successfully created and pushed"
