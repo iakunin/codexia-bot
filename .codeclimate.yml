@@ -1,0 +1,7 @@
+plugins:
+    markdownlint:
+        enabled: true
+    editorconfig:
+        enabled: true
+    sonar-java:
+        enabled: true
