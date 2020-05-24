@@ -15,46 +15,44 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 
-@SpringBootTest(classes = {
-    AbstractIntegrationTest.TestConfig.class,
-    ForksUpTransactionIntegrationTest.TestConfig.class,
-})
+@SpringBootTest(classes =
+                    {
+                        AbstractIntegrationTest.TestConfig.class,
+                        ForksUpTransactionIntegrationTest.TestConfig.class,
+                    })
 class ForksUpTransactionIntegrationTest extends AbstractIntegrationTest {
 
-    private static final String EXCEPTION_MESSAGE = "Some error";
+  private static final String EXCEPTION_MESSAGE = "Some error";
 
-    @Qualifier("forksUp")
-    @Autowired
-    private Up forksUp;
+  @Qualifier("forksUp") @Autowired private Up forksUp;
 
-    @Test
-    @DataSet(
-        value = "db-rider/bot/forks-up-transaction/initial/transactionRollback.yml",
-        cleanBefore = true, cleanAfter = true
-    )
-    @ExpectedDataSet("db-rider/bot/forks-up-transaction/expected/transactionRollback.yml")
-    void transactionRollback() {
-        forksUp.run();
+  @Test
+  @DataSet(
+      value =
+          "db-rider/bot/forks-up-transaction/initial/transactionRollback.yml",
+      cleanBefore = true, cleanAfter = true)
+  @ExpectedDataSet(
+      "db-rider/bot/forks-up-transaction/expected/transactionRollback.yml")
+  void
+  transactionRollback() {
+    forksUp.run();
+  }
+
+  @Configuration
+  @Import(CodexiaBotApplication.class)
+  static class TestConfig {
+    @Bean
+    @Primary
+    public CodexiaModule codexiaModule() {
+
+      final CodexiaModule mock = Mockito.mock(CodexiaModule.class);
+      Mockito
+          .doThrow(new RuntimeException(
+              ForksUpTransactionIntegrationTest.EXCEPTION_MESSAGE))
+          .when(mock)
+          .sendMeta(Mockito.any());
+
+      return mock;
     }
-
-
-    @Configuration
-    @Import(CodexiaBotApplication.class)
-    static class TestConfig {
-        @Bean
-        @Primary
-        public CodexiaModule codexiaModule() {
-
-            final CodexiaModule mock = Mockito.mock(CodexiaModule.class);
-            Mockito.doThrow(
-                new RuntimeException(
-                    ForksUpTransactionIntegrationTest.EXCEPTION_MESSAGE
-                )
-            )
-                .when(mock)
-                .sendMeta(Mockito.any());
-
-            return mock;
-        }
-    }
+  }
 }
