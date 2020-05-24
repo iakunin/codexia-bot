@@ -29,6 +29,7 @@ public class Found implements Runnable {
     public void run() {
         log.debug("Bot: {}", this.bot.getClass().getName());
         try (var repos = this.bot.repoStream()) {
+
             new FaultTolerant(
                 repos
                     .flatMap(this::extractAllSources)
