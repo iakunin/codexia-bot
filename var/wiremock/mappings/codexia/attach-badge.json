@@ -1,10 +1,10 @@
 {
-  "request": {
-    "urlPathPattern": "/codexia/p/\\d+/attach",
-    "method": "POST"
-  },
-  "response": {
-    "status": 200,
-    "body": "The badge successfully attached!"
-  }
+    "request": {
+        "urlPathPattern": "/codexia/p/\\d+/attach",
+        "method": "POST"
+    },
+    "response": {
+        "status": 200,
+        "body": "The badge successfully attached!"
+    }
 }

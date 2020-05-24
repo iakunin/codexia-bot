@@ -1,11 +1,11 @@
 {
-  "by": "test1author111",
-  "id": 1,
-  "text": "Some awesome text for test 1.",
-  "title": "Title for test1_123",
-  "url": "https://example.com/test123",
-  "time": 1231999969,
-  "type": "story",
-  "descendants": 0,
-  "score": 2
+    "by": "test1author111",
+    "id": 1,
+    "text": "Some awesome text for test 1.",
+    "title": "Title for test1_123",
+    "url": "https://example.com/test123",
+    "time": 1231999969,
+    "type": "story",
+    "descendants": 0,
+    "score": 2
 }
