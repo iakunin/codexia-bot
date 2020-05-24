@@ -1,194 +1,194 @@
 {
-  "properties": [
-    {
-      "name": "app.database.name",
-      "type": "java.lang.String",
-      "description": "Name of the application database."
-    },
-    {
-      "name": "app.database.host",
-      "type": "java.lang.String",
-      "description": "Host of the application database."
-    },
-    {
-      "name": "app.database.port",
-      "type": "java.lang.Integer",
-      "description": "Port of the application database."
-    },
-    {
-      "name": "app.github-token",
-      "type": "java.lang.String",
-      "description": "Token for GitHub."
-    },
-    {
-      "name": "app.codexia.token",
-      "type": "java.lang.String",
-      "description": "Token for Codexia."
-    },
-    {
-      "name": "app.codexia.base-url",
-      "type": "java.lang.String",
-      "description": "Base url of Codexia."
-    },
-    {
-      "name": "app.cron.bot.found-on-hackernews",
-      "type": "java.lang.String",
-      "description": "Cron expression for bot.found-on-hackernews."
-    },
-    {
-      "name": "app.cron.bot.stars-up",
-      "type": "java.lang.String",
-      "description": "Cron expression for bot.stars-up."
-    },
-    {
-      "name": "app.cron.bot.forks-up",
-      "type": "java.lang.String",
-      "description": "Cron expression for bot.forks-up."
-    },
-    {
-      "name": "app.cron.bot.too-many-stars",
-      "type": "java.lang.String",
-      "description": "Cron expression for bot.too-many-stars."
-    },
-    {
-      "name": "app.cron.bot.too-small",
-      "type": "java.lang.String",
-      "description": "Cron expression for bot.too-small."
-    },
-    {
-      "name": "app.cron.bot.not-small",
-      "type": "java.lang.String",
-      "description": "Cron expression for bot.not-small."
-    },
-    {
-      "name": "app.cron.bot.found-on-reddit",
-      "type": "java.lang.String",
-      "description": "Cron expression for bot.found-on-reddit."
-    },
-    {
-      "name": "app.cron.codexia.codexia-parser",
-      "type": "java.lang.String",
-      "description": "Cron expression for codexia.codexia-parser."
-    },
-    {
-      "name": "app.cron.codexia.missing-filler",
-      "type": "java.lang.String",
-      "description": "Cron expression for codexia.missing-filler."
-    },
-    {
-      "name": "app.cron.codexia.send-reviews",
-      "type": "java.lang.String",
-      "description": "Cron expression for codexia.send-reviews."
-    },
-    {
-      "name": "app.cron.codexia.send-badges",
-      "type": "java.lang.String",
-      "description": "Cron expression for codexia.send-badges."
-    },
-    {
-      "name": "app.cron.codexia.resend-erroneous-reviews",
-      "type": "java.lang.String",
-      "description": "Cron expression for codexia.resend-erroneous-reviews."
-    },
-    {
-      "name": "app.cron.codexia.resend-reviews-until-duplicated",
-      "type": "java.lang.String",
-      "description": "Cron expression for codexia.resend-reviews-until-duplicated."
-    },
-    {
-      "name": "app.cron.codexia.update-projects",
-      "type": "java.lang.String",
-      "description": "Cron expression for codexia.projects-health-check."
-    },
-    {
-      "name": "app.cron.codexia.delete-obsolete-notifications",
-      "type": "java.lang.String",
-      "description": "Cron expression for codexia.delete-obsolete-notifications."
-    },
-    {
-      "name": "app.cron.github.stat.loc.without-loc",
-      "type": "java.lang.String",
-      "description": "Cron expression for github.stat.loc.without-loc."
-    },
-    {
-      "name": "app.cron.github.stat.loc.codexia",
-      "type": "java.lang.String",
-      "description": "Cron expression for github.stat.loc.codexia."
-    },
-    {
-      "name": "app.cron.github.stat.github",
-      "type": "java.lang.String",
-      "description": "Cron expression for github.stat.github."
-    },
-    {
-      "name": "app.cron.github.delete-obsolete-stat",
-      "type": "java.lang.String",
-      "description": "Cron expression for github.delete-obsolete-stat."
-    },
-    {
-      "name": "app.cron.hackernews.gaps-filler",
-      "type": "java.lang.String",
-      "description": "Cron expression for hackernews.gaps-filler."
-    },
-    {
-      "name": "app.cron.hackernews.incremented-parser",
-      "type": "java.lang.String",
-      "description": "Cron expression for hackernews.incremented-parser."
-    },
-    {
-      "name": "app.cron.hackernews.items-health-check",
-      "type": "java.lang.String",
-      "description": "Cron expression for hackernews.items-health-check."
-    },
-    {
-      "name": "app.cron.hackernews.health-check.codexia-items",
-      "type": "java.lang.String",
-      "description": "Cron expression for hackernews.health-check.codexia-items."
-    },
-    {
-      "name": "app.cron.hackernews.retry-erroneous",
-      "type": "java.lang.String",
-      "description": "Cron expression for hackernews.retry-erroneous."
-    },
-    {
-      "name": "app.cron.reddit.parser",
-      "type": "java.lang.String",
-      "description": "Cron expression for reddit.parser."
-    },
-    {
-      "name": "app.reddit.username",
-      "type": "java.lang.String",
-      "description": "Reddit account username."
-    },
-    {
-      "name": "app.reddit.password",
-      "type": "java.lang.String",
-      "description": "Reddit account password."
-    },
-    {
-      "name": "app.reddit.client-id",
-      "type": "java.lang.String",
-      "description": "Reddit client id."
-    },
-    {
-      "name": "app.reddit.client-secret",
-      "type": "java.lang.String",
-      "description": "Reddit client secret."
-    },
-    {
-      "name": "app.codetabs.base-url",
-      "type": "java.lang.String",
-      "description": "Base url of Codetabs."
-    },
-    {
-      "name": "app.hackernews.base-url",
-      "type": "java.lang.String",
-      "description": "Base url of Hackernews."
-    },
-    {
-      "name": "app.github.service.lines-of-code.delay",
-      "type": "java.lang.Integer",
-      "description": "Delay for LinesOfCode service."
-    }
-  ]
+    "properties": [
+        {
+            "name": "app.database.name",
+            "type": "java.lang.String",
+            "description": "Name of the application database."
+        },
+        {
+            "name": "app.database.host",
+            "type": "java.lang.String",
+            "description": "Host of the application database."
+        },
+        {
+            "name": "app.database.port",
+            "type": "java.lang.Integer",
+            "description": "Port of the application database."
+        },
+        {
+            "name": "app.github-token",
+            "type": "java.lang.String",
+            "description": "Token for GitHub."
+        },
+        {
+            "name": "app.codexia.token",
+            "type": "java.lang.String",
+            "description": "Token for Codexia."
+        },
+        {
+            "name": "app.codexia.base-url",
+            "type": "java.lang.String",
+            "description": "Base url of Codexia."
+        },
+        {
+            "name": "app.cron.bot.found-on-hackernews",
+            "type": "java.lang.String",
+            "description": "Cron expression for bot.found-on-hackernews."
+        },
+        {
+            "name": "app.cron.bot.stars-up",
+            "type": "java.lang.String",
+            "description": "Cron expression for bot.stars-up."
+        },
+        {
+            "name": "app.cron.bot.forks-up",
+            "type": "java.lang.String",
+            "description": "Cron expression for bot.forks-up."
+        },
+        {
+            "name": "app.cron.bot.too-many-stars",
+            "type": "java.lang.String",
+            "description": "Cron expression for bot.too-many-stars."
+        },
+        {
+            "name": "app.cron.bot.too-small",
+            "type": "java.lang.String",
+            "description": "Cron expression for bot.too-small."
+        },
+        {
+            "name": "app.cron.bot.not-small",
+            "type": "java.lang.String",
+            "description": "Cron expression for bot.not-small."
+        },
+        {
+            "name": "app.cron.bot.found-on-reddit",
+            "type": "java.lang.String",
+            "description": "Cron expression for bot.found-on-reddit."
+        },
+        {
+            "name": "app.cron.codexia.codexia-parser",
+            "type": "java.lang.String",
+            "description": "Cron expression for codexia.codexia-parser."
+        },
+        {
+            "name": "app.cron.codexia.missing-filler",
+            "type": "java.lang.String",
+            "description": "Cron expression for codexia.missing-filler."
+        },
+        {
+            "name": "app.cron.codexia.send-reviews",
+            "type": "java.lang.String",
+            "description": "Cron expression for codexia.send-reviews."
+        },
+        {
+            "name": "app.cron.codexia.send-badges",
+            "type": "java.lang.String",
+            "description": "Cron expression for codexia.send-badges."
+        },
+        {
+            "name": "app.cron.codexia.resend-erroneous-reviews",
+            "type": "java.lang.String",
+            "description": "Cron expression for codexia.resend-erroneous-reviews."
+        },
+        {
+            "name": "app.cron.codexia.resend-reviews-until-duplicated",
+            "type": "java.lang.String",
+            "description": "Cron expression for codexia.resend-reviews-until-duplicated."
+        },
+        {
+            "name": "app.cron.codexia.update-projects",
+            "type": "java.lang.String",
+            "description": "Cron expression for codexia.projects-health-check."
+        },
+        {
+            "name": "app.cron.codexia.delete-obsolete-notifications",
+            "type": "java.lang.String",
+            "description": "Cron expression for codexia.delete-obsolete-notifications."
+        },
+        {
+            "name": "app.cron.github.stat.loc.without-loc",
+            "type": "java.lang.String",
+            "description": "Cron expression for github.stat.loc.without-loc."
+        },
+        {
+            "name": "app.cron.github.stat.loc.codexia",
+            "type": "java.lang.String",
+            "description": "Cron expression for github.stat.loc.codexia."
+        },
+        {
+            "name": "app.cron.github.stat.github",
+            "type": "java.lang.String",
+            "description": "Cron expression for github.stat.github."
+        },
+        {
+            "name": "app.cron.github.delete-obsolete-stat",
+            "type": "java.lang.String",
+            "description": "Cron expression for github.delete-obsolete-stat."
+        },
+        {
+            "name": "app.cron.hackernews.gaps-filler",
+            "type": "java.lang.String",
+            "description": "Cron expression for hackernews.gaps-filler."
+        },
+        {
+            "name": "app.cron.hackernews.incremented-parser",
+            "type": "java.lang.String",
+            "description": "Cron expression for hackernews.incremented-parser."
+        },
+        {
+            "name": "app.cron.hackernews.items-health-check",
+            "type": "java.lang.String",
+            "description": "Cron expression for hackernews.items-health-check."
+        },
+        {
+            "name": "app.cron.hackernews.health-check.codexia-items",
+            "type": "java.lang.String",
+            "description": "Cron expression for hackernews.health-check.codexia-items."
+        },
+        {
+            "name": "app.cron.hackernews.retry-erroneous",
+            "type": "java.lang.String",
+            "description": "Cron expression for hackernews.retry-erroneous."
+        },
+        {
+            "name": "app.cron.reddit.parser",
+            "type": "java.lang.String",
+            "description": "Cron expression for reddit.parser."
+        },
+        {
+            "name": "app.reddit.username",
+            "type": "java.lang.String",
+            "description": "Reddit account username."
+        },
+        {
+            "name": "app.reddit.password",
+            "type": "java.lang.String",
+            "description": "Reddit account password."
+        },
+        {
+            "name": "app.reddit.client-id",
+            "type": "java.lang.String",
+            "description": "Reddit client id."
+        },
+        {
+            "name": "app.reddit.client-secret",
+            "type": "java.lang.String",
+            "description": "Reddit client secret."
+        },
+        {
+            "name": "app.codetabs.base-url",
+            "type": "java.lang.String",
+            "description": "Base url of Codetabs."
+        },
+        {
+            "name": "app.hackernews.base-url",
+            "type": "java.lang.String",
+            "description": "Base url of Hackernews."
+        },
+        {
+            "name": "app.github.service.lines-of-code.delay",
+            "type": "java.lang.Integer",
+            "description": "Delay for LinesOfCode service."
+        }
+    ]
 }
