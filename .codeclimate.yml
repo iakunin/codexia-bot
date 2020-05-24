@@ -6,3 +6,4 @@ plugins:
         enabled: true
     sonar-java:
         enabled: true
+    test: some very very very very very very very very very very very very very very very very long line
