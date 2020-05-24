@@ -7,3 +7,5 @@ plugins:
         enabled: true
 exclude_patterns:
     - "**/*.jar"
+    - "gradlew"
+    - "gradlew.bat"
