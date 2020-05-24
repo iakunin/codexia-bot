@@ -113,4 +113,3 @@ This is a supervised bot for [Codexia (open source incubator)](https://www.codex
 
 
 - Read articles about open-source best practices
-
