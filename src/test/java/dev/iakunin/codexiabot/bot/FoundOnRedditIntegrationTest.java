@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-class FoundOnRedditIntegrationTest extends AbstractIntegrationTest {
+public class FoundOnRedditIntegrationTest extends AbstractIntegrationTest {
 
     @Qualifier("foundOnReddit")
     @Autowired

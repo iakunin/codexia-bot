@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
-class ResendErroneousReviewsIntegrationTest extends AbstractIntegrationTest {
+public class ResendErroneousReviewsIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private ResendErroneousReviews resendErroneousReviews;

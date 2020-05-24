@@ -5,7 +5,7 @@ import dev.iakunin.codexiabot.codexia.repository.CodexiaProjectRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-class DatabaseTest {
+public class DatabaseTest {
 
     private static final int EXTERNAL_ID = 333;
 

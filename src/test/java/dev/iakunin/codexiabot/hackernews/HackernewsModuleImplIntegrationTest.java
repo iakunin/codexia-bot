@@ -12,7 +12,7 @@ import org.cactoos.io.ResourceOf;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-class HackernewsModuleImplIntegrationTest extends AbstractIntegrationTest {
+public class HackernewsModuleImplIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private HackernewsModuleImpl hackernewsModule;

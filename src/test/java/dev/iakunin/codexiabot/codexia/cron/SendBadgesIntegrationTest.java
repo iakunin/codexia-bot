@@ -12,7 +12,7 @@ import dev.iakunin.codexiabot.util.wiremock.Stub;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-class SendBadgesIntegrationTest extends AbstractIntegrationTest {
+public class SendBadgesIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private SendBadges cron;

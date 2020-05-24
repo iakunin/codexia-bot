@@ -22,7 +22,7 @@ import org.springframework.http.HttpStatus;
     AbstractIntegrationTest.TestConfig.class,
     GithubConfig.class,
 })
-class GithubModuleCreateRepoIntegrationTest extends AbstractIntegrationTest {
+public class GithubModuleCreateRepoIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private GithubModuleImpl module;

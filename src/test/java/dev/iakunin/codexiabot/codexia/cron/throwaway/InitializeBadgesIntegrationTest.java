@@ -6,7 +6,7 @@ import dev.iakunin.codexiabot.AbstractIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-class InitializeBadgesIntegrationTest extends AbstractIntegrationTest {
+public class InitializeBadgesIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private InitializeBadges cron;

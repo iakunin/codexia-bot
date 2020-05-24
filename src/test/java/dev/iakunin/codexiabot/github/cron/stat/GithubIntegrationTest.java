@@ -17,7 +17,7 @@ import org.springframework.http.HttpStatus;
     AbstractIntegrationTest.TestConfig.class,
     GithubConfig.class,
 })
-class GithubIntegrationTest extends AbstractIntegrationTest {
+public class GithubIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private Github github;

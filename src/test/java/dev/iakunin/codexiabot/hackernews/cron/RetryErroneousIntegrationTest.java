@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
-class RetryErroneousIntegrationTest extends AbstractIntegrationTest {
+public class RetryErroneousIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private RetryErroneous retryErroneous;

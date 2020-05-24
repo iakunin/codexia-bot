@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-class StarsUpIntegrationTest extends AbstractIntegrationTest {
+public class StarsUpIntegrationTest extends AbstractIntegrationTest {
 
     @Qualifier("starsUp")
     @Autowired

@@ -5,7 +5,7 @@ import org.mockito.InOrder;
 import org.mockito.Mockito;
 import org.slf4j.Logger;
 
-class LoggingTest {
+public class LoggingTest {
 
     @Test
     public void run() {

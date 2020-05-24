@@ -15,7 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
     AbstractIntegrationTest.TestConfig.class,
     GithubConfig.class,
 })
-class CodexiaParserIntegrationTest extends AbstractIntegrationTest {
+public class CodexiaParserIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private CodexiaParser codexiaParser;

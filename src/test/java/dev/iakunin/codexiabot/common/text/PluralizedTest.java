@@ -4,7 +4,7 @@ import java.time.temporal.ChronoUnit;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
-class PluralizedTest {
+public class PluralizedTest {
 
     @Test
     public void pluralizedString() throws Exception {

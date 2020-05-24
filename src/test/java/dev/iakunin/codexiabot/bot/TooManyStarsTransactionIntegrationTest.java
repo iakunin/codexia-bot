@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Primary;
     AbstractIntegrationTest.TestConfig.class,
     TooManyStarsTransactionIntegrationTest.TestConfig.class,
 })
-class TooManyStarsTransactionIntegrationTest extends AbstractIntegrationTest {
+public class TooManyStarsTransactionIntegrationTest extends AbstractIntegrationTest {
 
     private static final String EXCEPTION_MESSAGE = "Some error";
 

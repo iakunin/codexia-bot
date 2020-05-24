@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.slf4j.Logger;
 
-class FaultTolerantUnitTest {
+public class FaultTolerantUnitTest {
 
     @Test
     public void emptyStream() {

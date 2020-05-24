@@ -9,7 +9,7 @@ import org.cactoos.list.ListOf;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-class ExactItemTest {
+public class ExactItemTest {
 
     private static final String LANGUAGE = "Java";
 

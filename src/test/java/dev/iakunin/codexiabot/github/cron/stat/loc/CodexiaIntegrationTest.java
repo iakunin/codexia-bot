@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
-class CodexiaIntegrationTest extends AbstractIntegrationTest {
+public class CodexiaIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private Codexia linesOfCode;

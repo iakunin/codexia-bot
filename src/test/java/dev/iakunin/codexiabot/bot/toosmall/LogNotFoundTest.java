@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.slf4j.Logger;
 
-class LogNotFoundTest {
+public class LogNotFoundTest {
 
     private static final long GITHUB_STAT_ID = 22L;
 

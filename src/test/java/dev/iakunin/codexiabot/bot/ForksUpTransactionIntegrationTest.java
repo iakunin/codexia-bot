@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Primary;
     AbstractIntegrationTest.TestConfig.class,
     ForksUpTransactionIntegrationTest.TestConfig.class,
 })
-class ForksUpTransactionIntegrationTest extends AbstractIntegrationTest {
+public class ForksUpTransactionIntegrationTest extends AbstractIntegrationTest {
 
     private static final String EXCEPTION_MESSAGE = "Some error";
 

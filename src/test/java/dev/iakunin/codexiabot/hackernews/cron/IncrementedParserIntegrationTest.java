@@ -11,7 +11,7 @@ import org.cactoos.io.ResourceOf;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-class IncrementedParserIntegrationTest extends AbstractIntegrationTest {
+public class IncrementedParserIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private IncrementedParser incrementedParser;

@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
-class DeleteObsoleteNotificationsIntegrationTest extends AbstractIntegrationTest {
+public class DeleteObsoleteNotificationsIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private DeleteObsoleteNotifications deleteObsoleteNotifications;

@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
-class WithoutLocIntegrationTest extends AbstractIntegrationTest {
+public class WithoutLocIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private WithoutLoc linesOfCode;

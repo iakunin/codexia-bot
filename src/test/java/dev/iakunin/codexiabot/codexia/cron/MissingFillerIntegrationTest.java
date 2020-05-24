@@ -15,7 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
     AbstractIntegrationTest.TestConfig.class,
     GithubConfig.class,
 })
-class MissingFillerIntegrationTest extends AbstractIntegrationTest {
+public class MissingFillerIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private MissingFiller missingFiller;

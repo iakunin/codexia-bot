@@ -18,7 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
     AbstractIntegrationTest.TestConfig.class,
     RedditConfig.class,
 })
-class ParserIntegrationTest extends AbstractIntegrationTest {
+public class ParserIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private Parser parser;

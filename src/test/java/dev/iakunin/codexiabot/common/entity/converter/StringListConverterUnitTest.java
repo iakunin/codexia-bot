@@ -4,7 +4,7 @@ import org.cactoos.list.ListOf;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
-class StringListConverterUnitTest {
+public class StringListConverterUnitTest {
 
     @Test
     public void toDatabaseColumnNull() {

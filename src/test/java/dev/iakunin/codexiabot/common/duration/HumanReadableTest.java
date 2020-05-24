@@ -4,7 +4,7 @@ import java.time.Duration;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
-class HumanReadableTest {
+public class HumanReadableTest {
 
     @Test
     public void onlyMinutes() throws Exception {

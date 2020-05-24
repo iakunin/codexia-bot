@@ -6,7 +6,7 @@ import dev.iakunin.codexiabot.AbstractIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-class DeleteObsoleteStatIntegrationTest extends AbstractIntegrationTest {
+public class DeleteObsoleteStatIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private DeleteObsoleteStat stat;

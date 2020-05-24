@@ -11,7 +11,7 @@ import org.cactoos.io.ResourceOf;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-class GapsFillerIntegrationTest extends AbstractIntegrationTest {
+public class GapsFillerIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private GapsFiller gapsFiller;

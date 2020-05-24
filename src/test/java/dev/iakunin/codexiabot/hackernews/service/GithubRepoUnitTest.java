@@ -6,7 +6,7 @@ import java.io.IOException;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-class GithubRepoUnitTest {
+public class GithubRepoUnitTest {
 
     @Test
     public void emptyUrl() {

@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
-class SendReviewsIntegrationTest extends AbstractIntegrationTest {
+public class SendReviewsIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private SendReviews sendReviews;

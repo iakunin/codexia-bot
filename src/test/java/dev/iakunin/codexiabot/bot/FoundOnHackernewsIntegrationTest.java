@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-class FoundOnHackernewsIntegrationTest extends AbstractIntegrationTest {
+public class FoundOnHackernewsIntegrationTest extends AbstractIntegrationTest {
 
     @Qualifier("foundOnHackernews")
     @Autowired

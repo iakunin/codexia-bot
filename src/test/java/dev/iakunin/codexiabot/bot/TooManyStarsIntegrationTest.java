@@ -6,7 +6,7 @@ import dev.iakunin.codexiabot.AbstractIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-class TooManyStarsIntegrationTest extends AbstractIntegrationTest {
+public class TooManyStarsIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private TooManyStars tooManyStars;
