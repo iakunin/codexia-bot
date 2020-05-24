@@ -1,5 +1,6 @@
 databaseChangeLog:
-  - includeAll:
-      pathName: sql
-      path: db/changelog/sql/
-      logicalFilePath: db/changelog/sql/
+    -
+        includeAll:
+            pathName: sql
+            path: db/changelog/sql/
+            logicalFilePath: db/changelog/sql/
