@@ -7,6 +7,7 @@ plugins:
         enabled: true
         exclude_patterns:
             - "**/test/"
+
 exclude_patterns:
     - "**/*.jar"
     - "gradlew"
