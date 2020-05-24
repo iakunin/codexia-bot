@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
-class ResendErroneousReviewsIntegrationTest extends AbstractIntegrationTest {
+public class ResendErroneousReviewsIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private ResendErroneousReviews resendErroneousReviews;
@@ -24,7 +24,7 @@ class ResendErroneousReviewsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/resend-erroneous/expected/emptyDatabase.yml")
-    void emptyDatabase() {
+    public void emptyDatabase() {
         resendErroneousReviews.run();
     }
 
@@ -34,7 +34,7 @@ class ResendErroneousReviewsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/resend-erroneous/expected/noErroneous.yml")
-    void noErroneous() {
+    public void noErroneous() {
         resendErroneousReviews.run();
     }
 
@@ -44,7 +44,7 @@ class ResendErroneousReviewsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/resend-erroneous/expected/oneErroneous.yml")
-    void oneErroneous() {
+    public void oneErroneous() {
         WireMockServer.stub(
             new Stub(
                 new Request(RequestMethod.POST, WireMock.urlPathMatching("/codexia/p/\\d+/post")),
@@ -61,7 +61,7 @@ class ResendErroneousReviewsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/resend-erroneous/expected/oneSuccessfulOneErroneous.yml")
-    void oneSuccessfulOneErroneous() {
+    public void oneSuccessfulOneErroneous() {
         WireMockServer.stub(
             new Stub(
                 new Request(RequestMethod.POST, WireMock.urlPathMatching("/codexia/p/\\d+/post")),
@@ -78,7 +78,7 @@ class ResendErroneousReviewsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/resend-erroneous/expected/twoErroneous.yml")
-    void twoErroneous() {
+    public void twoErroneous() {
         WireMockServer.stub(
             new Stub(
                 new Request(RequestMethod.POST, WireMock.urlPathMatching("/codexia/p/\\d+/post")),
@@ -95,7 +95,7 @@ class ResendErroneousReviewsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/resend-erroneous/expected/reviewSentWith500.yml")
-    void reviewSentWith500() {
+    public void reviewSentWith500() {
         WireMockServer.stub(
             new Stub(
                 new Request(RequestMethod.POST, WireMock.urlPathMatching("/codexia/p/\\d+/post")),

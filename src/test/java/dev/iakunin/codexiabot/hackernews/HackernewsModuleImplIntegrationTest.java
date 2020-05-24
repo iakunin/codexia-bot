@@ -12,7 +12,7 @@ import org.cactoos.io.ResourceOf;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-class HackernewsModuleImplIntegrationTest extends AbstractIntegrationTest {
+public class HackernewsModuleImplIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private HackernewsModuleImpl hackernewsModule;
@@ -23,7 +23,7 @@ class HackernewsModuleImplIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/hackernews/hackernews-module/expected/noItemInDatabase.yml")
-    void noItemInDatabase() {
+    public void noItemInDatabase() {
         WireMockServer.stub(
             new Stub(
                 new Request("/hackernews/item/4.json"),

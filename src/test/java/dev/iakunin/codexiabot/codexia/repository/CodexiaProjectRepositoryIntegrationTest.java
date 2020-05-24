@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-class CodexiaProjectRepositoryIntegrationTest extends AbstractIntegrationTest {
+public class CodexiaProjectRepositoryIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private EntityManager entityManager;
@@ -29,7 +29,7 @@ class CodexiaProjectRepositoryIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     @Transactional
-    void findByExternalId_found() {
+    public void findByExternalId_found() {
         final CodexiaProject original = this.createCodexiaProject();
         entityManager.persist(original);
         entityManager.flush();
@@ -48,7 +48,7 @@ class CodexiaProjectRepositoryIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     @Transactional
-    void findByExternalId_notFound() {
+    public void findByExternalId_notFound() {
         final Optional<CodexiaProject> optional = repository.findByExternalId(faker.random().nextInt(Integer.MAX_VALUE));
 
         assertTrue(optional.isEmpty());
@@ -56,7 +56,7 @@ class CodexiaProjectRepositoryIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     @Transactional
-    void existsByExternalId_found() {
+    public void existsByExternalId_found() {
         final CodexiaProject project = this.createCodexiaProject();
         entityManager.persist(project);
         entityManager.flush();
@@ -70,7 +70,7 @@ class CodexiaProjectRepositoryIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     @Transactional
-    void existsByExternalId_notFound() {
+    public void existsByExternalId_notFound() {
         final boolean exists = repository.existsByExternalId(faker.random().nextInt(Integer.MAX_VALUE));
 
         assertFalse(exists);
@@ -78,7 +78,7 @@ class CodexiaProjectRepositoryIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     @Transactional
-    void findAllWithoutGithubRepo_found() {
+    public void findAllWithoutGithubRepo_found() {
         final CodexiaProject project = this.createCodexiaProject();
         entityManager.persist(project);
         entityManager.flush();
@@ -92,7 +92,7 @@ class CodexiaProjectRepositoryIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     @Transactional
-    void findAllWithoutGithubRepo_noCodexiaProject() {
+    public void findAllWithoutGithubRepo_noCodexiaProject() {
         final var allWithoutGithubRepo = repository.findAllActiveWithoutGithubRepo();
 
         assertEquals(0, allWithoutGithubRepo.count());
@@ -100,7 +100,7 @@ class CodexiaProjectRepositoryIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     @Transactional
-    void findAllWithoutGithubRepo_codexiaProjectWithGithubRepo() {
+    public void findAllWithoutGithubRepo_codexiaProjectWithGithubRepo() {
         final CodexiaProject project = this.createCodexiaProject();
         final GithubRepo githubRepo = new GithubRepo()
             .setExternalId(String.valueOf(faker.random().nextInt(Integer.MAX_VALUE)))

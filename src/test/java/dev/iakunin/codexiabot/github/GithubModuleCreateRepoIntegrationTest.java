@@ -22,7 +22,7 @@ import org.springframework.http.HttpStatus;
     AbstractIntegrationTest.TestConfig.class,
     GithubConfig.class,
 })
-class GithubModuleCreateRepoIntegrationTest extends AbstractIntegrationTest {
+public class GithubModuleCreateRepoIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private GithubModuleImpl module;
@@ -33,7 +33,7 @@ class GithubModuleCreateRepoIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/github/github-module/expected/happyPath.yml")
-    void happyPath() throws IOException {
+    public void happyPath() throws IOException {
         WireMockServer.stub(
             new Stub(
                 "/github/repos/casbin/casbin-rs",
@@ -56,7 +56,7 @@ class GithubModuleCreateRepoIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/github/github-module/expected/repoExistsByFullName.yml")
-    void repoExistsByFullName() throws IOException {
+    public void repoExistsByFullName() throws IOException {
         WireMockServer.stub(
             new Stub(
                 "/github/repos/casbin/casbin-rs",
@@ -79,7 +79,7 @@ class GithubModuleCreateRepoIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/github/github-module/expected/repoExistsByExternalId.yml")
-    void repoExistsByExternalId() throws IOException {
+    public void repoExistsByExternalId() throws IOException {
         WireMockServer.stub(
             new Stub(
                 "/github/repos/casbin/casbin-rs",
@@ -102,7 +102,7 @@ class GithubModuleCreateRepoIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/github/github-module/expected/repoExistsByCodexiaSource.yml")
-    void repoExistsByCodexiaSource() throws IOException {
+    public void repoExistsByCodexiaSource() throws IOException {
         WireMockServer.stub(
             new Stub(
                 "/github/repos/casbin/casbin-rs",
@@ -125,7 +125,7 @@ class GithubModuleCreateRepoIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/github/github-module/expected/notFoundInGithub.yml")
-    void notFoundInGithub() throws IOException {
+    public void notFoundInGithub() throws IOException {
         WireMockServer.stub(
             new Stub(
                 "/github/repos/casbin/casbin-rs",

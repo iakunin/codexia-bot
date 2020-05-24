@@ -6,7 +6,7 @@ import dev.iakunin.codexiabot.AbstractIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-class TooManyStarsIntegrationTest extends AbstractIntegrationTest {
+public class TooManyStarsIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private TooManyStars tooManyStars;
@@ -17,7 +17,7 @@ class TooManyStarsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/too-many-stars/expected/emptyDatabase.yml")
-    void emptyDatabase() {
+    public void emptyDatabase() {
         tooManyStars.run();
     }
 
@@ -27,7 +27,7 @@ class TooManyStarsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/too-many-stars/expected/noResults_githubRepoWithoutStat.yml")
-    void noResults_githubRepoWithoutStat() {
+    public void noResults_githubRepoWithoutStat() {
         tooManyStars.run();
     }
 
@@ -37,7 +37,7 @@ class TooManyStarsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/too-many-stars/expected/noResults_githubRepoWithOneEmptyStat.yml")
-    void noResults_githubRepoWithOneEmptyStat() {
+    public void noResults_githubRepoWithOneEmptyStat() {
         tooManyStars.run();
     }
 
@@ -47,7 +47,7 @@ class TooManyStarsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/too-many-stars/expected/noResults_githubRepoWithOneStat_belowThreshold.yml")
-    void noResults_githubRepoWithOneStat_belowThreshold() {
+    public void noResults_githubRepoWithOneStat_belowThreshold() {
         tooManyStars.run();
     }
 
@@ -57,7 +57,7 @@ class TooManyStarsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/too-many-stars/expected/noResults_githubRepoWithTwoStats_belowThreshold.yml")
-    void noResults_githubRepoWithTwoStats_belowThreshold() {
+    public void noResults_githubRepoWithTwoStats_belowThreshold() {
         tooManyStars.run();
     }
 
@@ -67,7 +67,7 @@ class TooManyStarsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/too-many-stars/expected/noResults_githubRepoWithOneStat_aboveThreshold.yml")
-    void noResults_githubRepoWithOneStat_aboveThreshold() {
+    public void noResults_githubRepoWithOneStat_aboveThreshold() {
         tooManyStars.run();
     }
 
@@ -77,7 +77,7 @@ class TooManyStarsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/too-many-stars/expected/noResults_githubRepoWithTwoStats_aboveThreshold.yml")
-    void noResults_githubRepoWithTwoStats_aboveThreshold() {
+    public void noResults_githubRepoWithTwoStats_aboveThreshold() {
         tooManyStars.run();
     }
 
@@ -87,7 +87,7 @@ class TooManyStarsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/too-many-stars/expected/oneResult_noNewGithubStats.yml")
-    void oneResult_noNewGithubStats() {
+    public void oneResult_noNewGithubStats() {
         tooManyStars.run();
     }
 
@@ -97,7 +97,7 @@ class TooManyStarsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/too-many-stars/expected/oneResult_oneNewGithubStat.yml")
-    void oneResult_oneNewGithubStat() {
+    public void oneResult_oneNewGithubStat() {
         tooManyStars.run();
     }
 
@@ -107,7 +107,7 @@ class TooManyStarsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/too-many-stars/expected/oneResult_twoNewGithubStats.yml")
-    void oneResult_twoNewGithubStats() {
+    public void oneResult_twoNewGithubStats() {
         tooManyStars.run();
     }
 }

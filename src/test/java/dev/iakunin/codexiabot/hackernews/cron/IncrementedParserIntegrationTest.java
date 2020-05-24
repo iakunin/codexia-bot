@@ -11,7 +11,7 @@ import org.cactoos.io.ResourceOf;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-class IncrementedParserIntegrationTest extends AbstractIntegrationTest {
+public class IncrementedParserIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private IncrementedParser incrementedParser;
@@ -22,7 +22,7 @@ class IncrementedParserIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/hackernews/cron/incremented-parser/expected/emptyDatabase.yml")
-    void emptyDatabaseWithoutHackernews() {
+    public void emptyDatabaseWithoutHackernews() {
         incrementedParser.run();
     }
 
@@ -32,7 +32,7 @@ class IncrementedParserIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/hackernews/cron/incremented-parser/expected/emptyDatabaseItemWithoutUrl.yml")
-    void emptyDatabaseItemWithoutUrl() {
+    public void emptyDatabaseItemWithoutUrl() {
         WireMockServer.stub(
             new Stub(
                 new Request("/hackernews/item/1.json"),
@@ -51,7 +51,7 @@ class IncrementedParserIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/hackernews/cron/incremented-parser/expected/emptyDatabaseItemWithGithubUrl.yml")
-    void emptyDatabaseItemWithGithubUrl() {
+    public void emptyDatabaseItemWithGithubUrl() {
         WireMockServer.stub(
             new Stub(
                 new Request("/hackernews/item/1.json"),
@@ -70,7 +70,7 @@ class IncrementedParserIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/hackernews/cron/incremented-parser/expected/emptyDatabaseItemWithGistUrl.yml")
-    void emptyDatabaseItemWithGistUrl() {
+    public void emptyDatabaseItemWithGistUrl() {
         WireMockServer.stub(
             new Stub(
                 new Request("/hackernews/item/1.json"),
@@ -89,7 +89,7 @@ class IncrementedParserIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/hackernews/cron/incremented-parser/expected/emptyDatabase.yml")
-    void emptyDatabaseEmptyResponse() {
+    public void emptyDatabaseEmptyResponse() {
         WireMockServer.stub(
             new Stub(
                 new Request("/hackernews/item/1.json"),
@@ -106,7 +106,7 @@ class IncrementedParserIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/hackernews/cron/incremented-parser/expected/emptyDatabaseAndTwoItemsAtHackernews.yml")
-    void emptyDatabaseAndTwoItemsAtHackernews() {
+    public void emptyDatabaseAndTwoItemsAtHackernews() {
         WireMockServer.stub(
             new Stub(
                 new Request("/hackernews/item/1.json"),
@@ -133,7 +133,7 @@ class IncrementedParserIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/hackernews/cron/incremented-parser/expected/notEmptyDatabaseWithoutHackernews.yml")
-    void notEmptyDatabaseWithoutHackernews() {
+    public void notEmptyDatabaseWithoutHackernews() {
         incrementedParser.run();
     }
 
@@ -143,7 +143,7 @@ class IncrementedParserIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/hackernews/cron/incremented-parser/expected/notEmptyDatabaseExistsInRepo.yml")
-    void notEmptyDatabaseExistsInRepo() {
+    public void notEmptyDatabaseExistsInRepo() {
         WireMockServer.stub(
             new Stub(
                 new Request("/hackernews/item/2.json"),

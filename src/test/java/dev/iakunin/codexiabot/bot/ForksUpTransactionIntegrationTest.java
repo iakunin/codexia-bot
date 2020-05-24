@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Primary;
     AbstractIntegrationTest.TestConfig.class,
     ForksUpTransactionIntegrationTest.TestConfig.class,
 })
-class ForksUpTransactionIntegrationTest extends AbstractIntegrationTest {
+public class ForksUpTransactionIntegrationTest extends AbstractIntegrationTest {
 
     private static final String EXCEPTION_MESSAGE = "Some error";
 
@@ -33,7 +33,7 @@ class ForksUpTransactionIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/forks-up-transaction/expected/transactionRollback.yml")
-    void transactionRollback() {
+    public void transactionRollback() {
         forksUp.run();
     }
 

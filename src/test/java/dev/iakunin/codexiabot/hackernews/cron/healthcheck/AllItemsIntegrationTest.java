@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
-class AllItemsIntegrationTest extends AbstractIntegrationTest {
+public class AllItemsIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private AllItems allItems;
@@ -24,7 +24,7 @@ class AllItemsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/hackernews/cron/health-check/all-items/expected/emptyDatabase.yml")
-    void emptyDatabase() {
+    public void emptyDatabase() {
         allItems.run();
     }
 
@@ -34,7 +34,7 @@ class AllItemsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/hackernews/cron/health-check/all-items/expected/oneActiveItem.yml")
-    void oneActiveItem() {
+    public void oneActiveItem() {
         WireMockServer.stub(
             new Stub(
                 "/hackernews/item/2222.json",
@@ -51,7 +51,7 @@ class AllItemsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/hackernews/cron/health-check/all-items/expected/twoActiveItems.yml")
-    void twoActiveItems() {
+    public void twoActiveItems() {
         WireMockServer.stub(
             new Stub(
                 new Request(WireMock.urlPathMatching("/hackernews/item/\\d+\\.json")),
@@ -70,7 +70,7 @@ class AllItemsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/hackernews/cron/health-check/all-items/expected/oneDeletedItem.yml")
-    void oneDeletedItem() {
+    public void oneDeletedItem() {
         WireMockServer.stub(
             new Stub(
                 "/hackernews/item/2222.json",
@@ -87,7 +87,7 @@ class AllItemsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/hackernews/cron/health-check/all-items/expected/twoDeletedItems.yml")
-    void twoDeletedItems() {
+    public void twoDeletedItems() {
         WireMockServer.stub(
             new Stub(
                 new Request(WireMock.urlPathMatching("/hackernews/item/\\d+\\.json")),
@@ -106,7 +106,7 @@ class AllItemsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/hackernews/cron/health-check/all-items/expected/hackernewsException.yml")
-    void hackernewsException() {
+    public void hackernewsException() {
         WireMockServer.stub(
             new Stub(
                 "/hackernews/item/2222.json",

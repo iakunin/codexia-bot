@@ -5,10 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 
-class CodexiaProjectUnitTest {
+public class CodexiaProjectUnitTest {
 
     @Test
-    void noBadges() {
+    public void noBadges() {
         assertEquals(
             0,
             new CodexiaProject().level()
@@ -16,7 +16,7 @@ class CodexiaProjectUnitTest {
     }
 
     @Test
-    void newbieBadge() {
+    public void newbieBadge() {
         final var project = new CodexiaProject()
             .setBadges(new ListOf<>("newbie"));
 
@@ -27,7 +27,7 @@ class CodexiaProjectUnitTest {
     }
 
     @Test
-    void similarToLevel() {
+    public void similarToLevel() {
         final var project = new CodexiaProject()
             .setBadges(new ListOf<>("olol12"));
 
@@ -38,7 +38,7 @@ class CodexiaProjectUnitTest {
     }
 
     @Test
-    void onlyL0Badge() {
+    public void onlyL0Badge() {
         final var project = new CodexiaProject()
             .setBadges(new ListOf<>("L0"));
 
@@ -49,7 +49,7 @@ class CodexiaProjectUnitTest {
     }
 
     @Test
-    void onlyL123Badge() {
+    public void onlyL123Badge() {
         final var project = new CodexiaProject()
             .setBadges(new ListOf<>("L123"));
 
@@ -60,7 +60,7 @@ class CodexiaProjectUnitTest {
     }
 
     @Test
-    void l0WithAnotherBadge() {
+    public void l0WithAnotherBadge() {
         final var project = new CodexiaProject()
             .setBadges(new ListOf<>("L0", "another"));
 
@@ -71,7 +71,7 @@ class CodexiaProjectUnitTest {
     }
 
     @Test
-    void l1Badge() {
+    public void l1Badge() {
         final var project = new CodexiaProject()
             .setBadges(new ListOf<>("L1"));
 
@@ -82,7 +82,7 @@ class CodexiaProjectUnitTest {
     }
 
     @Test
-    void l1WithAnotherBadge() {
+    public void l1WithAnotherBadge() {
         final var project = new CodexiaProject()
             .setBadges(new ListOf<>("L1", "another"));
 
@@ -93,7 +93,7 @@ class CodexiaProjectUnitTest {
     }
 
     @Test
-    void l2Badge() {
+    public void l2Badge() {
         final var project = new CodexiaProject()
             .setBadges(new ListOf<>("L2"));
 
@@ -105,7 +105,7 @@ class CodexiaProjectUnitTest {
 
 
     @Test
-    void l2InLowerCaseBadge() {
+    public void l2InLowerCaseBadge() {
         final var project = new CodexiaProject()
             .setBadges(new ListOf<>("l2"));
 
@@ -116,7 +116,7 @@ class CodexiaProjectUnitTest {
     }
 
     @Test
-    void l2WithAnotherBadge() {
+    public void l2WithAnotherBadge() {
         final var project = new CodexiaProject()
             .setBadges(new ListOf<>("L2", "another"));
 
@@ -127,7 +127,7 @@ class CodexiaProjectUnitTest {
     }
 
     @Test
-    void multipleLevelsWithoutExternalId() {
+    public void multipleLevelsWithoutExternalId() {
         final var project = new CodexiaProject()
             .setBadges(new ListOf<>("L2", "L3"));
 
@@ -142,7 +142,7 @@ class CodexiaProjectUnitTest {
     }
 
     @Test
-    void multipleLevelsWithExternalId() {
+    public void multipleLevelsWithExternalId() {
         final var project = new CodexiaProject()
             .setExternalId(321)
             .setBadges(new ListOf<>("L2", "L3"));

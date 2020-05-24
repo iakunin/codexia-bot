@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegrationTest {
+public class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private EntityManager entityManager;
@@ -26,7 +26,7 @@ class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     @Transactional
-    void findAll_happyPath() {
+    public void findAll_happyPath() {
         var repo = this.createGithubRepo();
         var firstStat = this.createGithubRepoStat(repo, Type.GITHUB_API);
         var secondStat = this.createGithubRepoStat(repo, Type.GITHUB_API);
@@ -50,7 +50,7 @@ class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     @Transactional
-    void findAll_wrongRepo() {
+    public void findAll_wrongRepo() {
         var repo = this.createGithubRepo();
         var anotherRepo = this.createGithubRepo();
         var stat = this.createGithubRepoStat(repo, Type.GITHUB_API);
@@ -74,7 +74,7 @@ class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     @Transactional
-    void findAll_wrongType() {
+    public void findAll_wrongType() {
         var repo = this.createGithubRepo();
         var stat = this.createGithubRepoStat(repo, Type.GITHUB_API);
         entityManager.persist(repo);
@@ -95,7 +95,7 @@ class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     @Transactional
-    void findAll_twoById() {
+    public void findAll_twoById() {
         var repo = this.createGithubRepo();
         var type = Type.GITHUB_API;
         var firstStat = this.createGithubRepoStat(repo, type);
@@ -120,7 +120,7 @@ class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     @Transactional
-    void findAll_oneById() {
+    public void findAll_oneById() {
         var repo = this.createGithubRepo();
         var type = Type.GITHUB_API;
         var firstStat = this.createGithubRepoStat(repo, type);
@@ -145,7 +145,7 @@ class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     @Transactional
-    void findAll_zeroById() {
+    public void findAll_zeroById() {
         var repo = this.createGithubRepo();
         var type = Type.GITHUB_API;
         var firstStat = this.createGithubRepoStat(repo, type);
@@ -170,7 +170,7 @@ class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     @Transactional
-    void findFirst_happyPath() {
+    public void findFirst_happyPath() {
         var repo = this.createGithubRepo();
         var type = Type.GITHUB_API;
         var firstStat = this.createGithubRepoStat(repo, type);
@@ -195,7 +195,7 @@ class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     @Transactional
-    void findFirst_empty() {
+    public void findFirst_empty() {
         var repo = this.createGithubRepo();
         var type = Type.GITHUB_API;
         entityManager.persist(repo);
@@ -214,7 +214,7 @@ class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     @Transactional
-    void findFirst_wrongType() {
+    public void findFirst_wrongType() {
         var repo = this.createGithubRepo();
         var type = Type.GITHUB_API;
         var stat = this.createGithubRepoStat(repo, type);
@@ -236,7 +236,7 @@ class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     @Transactional
-    void persistStatWithEmptyStat() {
+    public void persistStatWithEmptyStat() {
         var repo = this.createGithubRepo();
         var stat = new GithubRepoStat().setGithubRepo(repo).setType(Type.GITHUB_API);
         entityManager.persist(repo);
@@ -249,7 +249,7 @@ class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     @Transactional
-    void persistHealthCheckStat() {
+    public void persistHealthCheckStat() {
         var repo = this.createGithubRepo();
         var stat = new GithubRepoStat()
             .setGithubRepo(repo)

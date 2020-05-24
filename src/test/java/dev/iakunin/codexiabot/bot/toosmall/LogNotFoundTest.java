@@ -8,14 +8,14 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.slf4j.Logger;
 
-class LogNotFoundTest {
+public class LogNotFoundTest {
 
     private static final long GITHUB_STAT_ID = 22L;
 
     private static final long LINES_OF_CODE_STAT_ID = 33L;
 
     @Test
-    void innerIsPresent() throws Exception {
+    public void innerIsPresent() throws Exception {
         final Logger logger = Mockito.mock(Logger.class);
 
         final Optional<Item> actual = new LogNotFound(
@@ -30,7 +30,7 @@ class LogNotFoundTest {
     }
 
     @Test
-    void innerIsEmpty() throws Exception {
+    public void innerIsEmpty() throws Exception {
         final Logger logger = Mockito.mock(Logger.class);
 
         final Optional<Item> actual = new LogNotFound(

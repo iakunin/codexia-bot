@@ -4,10 +4,10 @@ import java.time.temporal.ChronoUnit;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
-class PluralizedTest {
+public class PluralizedTest {
 
     @Test
-    void pluralizedString() throws Exception {
+    public void pluralizedString() throws Exception {
         assertEquals(
             "apples",
             new Pluralized(
@@ -18,7 +18,7 @@ class PluralizedTest {
     }
 
     @Test
-    void nonPluralizedString() throws Exception {
+    public void nonPluralizedString() throws Exception {
         assertEquals(
             "orange",
             new Pluralized(
@@ -29,7 +29,7 @@ class PluralizedTest {
     }
 
     @Test
-    void pluralizedText() throws Exception {
+    public void pluralizedText() throws Exception {
         assertEquals(
             "streams",
             new Pluralized(
@@ -40,7 +40,7 @@ class PluralizedTest {
     }
 
     @Test
-    void nonPluralizedText() throws Exception {
+    public void nonPluralizedText() throws Exception {
         assertEquals(
             "test",
             new Pluralized(
@@ -51,7 +51,7 @@ class PluralizedTest {
     }
 
     @Test
-    void pluralizedDays() throws Exception {
+    public void pluralizedDays() throws Exception {
         assertEquals(
             "days",
             new Pluralized(
@@ -62,7 +62,7 @@ class PluralizedTest {
     }
 
     @Test
-    void nonPluralizedDays() throws Exception {
+    public void nonPluralizedDays() throws Exception {
         assertEquals(
             "day",
             new Pluralized(

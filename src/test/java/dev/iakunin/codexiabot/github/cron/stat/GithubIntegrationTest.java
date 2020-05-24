@@ -17,7 +17,7 @@ import org.springframework.http.HttpStatus;
     AbstractIntegrationTest.TestConfig.class,
     GithubConfig.class,
 })
-class GithubIntegrationTest extends AbstractIntegrationTest {
+public class GithubIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private Github github;
@@ -28,7 +28,7 @@ class GithubIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/github/cron/stat/github/expected/emptyDatabase.yml")
-    void emptyDatabase() {
+    public void emptyDatabase() {
         github.run();
     }
 
@@ -38,7 +38,7 @@ class GithubIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/github/cron/stat/github/expected/notCodexiaSource.yml")
-    void notCodexiaSource() {
+    public void notCodexiaSource() {
         github.run();
     }
 
@@ -48,7 +48,7 @@ class GithubIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/github/cron/stat/github/expected/happyPath.yml")
-    void oneWithoutGithubRepo() {
+    public void oneWithoutGithubRepo() {
         WireMockServer.stub(
             new Stub(
                 "/github/repos/instaloader/instaloader",
@@ -65,7 +65,7 @@ class GithubIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/github/cron/stat/github/expected/githubIoException.yml")
-    void githubIoException() {
+    public void githubIoException() {
         WireMockServer.stub(
             new Stub(
                 "/github/repos/instaloader/instaloader",

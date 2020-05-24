@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
-class RetryErroneousIntegrationTest extends AbstractIntegrationTest {
+public class RetryErroneousIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private RetryErroneous retryErroneous;
@@ -23,7 +23,7 @@ class RetryErroneousIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/hackernews/cron/retry-erroneous/expected/emptyDatabase.yml")
-    void emptyDatabase() {
+    public void emptyDatabase() {
         retryErroneous.run();
     }
 
@@ -33,7 +33,7 @@ class RetryErroneousIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/hackernews/cron/retry-erroneous/expected/oneUnprocessedItem.yml")
-    void oneUnprocessedItem() {
+    public void oneUnprocessedItem() {
         retryErroneous.run();
     }
 
@@ -43,7 +43,7 @@ class RetryErroneousIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/hackernews/cron/retry-erroneous/expected/hackernewsException.yml")
-    void hackernewsException() {
+    public void hackernewsException() {
         WireMockServer.stub(
             new Stub(
                 new Request("/hackernews/item/1.json"),
@@ -60,7 +60,7 @@ class RetryErroneousIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/hackernews/cron/retry-erroneous/expected/oneItem.yml")
-    void oneItem() {
+    public void oneItem() {
         WireMockServer.stub(
             new Stub(
                 new Request("/hackernews/item/1.json"),
@@ -79,7 +79,7 @@ class RetryErroneousIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/hackernews/cron/retry-erroneous/expected/twoItems.yml")
-    void twoItems() {
+    public void twoItems() {
         WireMockServer.stub(
             new Stub(
                 new Request("/hackernews/item/1.json"),

@@ -5,10 +5,10 @@ import org.mockito.InOrder;
 import org.mockito.Mockito;
 import org.slf4j.Logger;
 
-class LoggingTest {
+public class LoggingTest {
 
     @Test
-    void run() {
+    public void run() {
         final Logger logger = Mockito.mock(Logger.class);
 
         new Logging(() -> {}, logger).run();

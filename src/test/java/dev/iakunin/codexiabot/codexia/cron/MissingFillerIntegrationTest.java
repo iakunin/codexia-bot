@@ -15,7 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
     AbstractIntegrationTest.TestConfig.class,
     GithubConfig.class,
 })
-class MissingFillerIntegrationTest extends AbstractIntegrationTest {
+public class MissingFillerIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private MissingFiller missingFiller;
@@ -26,7 +26,7 @@ class MissingFillerIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/missing-filler/expected/emptyDatabase.yml")
-    void emptyDatabase() {
+    public void emptyDatabase() {
         missingFiller.run();
     }
 
@@ -36,7 +36,7 @@ class MissingFillerIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/missing-filler/expected/oneWithGithubRepo.yml")
-    void oneWithGithubRepo() {
+    public void oneWithGithubRepo() {
         missingFiller.run();
     }
 
@@ -46,7 +46,7 @@ class MissingFillerIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/missing-filler/expected/oneWithoutGithubRepo.yml")
-    void oneWithoutGithubRepo() {
+    public void oneWithoutGithubRepo() {
         WireMockServer.stub(
             new Stub(
                 "/github/repos/instaloader/instaloader",
@@ -63,7 +63,7 @@ class MissingFillerIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/missing-filler/expected/oneDeletedWithoutGithubRepo.yml")
-    void oneDeletedWithoutGithubRepo() {
+    public void oneDeletedWithoutGithubRepo() {
         missingFiller.run();
     }
 
@@ -73,7 +73,7 @@ class MissingFillerIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/missing-filler/expected/twoWithoutGithubRepo.yml")
-    void twoWithoutGithubRepo() {
+    public void twoWithoutGithubRepo() {
         WireMockServer.stub(
             new Stub(
                 "/github/repos/instaloader/instaloader",

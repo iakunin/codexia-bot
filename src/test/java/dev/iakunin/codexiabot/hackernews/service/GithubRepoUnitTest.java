@@ -6,22 +6,22 @@ import java.io.IOException;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-class GithubRepoUnitTest {
+public class GithubRepoUnitTest {
 
     @Test
-    void emptyUrl() {
+    public void emptyUrl() {
         new GithubRepo(Mockito.mock(GithubModule.class))
             .write(new HackernewsItem());
     }
 
     @Test
-    void gist() {
+    public void gist() {
         new GithubRepo(Mockito.mock(GithubModule.class))
             .write(new HackernewsItem().setUrl("gist.github.com"));
     }
 
     @Test
-    void runtimeExceptionDuringRepoCreate() throws IOException {
+    public void runtimeExceptionDuringRepoCreate() throws IOException {
         final GithubModule mock = Mockito.mock(GithubModule.class);
         Mockito.doThrow(new RuntimeException())
             .when(mock)
@@ -32,7 +32,7 @@ class GithubRepoUnitTest {
     }
 
     @Test
-    void ioExceptionDuringRepoCreate() throws IOException {
+    public void ioExceptionDuringRepoCreate() throws IOException {
         final GithubModule mock = Mockito.mock(GithubModule.class);
         Mockito.doThrow(new IOException())
             .when(mock)
