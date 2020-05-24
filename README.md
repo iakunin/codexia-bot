@@ -6,6 +6,7 @@
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=iakunin_codexia-bot&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=iakunin_codexia-bot)
 [![Maintainability](https://api.codeclimate.com/v1/badges/ad3831a0be7db8b87a5f/maintainability)](https://codeclimate.com/github/iakunin/codexia-bot/maintainability)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/061785f8241f4207ae772a48c9678009)](https://www.codacy.com/manual/yakuninm-github/codexia-bot?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=iakunin/codexia-bot&amp;utm_campaign=Badge_Grade)
+[![BCH compliance](https://bettercodehub.com/edge/badge/iakunin/codexia-bot?branch=master)](https://bettercodehub.com/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/iakunin/codexia-bot/blob/master/LICENSE)
 
 [![Hits-of-Code](https://hitsofcode.com/github/iakunin/codexia-bot)](https://hitsofcode.com/view/github/iakunin/codexia-bot)
