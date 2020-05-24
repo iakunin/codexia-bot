@@ -1,48 +1,71 @@
-extends: default
-
 rules:
     braces:
         min-spaces-inside: 0
         max-spaces-inside: 1
         min-spaces-inside-empty: 0
         max-spaces-inside-empty: 0
+        level: error
     brackets:
         min-spaces-inside: 0
         max-spaces-inside: 1
         min-spaces-inside-empty: 0
         max-spaces-inside-empty: 0
+        level: error
     colons:
         max-spaces-before: 0
         max-spaces-after: 1
+        level: error
     commas:
         max-spaces-before: 0
         min-spaces-after: 1
         max-spaces-after: 1
+        level: error
     comments:
         require-starting-space: true
         min-spaces-from-content: 1
+        level: error
+    comments-indentation:
+        level: error
     document-end:
         present: false
+        level: error
     document-start:
         present: false
+        level: error
     empty-lines:
         max: 1
         max-start: 0
+        level: error
     empty-values:
         forbid-in-block-mappings: true
         forbid-in-flow-mappings: true
+        level: error
     hyphens:
         max-spaces-after: 1
+        level: error
     indentation:
         spaces: 4
         indent-sequences: true
         check-multi-line-strings: true
+        level: error
+    key-duplicates:
+        level: error
     line-length:
         max: 80
+        level: error
     new-lines:
         type: unix
+        level: error
+    new-line-at-end-of-file:
+        level: error
     octal-values:
         forbid-implicit-octal: true
+        level: error
     quoted-strings:
         quote-type: single
         required: only-when-needed
+        level: error
+    trailing-spaces:
+        level: error
+    truthy:
+        level: error
