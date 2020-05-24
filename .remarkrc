@@ -1,0 +1,6 @@
+{
+    "plugins": {
+        "remark-lint-maximum-line-length": ["error", 80],
+        "remark-lint-no-consecutive-blank-lines": false
+    }
+}
