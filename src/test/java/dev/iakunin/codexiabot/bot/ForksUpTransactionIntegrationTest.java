@@ -37,12 +37,14 @@ class ForksUpTransactionIntegrationTest extends AbstractIntegrationTest {
         forksUp.run();
     }
 
+
     @Configuration
     @Import(CodexiaBotApplication.class)
     static class TestConfig {
         @Bean
         @Primary
         public CodexiaModule codexiaModule() {
+
             final CodexiaModule mock = Mockito.mock(CodexiaModule.class);
             Mockito.doThrow(
                 new RuntimeException(
