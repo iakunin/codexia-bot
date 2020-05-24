@@ -1,95 +1,95 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend-deployment
-  namespace: codexia-bot
-  labels:
-    app: backend
-spec:
-  replicas: 1
-  strategy:
-    type: Recreate
-  selector:
-    matchLabels:
-      app: backend
-  template:
-    metadata:
-      namespace: codexia-bot
-      labels:
+    name: backend-deployment
+    namespace: codexia-bot
+    labels:
         app: backend
-    spec:
-      containers:
-        - name: backend
-          image: eu.gcr.io/codexia-bot/backend:0.0.151
-          imagePullPolicy: IfNotPresent
-          env:
-            - name: SPRING_PROFILES_ACTIVE
-              value: prod
-            - name: APP_DATABASE_HOST
-              valueFrom:
-                secretKeyRef:
-                  name: spring-datasource
-                  key: host
-            - name: APP_DATABASE_PORT
-              value: "5432"
-            - name: SPRING_DATASOURCE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: spring-datasource
-                  key: password
-            - name: APP_GITHUBTOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: app
-                  key: github.token
-            - name: APP_CODEXIA_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: app
-                  key: codexia.token
-            - name: APP_CODEXIA_BASEURL
-              value: "https://www.codexia.org/"
-            - name: APP_REDDIT_USERNAME
-              value: iakunin
-            - name: APP_REDDIT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: app
-                  key: reddit.password
-            - name: APP_REDDIT_CLIENTID
-              value: LjlVJ5_qFAQ3WQ
-            - name: APP_REDDIT_CLIENTSECRET
-              valueFrom:
-                secretKeyRef:
-                  name: app
-                  key: reddit.client-secret
-            - name: SENTRY_DSN
-              valueFrom:
-                secretKeyRef:
-                  name: app
-                  key: sentry.dsn
-            - name: DD_TRACE_ANALYTICS_ENABLED
-              value: "false"
-            - name: DD_PROFILING_ENABLED
-              value: "false"
-            - name: DD_PROFILING_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: app
-                  key: datadog.api-key
-            - name: DD_AGENT_HOST
-              valueFrom:
-                fieldRef:
-                  fieldPath: status.hostIP
-          ports:
-            - containerPort: 8080
-          readinessProbe:
-            httpGet:
-              path: /actuator/info
-              port: 8080
-            failureThreshold: 60
-          livenessProbe:
-            httpGet:
-              path: /actuator/info
-              port: 8080
-            failureThreshold: 60
+spec:
+    replicas: 1
+    strategy:
+        type: Recreate
+    selector:
+        matchLabels:
+            app: backend
+    template:
+        metadata:
+            namespace: codexia-bot
+            labels:
+                app: backend
+        spec:
+            containers:
+                -   name: backend
+                    image: eu.gcr.io/codexia-bot/backend:0.0.151
+                    imagePullPolicy: IfNotPresent
+                    env:
+                        -   name: SPRING_PROFILES_ACTIVE
+                            value: prod
+                        -   name: APP_DATABASE_HOST
+                            valueFrom:
+                                secretKeyRef:
+                                    name: spring-datasource
+                                    key: host
+                        -   name: APP_DATABASE_PORT
+                            value: "5432"
+                        -   name: SPRING_DATASOURCE_PASSWORD
+                            valueFrom:
+                                secretKeyRef:
+                                    name: spring-datasource
+                                    key: password
+                        -   name: APP_GITHUBTOKEN
+                            valueFrom:
+                                secretKeyRef:
+                                    name: app
+                                    key: github.token
+                        -   name: APP_CODEXIA_TOKEN
+                            valueFrom:
+                                secretKeyRef:
+                                    name: app
+                                    key: codexia.token
+                        -   name: APP_CODEXIA_BASEURL
+                            value: "https://www.codexia.org/"
+                        -   name: APP_REDDIT_USERNAME
+                            value: iakunin
+                        -   name: APP_REDDIT_PASSWORD
+                            valueFrom:
+                                secretKeyRef:
+                                    name: app
+                                    key: reddit.password
+                        -   name: APP_REDDIT_CLIENTID
+                            value: LjlVJ5_qFAQ3WQ
+                        -   name: APP_REDDIT_CLIENTSECRET
+                            valueFrom:
+                                secretKeyRef:
+                                    name: app
+                                    key: reddit.client-secret
+                        -   name: SENTRY_DSN
+                            valueFrom:
+                                secretKeyRef:
+                                    name: app
+                                    key: sentry.dsn
+                        -   name: DD_TRACE_ANALYTICS_ENABLED
+                            value: "false"
+                        -   name: DD_PROFILING_ENABLED
+                            value: "false"
+                        -   name: DD_PROFILING_API_KEY
+                            valueFrom:
+                                secretKeyRef:
+                                    name: app
+                                    key: datadog.api-key
+                        -   name: DD_AGENT_HOST
+                            valueFrom:
+                                fieldRef:
+                                    fieldPath: status.hostIP
+                    ports:
+                        -   containerPort: 8080
+                    readinessProbe:
+                        httpGet:
+                            path: /actuator/info
+                            port: 8080
+                        failureThreshold: 60
+                    livenessProbe:
+                        httpGet:
+                            path: /actuator/info
+                            port: 8080
+                        failureThreshold: 60
