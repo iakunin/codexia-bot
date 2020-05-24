@@ -1,12 +1,12 @@
 {
-  "request" : {
-    "url" : "/codexia/recent.json?page=0",
-    "method" : "GET"
+  "request": {
+    "url": "/codexia/recent.json?page=0",
+    "method": "GET"
   },
-  "response" : {
-    "status" : 200,
+  "response": {
+    "status": 200,
     "bodyFileName": "codexia/recent/page-0.json",
-    "headers" : {
+    "headers": {
       "Content-Type": "application/json"
     }
   }

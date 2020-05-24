@@ -1,10 +1,10 @@
 {
-  "request" : {
+  "request": {
     "urlPathPattern": "/codexia/p/\\d+/post",
-    "method" : "POST"
+    "method": "POST"
   },
-  "response" : {
-    "status" : 200,
-    "body" : "Review successfully created!"
+  "response": {
+    "status": 200,
+    "body": "Review successfully created!"
   }
 }
