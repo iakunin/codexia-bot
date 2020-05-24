@@ -1,3 +1,11 @@
+engines:
+    checkstyle:
+        enabled: true
+    pmd:
+        enabled: true
+    spotbugs:
+        enabled: true
+
 exclude_paths:
     - "**/*.jar"
     - "gradlew"
