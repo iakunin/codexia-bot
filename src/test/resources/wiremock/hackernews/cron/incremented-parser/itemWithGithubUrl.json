@@ -1,11 +1,11 @@
 {
-  "by": "test1author",
-  "id": 1,
-  "text": "Some awesome text for test 1.",
-  "title": "Title for test1",
-  "url": "https://github.com/test-user/test-repo",
-  "time": 1231998977,
-  "type": "story",
-  "descendants": 0,
-  "score": 2
+    "by": "test1author",
+    "id": 1,
+    "text": "Some awesome text for test 1.",
+    "title": "Title for test1",
+    "url": "https://github.com/test-user/test-repo",
+    "time": 1231998977,
+    "type": "story",
+    "descendants": 0,
+    "score": 2
 }

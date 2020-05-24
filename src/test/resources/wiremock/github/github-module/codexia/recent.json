@@ -1,19 +1,19 @@
 [
-  {
-    "id": 1662,
-    "coordinates": "casbin/casbin-rs",
-    "platform": "github",
-    "created": "2020-05-05 10:29:21 +0000",
-    "deleted": null,
-    "submitter": {
-      "id": 1358,
-      "login": "iakunin"
-    },
-    "badges": [
-      {
-        "id": "1642",
-        "text": "newbie"
-      }
-    ]
-  }
+    {
+        "id": 1662,
+        "coordinates": "casbin/casbin-rs",
+        "platform": "github",
+        "created": "2020-05-05 10:29:21 +0000",
+        "deleted": null,
+        "submitter": {
+            "id": 1358,
+            "login": "iakunin"
+        },
+        "badges": [
+            {
+                "id": "1642",
+                "text": "newbie"
+            }
+        ]
+    }
 ]

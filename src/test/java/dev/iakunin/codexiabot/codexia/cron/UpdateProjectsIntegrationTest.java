@@ -37,10 +37,20 @@ class UpdateProjectsIntegrationTest extends AbstractIntegrationTest {
     void twoActiveProjectsInRepoButDeletedInCodexia() {
         WireMockServer.stub(
             new Stub(
-                new Request(WireMock.urlPathMatching("/codexia/p/\\d+\\.json")),
+                new Request(WireMock.urlPathEqualTo("/codexia/p/12.json")),
                 new Response(
                     new ResourceOf(
-                        "wiremock/codexia/cron/projects-health-check/deletedWithBadges.json"
+                        "wiremock/codexia/cron/projects-health-check/12deletedWithBadges.json"
+                    )
+                )
+            )
+        );
+        WireMockServer.stub(
+            new Stub(
+                new Request(WireMock.urlPathEqualTo("/codexia/p/34.json")),
+                new Response(
+                    new ResourceOf(
+                        "wiremock/codexia/cron/projects-health-check/34deletedWithBadges.json"
                     )
                 )
             )
@@ -67,7 +77,7 @@ class UpdateProjectsIntegrationTest extends AbstractIntegrationTest {
                 new Request(WireMock.urlPathEqualTo("/codexia/p/34.json")),
                 new Response(
                     new ResourceOf(
-                        "wiremock/codexia/cron/projects-health-check/deletedWithBadges.json"
+                        "wiremock/codexia/cron/projects-health-check/34deletedWithBadges.json"
                     )
                 )
             )

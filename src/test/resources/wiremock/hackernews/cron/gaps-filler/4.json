@@ -1,11 +1,11 @@
 {
-  "by": "test4author",
-  "id": 4,
-  "text": "Some awesome text for test 4.",
-  "title": "Title for test4",
-  "url": "test 4 url",
-  "time": 1231999973,
-  "type": "story",
-  "descendants": 30,
-  "score": 55
+    "by": "test4author",
+    "id": 4,
+    "text": "Some awesome text for test 4.",
+    "title": "Title for test4",
+    "url": "test 4 url",
+    "time": 1231999973,
+    "type": "story",
+    "descendants": 30,
+    "score": 55
 }
