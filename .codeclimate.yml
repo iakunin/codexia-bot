@@ -5,3 +5,5 @@ plugins:
         enabled: true
     sonar-java:
         enabled: true
+exclude_patterns:
+    - "**/*.jar"
