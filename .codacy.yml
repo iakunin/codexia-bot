@@ -1,0 +1,4 @@
+exclude_paths:
+    - "**/*.jar"
+    - "gradlew"
+    - "gradlew.bat"
