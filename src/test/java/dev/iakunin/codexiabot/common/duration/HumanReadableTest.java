@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 class HumanReadableTest {
 
     @Test
-    void onlyMinutes() throws Exception {
+    public void onlyMinutes() throws Exception {
         assertEquals(
             "15 minutes",
             new HumanReadable(
@@ -17,7 +17,7 @@ class HumanReadableTest {
     }
 
     @Test
-    void minutesAndSeconds() throws Exception {
+    public void minutesAndSeconds() throws Exception {
         assertEquals(
             "15 minutes",
             new HumanReadable(
@@ -27,7 +27,7 @@ class HumanReadableTest {
     }
 
     @Test
-    void hoursMinutesAndSeconds() throws Exception {
+    public void hoursMinutesAndSeconds() throws Exception {
         assertEquals(
             "4 hours",
             new HumanReadable(
@@ -37,7 +37,7 @@ class HumanReadableTest {
     }
 
     @Test
-    void hourMinutesAndSeconds() throws Exception {
+    public void hourMinutesAndSeconds() throws Exception {
         assertEquals(
             "1 hour",
             new HumanReadable(
@@ -47,7 +47,7 @@ class HumanReadableTest {
     }
 
     @Test
-    void dayHourMinutesAndSeconds() throws Exception {
+    public void dayHourMinutesAndSeconds() throws Exception {
         assertEquals(
             "1 day",
             new HumanReadable(
@@ -59,7 +59,7 @@ class HumanReadableTest {
     }
 
     @Test
-    void week() throws Exception {
+    public void week() throws Exception {
         assertEquals(
             "1 week",
             new HumanReadable(
@@ -71,7 +71,7 @@ class HumanReadableTest {
     }
 
     @Test
-    void twoWeek() throws Exception {
+    public void twoWeek() throws Exception {
         assertEquals(
             "2 weeks",
             new HumanReadable(

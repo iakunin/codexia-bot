@@ -24,7 +24,7 @@ class UpdateProjectsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/projects-health-check/expected/noActiveProjectsInRepo.yml")
-    void noActiveProjectsInRepo() {
+    public void noActiveProjectsInRepo() {
         cron.run();
     }
 
@@ -34,7 +34,7 @@ class UpdateProjectsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/projects-health-check/expected/twoActiveProjectsInRepoButDeletedInCodexia.yml")
-    void twoActiveProjectsInRepoButDeletedInCodexia() {
+    public void twoActiveProjectsInRepoButDeletedInCodexia() {
         WireMockServer.stub(
             new Stub(
                 new Request(WireMock.urlPathEqualTo("/codexia/p/12.json")),
@@ -65,7 +65,7 @@ class UpdateProjectsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/projects-health-check/expected/oneSuccessAfterOneException.yml")
-    void oneSuccessAfterOneException() {
+    public void oneSuccessAfterOneException() {
         WireMockServer.stub(
             new Stub(
                 new Request(WireMock.urlPathEqualTo("/codexia/p/12.json")),

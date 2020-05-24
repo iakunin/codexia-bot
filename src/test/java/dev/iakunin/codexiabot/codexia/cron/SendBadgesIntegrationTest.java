@@ -23,7 +23,7 @@ class SendBadgesIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/send-badges/expected/emptyDatabase.yml")
-    void emptyDatabase() {
+    public void emptyDatabase() {
         cron.run();
     }
 
@@ -33,7 +33,7 @@ class SendBadgesIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/send-badges/expected/attachOneBadge.yml")
-    void attachOneBadge() {
+    public void attachOneBadge() {
         final var urlPattern = WireMock.urlPathEqualTo("/codexia/p/123/attach");
         WireMockServer.stub(
             new Stub(
@@ -53,7 +53,7 @@ class SendBadgesIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/send-badges/expected/attachTwoBadges.yml")
-    void attachTwoBadges() {
+    public void attachTwoBadges() {
         final var firstUrlPattern = WireMock.urlPathEqualTo("/codexia/p/123/attach");
         WireMockServer.stub(
             new Stub(
@@ -81,7 +81,7 @@ class SendBadgesIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/send-badges/expected/detachOneBadge.yml")
-    void detachOneBadge() {
+    public void detachOneBadge() {
         final var urlPattern = WireMock.urlPathEqualTo("/codexia/p/333/detach/bad");
         WireMockServer.stub(
             new Stub(
@@ -101,7 +101,7 @@ class SendBadgesIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/send-badges/expected/detachTwoBadges.yml")
-    void detachTwoBadges() {
+    public void detachTwoBadges() {
         final var firstUrlPattern = WireMock.urlPathEqualTo("/codexia/p/123/detach/bad");
         WireMockServer.stub(
             new Stub(

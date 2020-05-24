@@ -26,7 +26,7 @@ class CodexiaParserIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/codexia-parser/expected/happyPathWithoutGithub.yml")
-    void happyPathWithoutGithub() {
+    public void happyPathWithoutGithub() {
         WireMockServer.stub(
             new Stub(
                 "/codexia/recent.json?page=0",
@@ -44,7 +44,7 @@ class CodexiaParserIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/codexia-parser/expected/happyPathWithGithub.yml")
-    void happyPathWithGithub() {
+    public void happyPathWithGithub() {
         WireMockServer.stub(
             new Stub(
                 "/codexia/recent.json?page=0",
@@ -68,7 +68,7 @@ class CodexiaParserIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/codexia-parser/expected/codexiaProjectAlreadyExist.yml")
-    void codexiaProjectAlreadyExist() {
+    public void codexiaProjectAlreadyExist() {
         WireMockServer.stub(
             new Stub(
                 "/codexia/recent.json?page=0",
@@ -86,7 +86,7 @@ class CodexiaParserIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/codexia-parser/expected/deletedProject.yml")
-    void deletedProject() {
+    public void deletedProject() {
         WireMockServer.stub(
             new Stub(
                 "/codexia/recent.json?page=0",

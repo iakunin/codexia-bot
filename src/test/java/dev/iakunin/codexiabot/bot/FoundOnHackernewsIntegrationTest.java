@@ -22,7 +22,7 @@ class FoundOnHackernewsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/found-on-hackernews/expected/emptyDatabase.yml")
-    void emptyDatabase() {
+    public void emptyDatabase() {
         foundOnHackernews.run();
     }
 
@@ -32,7 +32,7 @@ class FoundOnHackernewsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/found-on-hackernews/expected/happyPath.yml")
-    void happyPath() {
+    public void happyPath() {
         WireMockServer.stub(
             new Stub(
                 "/hackernews/item/99912.json",
@@ -49,7 +49,7 @@ class FoundOnHackernewsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/found-on-hackernews/expected/happyPathNoUpvotes.yml")
-    void happyPathNoUpvotes() {
+    public void happyPathNoUpvotes() {
         WireMockServer.stub(
             new Stub(
                 "/hackernews/item/99912.json",
@@ -66,7 +66,7 @@ class FoundOnHackernewsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/found-on-hackernews/expected/reviewExists.yml")
-    void reviewExists() {
+    public void reviewExists() {
         foundOnHackernews.run();
     }
 
@@ -76,7 +76,7 @@ class FoundOnHackernewsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/found-on-hackernews/expected/onlyCodexiaSource.yml")
-    void onlyCodexiaSource() {
+    public void onlyCodexiaSource() {
         foundOnHackernews.run();
     }
 
@@ -86,7 +86,7 @@ class FoundOnHackernewsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/found-on-hackernews/expected/onlyHackernewsSource.yml")
-    void onlyHackernewsSource() {
+    public void onlyHackernewsSource() {
         foundOnHackernews.run();
     }
 }

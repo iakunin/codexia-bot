@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 class FaultTolerantUnitTest {
 
     @Test
-    void emptyStream() {
+    public void emptyStream() {
         final Logger logger = Mockito.mock(Logger.class);
 
         new FaultTolerant(
@@ -20,7 +20,7 @@ class FaultTolerantUnitTest {
     }
 
     @Test
-    void streamOfOne() {
+    public void streamOfOne() {
         final Logger logger = Mockito.mock(Logger.class);
 
         new FaultTolerant(
@@ -32,7 +32,7 @@ class FaultTolerantUnitTest {
     }
 
     @Test
-    void streamOfTwo() {
+    public void streamOfTwo() {
         final Logger logger = Mockito.mock(Logger.class);
 
         new FaultTolerant(
@@ -44,7 +44,7 @@ class FaultTolerantUnitTest {
     }
 
     @Test
-    void streamWithException() {
+    public void streamWithException() {
         final Logger logger = Mockito.mock(Logger.class);
         final RuntimeException ex = new RuntimeException("Runtime");
 
@@ -59,7 +59,7 @@ class FaultTolerantUnitTest {
     }
 
     @Test
-    void streamWithTwoExceptions() {
+    public void streamWithTwoExceptions() {
         final Logger logger = Mockito.mock(Logger.class);
         final RuntimeException ex = new RuntimeException("Runtime");
 

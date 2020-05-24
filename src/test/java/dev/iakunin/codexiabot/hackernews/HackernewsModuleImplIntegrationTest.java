@@ -23,7 +23,7 @@ class HackernewsModuleImplIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/hackernews/hackernews-module/expected/noItemInDatabase.yml")
-    void noItemInDatabase() {
+    public void noItemInDatabase() {
         WireMockServer.stub(
             new Stub(
                 new Request("/hackernews/item/4.json"),

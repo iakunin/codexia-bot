@@ -70,7 +70,7 @@ abstract public class AbstractIntegrationTest {
     }
 
     @AfterEach
-    void after() {
+    public void after() {
         WireMockServer.getInstance().resetAll();
     }
 }

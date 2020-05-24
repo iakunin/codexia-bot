@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 class BiggestUnitTest {
 
     @Test
-    void onlyMinutes() throws Exception {
+    public void onlyMinutes() throws Exception {
         assertEquals(
             ChronoUnit.MINUTES,
             new BiggestUnit(
@@ -23,7 +23,7 @@ class BiggestUnitTest {
     }
 
     @Test
-    void minutesAndSeconds() throws Exception {
+    public void minutesAndSeconds() throws Exception {
         assertEquals(
             ChronoUnit.MINUTES,
             new BiggestUnit(
@@ -33,7 +33,7 @@ class BiggestUnitTest {
     }
 
     @Test
-    void hoursAndMinutesAndSeconds() throws Exception {
+    public void hoursAndMinutesAndSeconds() throws Exception {
         assertEquals(
             ChronoUnit.HOURS,
             new BiggestUnit(
@@ -43,7 +43,7 @@ class BiggestUnitTest {
     }
 
     @Test
-    void hoursWithPredefinedUnits() throws Exception {
+    public void hoursWithPredefinedUnits() throws Exception {
         assertEquals(
             ChronoUnit.HOURS,
             new BiggestUnit(
@@ -57,7 +57,7 @@ class BiggestUnitTest {
     }
 
     @Test
-    void hoursWithPredefinedUnitsWrongOrder() throws Exception {
+    public void hoursWithPredefinedUnitsWrongOrder() throws Exception {
         assertEquals(
             ChronoUnit.HOURS,
             new BiggestUnit(
@@ -72,7 +72,7 @@ class BiggestUnitTest {
     }
 
     @Test
-    void lessThanMinUnit() throws IOException {
+    public void lessThanMinUnit() throws IOException {
         final Duration duration = Duration.parse("PT16H");
         final IterableOf<TemporalUnit> units = new IterableOf<>(ChronoUnit.DAYS);
 

@@ -19,7 +19,7 @@ class NotSmallIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/not-small/expected/emptyDatabase.yml")
-    void emptyDatabase() {
+    public void emptyDatabase() {
         notSmall.run();
     }
 
@@ -29,7 +29,7 @@ class NotSmallIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/not-small/expected/happyPath.yml")
-    void happyPath() {
+    public void happyPath() {
         notSmall.run();
     }
 
@@ -39,7 +39,7 @@ class NotSmallIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/not-small/expected/noResult.yml")
-    void noResult() {
+    public void noResult() {
         notSmall.run();
     }
 
@@ -49,7 +49,7 @@ class NotSmallIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/not-small/expected/projectLevelMoreThanZero.yml")
-    void projectLevelMoreThanZero() {
+    public void projectLevelMoreThanZero() {
         notSmall.run();
     }
 
@@ -59,7 +59,7 @@ class NotSmallIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/not-small/expected/resultWithTypeReset.yml")
-    void resultWithTypeReset() {
+    public void resultWithTypeReset() {
         notSmall.run();
     }
 
@@ -69,7 +69,7 @@ class NotSmallIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/not-small/expected/linesOfCodeLessThanThreshold.yml")
-    void linesOfCodeLessThanThreshold() {
+    public void linesOfCodeLessThanThreshold() {
         notSmall.run();
     }
 

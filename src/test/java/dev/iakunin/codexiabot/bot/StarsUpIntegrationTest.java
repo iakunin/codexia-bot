@@ -19,7 +19,7 @@ class StarsUpIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/stars-up/expected/emptyDatabase.yml")
-    void emptyDatabase() {
+    public void emptyDatabase() {
         starsUp.run();
     }
 
@@ -29,7 +29,7 @@ class StarsUpIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/stars-up/expected/noResults_githubRepoWithoutStat.yml")
-    void noResults_githubRepoWithoutStat() {
+    public void noResults_githubRepoWithoutStat() {
         starsUp.run();
     }
 
@@ -39,7 +39,7 @@ class StarsUpIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/stars-up/expected/noResults_githubRepoWithOneStat.yml")
-    void noResults_githubRepoWithOneStat() {
+    public void noResults_githubRepoWithOneStat() {
         starsUp.run();
     }
 
@@ -49,7 +49,7 @@ class StarsUpIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/stars-up/expected/noResults_githubRepoWithTwoEmptyStats.yml")
-    void noResults_githubRepoWithTwoEmptyStats() {
+    public void noResults_githubRepoWithTwoEmptyStats() {
         starsUp.run();
     }
 
@@ -59,7 +59,7 @@ class StarsUpIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/stars-up/expected/noResults_githubRepoWithOneEmptyAndOneNonEmptyStat.yml")
-    void noResults_githubRepoWithOneEmptyAndOneNonEmptyStat() {
+    public void noResults_githubRepoWithOneEmptyAndOneNonEmptyStat() {
         starsUp.run();
     }
 
@@ -69,7 +69,7 @@ class StarsUpIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/stars-up/expected/noResults_githubRepoWithTwoStats_withTwoEqualStars.yml")
-    void noResults_githubRepoWithTwoStats_withTwoEqualStars() {
+    public void noResults_githubRepoWithTwoStats_withTwoEqualStars() {
         starsUp.run();
     }
 
@@ -79,7 +79,7 @@ class StarsUpIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/stars-up/expected/noResults_githubRepoWithTwoStats_starsDecrease.yml")
-    void noResults_githubRepoWithTwoStats_starsDecrease() {
+    public void noResults_githubRepoWithTwoStats_starsDecrease() {
         starsUp.run();
     }
 
@@ -89,7 +89,7 @@ class StarsUpIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/stars-up/expected/noResults_githubRepoWithTwoStats_starsIncreaseLessThan10.yml")
-    void noResults_githubRepoWithTwoStats_starsIncreaseLessThan10() {
+    public void noResults_githubRepoWithTwoStats_starsIncreaseLessThan10() {
         starsUp.run();
     }
 
@@ -99,7 +99,7 @@ class StarsUpIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/stars-up/expected/noResults_githubRepoWithThreeStats_starsIncreaseLessThan10.yml")
-    void noResults_githubRepoWithThreeStats_starsIncreaseLessThan10() {
+    public void noResults_githubRepoWithThreeStats_starsIncreaseLessThan10() {
         starsUp.run();
     }
 
@@ -109,7 +109,7 @@ class StarsUpIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/stars-up/expected/noResults_githubRepoWithTwoStats_starsIncreaseMoreThan10ButLessThan5Percents.yml")
-    void noResults_githubRepoWithTwoStats_starsIncreaseMoreThan10ButLessThan5Percents() {
+    public void noResults_githubRepoWithTwoStats_starsIncreaseMoreThan10ButLessThan5Percents() {
         starsUp.run();
     }
 
@@ -119,7 +119,7 @@ class StarsUpIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/stars-up/expected/noResults_githubRepoWithThreeStats_starsIncreaseMoreThan10ButLessThan5Percents.yml")
-    void noResults_githubRepoWithThreeStats_starsIncreaseMoreThan10ButLessThan5Percents() {
+    public void noResults_githubRepoWithThreeStats_starsIncreaseMoreThan10ButLessThan5Percents() {
         starsUp.run();
     }
 
@@ -129,7 +129,7 @@ class StarsUpIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/stars-up/expected/noResults_githubRepoWithTwoStats_happyPath.yml")
-    void noResults_githubRepoWithTwoStats_happyPath() {
+    public void noResults_githubRepoWithTwoStats_happyPath() {
         starsUp.run();
     }
 
@@ -139,7 +139,7 @@ class StarsUpIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/stars-up/expected/noResults_githubRepoWithThreeStats_happyPath.yml")
-    void noResults_githubRepoWithThreeStats_happyPath() {
+    public void noResults_githubRepoWithThreeStats_happyPath() {
         starsUp.run();
     }
 
@@ -149,7 +149,7 @@ class StarsUpIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/stars-up/expected/oneResult_githubRepoWithThreeStats_happyPath.yml")
-    void oneResult_githubRepoWithThreeStats_happyPath() {
+    public void oneResult_githubRepoWithThreeStats_happyPath() {
         starsUp.run();
     }
 
@@ -159,7 +159,7 @@ class StarsUpIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/stars-up/expected/oneResult_githubRepoWithFourStats_happyPath.yml")
-    void oneResult_githubRepoWithFourStats_happyPath() {
+    public void oneResult_githubRepoWithFourStats_happyPath() {
         starsUp.run();
     }
 
@@ -169,7 +169,7 @@ class StarsUpIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/stars-up/expected/oneResult_noNewGithubStats.yml")
-    void oneResult_noNewGithubStats() {
+    public void oneResult_noNewGithubStats() {
         starsUp.run();
     }
 
@@ -179,7 +179,7 @@ class StarsUpIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/stars-up/expected/oneResult_starsDecrease.yml")
-    void oneResult_starsDecrease() {
+    public void oneResult_starsDecrease() {
         starsUp.run();
     }
 
@@ -189,7 +189,7 @@ class StarsUpIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/stars-up/expected/oneResult_starsIncreaseLessThan10.yml")
-    void oneResult_starsIncreaseLessThan10() {
+    public void oneResult_starsIncreaseLessThan10() {
         starsUp.run();
     }
 
@@ -199,7 +199,7 @@ class StarsUpIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/stars-up/expected/oneResult_starsIncreaseMoreThan10ButLessThan5Percents.yml")
-    void oneResult_starsIncreaseMoreThan10ButLessThan5Percents() {
+    public void oneResult_starsIncreaseMoreThan10ButLessThan5Percents() {
         starsUp.run();
     }
 }

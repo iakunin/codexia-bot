@@ -24,7 +24,7 @@ class SendReviewsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/send-reviews/expected/noReviewsToSend.yml")
-    void noReviewsToSend() {
+    public void noReviewsToSend() {
         sendReviews.run();
     }
 
@@ -34,7 +34,7 @@ class SendReviewsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/send-reviews/expected/reviewSuccessfullySent.yml")
-    void reviewSuccessfullySent() {
+    public void reviewSuccessfullySent() {
         WireMockServer.stub(
             new Stub(
                 new Request(RequestMethod.POST, WireMock.urlPathMatching("/codexia/p/\\d+/post")),
@@ -51,7 +51,7 @@ class SendReviewsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/send-reviews/expected/reviewSentWithDuplicate_responseBodyExists.yml")
-    void reviewSentWithDuplicate_responseBodyExists() {
+    public void reviewSentWithDuplicate_responseBodyExists() {
         WireMockServer.stub(
             new Stub(
                 new Request(RequestMethod.POST, WireMock.urlPathMatching("/codexia/p/\\d+/post")),
@@ -68,7 +68,7 @@ class SendReviewsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/send-reviews/expected/reviewSentWithDuplicate_responseBodyEmpty.yml")
-    void reviewSentWithDuplicate_responseBodyEmpty() {
+    public void reviewSentWithDuplicate_responseBodyEmpty() {
         WireMockServer.stub(
             new Stub(
                 new Request(RequestMethod.POST, WireMock.urlPathMatching("/codexia/p/\\d+/post")),
@@ -85,7 +85,7 @@ class SendReviewsIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/send-reviews/expected/reviewSentWith500.yml")
-    void reviewSentWith500() {
+    public void reviewSentWith500() {
         WireMockServer.stub(
             new Stub(
                 new Request(RequestMethod.POST, WireMock.urlPathMatching("/codexia/p/\\d+/post")),

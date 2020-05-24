@@ -25,7 +25,7 @@ class ForksUpResultRepositoryIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     @Transactional
-    void findFirstByGithubRepo_happyPath() {
+    public void findFirstByGithubRepo_happyPath() {
         var repo = this.createGithubRepo();
         var repoStat = this.createGithubRepoStat(repo);
         var result = this.createForksUpResult(repo, repoStat);
@@ -45,7 +45,7 @@ class ForksUpResultRepositoryIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     @Transactional
-    void findFirstByGithubRepo_withinMultipleResults() {
+    public void findFirstByGithubRepo_withinMultipleResults() {
         var repo = this.createGithubRepo();
         var repoStat = this.createGithubRepoStat(repo);
         var firstResult = this.createForksUpResult(repo, repoStat);
@@ -68,7 +68,7 @@ class ForksUpResultRepositoryIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     @Transactional
-    void findFirstByGithubRepo_noData() {
+    public void findFirstByGithubRepo_noData() {
         var repo = this.createGithubRepo();
         entityManager.persist(repo);
 

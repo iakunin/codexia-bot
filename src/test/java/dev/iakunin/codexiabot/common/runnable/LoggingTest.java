@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 class LoggingTest {
 
     @Test
-    void run() {
+    public void run() {
         final Logger logger = Mockito.mock(Logger.class);
 
         new Logging(() -> {}, logger).run();

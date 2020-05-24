@@ -33,7 +33,7 @@ class TooSmallTransactionIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/too-small-transaction/expected/transactionRollback.yml")
-    void transactionRollback() {
+    public void transactionRollback() {
         tooSmall.run();
     }
 

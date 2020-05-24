@@ -22,7 +22,7 @@ class GapsFillerIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/hackernews/cron/gaps-filler/expected/emptyDatabase.yml")
-    void emptyDatabase() {
+    public void emptyDatabase() {
         gapsFiller.run();
     }
 
@@ -32,7 +32,7 @@ class GapsFillerIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/hackernews/cron/gaps-filler/expected/oneMissing.yml")
-    void oneMissing() {
+    public void oneMissing() {
         WireMockServer.stub(
             new Stub(
                 new Request("/hackernews/item/2.json"),
@@ -51,7 +51,7 @@ class GapsFillerIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/hackernews/cron/gaps-filler/expected/twoMissing.yml")
-    void twoMissing() {
+    public void twoMissing() {
         WireMockServer.stub(
             new Stub(
                 new Request("/hackernews/item/2.json"),

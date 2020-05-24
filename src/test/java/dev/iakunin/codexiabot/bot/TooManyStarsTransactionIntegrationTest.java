@@ -31,7 +31,7 @@ class TooManyStarsTransactionIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/too-many-stars-transaction/expected/transactionRollback.yml")
-    void transactionRollback() {
+    public void transactionRollback() {
         tooManyStars.run();
     }
 

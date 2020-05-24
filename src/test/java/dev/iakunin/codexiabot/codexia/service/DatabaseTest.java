@@ -10,7 +10,7 @@ class DatabaseTest {
     private static final int EXTERNAL_ID = 333;
 
     @Test
-    void exists() {
+    public void exists() {
         final var repository = Mockito.mock(CodexiaProjectRepository.class);
         final var project = this.project();
         final var database = new Database(repository);
@@ -22,7 +22,7 @@ class DatabaseTest {
     }
 
     @Test
-    void notExists() {
+    public void notExists() {
         final var repository = Mockito.mock(CodexiaProjectRepository.class);
         final var project = this.project();
         final var database = new Database(repository);

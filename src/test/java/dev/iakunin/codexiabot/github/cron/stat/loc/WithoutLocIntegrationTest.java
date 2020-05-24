@@ -24,7 +24,7 @@ class WithoutLocIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/github/cron/stat/loc/without-loc/expected/emptyDatabase.yml")
-    void emptyDatabase() {
+    public void emptyDatabase() {
         linesOfCode.run();
     }
 
@@ -34,7 +34,7 @@ class WithoutLocIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/github/cron/stat/loc/without-loc/expected/processedRepo.yml")
-    void processedRepo() {
+    public void processedRepo() {
         linesOfCode.run();
     }
 
@@ -44,7 +44,7 @@ class WithoutLocIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/github/cron/stat/loc/without-loc/expected/happyPath.yml")
-    void happyPath() {
+    public void happyPath() {
         WireMockServer.stub(
             new Stub(
                 new Request(WireMock.urlPathEqualTo("/codetabs/loc")),
@@ -63,7 +63,7 @@ class WithoutLocIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/github/cron/stat/loc/without-loc/expected/tooManyRequests.yml")
-    void tooManyRequests() {
+    public void tooManyRequests() {
         WireMockServer.stub(
             new Stub(
                 new Request(WireMock.urlPathEqualTo("/codetabs/loc")),
@@ -80,7 +80,7 @@ class WithoutLocIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/github/cron/stat/loc/without-loc/expected/codetabsException.yml")
-    void codetabsException() {
+    public void codetabsException() {
         WireMockServer.stub(
             new Stub(
                 new Request(WireMock.urlPathEqualTo("/codetabs/loc")),

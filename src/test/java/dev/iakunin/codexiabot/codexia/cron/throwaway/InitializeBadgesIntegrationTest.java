@@ -17,7 +17,7 @@ class InitializeBadgesIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/throwaway/initialize-badges/expected/emptyDatabase.yml")
-    void emptyDatabase() {
+    public void emptyDatabase() {
         cron.run();
     }
 
@@ -27,7 +27,7 @@ class InitializeBadgesIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/throwaway/initialize-badges/expected/oneTooManyStars.yml")
-    void oneTooManyStars() {
+    public void oneTooManyStars() {
         cron.run();
     }
 
@@ -37,7 +37,7 @@ class InitializeBadgesIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/throwaway/initialize-badges/expected/twoTooManyStars.yml")
-    void twoTooManyStars() {
+    public void twoTooManyStars() {
         cron.run();
     }
 
@@ -47,7 +47,7 @@ class InitializeBadgesIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/throwaway/initialize-badges/expected/oneTooSmall.yml")
-    void oneTooSmall() {
+    public void oneTooSmall() {
         cron.run();
     }
 
@@ -57,7 +57,7 @@ class InitializeBadgesIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/throwaway/initialize-badges/expected/multipleTooSmall.yml")
-    void multipleTooSmall() {
+    public void multipleTooSmall() {
         cron.run();
     }
 
@@ -67,7 +67,7 @@ class InitializeBadgesIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/throwaway/initialize-badges/expected/fromTooSmallToNotSmall.yml")
-    void fromTooSmallToNotSmall() {
+    public void fromTooSmallToNotSmall() {
         cron.run();
     }
 
@@ -77,7 +77,7 @@ class InitializeBadgesIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/throwaway/initialize-badges/expected/oneNotTooSmall.yml")
-    void oneNotTooSmall() {
+    public void oneNotTooSmall() {
         cron.run();
     }
 
@@ -87,7 +87,7 @@ class InitializeBadgesIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/codexia/cron/throwaway/initialize-badges/expected/altogether.yml")
-    void altogether() {
+    public void altogether() {
         cron.run();
     }
 }

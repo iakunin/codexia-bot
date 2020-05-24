@@ -33,7 +33,7 @@ class ForksUpTransactionIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/forks-up-transaction/expected/transactionRollback.yml")
-    void transactionRollback() {
+    public void transactionRollback() {
         forksUp.run();
     }
 

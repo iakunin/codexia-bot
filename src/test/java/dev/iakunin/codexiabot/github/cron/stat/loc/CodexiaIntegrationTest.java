@@ -24,7 +24,7 @@ class CodexiaIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/github/cron/stat/loc/codexia/expected/emptyDatabase.yml")
-    void emptyDatabase() {
+    public void emptyDatabase() {
         linesOfCode.run();
     }
 
@@ -34,7 +34,7 @@ class CodexiaIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/github/cron/stat/loc/codexia/expected/processedRepo.yml")
-    void processedRepo() {
+    public void processedRepo() {
         WireMockServer.stub(
             new Stub(
                 new Request(WireMock.urlPathEqualTo("/codetabs/loc")),
@@ -53,7 +53,7 @@ class CodexiaIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/github/cron/stat/loc/codexia/expected/happyPath.yml")
-    void happyPath() {
+    public void happyPath() {
         WireMockServer.stub(
             new Stub(
                 new Request(WireMock.urlPathEqualTo("/codetabs/loc")),
@@ -72,7 +72,7 @@ class CodexiaIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/github/cron/stat/loc/codexia/expected/tooManyRequests.yml")
-    void tooManyRequests() {
+    public void tooManyRequests() {
         WireMockServer.stub(
             new Stub(
                 new Request(WireMock.urlPathEqualTo("/codetabs/loc")),
@@ -89,7 +89,7 @@ class CodexiaIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/github/cron/stat/loc/codexia/expected/codetabsException.yml")
-    void codetabsException() {
+    public void codetabsException() {
         WireMockServer.stub(
             new Stub(
                 new Request(WireMock.urlPathEqualTo("/codetabs/loc")),

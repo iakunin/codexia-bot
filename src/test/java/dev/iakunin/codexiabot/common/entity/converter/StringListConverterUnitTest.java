@@ -7,14 +7,14 @@ import org.junit.jupiter.api.Test;
 class StringListConverterUnitTest {
 
     @Test
-    void toDatabaseColumnNull() {
+    public void toDatabaseColumnNull() {
         final var actual = new StringListConverter().convertToDatabaseColumn(null);
 
         assertEquals("", actual);
     }
 
     @Test
-    void toDatabaseColumnOneItem() {
+    public void toDatabaseColumnOneItem() {
         final var actual = new StringListConverter().convertToDatabaseColumn(
             new ListOf<>("one")
         );
@@ -23,7 +23,7 @@ class StringListConverterUnitTest {
     }
 
     @Test
-    void toDatabaseColumnTwoItems() {
+    public void toDatabaseColumnTwoItems() {
         final var actual = new StringListConverter().convertToDatabaseColumn(
             new ListOf<>("one", "two")
         );
@@ -32,35 +32,35 @@ class StringListConverterUnitTest {
     }
 
     @Test
-    void toEntityAttributeNull() {
+    public void toEntityAttributeNull() {
         final var actual = new StringListConverter().convertToEntityAttribute(null);
 
         assertEquals(new ListOf<String>(), actual);
     }
 
     @Test
-    void toEntityAttributeEmptyString() {
+    public void toEntityAttributeEmptyString() {
         final var actual = new StringListConverter().convertToEntityAttribute("");
 
         assertEquals(new ListOf<>(""), actual);
     }
 
     @Test
-    void toEntityAttributeOneItem() {
+    public void toEntityAttributeOneItem() {
         final var actual = new StringListConverter().convertToEntityAttribute("one");
 
         assertEquals(new ListOf<>("one"), actual);
     }
 
     @Test
-    void toEntityAttributeTwoItems() {
+    public void toEntityAttributeTwoItems() {
         final var actual = new StringListConverter().convertToEntityAttribute("one,two");
 
         assertEquals(new ListOf<>("one", "two"), actual);
     }
 
     @Test
-    void toEntityAttributeTwoItemsWithSpace() {
+    public void toEntityAttributeTwoItemsWithSpace() {
         final var actual = new StringListConverter().convertToEntityAttribute("one, two");
 
         assertEquals(new ListOf<>("one", " two"), actual);

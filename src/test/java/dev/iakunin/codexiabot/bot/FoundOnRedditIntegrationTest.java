@@ -19,7 +19,7 @@ class FoundOnRedditIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/found-on-reddit/expected/emptyDatabase.yml")
-    void emptyDatabase() {
+    public void emptyDatabase() {
         foundOnReddit.run();
     }
 
@@ -29,7 +29,7 @@ class FoundOnRedditIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/found-on-reddit/expected/happyPath.yml")
-    void happyPath() {
+    public void happyPath() {
         foundOnReddit.run();
     }
 
@@ -39,7 +39,7 @@ class FoundOnRedditIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/found-on-reddit/expected/reviewExists.yml")
-    void reviewExists() {
+    public void reviewExists() {
         foundOnReddit.run();
     }
 
@@ -49,7 +49,7 @@ class FoundOnRedditIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/found-on-reddit/expected/onlyCodexiaSource.yml")
-    void onlyCodexiaSource() {
+    public void onlyCodexiaSource() {
         foundOnReddit.run();
     }
 
@@ -59,7 +59,7 @@ class FoundOnRedditIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/bot/found-on-reddit/expected/onlyRedditSource.yml")
-    void onlyRedditSource() {
+    public void onlyRedditSource() {
         foundOnReddit.run();
     }
 }
