@@ -9,6 +9,7 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/ad3831a0be7db8b87a5f/maintainability)](https://codeclimate.com/github/iakunin/codexia-bot/maintainability)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/061785f8241f4207ae772a48c9678009)](https://www.codacy.com/manual/yakuninm-github/codexia-bot?utm_source=github.com&utm_medium=referral&utm_content=iakunin/codexia-bot&utm_campaign=Badge_Grade)
 [![CodeFactor](https://www.codefactor.io/repository/github/iakunin/codexia-bot/badge)](https://www.codefactor.io/repository/github/iakunin/codexia-bot)
+[![codebeat badge](https://codebeat.co/badges/92112209-798a-4d3a-9dc3-12e31deca058)](https://codebeat.co/projects/github-com-iakunin-codexia-bot-master)
 [![BCH compliance](https://bettercodehub.com/edge/badge/iakunin/codexia-bot?branch=master)](https://bettercodehub.com/)
 
 [![Hits-of-Code](https://hitsofcode.com/github/iakunin/codexia-bot)](https://hitsofcode.com/view/github/iakunin/codexia-bot)
