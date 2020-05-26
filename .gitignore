@@ -30,6 +30,10 @@
 .attach_pid*
 
 .env
+.editorconfig
 
 /.k8s/backend/secret/app.txt
 /.k8s/backend/secret/spring-datasource.txt
+
+/var/codestyle
+!/var/codestyle/.gitkeep

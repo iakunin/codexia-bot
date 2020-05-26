@@ -76,3 +76,6 @@ update-pg-parameter:
 	aws lightsail update-relational-database-parameters \
 	--relational-database-name Codexia-bot-DB \
 	--parameters "parameterName=log_min_duration_statement,parameterValue=-1,applyMethod=pending-reboot"
+
+codeclimate:
+	bash bin/codeclimate.sh
