@@ -76,6 +76,12 @@ This is a supervised bot for [Codexia (open source incubator)](https://www.codex
     - Public artifacts (Docker/jar/mvn)
         - is exist
         - downloads count
+    - yegor256 criteria (source: https://www.yegor256.com/2015/06/08/deadly-sins-software-project.html):
+        - Strict and visible principles of design.
+        - Continuous delivery.
+        - Traceability of changes.
+        - Self-documented source code.
+        - Strict rules of code formatting.
 
 
 - Determine topic of github-repo (games, IoT, etc.)
