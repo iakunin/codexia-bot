@@ -21,18 +21,26 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Slf4j
-@SpringBootTest(classes = { AbstractIntegrationTest.TestConfig.class })
-@ContextConfiguration(initializers = { AbstractIntegrationTest.Initializer.class })
+@SpringBootTest(classes = AbstractIntegrationTest.TestConfig.class)
+@ContextConfiguration(initializers = AbstractIntegrationTest.Initializer.class)
 @DBRider
 @ActiveProfiles("test")
 @TestPropertySource(properties = {
     "app.scheduling.enable=false",
     "spring.liquibase.enabled=false",
     "spring.main.allow-bean-definition-overriding=true",
-    "app.github.service.lines-of-code.delay=0",
+    "app.github.service.lines-of-code.delay=0"
 })
-abstract public class AbstractIntegrationTest {
+public abstract class AbstractIntegrationTest {
+
+    @AfterEach
+    public void after() {
+        new WireMockWrapper().resetAll();
+    }
 
     @Configuration
     @Import(CodexiaBotApplication.class)
@@ -53,8 +61,10 @@ abstract public class AbstractIntegrationTest {
         }
     }
 
-    static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
-        public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
+    static class Initializer
+        implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+
+        public void initialize(final ConfigurableApplicationContext context) {
             TestPropertyValues.of(
                 "app.database.host=" + new PostgresWrapper().getContainerIpAddress(),
                 "app.database.port=" + new PostgresWrapper().getMappedPort(
@@ -66,12 +76,7 @@ abstract public class AbstractIntegrationTest {
                 "app.codexia.base-url=" + new WireMockWrapper().baseUrl() + "/codexia",
                 "app.codetabs.base-url=" + new WireMockWrapper().baseUrl() + "/codetabs",
                 "app.hackernews.base-url=" + new WireMockWrapper().baseUrl() + "/hackernews"
-            ).applyTo(configurableApplicationContext.getEnvironment());
+            ).applyTo(context.getEnvironment());
         }
-    }
-
-    @AfterEach
-    public void after() {
-        new WireMockWrapper().resetAll();
     }
 }
