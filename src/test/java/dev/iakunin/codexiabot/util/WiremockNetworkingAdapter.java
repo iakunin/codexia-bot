@@ -1,5 +1,6 @@
 package dev.iakunin.codexiabot.util;
 
+import java.util.Optional;
 import net.dean.jraw.http.HttpRequest;
 import net.dean.jraw.http.HttpResponse;
 import net.dean.jraw.http.NetworkAdapter;
@@ -16,8 +17,8 @@ public final class WiremockNetworkingAdapter implements NetworkAdapter {
     private final HttpUrl url;
 
     public WiremockNetworkingAdapter(
-        NetworkAdapter original,
-        HttpUrl url
+        final NetworkAdapter original,
+        final HttpUrl url
     ) {
         this.original = original;
         this.url = url;
@@ -30,38 +31,36 @@ public final class WiremockNetworkingAdapter implements NetworkAdapter {
     }
 
     @Override
-    public void setUserAgent(@NotNull UserAgent userAgent) {
-        this.original.setUserAgent(userAgent);
+    public void setUserAgent(@NotNull final UserAgent useragent) {
+        this.original.setUserAgent(useragent);
     }
 
     @NotNull
     @Override
-    public WebSocket connect(@NotNull String s, @NotNull WebSocketListener webSocketListener) {
-        return this.original.connect(s, webSocketListener);
+    public WebSocket connect(
+        @NotNull final String uri,
+        @NotNull final WebSocketListener listener
+    ) {
+        return this.original.connect(uri, listener);
     }
 
     @NotNull
     @Override
-    public HttpResponse execute(@NotNull HttpRequest r) {
-        final HttpUrl parsedUrl = HttpUrl.parse(r.getUrl());
-
-        if (parsedUrl == null) {
-            return this.original.execute(r);
-        }
-
-        return this.original
-            .execute(
-                r.newBuilder()
-                    .url(
-                        parsedUrl.newBuilder()
+    public HttpResponse execute(@NotNull final HttpRequest request) {
+        return Optional
+            .ofNullable(HttpUrl.parse(request.getUrl()))
+            .map(parsed -> this.original
+                .execute(
+                    request.newBuilder().url(
+                        parsed.newBuilder()
                             .scheme(this.url.scheme())
                             .host(this.url.host())
                             .port(this.url.port())
                             .encodedPath(
-                                this.url.encodedPath() + parsedUrl.encodedPath()
-                            )
-                            .build()
+                                this.url.encodedPath() + parsed.encodedPath()
+                            ).build()
                     ).build()
-            );
+                )
+            ).orElseGet(() -> this.original.execute(request));
     }
 }

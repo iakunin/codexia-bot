@@ -11,43 +11,43 @@ public final class Request implements Scalar<MappingBuilder> {
 
     private final Scalar<MappingBuilder> inner;
 
-    public Request(String url) {
+    public Request(final String url) {
         this(WireMock.urlEqualTo(url));
     }
 
-    public Request(UrlPattern url) {
+    public Request(final UrlPattern url) {
         this(RequestMethod.GET, url);
     }
 
     public Request(
-        RequestMethod method,
-        String url
+        final RequestMethod method,
+        final String url
     ) {
         this(method.toString(), url);
     }
 
     public Request(
-        String method,
-        String url
+        final String method,
+        final String url
     ) {
         this(method, WireMock.urlEqualTo(url));
     }
 
     public Request(
-        String method,
-        UrlPattern urlPattern
+        final String method,
+        final UrlPattern pattern
     ) {
-        this(RequestMethod.fromString(method), urlPattern);
+        this(RequestMethod.fromString(method), pattern);
     }
 
     public Request(
-        RequestMethod method,
-        UrlPattern urlPattern
+        final RequestMethod method,
+        final UrlPattern pattern
     ) {
-        this(() -> WireMock.request(method.toString(), urlPattern));
+        this(() -> WireMock.request(method.toString(), pattern));
     }
 
-    public Request(Scalar<MappingBuilder> inner) {
+    public Request(final Scalar<MappingBuilder> inner) {
         this.inner = new NoNulls<>(inner);
     }
 
