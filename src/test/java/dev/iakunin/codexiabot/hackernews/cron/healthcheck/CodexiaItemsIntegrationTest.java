@@ -13,29 +13,36 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
+/**
+ * @checkstyle MultipleStringLiterals (500 lines)
+ */
 public class CodexiaItemsIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
-    private CodexiaItems codexiaItems;
+    private CodexiaItems runnable;
 
     @Test
     @DataSet(
         value = "db-rider/hackernews/cron/health-check/codexia-items/initial/emptyDatabase.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/hackernews/cron/health-check/codexia-items/expected/emptyDatabase.yml")
+    @ExpectedDataSet(
+        "db-rider/hackernews/cron/health-check/codexia-items/expected/emptyDatabase.yml"
+    )
     public void emptyDatabase() {
-        codexiaItems.run();
+        this.runnable.run();
     }
 
     @Test
-    @DataSet(
-        value = "db-rider/hackernews/cron/health-check/codexia-items/initial/withoutCodexiaSource.yml",
+    @DataSet(value =
+        "db-rider/hackernews/cron/health-check/codexia-items/initial/withoutCodexiaSource.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/hackernews/cron/health-check/codexia-items/expected/withoutCodexiaSource.yml")
+    @ExpectedDataSet(
+        "db-rider/hackernews/cron/health-check/codexia-items/expected/withoutCodexiaSource.yml"
+    )
     public void withoutCodexiaSource() {
-        codexiaItems.run();
+        this.runnable.run();
     }
 
     @Test
@@ -43,7 +50,9 @@ public class CodexiaItemsIntegrationTest extends AbstractIntegrationTest {
         value = "db-rider/hackernews/cron/health-check/codexia-items/initial/oneActiveItem.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/hackernews/cron/health-check/codexia-items/expected/oneActiveItem.yml")
+    @ExpectedDataSet(
+        "db-rider/hackernews/cron/health-check/codexia-items/expected/oneActiveItem.yml"
+    )
     public void oneActiveItem() {
         new WireMockWrapper().stub(
             new Stub(
@@ -52,7 +61,7 @@ public class CodexiaItemsIntegrationTest extends AbstractIntegrationTest {
             )
         );
 
-        codexiaItems.run();
+        this.runnable.run();
     }
 
     @Test
@@ -60,7 +69,9 @@ public class CodexiaItemsIntegrationTest extends AbstractIntegrationTest {
         value = "db-rider/hackernews/cron/health-check/codexia-items/initial/twoActiveItems.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/hackernews/cron/health-check/codexia-items/expected/twoActiveItems.yml")
+    @ExpectedDataSet(
+        "db-rider/hackernews/cron/health-check/codexia-items/expected/twoActiveItems.yml"
+    )
     public void twoActiveItems() {
         new WireMockWrapper().stub(
             new Stub(
@@ -71,7 +82,7 @@ public class CodexiaItemsIntegrationTest extends AbstractIntegrationTest {
             )
         );
 
-        codexiaItems.run();
+        this.runnable.run();
     }
 
     @Test
@@ -79,7 +90,9 @@ public class CodexiaItemsIntegrationTest extends AbstractIntegrationTest {
         value = "db-rider/hackernews/cron/health-check/codexia-items/initial/oneDeletedItem.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/hackernews/cron/health-check/codexia-items/expected/oneDeletedItem.yml")
+    @ExpectedDataSet(
+        "db-rider/hackernews/cron/health-check/codexia-items/expected/oneDeletedItem.yml"
+    )
     public void oneDeletedItem() {
         new WireMockWrapper().stub(
             new Stub(
@@ -88,7 +101,7 @@ public class CodexiaItemsIntegrationTest extends AbstractIntegrationTest {
             )
         );
 
-        codexiaItems.run();
+        this.runnable.run();
     }
 
     @Test
@@ -96,7 +109,9 @@ public class CodexiaItemsIntegrationTest extends AbstractIntegrationTest {
         value = "db-rider/hackernews/cron/health-check/codexia-items/initial/twoDeletedItems.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/hackernews/cron/health-check/codexia-items/expected/twoDeletedItems.yml")
+    @ExpectedDataSet(
+        "db-rider/hackernews/cron/health-check/codexia-items/expected/twoDeletedItems.yml"
+    )
     public void twoDeletedItems() {
         new WireMockWrapper().stub(
             new Stub(
@@ -107,15 +122,17 @@ public class CodexiaItemsIntegrationTest extends AbstractIntegrationTest {
             )
         );
 
-        codexiaItems.run();
+        this.runnable.run();
     }
 
     @Test
-    @DataSet(
-        value = "db-rider/hackernews/cron/health-check/codexia-items/initial/hackernewsException.yml",
+    @DataSet(value =
+        "db-rider/hackernews/cron/health-check/codexia-items/initial/hackernewsException.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/hackernews/cron/health-check/codexia-items/expected/hackernewsException.yml")
+    @ExpectedDataSet(
+        "db-rider/hackernews/cron/health-check/codexia-items/expected/hackernewsException.yml"
+    )
     public void hackernewsException() {
         new WireMockWrapper().stub(
             new Stub(
@@ -124,6 +141,6 @@ public class CodexiaItemsIntegrationTest extends AbstractIntegrationTest {
             )
         );
 
-        codexiaItems.run();
+        this.runnable.run();
     }
 }

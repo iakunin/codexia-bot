@@ -28,7 +28,7 @@ public class GithubRepoUnitTest {
             .createRepo(Mockito.any());
 
         new GithubRepo(mock)
-            .write(new HackernewsItem().setUrl("github.com"));
+            .write(new HackernewsItem().setUrl("github.com/first"));
     }
 
     @Test
@@ -39,6 +39,6 @@ public class GithubRepoUnitTest {
             .createRepo(Mockito.any());
 
         new GithubRepo(mock)
-            .write(new HackernewsItem().setUrl("github.com"));
+            .write(new HackernewsItem().setUrl("github.com/second"));
     }
 }

@@ -16,7 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest(classes = {
     AbstractIntegrationTest.TestConfig.class,
-    RedditConfig.class,
+    RedditConfig.class
 })
 public class ParserIntegrationTest extends AbstractIntegrationTest {
 
@@ -30,7 +30,7 @@ public class ParserIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/reddit/cron/parser/expected/emptyDatabase.yml")
     public void emptyDatabase() {
-        parser.run();
+        this.parser.run();
     }
 
     @Test
@@ -40,7 +40,7 @@ public class ParserIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/reddit/cron/parser/expected/notCodexiaSource.yml")
     public void notCodexiaSource() {
-        parser.run();
+        this.parser.run();
     }
 
     @Test
@@ -59,6 +59,6 @@ public class ParserIntegrationTest extends AbstractIntegrationTest {
             )
         );
 
-        parser.run();
+        this.parser.run();
     }
 }
