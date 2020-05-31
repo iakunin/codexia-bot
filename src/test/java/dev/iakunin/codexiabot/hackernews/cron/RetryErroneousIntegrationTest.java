@@ -12,10 +12,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
+/**
+ * @checkstyle MultipleStringLiterals (500 lines)
+ */
 public class RetryErroneousIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
-    private RetryErroneous retryErroneous;
+    private RetryErroneous runnable;
 
     @Test
     @DataSet(
@@ -24,7 +27,7 @@ public class RetryErroneousIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/hackernews/cron/retry-erroneous/expected/emptyDatabase.yml")
     public void emptyDatabase() {
-        retryErroneous.run();
+        this.runnable.run();
     }
 
     @Test
@@ -34,7 +37,7 @@ public class RetryErroneousIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/hackernews/cron/retry-erroneous/expected/oneUnprocessedItem.yml")
     public void oneUnprocessedItem() {
-        retryErroneous.run();
+        this.runnable.run();
     }
 
     @Test
@@ -51,7 +54,7 @@ public class RetryErroneousIntegrationTest extends AbstractIntegrationTest {
             )
         );
 
-        retryErroneous.run();
+        this.runnable.run();
     }
 
     @Test
@@ -70,7 +73,7 @@ public class RetryErroneousIntegrationTest extends AbstractIntegrationTest {
             )
         );
 
-        retryErroneous.run();
+        this.runnable.run();
     }
 
     @Test
@@ -97,6 +100,6 @@ public class RetryErroneousIntegrationTest extends AbstractIntegrationTest {
             )
         );
 
-        retryErroneous.run();
+        this.runnable.run();
     }
 }

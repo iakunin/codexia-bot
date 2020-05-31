@@ -13,10 +13,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
+/**
+ * @checkstyle MultipleStringLiterals (500 lines)
+ */
 public class AllItemsIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
-    private AllItems allItems;
+    private AllItems runnable;
 
     @Test
     @DataSet(
@@ -25,7 +28,7 @@ public class AllItemsIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/hackernews/cron/health-check/all-items/expected/emptyDatabase.yml")
     public void emptyDatabase() {
-        allItems.run();
+        this.runnable.run();
     }
 
     @Test
@@ -42,7 +45,7 @@ public class AllItemsIntegrationTest extends AbstractIntegrationTest {
             )
         );
 
-        allItems.run();
+        this.runnable.run();
     }
 
     @Test
@@ -61,7 +64,7 @@ public class AllItemsIntegrationTest extends AbstractIntegrationTest {
             )
         );
 
-        allItems.run();
+        this.runnable.run();
     }
 
     @Test
@@ -78,7 +81,7 @@ public class AllItemsIntegrationTest extends AbstractIntegrationTest {
             )
         );
 
-        allItems.run();
+        this.runnable.run();
     }
 
     @Test
@@ -97,7 +100,7 @@ public class AllItemsIntegrationTest extends AbstractIntegrationTest {
             )
         );
 
-        allItems.run();
+        this.runnable.run();
     }
 
     @Test
@@ -105,7 +108,9 @@ public class AllItemsIntegrationTest extends AbstractIntegrationTest {
         value = "db-rider/hackernews/cron/health-check/all-items/initial/hackernewsException.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/hackernews/cron/health-check/all-items/expected/hackernewsException.yml")
+    @ExpectedDataSet(
+        "db-rider/hackernews/cron/health-check/all-items/expected/hackernewsException.yml"
+    )
     public void hackernewsException() {
         new WireMockWrapper().stub(
             new Stub(
@@ -114,6 +119,6 @@ public class AllItemsIntegrationTest extends AbstractIntegrationTest {
             )
         );
 
-        allItems.run();
+        this.runnable.run();
     }
 }
