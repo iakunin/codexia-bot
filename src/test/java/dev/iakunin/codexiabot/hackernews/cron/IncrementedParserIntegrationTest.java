@@ -11,10 +11,13 @@ import org.cactoos.io.ResourceOf;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+/**
+ * @checkstyle MultipleStringLiterals (500 lines)
+ */
 public class IncrementedParserIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
-    private IncrementedParser incrementedParser;
+    private IncrementedParser runnable;
 
     @Test
     @DataSet(
@@ -23,7 +26,7 @@ public class IncrementedParserIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/hackernews/cron/incremented-parser/expected/emptyDatabase.yml")
     public void emptyDatabaseWithoutHackernews() {
-        incrementedParser.run();
+        this.runnable.run();
     }
 
     @Test
@@ -31,18 +34,22 @@ public class IncrementedParserIntegrationTest extends AbstractIntegrationTest {
         value = "db-rider/hackernews/cron/incremented-parser/initial/emptyDatabase.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/hackernews/cron/incremented-parser/expected/emptyDatabaseItemWithoutUrl.yml")
+    @ExpectedDataSet(
+        "db-rider/hackernews/cron/incremented-parser/expected/emptyDatabaseItemWithoutUrl.yml"
+    )
     public void emptyDatabaseItemWithoutUrl() {
         new WireMockWrapper().stub(
             new Stub(
                 new Request("/hackernews/item/1.json"),
                 new Response(
-                    new ResourceOf("wiremock/hackernews/cron/incremented-parser/itemWithoutUrl.json")
+                    new ResourceOf(
+                        "wiremock/hackernews/cron/incremented-parser/itemWithoutUrl.json"
+                    )
                 )
             )
         );
 
-        incrementedParser.run();
+        this.runnable.run();
     }
 
     @Test
@@ -50,18 +57,22 @@ public class IncrementedParserIntegrationTest extends AbstractIntegrationTest {
         value = "db-rider/hackernews/cron/incremented-parser/initial/emptyDatabase.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/hackernews/cron/incremented-parser/expected/emptyDatabaseItemWithGithubUrl.yml")
+    @ExpectedDataSet(
+        "db-rider/hackernews/cron/incremented-parser/expected/emptyDatabaseItemWithGithubUrl.yml"
+    )
     public void emptyDatabaseItemWithGithubUrl() {
         new WireMockWrapper().stub(
             new Stub(
                 new Request("/hackernews/item/1.json"),
                 new Response(
-                    new ResourceOf("wiremock/hackernews/cron/incremented-parser/itemWithGithubUrl.json")
+                    new ResourceOf(
+                        "wiremock/hackernews/cron/incremented-parser/itemWithGithubUrl.json"
+                    )
                 )
             )
         );
 
-        incrementedParser.run();
+        this.runnable.run();
     }
 
     @Test
@@ -69,18 +80,22 @@ public class IncrementedParserIntegrationTest extends AbstractIntegrationTest {
         value = "db-rider/hackernews/cron/incremented-parser/initial/emptyDatabase.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/hackernews/cron/incremented-parser/expected/emptyDatabaseItemWithGistUrl.yml")
+    @ExpectedDataSet(
+        "db-rider/hackernews/cron/incremented-parser/expected/emptyDatabaseItemWithGistUrl.yml"
+    )
     public void emptyDatabaseItemWithGistUrl() {
         new WireMockWrapper().stub(
             new Stub(
                 new Request("/hackernews/item/1.json"),
                 new Response(
-                    new ResourceOf("wiremock/hackernews/cron/incremented-parser/itemWithGistUrl.json")
+                    new ResourceOf(
+                        "wiremock/hackernews/cron/incremented-parser/itemWithGistUrl.json"
+                    )
                 )
             )
         );
 
-        incrementedParser.run();
+        this.runnable.run();
     }
 
     @Test
@@ -97,7 +112,7 @@ public class IncrementedParserIntegrationTest extends AbstractIntegrationTest {
             )
         );
 
-        incrementedParser.run();
+        this.runnable.run();
     }
 
     @Test
@@ -105,13 +120,18 @@ public class IncrementedParserIntegrationTest extends AbstractIntegrationTest {
         value = "db-rider/hackernews/cron/incremented-parser/initial/emptyDatabase.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/hackernews/cron/incremented-parser/expected/emptyDatabaseAndTwoItemsAtHackernews.yml")
+    @ExpectedDataSet(
+        "db-rider/hackernews/cron/incremented-parser"
+        + "/expected/emptyDatabaseAndTwoItemsAtHackernews.yml"
+    )
     public void emptyDatabaseAndTwoItemsAtHackernews() {
         new WireMockWrapper().stub(
             new Stub(
                 new Request("/hackernews/item/1.json"),
                 new Response(
-                    new ResourceOf("wiremock/hackernews/cron/incremented-parser/itemWithoutUrl.json")
+                    new ResourceOf(
+                        "wiremock/hackernews/cron/incremented-parser/itemWithoutUrl.json"
+                    )
                 )
             )
         );
@@ -124,35 +144,41 @@ public class IncrementedParserIntegrationTest extends AbstractIntegrationTest {
             )
         );
 
-        incrementedParser.run();
+        this.runnable.run();
     }
 
     @Test
-    @DataSet(
-        value = "db-rider/hackernews/cron/incremented-parser/initial/notEmptyDatabaseWithoutHackernews.yml",
+    @DataSet(value =
+        "db-rider/hackernews/cron/incremented-parser/initial/notEmptyDatabaseWithoutHackernews.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/hackernews/cron/incremented-parser/expected/notEmptyDatabaseWithoutHackernews.yml")
+    @ExpectedDataSet(
+        "db-rider/hackernews/cron/incremented-parser/expected/notEmptyDatabaseWithoutHackernews.yml"
+    )
     public void notEmptyDatabaseWithoutHackernews() {
-        incrementedParser.run();
+        this.runnable.run();
     }
 
     @Test
-    @DataSet(
-        value = "db-rider/hackernews/cron/incremented-parser/initial/notEmptyDatabaseExistsInRepo.yml",
+    @DataSet(value =
+        "db-rider/hackernews/cron/incremented-parser/initial/notEmptyDatabaseExistsInRepo.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/hackernews/cron/incremented-parser/expected/notEmptyDatabaseExistsInRepo.yml")
+    @ExpectedDataSet(
+        "db-rider/hackernews/cron/incremented-parser/expected/notEmptyDatabaseExistsInRepo.yml"
+    )
     public void notEmptyDatabaseExistsInRepo() {
         new WireMockWrapper().stub(
             new Stub(
                 new Request("/hackernews/item/2.json"),
                 new Response(
-                    new ResourceOf("wiremock/hackernews/cron/incremented-parser/itemWithoutUrl.json")
+                    new ResourceOf(
+                        "wiremock/hackernews/cron/incremented-parser/itemWithoutUrl.json"
+                    )
                 )
             )
         );
 
-        incrementedParser.run();
+        this.runnable.run();
     }
 }
