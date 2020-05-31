@@ -9,31 +9,34 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Service("hackernews.service.GithubRepo")
 @Slf4j
 @RequiredArgsConstructor
 public class GithubRepo implements Writer {
 
-    private final GithubModule githubModule;
+    private final GithubModule github;
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void write(HackernewsItem item) {
+    public void write(final HackernewsItem item) {
         if (
-            item.getUrl() != null &&
-            item.getUrl().contains("github.com") &&
-            !item.getUrl().contains("gist.github.com")
+            item.getUrl() != null
+                && item.getUrl().contains("github.com")
+                && !item.getUrl().contains("gist.github.com")
         ) {
             try {
-                this.githubModule.createRepo(
+                this.github.createRepo(
                     new GithubModule.CreateArguments(
                         item.getUrl(),
                         GithubModule.Source.HACKERNEWS,
                         String.valueOf(item.getExternalId())
                     )
                 );
-            } catch (RuntimeException | IOException e) {
-                log.error("Unable to create github repo; source url='{}'", item.getUrl(), e);
+            } catch (final IOException ex) {
+                log.error("Unable to create github repo; source url='{}'", item.getUrl(), ex);
             }
         }
     }
