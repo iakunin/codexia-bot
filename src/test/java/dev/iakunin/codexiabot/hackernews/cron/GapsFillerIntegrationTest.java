@@ -11,10 +11,13 @@ import org.cactoos.io.ResourceOf;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+/**
+ * @checkstyle MultipleStringLiterals (500 lines)
+ */
 public class GapsFillerIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
-    private GapsFiller gapsFiller;
+    private GapsFiller runnable;
 
     @Test
     @DataSet(
@@ -23,7 +26,7 @@ public class GapsFillerIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/hackernews/cron/gaps-filler/expected/emptyDatabase.yml")
     public void emptyDatabase() {
-        gapsFiller.run();
+        this.runnable.run();
     }
 
     @Test
@@ -42,7 +45,7 @@ public class GapsFillerIntegrationTest extends AbstractIntegrationTest {
             )
         );
 
-        gapsFiller.run();
+        this.runnable.run();
     }
 
     @Test
@@ -69,6 +72,6 @@ public class GapsFillerIntegrationTest extends AbstractIntegrationTest {
             )
         );
 
-        gapsFiller.run();
+        this.runnable.run();
     }
 }
