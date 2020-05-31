@@ -18,7 +18,7 @@ public class InitializeBadgesIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/codexia/cron/throwaway/initialize-badges/expected/emptyDatabase.yml")
     public void emptyDatabase() {
-        cron.run();
+        this.cron.run();
     }
 
     @Test
@@ -26,9 +26,11 @@ public class InitializeBadgesIntegrationTest extends AbstractIntegrationTest {
         value = "db-rider/codexia/cron/throwaway/initialize-badges/initial/oneTooManyStars.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/codexia/cron/throwaway/initialize-badges/expected/oneTooManyStars.yml")
+    @ExpectedDataSet(
+        "db-rider/codexia/cron/throwaway/initialize-badges/expected/oneTooManyStars.yml"
+    )
     public void oneTooManyStars() {
-        cron.run();
+        this.cron.run();
     }
 
     @Test
@@ -36,9 +38,11 @@ public class InitializeBadgesIntegrationTest extends AbstractIntegrationTest {
         value = "db-rider/codexia/cron/throwaway/initialize-badges/initial/twoTooManyStars.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/codexia/cron/throwaway/initialize-badges/expected/twoTooManyStars.yml")
+    @ExpectedDataSet(
+        "db-rider/codexia/cron/throwaway/initialize-badges/expected/twoTooManyStars.yml"
+    )
     public void twoTooManyStars() {
-        cron.run();
+        this.cron.run();
     }
 
     @Test
@@ -46,9 +50,11 @@ public class InitializeBadgesIntegrationTest extends AbstractIntegrationTest {
         value = "db-rider/codexia/cron/throwaway/initialize-badges/initial/oneTooSmall.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/codexia/cron/throwaway/initialize-badges/expected/oneTooSmall.yml")
+    @ExpectedDataSet(
+        "db-rider/codexia/cron/throwaway/initialize-badges/expected/oneTooSmall.yml"
+    )
     public void oneTooSmall() {
-        cron.run();
+        this.cron.run();
     }
 
     @Test
@@ -56,19 +62,23 @@ public class InitializeBadgesIntegrationTest extends AbstractIntegrationTest {
         value = "db-rider/codexia/cron/throwaway/initialize-badges/initial/multipleTooSmall.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/codexia/cron/throwaway/initialize-badges/expected/multipleTooSmall.yml")
+    @ExpectedDataSet(
+        "db-rider/codexia/cron/throwaway/initialize-badges/expected/multipleTooSmall.yml"
+    )
     public void multipleTooSmall() {
-        cron.run();
+        this.cron.run();
     }
 
     @Test
-    @DataSet(
-        value = "db-rider/codexia/cron/throwaway/initialize-badges/initial/fromTooSmallToNotSmall.yml",
+    @DataSet(value =
+        "db-rider/codexia/cron/throwaway/initialize-badges/initial/fromTooSmallToNotSmall.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/codexia/cron/throwaway/initialize-badges/expected/fromTooSmallToNotSmall.yml")
+    @ExpectedDataSet(
+        "db-rider/codexia/cron/throwaway/initialize-badges/expected/fromTooSmallToNotSmall.yml"
+    )
     public void fromTooSmallToNotSmall() {
-        cron.run();
+        this.cron.run();
     }
 
     @Test
@@ -76,9 +86,11 @@ public class InitializeBadgesIntegrationTest extends AbstractIntegrationTest {
         value = "db-rider/codexia/cron/throwaway/initialize-badges/initial/oneNotTooSmall.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/codexia/cron/throwaway/initialize-badges/expected/oneNotTooSmall.yml")
+    @ExpectedDataSet(
+        "db-rider/codexia/cron/throwaway/initialize-badges/expected/oneNotTooSmall.yml"
+    )
     public void oneNotTooSmall() {
-        cron.run();
+        this.cron.run();
     }
 
     @Test
@@ -88,6 +100,6 @@ public class InitializeBadgesIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/codexia/cron/throwaway/initialize-badges/expected/altogether.yml")
     public void altogether() {
-        cron.run();
+        this.cron.run();
     }
 }
