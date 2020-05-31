@@ -12,6 +12,9 @@ import dev.iakunin.codexiabot.util.wiremock.Stub;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+/**
+ * @checkstyle MultipleStringLiterals (500 lines)
+ */
 public class SendBadgesIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
@@ -24,7 +27,7 @@ public class SendBadgesIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/codexia/cron/send-badges/expected/emptyDatabase.yml")
     public void emptyDatabase() {
-        cron.run();
+        this.cron.run();
     }
 
     @Test
@@ -34,17 +37,17 @@ public class SendBadgesIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/codexia/cron/send-badges/expected/attachOneBadge.yml")
     public void attachOneBadge() {
-        final var urlPattern = WireMock.urlPathEqualTo("/codexia/p/123/attach");
+        final var pattern = WireMock.urlPathEqualTo("/codexia/p/123/attach");
         new WireMockWrapper().stub(
             new Stub(
-                new Request(RequestMethod.POST, urlPattern),
+                new Request(RequestMethod.POST, pattern),
                 new Response("Badge successfully attached")
             )
         );
 
-        cron.run();
+        this.cron.run();
 
-        new WireMockWrapper().verify(1, WireMock.postRequestedFor(urlPattern));
+        new WireMockWrapper().verify(1, WireMock.postRequestedFor(pattern));
     }
 
     @Test
@@ -54,25 +57,25 @@ public class SendBadgesIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/codexia/cron/send-badges/expected/attachTwoBadges.yml")
     public void attachTwoBadges() {
-        final var firstUrlPattern = WireMock.urlPathEqualTo("/codexia/p/123/attach");
+        final var first = WireMock.urlPathEqualTo("/codexia/p/123/attach");
         new WireMockWrapper().stub(
             new Stub(
-                new Request(RequestMethod.POST, firstUrlPattern),
+                new Request(RequestMethod.POST, first),
                 new Response("Badge successfully attached")
             )
         );
-        final var secondUrlPattern = WireMock.urlPathEqualTo("/codexia/p/321/attach");
+        final var second = WireMock.urlPathEqualTo("/codexia/p/321/attach");
         new WireMockWrapper().stub(
             new Stub(
-                new Request(RequestMethod.POST, secondUrlPattern),
+                new Request(RequestMethod.POST, second),
                 new Response("Badge successfully attached")
             )
         );
 
-        cron.run();
+        this.cron.run();
 
-        new WireMockWrapper().verify(1, WireMock.postRequestedFor(firstUrlPattern));
-        new WireMockWrapper().verify(1, WireMock.postRequestedFor(secondUrlPattern));
+        new WireMockWrapper().verify(1, WireMock.postRequestedFor(first));
+        new WireMockWrapper().verify(1, WireMock.postRequestedFor(second));
     }
 
     @Test
@@ -82,17 +85,17 @@ public class SendBadgesIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/codexia/cron/send-badges/expected/detachOneBadge.yml")
     public void detachOneBadge() {
-        final var urlPattern = WireMock.urlPathEqualTo("/codexia/p/333/detach/bad");
+        final var pattern = WireMock.urlPathEqualTo("/codexia/p/333/detach/bad");
         new WireMockWrapper().stub(
             new Stub(
-                new Request(RequestMethod.POST, urlPattern),
+                new Request(RequestMethod.POST, pattern),
                 new Response("Badge successfully detached")
             )
         );
 
-        cron.run();
+        this.cron.run();
 
-        new WireMockWrapper().verify(1, WireMock.postRequestedFor(urlPattern));
+        new WireMockWrapper().verify(1, WireMock.postRequestedFor(pattern));
     }
 
     @Test
@@ -102,24 +105,24 @@ public class SendBadgesIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/codexia/cron/send-badges/expected/detachTwoBadges.yml")
     public void detachTwoBadges() {
-        final var firstUrlPattern = WireMock.urlPathEqualTo("/codexia/p/123/detach/bad");
+        final var first = WireMock.urlPathEqualTo("/codexia/p/123/detach/bad");
         new WireMockWrapper().stub(
             new Stub(
-                new Request(RequestMethod.POST, firstUrlPattern),
+                new Request(RequestMethod.POST, first),
                 new Response("Badge successfully detached")
             )
         );
-        final var secondUrlPattern = WireMock.urlPathEqualTo("/codexia/p/321/detach/bad");
+        final var second = WireMock.urlPathEqualTo("/codexia/p/321/detach/bad");
         new WireMockWrapper().stub(
             new Stub(
-                new Request(RequestMethod.POST, secondUrlPattern),
+                new Request(RequestMethod.POST, second),
                 new Response("Badge successfully detached")
             )
         );
 
-        cron.run();
+        this.cron.run();
 
-        new WireMockWrapper().verify(1, WireMock.postRequestedFor(secondUrlPattern));
-        new WireMockWrapper().verify(1, WireMock.postRequestedFor(firstUrlPattern));
+        new WireMockWrapper().verify(1, WireMock.postRequestedFor(second));
+        new WireMockWrapper().verify(1, WireMock.postRequestedFor(first));
     }
 }
