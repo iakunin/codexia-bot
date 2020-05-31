@@ -11,16 +11,18 @@ import dev.iakunin.codexiabot.util.wiremock.Stub;
 import java.io.IOException;
 import org.cactoos.io.ResourceOf;
 import org.cactoos.text.FormattedText;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 
+/**
+ * @checkstyle MultipleStringLiterals (500 lines)
+ */
 @SpringBootTest(classes = {
     AbstractIntegrationTest.TestConfig.class,
-    GithubConfig.class,
+    GithubConfig.class
 })
 public class GithubModuleCreateRepoIntegrationTest extends AbstractIntegrationTest {
 
@@ -41,7 +43,7 @@ public class GithubModuleCreateRepoIntegrationTest extends AbstractIntegrationTe
             )
         );
 
-        module.createRepo(
+        this.module.createRepo(
             new GithubModule.CreateArguments(
                 "https://github.com/casbin/casbin-rs",
                 GithubModule.Source.CODEXIA,
@@ -64,7 +66,7 @@ public class GithubModuleCreateRepoIntegrationTest extends AbstractIntegrationTe
             )
         );
 
-        module.createRepo(
+        this.module.createRepo(
             new GithubModule.CreateArguments(
                 "https://github.com/casbin/casbin-rs",
                 GithubModule.Source.CODEXIA,
@@ -87,7 +89,7 @@ public class GithubModuleCreateRepoIntegrationTest extends AbstractIntegrationTe
             )
         );
 
-        module.createRepo(
+        this.module.createRepo(
             new GithubModule.CreateArguments(
                 "https://github.com/casbin/casbin-rs",
                 GithubModule.Source.CODEXIA,
@@ -110,7 +112,7 @@ public class GithubModuleCreateRepoIntegrationTest extends AbstractIntegrationTe
             )
         );
 
-        module.createRepo(
+        this.module.createRepo(
             new GithubModule.CreateArguments(
                 "https://github.com/casbin/casbin-rs",
                 GithubModule.Source.CODEXIA,
@@ -136,9 +138,9 @@ public class GithubModuleCreateRepoIntegrationTest extends AbstractIntegrationTe
             )
         );
 
-        final RepoNotFoundException exception = assertThrows(
+        final RepoNotFoundException exception = Assertions.assertThrows(
             RepoNotFoundException.class,
-            () -> module.createRepo(
+            () -> this.module.createRepo(
                 new GithubModule.CreateArguments(
                     "https://github.com/casbin/casbin-rs",
                     GithubModule.Source.CODEXIA,
@@ -146,7 +148,7 @@ public class GithubModuleCreateRepoIntegrationTest extends AbstractIntegrationTe
                 )
             )
         );
-        assertEquals(
+        Assertions.assertEquals(
             exception.getMessage(),
             new FormattedText(
                 "Unable to find github repo by name='%s'",
