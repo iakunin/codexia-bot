@@ -5,7 +5,7 @@ import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import dev.iakunin.codexiabot.AbstractIntegrationTest;
 import dev.iakunin.codexiabot.config.RedditConfig;
-import dev.iakunin.codexiabot.util.WireMockServer;
+import dev.iakunin.codexiabot.util.WireMockWrapper;
 import dev.iakunin.codexiabot.util.wiremock.Request;
 import dev.iakunin.codexiabot.util.wiremock.Response;
 import dev.iakunin.codexiabot.util.wiremock.Stub;
@@ -50,7 +50,7 @@ public class ParserIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/reddit/cron/parser/expected/happyPath.yml")
     public void happyPath() {
-        WireMockServer.stub(
+        new WireMockWrapper().stub(
             new Stub(
                 new Request(WireMock.urlMatching("/reddit/search.+")),
                 new Response(

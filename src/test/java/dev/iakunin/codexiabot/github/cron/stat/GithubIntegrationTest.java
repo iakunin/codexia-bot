@@ -4,7 +4,7 @@ import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import dev.iakunin.codexiabot.AbstractIntegrationTest;
 import dev.iakunin.codexiabot.config.GithubConfig;
-import dev.iakunin.codexiabot.util.WireMockServer;
+import dev.iakunin.codexiabot.util.WireMockWrapper;
 import dev.iakunin.codexiabot.util.wiremock.Response;
 import dev.iakunin.codexiabot.util.wiremock.Stub;
 import org.cactoos.io.ResourceOf;
@@ -49,7 +49,7 @@ public class GithubIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/github/cron/stat/github/expected/happyPath.yml")
     public void happyPath() {
-        WireMockServer.stub(
+        new WireMockWrapper().stub(
             new Stub(
                 "/github/repos/instaloader/instaloader",
                 new ResourceOf("wiremock/github/cron/stat/github/instaloader.json")
@@ -66,7 +66,7 @@ public class GithubIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/github/cron/stat/github/expected/githubIoException.yml")
     public void githubIoException() {
-        WireMockServer.stub(
+        new WireMockWrapper().stub(
             new Stub(
                 "/github/repos/instaloader/instaloader",
                 new Response(HttpStatus.INTERNAL_SERVER_ERROR.value())

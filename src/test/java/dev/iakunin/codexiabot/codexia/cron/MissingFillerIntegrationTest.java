@@ -4,7 +4,7 @@ import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import dev.iakunin.codexiabot.AbstractIntegrationTest;
 import dev.iakunin.codexiabot.config.GithubConfig;
-import dev.iakunin.codexiabot.util.WireMockServer;
+import dev.iakunin.codexiabot.util.WireMockWrapper;
 import dev.iakunin.codexiabot.util.wiremock.Stub;
 import org.cactoos.io.ResourceOf;
 import org.junit.jupiter.api.Test;
@@ -47,7 +47,7 @@ public class MissingFillerIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/codexia/cron/missing-filler/expected/oneWithoutGithubRepo.yml")
     public void oneWithoutGithubRepo() {
-        WireMockServer.stub(
+        new WireMockWrapper().stub(
             new Stub(
                 "/github/repos/instaloader/instaloader",
                 new ResourceOf("wiremock/codexia/cron/missing-filler/instaloader.json")
@@ -74,13 +74,13 @@ public class MissingFillerIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/codexia/cron/missing-filler/expected/twoWithoutGithubRepo.yml")
     public void twoWithoutGithubRepo() {
-        WireMockServer.stub(
+        new WireMockWrapper().stub(
             new Stub(
                 "/github/repos/instaloader/instaloader",
                 new ResourceOf("wiremock/codexia/cron/missing-filler/instaloader.json")
             )
         );
-        WireMockServer.stub(
+        new WireMockWrapper().stub(
             new Stub(
                 "/github/repos/arpit9667/algorithms-js",
                 new ResourceOf("wiremock/codexia/cron/missing-filler/algorithms-js.json")

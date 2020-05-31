@@ -4,7 +4,7 @@ import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import dev.iakunin.codexiabot.AbstractIntegrationTest;
-import dev.iakunin.codexiabot.util.WireMockServer;
+import dev.iakunin.codexiabot.util.WireMockWrapper;
 import dev.iakunin.codexiabot.util.wiremock.Request;
 import dev.iakunin.codexiabot.util.wiremock.Response;
 import dev.iakunin.codexiabot.util.wiremock.Stub;
@@ -35,7 +35,7 @@ public class AllItemsIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/hackernews/cron/health-check/all-items/expected/oneActiveItem.yml")
     public void oneActiveItem() {
-        WireMockServer.stub(
+        new WireMockWrapper().stub(
             new Stub(
                 "/hackernews/item/2222.json",
                 new ResourceOf("wiremock/hackernews/cron/health-check/activeItem.json")
@@ -52,7 +52,7 @@ public class AllItemsIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/hackernews/cron/health-check/all-items/expected/twoActiveItems.yml")
     public void twoActiveItems() {
-        WireMockServer.stub(
+        new WireMockWrapper().stub(
             new Stub(
                 new Request(WireMock.urlPathMatching("/hackernews/item/\\d+\\.json")),
                 new Response(
@@ -71,7 +71,7 @@ public class AllItemsIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/hackernews/cron/health-check/all-items/expected/oneDeletedItem.yml")
     public void oneDeletedItem() {
-        WireMockServer.stub(
+        new WireMockWrapper().stub(
             new Stub(
                 "/hackernews/item/2222.json",
                 new ResourceOf("wiremock/hackernews/cron/health-check/deletedItem.json")
@@ -88,7 +88,7 @@ public class AllItemsIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/hackernews/cron/health-check/all-items/expected/twoDeletedItems.yml")
     public void twoDeletedItems() {
-        WireMockServer.stub(
+        new WireMockWrapper().stub(
             new Stub(
                 new Request(WireMock.urlPathMatching("/hackernews/item/\\d+\\.json")),
                 new Response(
@@ -107,7 +107,7 @@ public class AllItemsIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/hackernews/cron/health-check/all-items/expected/hackernewsException.yml")
     public void hackernewsException() {
-        WireMockServer.stub(
+        new WireMockWrapper().stub(
             new Stub(
                 "/hackernews/item/2222.json",
                 new Response(HttpStatus.INTERNAL_SERVER_ERROR.value())

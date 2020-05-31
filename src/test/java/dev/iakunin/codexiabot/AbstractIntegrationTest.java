@@ -3,7 +3,7 @@ package dev.iakunin.codexiabot;
 import com.github.database.rider.spring.api.DBRider;
 import com.github.javafaker.Faker;
 import dev.iakunin.codexiabot.util.PostgreSQLContainer;
-import dev.iakunin.codexiabot.util.WireMockServer;
+import dev.iakunin.codexiabot.util.WireMockWrapper;
 import lombok.extern.slf4j.Slf4j;
 import net.dean.jraw.RedditClient;
 import org.junit.jupiter.api.AfterEach;
@@ -62,15 +62,15 @@ abstract public class AbstractIntegrationTest {
                 "app.database.name=" + PostgreSQLContainer.getInstance().getDatabaseName(),
                 "spring.datasource.username=" + PostgreSQLContainer.getInstance().getUsername(),
                 "spring.datasource.password=" + PostgreSQLContainer.getInstance().getPassword(),
-                "app.codexia.base-url=" + WireMockServer.getInstance().baseUrl() + "/codexia",
-                "app.codetabs.base-url=" + WireMockServer.getInstance().baseUrl() + "/codetabs",
-                "app.hackernews.base-url=" + WireMockServer.getInstance().baseUrl() + "/hackernews"
+                "app.codexia.base-url=" + new WireMockWrapper().baseUrl() + "/codexia",
+                "app.codetabs.base-url=" + new WireMockWrapper().baseUrl() + "/codetabs",
+                "app.hackernews.base-url=" + new WireMockWrapper().baseUrl() + "/hackernews"
             ).applyTo(configurableApplicationContext.getEnvironment());
         }
     }
 
     @AfterEach
     public void after() {
-        WireMockServer.getInstance().resetAll();
+        new WireMockWrapper().resetAll();
     }
 }

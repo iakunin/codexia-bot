@@ -5,7 +5,7 @@ import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.http.RequestMethod;
 import dev.iakunin.codexiabot.AbstractIntegrationTest;
-import dev.iakunin.codexiabot.util.WireMockServer;
+import dev.iakunin.codexiabot.util.WireMockWrapper;
 import dev.iakunin.codexiabot.util.wiremock.Request;
 import dev.iakunin.codexiabot.util.wiremock.Response;
 import dev.iakunin.codexiabot.util.wiremock.Stub;
@@ -55,7 +55,7 @@ public class ResendReviewsUntilDuplicatedIntegrationTest extends AbstractIntegra
     )
     @ExpectedDataSet("db-rider/codexia/cron/resend-reviews-until-duplicated/expected/happyPath.yml")
     public void happyPath() {
-        WireMockServer.stub(
+        new WireMockWrapper().stub(
             new Stub(
                 new Request(RequestMethod.POST, WireMock.urlPathMatching("/codexia/p/\\d+/post")),
                 new Response(HttpStatus.NOT_FOUND.value(), "Review already exists.")

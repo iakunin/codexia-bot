@@ -5,7 +5,7 @@ import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.http.RequestMethod;
 import dev.iakunin.codexiabot.AbstractIntegrationTest;
-import dev.iakunin.codexiabot.util.WireMockServer;
+import dev.iakunin.codexiabot.util.WireMockWrapper;
 import dev.iakunin.codexiabot.util.wiremock.Request;
 import dev.iakunin.codexiabot.util.wiremock.Response;
 import dev.iakunin.codexiabot.util.wiremock.Stub;
@@ -35,7 +35,7 @@ public class SendReviewsIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/codexia/cron/send-reviews/expected/reviewSuccessfullySent.yml")
     public void reviewSuccessfullySent() {
-        WireMockServer.stub(
+        new WireMockWrapper().stub(
             new Stub(
                 new Request(RequestMethod.POST, WireMock.urlPathMatching("/codexia/p/\\d+/post")),
                 new Response()
@@ -52,7 +52,7 @@ public class SendReviewsIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/codexia/cron/send-reviews/expected/reviewSentWithDuplicate_responseBodyExists.yml")
     public void reviewSentWithDuplicate_responseBodyExists() {
-        WireMockServer.stub(
+        new WireMockWrapper().stub(
             new Stub(
                 new Request(RequestMethod.POST, WireMock.urlPathMatching("/codexia/p/\\d+/post")),
                 new Response(HttpStatus.NOT_FOUND.value(), "Review already exists")
@@ -69,7 +69,7 @@ public class SendReviewsIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/codexia/cron/send-reviews/expected/reviewSentWithDuplicate_responseBodyEmpty.yml")
     public void reviewSentWithDuplicate_responseBodyEmpty() {
-        WireMockServer.stub(
+        new WireMockWrapper().stub(
             new Stub(
                 new Request(RequestMethod.POST, WireMock.urlPathMatching("/codexia/p/\\d+/post")),
                 new Response(HttpStatus.NOT_FOUND.value())
@@ -86,7 +86,7 @@ public class SendReviewsIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/codexia/cron/send-reviews/expected/reviewSentWith500.yml")
     public void reviewSentWith500() {
-        WireMockServer.stub(
+        new WireMockWrapper().stub(
             new Stub(
                 new Request(RequestMethod.POST, WireMock.urlPathMatching("/codexia/p/\\d+/post")),
                 new Response(HttpStatus.INTERNAL_SERVER_ERROR.value())

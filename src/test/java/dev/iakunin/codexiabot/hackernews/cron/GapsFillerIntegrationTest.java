@@ -3,7 +3,7 @@ package dev.iakunin.codexiabot.hackernews.cron;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import dev.iakunin.codexiabot.AbstractIntegrationTest;
-import dev.iakunin.codexiabot.util.WireMockServer;
+import dev.iakunin.codexiabot.util.WireMockWrapper;
 import dev.iakunin.codexiabot.util.wiremock.Request;
 import dev.iakunin.codexiabot.util.wiremock.Response;
 import dev.iakunin.codexiabot.util.wiremock.Stub;
@@ -33,7 +33,7 @@ public class GapsFillerIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/hackernews/cron/gaps-filler/expected/oneMissing.yml")
     public void oneMissing() {
-        WireMockServer.stub(
+        new WireMockWrapper().stub(
             new Stub(
                 new Request("/hackernews/item/2.json"),
                 new Response(
@@ -52,7 +52,7 @@ public class GapsFillerIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/hackernews/cron/gaps-filler/expected/twoMissing.yml")
     public void twoMissing() {
-        WireMockServer.stub(
+        new WireMockWrapper().stub(
             new Stub(
                 new Request("/hackernews/item/2.json"),
                 new Response(
@@ -60,7 +60,7 @@ public class GapsFillerIntegrationTest extends AbstractIntegrationTest {
                 )
             )
         );
-        WireMockServer.stub(
+        new WireMockWrapper().stub(
             new Stub(
                 new Request("/hackernews/item/4.json"),
                 new Response(

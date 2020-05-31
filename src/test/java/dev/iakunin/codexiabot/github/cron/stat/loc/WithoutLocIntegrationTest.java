@@ -4,7 +4,7 @@ import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import dev.iakunin.codexiabot.AbstractIntegrationTest;
-import dev.iakunin.codexiabot.util.WireMockServer;
+import dev.iakunin.codexiabot.util.WireMockWrapper;
 import dev.iakunin.codexiabot.util.wiremock.Request;
 import dev.iakunin.codexiabot.util.wiremock.Response;
 import dev.iakunin.codexiabot.util.wiremock.Stub;
@@ -45,7 +45,7 @@ public class WithoutLocIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/github/cron/stat/loc/without-loc/expected/happyPath.yml")
     public void happyPath() {
-        WireMockServer.stub(
+        new WireMockWrapper().stub(
             new Stub(
                 new Request(WireMock.urlPathEqualTo("/codetabs/loc")),
                 new Response(
@@ -64,7 +64,7 @@ public class WithoutLocIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/github/cron/stat/loc/without-loc/expected/tooManyRequests.yml")
     public void tooManyRequests() {
-        WireMockServer.stub(
+        new WireMockWrapper().stub(
             new Stub(
                 new Request(WireMock.urlPathEqualTo("/codetabs/loc")),
                 new Response(HttpStatus.TOO_MANY_REQUESTS.value())
@@ -81,7 +81,7 @@ public class WithoutLocIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/github/cron/stat/loc/without-loc/expected/codetabsException.yml")
     public void codetabsException() {
-        WireMockServer.stub(
+        new WireMockWrapper().stub(
             new Stub(
                 new Request(WireMock.urlPathEqualTo("/codetabs/loc")),
                 new Response(HttpStatus.INTERNAL_SERVER_ERROR.value())

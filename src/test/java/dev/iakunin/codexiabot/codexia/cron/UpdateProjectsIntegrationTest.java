@@ -4,7 +4,7 @@ import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import dev.iakunin.codexiabot.AbstractIntegrationTest;
-import dev.iakunin.codexiabot.util.WireMockServer;
+import dev.iakunin.codexiabot.util.WireMockWrapper;
 import dev.iakunin.codexiabot.util.wiremock.Request;
 import dev.iakunin.codexiabot.util.wiremock.Response;
 import dev.iakunin.codexiabot.util.wiremock.Stub;
@@ -35,7 +35,7 @@ public class UpdateProjectsIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/codexia/cron/projects-health-check/expected/twoActiveProjectsInRepoButDeletedInCodexia.yml")
     public void twoActiveProjectsInRepoButDeletedInCodexia() {
-        WireMockServer.stub(
+        new WireMockWrapper().stub(
             new Stub(
                 new Request(WireMock.urlPathEqualTo("/codexia/p/12.json")),
                 new Response(
@@ -45,7 +45,7 @@ public class UpdateProjectsIntegrationTest extends AbstractIntegrationTest {
                 )
             )
         );
-        WireMockServer.stub(
+        new WireMockWrapper().stub(
             new Stub(
                 new Request(WireMock.urlPathEqualTo("/codexia/p/34.json")),
                 new Response(
@@ -66,13 +66,13 @@ public class UpdateProjectsIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/codexia/cron/projects-health-check/expected/oneSuccessAfterOneException.yml")
     public void oneSuccessAfterOneException() {
-        WireMockServer.stub(
+        new WireMockWrapper().stub(
             new Stub(
                 new Request(WireMock.urlPathEqualTo("/codexia/p/12.json")),
                 new Response(HttpStatus.INTERNAL_SERVER_ERROR.value())
             )
         );
-        WireMockServer.stub(
+        new WireMockWrapper().stub(
             new Stub(
                 new Request(WireMock.urlPathEqualTo("/codexia/p/34.json")),
                 new Response(

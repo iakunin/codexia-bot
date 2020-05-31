@@ -1,7 +1,7 @@
 package dev.iakunin.codexiabot.config;
 
 import dev.iakunin.codexiabot.CodexiaBotApplication;
-import dev.iakunin.codexiabot.util.WireMockServer;
+import dev.iakunin.codexiabot.util.WireMockWrapper;
 import lombok.SneakyThrows;
 import org.kohsuke.github.GitHub;
 import org.kohsuke.github.GitHubBuilder;
@@ -17,7 +17,7 @@ public class GithubConfig {
     public GitHub gitHub() {
         return new GitHubBuilder()
             .withEndpoint(
-                WireMockServer.getInstance().baseUrl() + "/github"
+                new WireMockWrapper().baseUrl() + "/github"
             ).build();
     }
 }
