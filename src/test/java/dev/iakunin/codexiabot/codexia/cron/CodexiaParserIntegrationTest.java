@@ -11,14 +11,17 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+/**
+ * @checkstyle MultipleStringLiterals (500 lines)
+ */
 @SpringBootTest(classes = {
     AbstractIntegrationTest.TestConfig.class,
-    GithubConfig.class,
+    GithubConfig.class
 })
 public class CodexiaParserIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
-    private CodexiaParser codexiaParser;
+    private CodexiaParser parser;
 
     @Test
     @DataSet(
@@ -35,7 +38,7 @@ public class CodexiaParserIntegrationTest extends AbstractIntegrationTest {
         );
         new WireMockWrapper().stub(new Stub("/codexia/recent.json?page=1", "[]"));
 
-        codexiaParser.run();
+        this.parser.run();
     }
 
     @Test
@@ -59,7 +62,7 @@ public class CodexiaParserIntegrationTest extends AbstractIntegrationTest {
             )
         );
 
-        codexiaParser.run();
+        this.parser.run();
     }
 
     @Test
@@ -77,7 +80,7 @@ public class CodexiaParserIntegrationTest extends AbstractIntegrationTest {
         );
         new WireMockWrapper().stub(new Stub("/codexia/recent.json?page=1", "[]"));
 
-        codexiaParser.run();
+        this.parser.run();
     }
 
     @Test
@@ -90,11 +93,13 @@ public class CodexiaParserIntegrationTest extends AbstractIntegrationTest {
         new WireMockWrapper().stub(
             new Stub(
                 "/codexia/recent.json?page=0",
-                new ResourceOf("wiremock/codexia/cron/codexia-parser/codexia/recentWithDeleted.json")
+                new ResourceOf(
+                    "wiremock/codexia/cron/codexia-parser/codexia/recentWithDeleted.json"
+                )
             )
         );
         new WireMockWrapper().stub(new Stub("/codexia/recent.json?page=1", "[]"));
 
-        codexiaParser.run();
+        this.parser.run();
     }
 }
