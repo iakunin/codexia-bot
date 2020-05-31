@@ -14,19 +14,22 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Configuration
 public class FoundOnHackernewsCronConfig implements SchedulingConfigurer {
 
     private final Found foundOnHackernews;
 
-    private final String cronExpression;
+    private final String expression;
 
     public FoundOnHackernewsCronConfig(
-        @Qualifier("foundOnHackernews") Found foundOnHackernews,
-        @Value("${app.cron.bot.found-on-hackernews:-}") String cronExpression
+        @Qualifier("foundOnHackernews") final Found foundOnHackernews,
+        @Value("${app.cron.bot.found-on-hackernews:-}") final String expression
     ) {
         this.foundOnHackernews = foundOnHackernews;
-        this.cronExpression = cronExpression;
+        this.expression = expression;
     }
 
     @Bean
@@ -35,10 +38,10 @@ public class FoundOnHackernewsCronConfig implements SchedulingConfigurer {
     }
 
     @Override
-    public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-        taskRegistrar.addCronTask(
+    public void configureTasks(final ScheduledTaskRegistrar registrar) {
+        registrar.addCronTask(
             this.foundOnHackernewsRunnable(),
-            this.cronExpression
+            this.expression
         );
     }
 

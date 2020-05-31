@@ -14,19 +14,22 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Configuration
 public class NotSmallCronConfig implements SchedulingConfigurer {
 
     private final Small notSmall;
 
-    private final String cronExpression;
+    private final String expression;
 
     public NotSmallCronConfig(
-        @Qualifier("notSmall") Small notSmall,
-        @Value("${app.cron.bot.not-small:-}") String cronExpression
+        @Qualifier("notSmall") final Small notSmall,
+        @Value("${app.cron.bot.not-small:-}") final String expression
     ) {
         this.notSmall = notSmall;
-        this.cronExpression = cronExpression;
+        this.expression = expression;
     }
 
     @Bean
@@ -35,10 +38,10 @@ public class NotSmallCronConfig implements SchedulingConfigurer {
     }
 
     @Override
-    public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-        taskRegistrar.addCronTask(
+    public void configureTasks(final ScheduledTaskRegistrar registrar) {
+        registrar.addCronTask(
             this.notSmallRunnable(),
-            this.cronExpression
+            this.expression
         );
     }
 
@@ -57,7 +60,7 @@ public class NotSmallCronConfig implements SchedulingConfigurer {
         @Bean
         @Autowired
         public Small notSmall(
-            @Qualifier("notSmallSubmitter") Small.Submitter submitter
+            @Qualifier("notSmallSubmitter") final Small.Submitter submitter
         ) {
             return new Small(this.github, this.bot, submitter);
         }

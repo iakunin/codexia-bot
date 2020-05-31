@@ -8,19 +8,22 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Configuration
 public class UpdateProjectsCronConfig implements SchedulingConfigurer {
 
     private final UpdateProjects updateProjects;
 
-    private final String cronExpression;
+    private final String expression;
 
     public UpdateProjectsCronConfig(
-        UpdateProjects updateProjects,
-        @Value("${app.cron.codexia.update-projects:-}") String cronExpression
+        final UpdateProjects updateProjects,
+        @Value("${app.cron.codexia.update-projects:-}") final String expression
     ) {
         this.updateProjects = updateProjects;
-        this.cronExpression = cronExpression;
+        this.expression = expression;
     }
 
     @Bean
@@ -29,10 +32,10 @@ public class UpdateProjectsCronConfig implements SchedulingConfigurer {
     }
 
     @Override
-    public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-        taskRegistrar.addCronTask(
+    public void configureTasks(final ScheduledTaskRegistrar registrar) {
+        registrar.addCronTask(
             this.updateProjectsRunnable(),
-            this.cronExpression
+            this.expression
         );
     }
 }

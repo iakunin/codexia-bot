@@ -8,19 +8,22 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Configuration
 public class ResendErroneousReviewsCronConfig implements SchedulingConfigurer {
 
     private final ResendErroneousReviews resendErroneousReviews;
 
-    private final String cronExpression;
+    private final String expression;
 
     public ResendErroneousReviewsCronConfig(
-        ResendErroneousReviews resendErroneousReviews,
-        @Value("${app.cron.codexia.resend-erroneous-reviews:-}") String cronExpression
+        final ResendErroneousReviews resendErroneousReviews,
+        @Value("${app.cron.codexia.resend-erroneous-reviews:-}") final String expression
     ) {
         this.resendErroneousReviews = resendErroneousReviews;
-        this.cronExpression = cronExpression;
+        this.expression = expression;
     }
 
     @Bean
@@ -29,10 +32,10 @@ public class ResendErroneousReviewsCronConfig implements SchedulingConfigurer {
     }
 
     @Override
-    public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-        taskRegistrar.addCronTask(
+    public void configureTasks(final ScheduledTaskRegistrar registrar) {
+        registrar.addCronTask(
             this.resendErroneousReviewsRunnable(),
-            this.cronExpression
+            this.expression
         );
     }
 }

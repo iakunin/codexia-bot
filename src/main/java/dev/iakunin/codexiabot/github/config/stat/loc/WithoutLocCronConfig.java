@@ -8,19 +8,22 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Configuration
 public class WithoutLocCronConfig implements SchedulingConfigurer {
 
     private final WithoutLoc linesOfCode;
 
-    private final String cronExpression;
+    private final String expression;
 
     public WithoutLocCronConfig(
-        WithoutLoc linesOfCode,
-        @Value("${app.cron.github.stat.loc.without-loc:-}") String cronExpression
+        final WithoutLoc linesOfCode,
+        @Value("${app.cron.github.stat.loc.without-loc:-}") final String expression
     ) {
         this.linesOfCode = linesOfCode;
-        this.cronExpression = cronExpression;
+        this.expression = expression;
     }
 
     @Bean
@@ -29,10 +32,10 @@ public class WithoutLocCronConfig implements SchedulingConfigurer {
     }
 
     @Override
-    public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-        taskRegistrar.addCronTask(
+    public void configureTasks(final ScheduledTaskRegistrar registrar) {
+        registrar.addCronTask(
             this.statLocWithoutLocRunnable(),
-            this.cronExpression
+            this.expression
         );
     }
 }

@@ -8,19 +8,22 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Configuration
 public class ResendReviewsUntilDuplicatedCronConfig implements SchedulingConfigurer {
 
     private final ResendReviewsUntilDuplicated resendReviewsUntilDuplicated;
 
-    private final String cronExpression;
+    private final String expression;
 
     public ResendReviewsUntilDuplicatedCronConfig(
-        ResendReviewsUntilDuplicated resendReviewsUntilDuplicated,
-        @Value("${app.cron.codexia.resend-reviews-until-duplicated:-}") String cronExpression
+        final ResendReviewsUntilDuplicated resendReviewsUntilDuplicated,
+        @Value("${app.cron.codexia.resend-reviews-until-duplicated:-}") final String expression
     ) {
         this.resendReviewsUntilDuplicated = resendReviewsUntilDuplicated;
-        this.cronExpression = cronExpression;
+        this.expression = expression;
     }
 
     @Bean
@@ -29,10 +32,10 @@ public class ResendReviewsUntilDuplicatedCronConfig implements SchedulingConfigu
     }
 
     @Override
-    public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-        taskRegistrar.addCronTask(
+    public void configureTasks(final ScheduledTaskRegistrar registrar) {
+        registrar.addCronTask(
             this.resendReviewsUntilDuplicatedRunnable(),
-            this.cronExpression
+            this.expression
         );
     }
 }

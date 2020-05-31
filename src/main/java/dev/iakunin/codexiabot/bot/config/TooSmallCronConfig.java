@@ -14,19 +14,22 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Configuration
 public class TooSmallCronConfig implements SchedulingConfigurer {
 
     private final Small tooSmall;
 
-    private final String cronExpression;
+    private final String expression;
 
     public TooSmallCronConfig(
-        @Qualifier("tooSmall") Small tooSmall,
-        @Value("${app.cron.bot.too-small:-}") String cronExpression
+        @Qualifier("tooSmall") final Small tooSmall,
+        @Value("${app.cron.bot.too-small:-}") final String expression
     ) {
         this.tooSmall = tooSmall;
-        this.cronExpression = cronExpression;
+        this.expression = expression;
     }
 
     @Bean
@@ -35,10 +38,10 @@ public class TooSmallCronConfig implements SchedulingConfigurer {
     }
 
     @Override
-    public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-        taskRegistrar.addCronTask(
+    public void configureTasks(final ScheduledTaskRegistrar registrar) {
+        registrar.addCronTask(
             this.tooSmallRunnable(),
-            this.cronExpression
+            this.expression
         );
     }
 
@@ -57,7 +60,7 @@ public class TooSmallCronConfig implements SchedulingConfigurer {
         @Bean
         @Autowired
         public Small tooSmall(
-            @Qualifier("tooSmallSubmitter") Small.Submitter submitter
+            @Qualifier("tooSmallSubmitter") final Small.Submitter submitter
         ) {
             return new Small(this.github, this.bot, submitter);
         }

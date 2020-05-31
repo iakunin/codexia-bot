@@ -8,19 +8,22 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Configuration
 public class CodexiaParserCronConfig implements SchedulingConfigurer {
 
     private final CodexiaParser codexiaParser;
 
-    private final String cronExpression;
+    private final String expression;
 
     public CodexiaParserCronConfig(
-        CodexiaParser codexiaParser,
-        @Value("${app.cron.codexia.codexia-parser:-}") String cronExpression
+        final CodexiaParser codexiaParser,
+        @Value("${app.cron.codexia.codexia-parser:-}") final String expression
     ) {
         this.codexiaParser = codexiaParser;
-        this.cronExpression = cronExpression;
+        this.expression = expression;
     }
 
     @Bean
@@ -29,10 +32,10 @@ public class CodexiaParserCronConfig implements SchedulingConfigurer {
     }
 
     @Override
-    public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-        taskRegistrar.addCronTask(
+    public void configureTasks(final ScheduledTaskRegistrar registrar) {
+        registrar.addCronTask(
             this.codexiaParserRunnable(),
-            this.cronExpression
+            this.expression
         );
     }
 }

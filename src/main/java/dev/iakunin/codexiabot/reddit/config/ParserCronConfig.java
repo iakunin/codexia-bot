@@ -8,19 +8,22 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Configuration
 public class ParserCronConfig implements SchedulingConfigurer {
 
     private final Parser parser;
 
-    private final String cronExpression;
+    private final String expression;
 
     public ParserCronConfig(
-        Parser parser,
-        @Value("${app.cron.reddit.parser:-}") String cronExpression
+        final Parser parser,
+        @Value("${app.cron.reddit.parser:-}") final String expression
     ) {
         this.parser = parser;
-        this.cronExpression = cronExpression;
+        this.expression = expression;
     }
 
     @Bean
@@ -29,10 +32,10 @@ public class ParserCronConfig implements SchedulingConfigurer {
     }
 
     @Override
-    public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-        taskRegistrar.addCronTask(
+    public void configureTasks(final ScheduledTaskRegistrar registrar) {
+        registrar.addCronTask(
             this.redditParserRunnable(),
-            this.cronExpression
+            this.expression
         );
     }
 }

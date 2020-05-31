@@ -8,19 +8,22 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Configuration
 public class GithubCronConfig implements SchedulingConfigurer {
 
     private final Github github;
 
-    private final String cronExpression;
+    private final String expression;
 
     public GithubCronConfig(
-        Github github,
-        @Value("${app.cron.github.stat.github:-}") String cronExpression
+        final Github github,
+        @Value("${app.cron.github.stat.github:-}") final String expression
     ) {
         this.github = github;
-        this.cronExpression = cronExpression;
+        this.expression = expression;
     }
 
     @Bean
@@ -29,10 +32,10 @@ public class GithubCronConfig implements SchedulingConfigurer {
     }
 
     @Override
-    public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-        taskRegistrar.addCronTask(
+    public void configureTasks(final ScheduledTaskRegistrar registrar) {
+        registrar.addCronTask(
             this.statGithubRunnable(),
-            this.cronExpression
+            this.expression
         );
     }
 }

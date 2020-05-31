@@ -14,19 +14,22 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Configuration
 public class FoundOnRedditCronConfig implements SchedulingConfigurer {
 
     private final Found foundOnReddit;
 
-    private final String cronExpression;
+    private final String expression;
 
     public FoundOnRedditCronConfig(
-        @Qualifier("foundOnReddit") Found foundOnReddit,
-        @Value("${app.cron.bot.found-on-reddit:-}") String cronExpression
+        @Qualifier("foundOnReddit") final Found foundOnReddit,
+        @Value("${app.cron.bot.found-on-reddit:-}") final String expression
     ) {
         this.foundOnReddit = foundOnReddit;
-        this.cronExpression = cronExpression;
+        this.expression = expression;
     }
 
     @Bean
@@ -35,10 +38,10 @@ public class FoundOnRedditCronConfig implements SchedulingConfigurer {
     }
 
     @Override
-    public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-        taskRegistrar.addCronTask(
+    public void configureTasks(final ScheduledTaskRegistrar registrar) {
+        registrar.addCronTask(
             this.foundOnRedditRunnable(),
-            this.cronExpression
+            this.expression
         );
     }
 

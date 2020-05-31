@@ -10,15 +10,19 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Configuration
 public class Client {
+
     @Bean
     @Autowired
     public RedditClient redditClient(
-        @Value("${app.reddit.username}") String username,
-        @Value("${app.reddit.password}") String password,
-        @Value("${app.reddit.client-id}") String clientId,
-        @Value("${app.reddit.client-secret}") String clientSecret
+        @Value("${app.reddit.username}") final String username,
+        @Value("${app.reddit.password}") final String password,
+        @Value("${app.reddit.client-id}") final String clientId,
+        @Value("${app.reddit.client-secret}") final String clientSecret
     ) {
         final RedditClient client = OAuthHelper.automatic(
             new OkHttpNetworkAdapter(

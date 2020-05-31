@@ -14,19 +14,22 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Configuration
 public class TooManyStarsCronConfig implements SchedulingConfigurer {
 
     private final TooManyStars tooManyStars;
 
-    private final String cronExpression;
+    private final String expression;
 
     public TooManyStarsCronConfig(
-        TooManyStars tooManyStars,
-        @Value("${app.cron.bot.too-many-stars:-}") String cronExpression
+        final TooManyStars tooManyStars,
+        @Value("${app.cron.bot.too-many-stars:-}") final String expression
     ) {
         this.tooManyStars = tooManyStars;
-        this.cronExpression = cronExpression;
+        this.expression = expression;
     }
 
     @Bean
@@ -35,10 +38,10 @@ public class TooManyStarsCronConfig implements SchedulingConfigurer {
     }
 
     @Override
-    public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-        taskRegistrar.addCronTask(
+    public void configureTasks(final ScheduledTaskRegistrar registrar) {
+        registrar.addCronTask(
             this.tooManyStarsRunnable(),
-            this.cronExpression
+            this.expression
         );
     }
 
@@ -54,7 +57,7 @@ public class TooManyStarsCronConfig implements SchedulingConfigurer {
 
         @Bean
         @Autowired
-        public TooManyStars tooManyStars(Submitter submitter) {
+        public TooManyStars tooManyStars(final Submitter submitter) {
             return new TooManyStars(
                 this.github,
                 this.repository,
