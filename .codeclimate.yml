@@ -1,10 +1,10 @@
 prepare:
     fetch:
         -
-            url: 'https://raw.githubusercontent.com/iakunin/codestyle/0.0.7/.editorconfig'
+            url: 'https://raw.githubusercontent.com/iakunin/codestyle/0.0.8/.editorconfig'
             path: '.editorconfig'
         -
-            url: 'https://raw.githubusercontent.com/iakunin/codestyle/0.0.7/java/checkstyle.xml'
+            url: 'https://raw.githubusercontent.com/iakunin/codestyle/0.0.8/java/checkstyle.xml'
             path: 'var/codestyle/checkstyle.xml'
 
 plugins:
