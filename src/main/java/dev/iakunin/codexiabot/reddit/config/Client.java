@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * @checkstyle DesignForExtension (500 lines)
+ * @checkstyle ParameterNumber (500 lines)
  */
 @Configuration
 public class Client {
@@ -21,8 +22,8 @@ public class Client {
     public RedditClient redditClient(
         @Value("${app.reddit.username}") final String username,
         @Value("${app.reddit.password}") final String password,
-        @Value("${app.reddit.client-id}") final String clientId,
-        @Value("${app.reddit.client-secret}") final String clientSecret
+        @Value("${app.reddit.client-id}") final String id,
+        @Value("${app.reddit.client-secret}") final String secret
     ) {
         final RedditClient client = OAuthHelper.automatic(
             new OkHttpNetworkAdapter(
@@ -33,12 +34,7 @@ public class Client {
                     username
                 )
             ),
-            Credentials.script(
-                username,
-                password,
-                clientId,
-                clientSecret
-            )
+            Credentials.script(username, password, id, secret)
         );
         client.setLogHttp(false);
 
