@@ -13,10 +13,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
+/**
+ * @checkstyle MultipleStringLiterals (500 lines)
+ */
 public class WithoutLocIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
-    private WithoutLoc linesOfCode;
+    private WithoutLoc runnable;
 
     @Test
     @DataSet(
@@ -25,7 +28,7 @@ public class WithoutLocIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/github/cron/stat/loc/without-loc/expected/emptyDatabase.yml")
     public void emptyDatabase() {
-        linesOfCode.run();
+        this.runnable.run();
     }
 
     @Test
@@ -35,7 +38,7 @@ public class WithoutLocIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/github/cron/stat/loc/without-loc/expected/processedRepo.yml")
     public void processedRepo() {
-        linesOfCode.run();
+        this.runnable.run();
     }
 
     @Test
@@ -54,7 +57,7 @@ public class WithoutLocIntegrationTest extends AbstractIntegrationTest {
             )
         );
 
-        linesOfCode.run();
+        this.runnable.run();
     }
 
     @Test
@@ -71,7 +74,7 @@ public class WithoutLocIntegrationTest extends AbstractIntegrationTest {
             )
         );
 
-        linesOfCode.run();
+        this.runnable.run();
     }
 
     @Test
@@ -88,6 +91,6 @@ public class WithoutLocIntegrationTest extends AbstractIntegrationTest {
             )
         );
 
-        linesOfCode.run();
+        this.runnable.run();
     }
 }
