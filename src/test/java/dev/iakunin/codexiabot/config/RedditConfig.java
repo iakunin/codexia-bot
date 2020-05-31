@@ -18,6 +18,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
+/**
+ * @checkstyle ClassDataAbstractionCoupling (500 lines)
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Configuration
 @Import(CodexiaBotApplication.class)
 public class RedditConfig {

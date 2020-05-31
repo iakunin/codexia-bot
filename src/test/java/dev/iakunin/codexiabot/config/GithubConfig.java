@@ -9,6 +9,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Configuration
 @Import(CodexiaBotApplication.class)
 public class GithubConfig {
