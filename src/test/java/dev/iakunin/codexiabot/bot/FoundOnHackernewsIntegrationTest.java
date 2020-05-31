@@ -10,11 +10,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+/**
+ * @checkstyle MultipleStringLiterals (500 lines)
+ */
 public class FoundOnHackernewsIntegrationTest extends AbstractIntegrationTest {
 
     @Qualifier("foundOnHackernews")
     @Autowired
-    private Found foundOnHackernews;
+    private Found runnable;
 
     @Test
     @DataSet(
@@ -23,7 +26,7 @@ public class FoundOnHackernewsIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/bot/found-on-hackernews/expected/emptyDatabase.yml")
     public void emptyDatabase() {
-        foundOnHackernews.run();
+        this.runnable.run();
     }
 
     @Test
@@ -40,7 +43,7 @@ public class FoundOnHackernewsIntegrationTest extends AbstractIntegrationTest {
             )
         );
 
-        foundOnHackernews.run();
+        this.runnable.run();
     }
 
     @Test
@@ -57,7 +60,7 @@ public class FoundOnHackernewsIntegrationTest extends AbstractIntegrationTest {
             )
         );
 
-        foundOnHackernews.run();
+        this.runnable.run();
     }
 
     @Test
@@ -67,7 +70,7 @@ public class FoundOnHackernewsIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/bot/found-on-hackernews/expected/reviewExists.yml")
     public void reviewExists() {
-        foundOnHackernews.run();
+        this.runnable.run();
     }
 
     @Test
@@ -77,7 +80,7 @@ public class FoundOnHackernewsIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/bot/found-on-hackernews/expected/onlyCodexiaSource.yml")
     public void onlyCodexiaSource() {
-        foundOnHackernews.run();
+        this.runnable.run();
     }
 
     @Test
@@ -87,6 +90,6 @@ public class FoundOnHackernewsIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/bot/found-on-hackernews/expected/onlyHackernewsSource.yml")
     public void onlyHackernewsSource() {
-        foundOnHackernews.run();
+        this.runnable.run();
     }
 }
