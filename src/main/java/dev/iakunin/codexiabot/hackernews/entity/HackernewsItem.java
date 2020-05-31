@@ -8,22 +8,33 @@ import javax.persistence.Entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+/**
+ * @checkstyle ExplicitInitialization (500 lines)
+ * @checkstyle MemberName (500 lines)
+ */
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 public final class HackernewsItem extends AbstractEntity {
+
     private Integer externalId;
+
     private String type;
+
     private String by;
+
     private String title;
+
     private String url;
+
     private Instant time;
+
     private boolean deleted = false;
 
     public static final class Factory {
-        private Factory() {}
+        private Factory() { }
 
-        public static HackernewsItem from(HackernewsClient.Item item) {
+        public static HackernewsItem from(final HackernewsClient.Item item) {
             return new HackernewsItem()
                 .setExternalId(item.getId())
                 .setType(item.getType())
@@ -39,11 +50,13 @@ public final class HackernewsItem extends AbstractEntity {
                 .setTime(
                     Optional.ofNullable(item.getTime()).orElse(Instant.ofEpochSecond(0))
                 )
-                .setDeleted(item.isDeleted())
-            ;
+                .setDeleted(item.isDeleted());
         }
 
-        public static void mutateEntity(HackernewsItem mutation, HackernewsClient.Item item) {
+        public static void mutateEntity(
+            final HackernewsItem mutation,
+            final HackernewsClient.Item item
+        ) {
             mutation
                 .setType(item.getType())
                 .setBy(
@@ -58,8 +71,7 @@ public final class HackernewsItem extends AbstractEntity {
                 .setTime(
                     Optional.ofNullable(item.getTime()).orElse(Instant.ofEpochSecond(0))
                 )
-                .setDeleted(item.isDeleted())
-            ;
+                .setDeleted(item.isDeleted());
         }
     }
 }
