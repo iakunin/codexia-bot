@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Service("hackernews.service.Database")
 @Slf4j
 @RequiredArgsConstructor
@@ -17,7 +20,7 @@ public class Database implements Writer {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void write(HackernewsItem item) {
+    public void write(final HackernewsItem item) {
         log.debug("Got Hackernews.Item: {}", item);
 
         if (!this.repository.existsByExternalId(item.getExternalId())) {
