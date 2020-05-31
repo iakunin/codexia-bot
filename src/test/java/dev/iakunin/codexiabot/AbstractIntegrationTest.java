@@ -2,7 +2,7 @@ package dev.iakunin.codexiabot;
 
 import com.github.database.rider.spring.api.DBRider;
 import com.github.javafaker.Faker;
-import dev.iakunin.codexiabot.util.PostgreSQLContainer;
+import dev.iakunin.codexiabot.util.PostgresWrapper;
 import dev.iakunin.codexiabot.util.WireMockWrapper;
 import lombok.extern.slf4j.Slf4j;
 import net.dean.jraw.RedditClient;
@@ -19,6 +19,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
+import org.testcontainers.containers.PostgreSQLContainer;
 
 @Slf4j
 @SpringBootTest(classes = { AbstractIntegrationTest.TestConfig.class })
@@ -55,13 +56,13 @@ abstract public class AbstractIntegrationTest {
     static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
         public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
             TestPropertyValues.of(
-                "app.database.host=" + PostgreSQLContainer.getInstance().getContainerIpAddress(),
-                "app.database.port=" + PostgreSQLContainer.getInstance().getMappedPort(
+                "app.database.host=" + new PostgresWrapper().getContainerIpAddress(),
+                "app.database.port=" + new PostgresWrapper().getMappedPort(
                     PostgreSQLContainer.POSTGRESQL_PORT
                 ),
-                "app.database.name=" + PostgreSQLContainer.getInstance().getDatabaseName(),
-                "spring.datasource.username=" + PostgreSQLContainer.getInstance().getUsername(),
-                "spring.datasource.password=" + PostgreSQLContainer.getInstance().getPassword(),
+                "app.database.name=" + new PostgresWrapper().getDatabaseName(),
+                "spring.datasource.username=" + new PostgresWrapper().getUsername(),
+                "spring.datasource.password=" + new PostgresWrapper().getPassword(),
                 "app.codexia.base-url=" + new WireMockWrapper().baseUrl() + "/codexia",
                 "app.codetabs.base-url=" + new WireMockWrapper().baseUrl() + "/codetabs",
                 "app.hackernews.base-url=" + new WireMockWrapper().baseUrl() + "/hackernews"
