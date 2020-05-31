@@ -14,8 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class HackernewsModuleImplIntegrationTest extends AbstractIntegrationTest {
 
+    private static final int EXTERNAL_ID = 4;
+
     @Autowired
-    private HackernewsModuleImpl hackernewsModule;
+    private HackernewsModuleImpl hackernews;
 
     @Test
     @DataSet(
@@ -33,6 +35,6 @@ public class HackernewsModuleImplIntegrationTest extends AbstractIntegrationTest
             )
         );
 
-        hackernewsModule.healthCheckItems(Stream.of(4));
+        this.hackernews.healthCheckItems(Stream.of(EXTERNAL_ID));
     }
 }
