@@ -11,14 +11,17 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+/**
+ * @checkstyle MultipleStringLiterals (500 lines)
+ */
 @SpringBootTest(classes = {
     AbstractIntegrationTest.TestConfig.class,
-    GithubConfig.class,
+    GithubConfig.class
 })
 public class MissingFillerIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
-    private MissingFiller missingFiller;
+    private MissingFiller runnable;
 
     @Test
     @DataSet(
@@ -27,7 +30,7 @@ public class MissingFillerIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/codexia/cron/missing-filler/expected/emptyDatabase.yml")
     public void emptyDatabase() {
-        missingFiller.run();
+        this.runnable.run();
     }
 
     @Test
@@ -37,7 +40,7 @@ public class MissingFillerIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/codexia/cron/missing-filler/expected/oneWithGithubRepo.yml")
     public void oneWithGithubRepo() {
-        missingFiller.run();
+        this.runnable.run();
     }
 
     @Test
@@ -54,7 +57,7 @@ public class MissingFillerIntegrationTest extends AbstractIntegrationTest {
             )
         );
 
-        missingFiller.run();
+        this.runnable.run();
     }
 
     @Test
@@ -62,9 +65,11 @@ public class MissingFillerIntegrationTest extends AbstractIntegrationTest {
         value = "db-rider/codexia/cron/missing-filler/initial/oneDeletedWithoutGithubRepo.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/codexia/cron/missing-filler/expected/oneDeletedWithoutGithubRepo.yml")
+    @ExpectedDataSet(
+        "db-rider/codexia/cron/missing-filler/expected/oneDeletedWithoutGithubRepo.yml"
+    )
     public void oneDeletedWithoutGithubRepo() {
-        missingFiller.run();
+        this.runnable.run();
     }
 
     @Test
@@ -87,6 +92,6 @@ public class MissingFillerIntegrationTest extends AbstractIntegrationTest {
             )
         );
 
-        missingFiller.run();
+        this.runnable.run();
     }
 }
