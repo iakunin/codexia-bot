@@ -2,4 +2,5 @@ github_repo_stat:
     -
         github_repo_id: 1
         type: "LINES_OF_CODE"
-        stat: '{"itemList":[{"language":"TypeScript","files":84,"lines":9415,"blanks":1200,"comments":682,"linesOfCode":3533},{"language":"Total","files":173,"lines":31482,"blanks":1446,"comments":706,"linesOfCode":29330}],"type":"LINES_OF_CODE"}'
+        stat: "{\"itemList\":[{\"language\":\"TypeScript\",\"files\":84,\"lines\":9415,\
+            \"blanks\":1200,\"comments\":682,\"linesOfCode\":3533}],\"type\":\"LINES_OF_CODE\"}"
