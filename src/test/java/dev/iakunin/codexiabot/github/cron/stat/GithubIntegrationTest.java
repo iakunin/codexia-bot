@@ -13,9 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 
+/**
+ * @checkstyle MultipleStringLiterals (500 lines)
+ */
 @SpringBootTest(classes = {
     AbstractIntegrationTest.TestConfig.class,
-    GithubConfig.class,
+    GithubConfig.class
 })
 public class GithubIntegrationTest extends AbstractIntegrationTest {
 
@@ -29,7 +32,7 @@ public class GithubIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/github/cron/stat/github/expected/emptyDatabase.yml")
     public void emptyDatabase() {
-        github.run();
+        this.github.run();
     }
 
     @Test
@@ -39,7 +42,7 @@ public class GithubIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/github/cron/stat/github/expected/notCodexiaSource.yml")
     public void notCodexiaSource() {
-        github.run();
+        this.github.run();
     }
 
     @Test
@@ -56,7 +59,7 @@ public class GithubIntegrationTest extends AbstractIntegrationTest {
             )
         );
 
-        github.run();
+        this.github.run();
     }
 
     @Test
@@ -73,6 +76,6 @@ public class GithubIntegrationTest extends AbstractIntegrationTest {
             )
         );
 
-        github.run();
+        this.github.run();
     }
 }
