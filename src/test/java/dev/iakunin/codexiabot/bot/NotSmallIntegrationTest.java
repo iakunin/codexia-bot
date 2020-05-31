@@ -11,7 +11,7 @@ public class NotSmallIntegrationTest extends AbstractIntegrationTest {
 
     @Qualifier("notSmall")
     @Autowired
-    private Small notSmall;
+    private Small runnable;
 
     @Test
     @DataSet(
@@ -20,7 +20,7 @@ public class NotSmallIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/bot/not-small/expected/emptyDatabase.yml")
     public void emptyDatabase() {
-        notSmall.run();
+        this.runnable.run();
     }
 
     @Test
@@ -30,7 +30,7 @@ public class NotSmallIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/bot/not-small/expected/happyPath.yml")
     public void happyPath() {
-        notSmall.run();
+        this.runnable.run();
     }
 
     @Test
@@ -40,7 +40,7 @@ public class NotSmallIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/bot/not-small/expected/noResult.yml")
     public void noResult() {
-        notSmall.run();
+        this.runnable.run();
     }
 
     @Test
@@ -50,7 +50,7 @@ public class NotSmallIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/bot/not-small/expected/projectLevelMoreThanZero.yml")
     public void projectLevelMoreThanZero() {
-        notSmall.run();
+        this.runnable.run();
     }
 
     @Test
@@ -60,7 +60,7 @@ public class NotSmallIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/bot/not-small/expected/resultWithTypeReset.yml")
     public void resultWithTypeReset() {
-        notSmall.run();
+        this.runnable.run();
     }
 
     @Test
@@ -70,7 +70,7 @@ public class NotSmallIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/bot/not-small/expected/linesOfCodeLessThanThreshold.yml")
     public void linesOfCodeLessThanThreshold() {
-        notSmall.run();
+        this.runnable.run();
     }
 
 }
