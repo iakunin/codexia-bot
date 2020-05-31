@@ -8,8 +8,7 @@ import dev.iakunin.codexiabot.github.GithubModule;
 import java.util.Optional;
 import org.cactoos.list.ListOf;
 import org.junit.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -19,10 +18,14 @@ import org.mockito.junit.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class UpdateProjectsUpdaterUnitTest {
 
+    private static final String NEWBIE = "newbie";
+
+    private static final String SECOND_LEVEL = "L2";
+
     private final Faker faker = new Faker();
 
     @Mock
-    private GithubModule githubModule;
+    private GithubModule github;
 
     @Mock
     private CodexiaProjectRepository repository;
@@ -32,52 +35,53 @@ public class UpdateProjectsUpdaterUnitTest {
 
     @Test
     public void notDeleted() {
-        final int id = faker.random().nextInt(Integer.MAX_VALUE);
+        final int id = this.faker.random().nextInt(Integer.MAX_VALUE);
         final var project = new CodexiaClient.Project().setId(id);
         final var entity = new CodexiaProject().setExternalId(id);
-        Mockito.when(repository.findByExternalId(id)).thenReturn(Optional.of(entity));
+        Mockito.when(this.repository.findByExternalId(id)).thenReturn(Optional.of(entity));
 
-        updater.update(project);
+        this.updater.update(project);
 
-        Mockito.verify(githubModule, Mockito.never()).removeAllRepoSources(Mockito.any());
-        Mockito.verify(repository, Mockito.times(1)).findByExternalId(id);
-        Mockito.verify(repository, Mockito.times(1)).save(entity);
+        Mockito.verify(this.github, Mockito.never()).removeAllRepoSources(Mockito.any());
+        Mockito.verify(this.repository, Mockito.times(1)).findByExternalId(id);
+        Mockito.verify(this.repository, Mockito.times(1)).save(entity);
     }
 
     @Test
     public void deleted() {
-        final int id = faker.random().nextInt(Integer.MAX_VALUE);
+        final int id = this.faker.random().nextInt(Integer.MAX_VALUE);
+        final var deleted = "deleted";
         final var project = new CodexiaClient.Project()
             .setId(id)
-            .setDeleted("deleted");
+            .setDeleted(deleted);
         final var entity = new CodexiaProject().setExternalId(id);
-        Mockito.when(repository.findByExternalId(id)).thenReturn(Optional.of(entity));
+        Mockito.when(this.repository.findByExternalId(id)).thenReturn(Optional.of(entity));
 
-        updater.update(project);
+        this.updater.update(project);
 
-        Mockito.verify(githubModule, Mockito.times(1)).removeAllRepoSources(
+        Mockito.verify(this.github, Mockito.times(1)).removeAllRepoSources(
             new GithubModule.DeleteArguments(
                 GithubModule.Source.CODEXIA,
                 String.valueOf(id)
             )
         );
-        Mockito.verify(repository, Mockito.times(1)).findByExternalId(id);
-        Mockito.verify(repository, Mockito.times(1)).save(
-            entity.setDeleted("deleted")
+        Mockito.verify(this.repository, Mockito.times(1)).findByExternalId(id);
+        Mockito.verify(this.repository, Mockito.times(1)).save(
+            entity.setDeleted(deleted)
         );
     }
 
     @Test
     public void notFoundInRepo() {
-        final int id = faker.random().nextInt(Integer.MAX_VALUE);
+        final int id = this.faker.random().nextInt(Integer.MAX_VALUE);
         final var project = new CodexiaClient.Project().setId(id);
-        Mockito.when(repository.findByExternalId(id)).thenReturn(Optional.empty());
+        Mockito.when(this.repository.findByExternalId(id)).thenReturn(Optional.empty());
 
-        final RuntimeException exception = assertThrows(
+        final RuntimeException exception = Assertions.assertThrows(
             RuntimeException.class,
-            () -> updater.update(project)
+            () -> this.updater.update(project)
         );
-        assertEquals(
+        Assertions.assertEquals(
             exception.getMessage(),
             String.format(
                 "Unable to find CodexiaProject by externalId='%s'",
@@ -85,55 +89,49 @@ public class UpdateProjectsUpdaterUnitTest {
             )
         );
 
-        Mockito.verify(githubModule, Mockito.never()).removeAllRepoSources(Mockito.any());
-        Mockito.verify(repository, Mockito.times(1)).findByExternalId(id);
-        Mockito.verify(repository, Mockito.never()).save(Mockito.any());
+        Mockito.verify(this.github, Mockito.never()).removeAllRepoSources(Mockito.any());
+        Mockito.verify(this.repository, Mockito.times(1)).findByExternalId(id);
+        Mockito.verify(this.repository, Mockito.never()).save(Mockito.any());
     }
 
     @Test
     public void oneBadge() {
-        final int id = faker.random().nextInt(Integer.MAX_VALUE);
+        final int id = this.faker.random().nextInt(Integer.MAX_VALUE);
         final var project = new CodexiaClient.Project()
             .setId(id)
             .setBadges(new ListOf<>(
-                new CodexiaClient.Project.Badge()
-                    .setId(123)
-                    .setText("newbie")
+                new CodexiaClient.Project.Badge().setText(NEWBIE)
             ));
         final var entity = new CodexiaProject().setExternalId(id);
-        Mockito.when(repository.findByExternalId(id)).thenReturn(Optional.of(entity));
+        Mockito.when(this.repository.findByExternalId(id)).thenReturn(Optional.of(entity));
 
-        updater.update(project);
+        this.updater.update(project);
 
-        Mockito.verify(githubModule, Mockito.never()).removeAllRepoSources(Mockito.any());
-        Mockito.verify(repository, Mockito.times(1)).findByExternalId(id);
-        Mockito.verify(repository, Mockito.times(1)).save(
-            entity.setBadges(new ListOf<>("newbie"))
+        Mockito.verify(this.github, Mockito.never()).removeAllRepoSources(Mockito.any());
+        Mockito.verify(this.repository, Mockito.times(1)).findByExternalId(id);
+        Mockito.verify(this.repository, Mockito.times(1)).save(
+            entity.setBadges(new ListOf<>(NEWBIE))
         );
     }
 
     @Test
     public void multipleBadges() {
-        final int id = faker.random().nextInt(Integer.MAX_VALUE);
+        final int id = this.faker.random().nextInt(Integer.MAX_VALUE);
         final var project = new CodexiaClient.Project()
             .setId(id)
             .setBadges(new ListOf<>(
-                new CodexiaClient.Project.Badge()
-                    .setId(123)
-                    .setText("newbie"),
-                new CodexiaClient.Project.Badge()
-                    .setId(321)
-                    .setText("L2")
+                new CodexiaClient.Project.Badge().setText(NEWBIE),
+                new CodexiaClient.Project.Badge().setText(SECOND_LEVEL)
             ));
         final var entity = new CodexiaProject().setExternalId(id);
-        Mockito.when(repository.findByExternalId(id)).thenReturn(Optional.of(entity));
+        Mockito.when(this.repository.findByExternalId(id)).thenReturn(Optional.of(entity));
 
-        updater.update(project);
+        this.updater.update(project);
 
-        Mockito.verify(githubModule, Mockito.never()).removeAllRepoSources(Mockito.any());
-        Mockito.verify(repository, Mockito.times(1)).findByExternalId(id);
-        Mockito.verify(repository, Mockito.times(1)).save(
-            entity.setBadges(new ListOf<>("newbie", "L2"))
+        Mockito.verify(this.github, Mockito.never()).removeAllRepoSources(Mockito.any());
+        Mockito.verify(this.repository, Mockito.times(1)).findByExternalId(id);
+        Mockito.verify(this.repository, Mockito.times(1)).save(
+            entity.setBadges(new ListOf<>(NEWBIE, SECOND_LEVEL))
         );
     }
 }
