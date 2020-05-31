@@ -13,6 +13,8 @@ public class ExactItemTest {
 
     private static final String LANGUAGE = "Java";
 
+    private static final String POSTFIX = "some random postfix";
+
     @Test
     public void emptyItemList() throws Exception {
         final Optional<Item> actual = new ExactItem(
@@ -63,7 +65,7 @@ public class ExactItemTest {
             this.createLinesOfCode(
                 new ListOf<>(
                     this.createItem(ExactItemTest.LANGUAGE),
-                    this.createItem("Kotlin")
+                    this.createItem("Groovy")
                 )
             )
         ).value();
@@ -98,19 +100,19 @@ public class ExactItemTest {
 
     @Test
     public void foundApproximateThis() throws Exception {
-        final String languageWithPostfix = ExactItemTest.LANGUAGE + " with some postfix";
+        final String postfixed = ExactItemTest.LANGUAGE + ExactItemTest.POSTFIX;
         final Optional<Item> actual = new ExactItem(
             this.createGithub(ExactItemTest.LANGUAGE),
             this.createLinesOfCode(
                 new ListOf<>(
-                    this.createItem(languageWithPostfix)
+                    this.createItem(postfixed)
                 )
             )
         ).value();
 
         Assertions.assertEquals(
             Optional.of(
-                this.createItem(languageWithPostfix)
+                this.createItem(postfixed)
             ),
             actual
         );
@@ -118,20 +120,20 @@ public class ExactItemTest {
 
     @Test
     public void foundApproximateThisFirst() throws Exception {
-        final String languageWithPostfix = ExactItemTest.LANGUAGE + " with some postfix";
+        final String postfixed = ExactItemTest.LANGUAGE + ExactItemTest.POSTFIX;
         final Optional<Item> actual = new ExactItem(
             this.createGithub(ExactItemTest.LANGUAGE),
             this.createLinesOfCode(
                 new ListOf<>(
-                    this.createItem(languageWithPostfix),
-                    this.createItem("Scala")
+                    this.createItem(postfixed),
+                    this.createItem("Erlang")
                 )
             )
         ).value();
 
         Assertions.assertEquals(
             Optional.of(
-                this.createItem(languageWithPostfix)
+                this.createItem(postfixed)
             ),
             actual
         );
@@ -139,20 +141,20 @@ public class ExactItemTest {
 
     @Test
     public void foundApproximateThisLast() throws Exception {
-        final String languageWithPostfix = ExactItemTest.LANGUAGE + " with some postfix";
+        final String postfixed = ExactItemTest.LANGUAGE + ExactItemTest.POSTFIX;
         final Optional<Item> actual = new ExactItem(
             this.createGithub(ExactItemTest.LANGUAGE),
             this.createLinesOfCode(
                 new ListOf<>(
                     this.createItem("Scala"),
-                    this.createItem(languageWithPostfix)
+                    this.createItem(postfixed)
                 )
             )
         ).value();
 
         Assertions.assertEquals(
             Optional.of(
-                this.createItem(languageWithPostfix)
+                this.createItem(postfixed)
             ),
             actual
         );
@@ -160,9 +162,9 @@ public class ExactItemTest {
 
     @Test
     public void foundApproximateThat() throws Exception {
-        final String languageWithPostfix = ExactItemTest.LANGUAGE + " with another postfix";
+        final String postfixed = ExactItemTest.LANGUAGE + ExactItemTest.POSTFIX;
         final Optional<Item> actual = new ExactItem(
-            this.createGithub(languageWithPostfix),
+            this.createGithub(postfixed),
             this.createLinesOfCode(
                 new ListOf<>(
                     this.createItem(ExactItemTest.LANGUAGE)
@@ -180,13 +182,13 @@ public class ExactItemTest {
 
     @Test
     public void foundApproximateThatFirst() throws Exception {
-        final String languageWithPostfix = ExactItemTest.LANGUAGE + " with another postfix";
+        final String postfixed = ExactItemTest.LANGUAGE + ExactItemTest.POSTFIX;
         final Optional<Item> actual = new ExactItem(
-            this.createGithub(languageWithPostfix),
+            this.createGithub(postfixed),
             this.createLinesOfCode(
                 new ListOf<>(
                     this.createItem(ExactItemTest.LANGUAGE),
-                    this.createItem("Ruby")
+                    this.createItem("C++")
                 )
             )
         ).value();
@@ -201,9 +203,9 @@ public class ExactItemTest {
 
     @Test
     public void foundApproximateThatLast() throws Exception {
-        final String languageWithPostfix = ExactItemTest.LANGUAGE + " with another postfix";
+        final String postfixed = ExactItemTest.LANGUAGE + ExactItemTest.POSTFIX;
         final Optional<Item> actual = new ExactItem(
-            this.createGithub(languageWithPostfix),
+            this.createGithub(postfixed),
             this.createLinesOfCode(
                 new ListOf<>(
                     this.createItem("Ruby"),
@@ -297,18 +299,20 @@ public class ExactItemTest {
 
     @Test
     public void foundWithMapping() throws Exception {
+        final var source = "Vue";
+        final var destination = "JavaScript";
         final Optional<Item> actual = new ExactItem(
-            this.createGithub("Vue"),
+            this.createGithub(source),
             this.createLinesOfCode(
                 new ListOf<>(
-                    this.createItem("JavaScript")
+                    this.createItem(destination)
                 )
             )
         ).value();
 
         Assertions.assertEquals(
             Optional.of(
-                this.createItem("JavaScript")
+                this.createItem(destination)
             ),
             actual
         );
@@ -320,7 +324,7 @@ public class ExactItemTest {
             this.createGithub("SomeAnotherLanguage"),
             this.createLinesOfCode(
                 new ListOf<>(
-                    this.createItem("JavaScript")
+                    this.createItem("Rust")
                 )
             )
         ).value();
@@ -328,15 +332,15 @@ public class ExactItemTest {
         Assertions.assertEquals(Optional.empty(), actual);
     }
 
-    private GithubApi createGithub(String language) {
+    private GithubApi createGithub(final String language) {
         return new GithubApi().setLanguage(language);
     }
 
-    private LinesOfCode createLinesOfCode(List<Item> list) {
+    private LinesOfCode createLinesOfCode(final List<Item> list) {
         return new LinesOfCode().setItemList(list);
     }
 
-    private Item createItem(String language) {
+    private Item createItem(final String language) {
         return new Item().setLanguage(language);
     }
 }
