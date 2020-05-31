@@ -48,7 +48,7 @@ public class GithubIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/github/cron/stat/github/expected/happyPath.yml")
-    public void oneWithoutGithubRepo() {
+    public void happyPath() {
         WireMockServer.stub(
             new Stub(
                 "/github/repos/instaloader/instaloader",
