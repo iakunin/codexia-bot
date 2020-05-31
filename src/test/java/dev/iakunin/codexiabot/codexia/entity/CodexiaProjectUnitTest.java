@@ -1,15 +1,18 @@
 package dev.iakunin.codexiabot.codexia.entity;
 
 import org.cactoos.list.ListOf;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+/**
+ * @checkstyle MagicNumber (500 lines)
+ * @checkstyle MultipleStringLiterals (500 lines)
+ */
 public class CodexiaProjectUnitTest {
 
     @Test
     public void noBadges() {
-        assertEquals(
+        Assertions.assertEquals(
             0,
             new CodexiaProject().level()
         );
@@ -20,7 +23,7 @@ public class CodexiaProjectUnitTest {
         final var project = new CodexiaProject()
             .setBadges(new ListOf<>("newbie"));
 
-        assertEquals(
+        Assertions.assertEquals(
             0,
             project.level()
         );
@@ -31,96 +34,95 @@ public class CodexiaProjectUnitTest {
         final var project = new CodexiaProject()
             .setBadges(new ListOf<>("olol12"));
 
-        assertEquals(
+        Assertions.assertEquals(
             0,
             project.level()
         );
     }
 
     @Test
-    public void onlyL0Badge() {
+    public void onlyZeroLevelBadge() {
         final var project = new CodexiaProject()
             .setBadges(new ListOf<>("L0"));
 
-        assertEquals(
+        Assertions.assertEquals(
             0,
             project.level()
         );
     }
 
     @Test
-    public void onlyL123Badge() {
+    public void bigLevelBadge() {
         final var project = new CodexiaProject()
             .setBadges(new ListOf<>("L123"));
 
-        assertEquals(
+        Assertions.assertEquals(
             123,
             project.level()
         );
     }
 
     @Test
-    public void l0WithAnotherBadge() {
+    public void zeroLevelWithAnotherBadge() {
         final var project = new CodexiaProject()
             .setBadges(new ListOf<>("L0", "another"));
 
-        assertEquals(
+        Assertions.assertEquals(
             0,
             project.level()
         );
     }
 
     @Test
-    public void l1Badge() {
+    public void firstLevelBadge() {
         final var project = new CodexiaProject()
             .setBadges(new ListOf<>("L1"));
 
-        assertEquals(
+        Assertions.assertEquals(
             1,
             project.level()
         );
     }
 
     @Test
-    public void l1WithAnotherBadge() {
+    public void firstLevelWithAnotherBadge() {
         final var project = new CodexiaProject()
             .setBadges(new ListOf<>("L1", "another"));
 
-        assertEquals(
+        Assertions.assertEquals(
             1,
             project.level()
         );
     }
 
     @Test
-    public void l2Badge() {
+    public void secondLevelBadge() {
         final var project = new CodexiaProject()
             .setBadges(new ListOf<>("L2"));
 
-        assertEquals(
+        Assertions.assertEquals(
             2,
             project.level()
         );
     }
 
-
     @Test
-    public void l2InLowerCaseBadge() {
+    public void secondLevelInLowerCaseBadge() {
         final var project = new CodexiaProject()
             .setBadges(new ListOf<>("l2"));
 
-        assertEquals(
+        Assertions.assertEquals(
             2,
             project.level()
         );
     }
 
     @Test
-    public void l2WithAnotherBadge() {
+    public void secondLevelWithAnotherBadge() {
         final var project = new CodexiaProject()
             .setBadges(new ListOf<>("L2", "another"));
 
-        assertEquals(
+        Assertions.assertEquals(
             2,
             project.level()
         );
@@ -131,11 +133,11 @@ public class CodexiaProjectUnitTest {
         final var project = new CodexiaProject()
             .setBadges(new ListOf<>("L2", "L3"));
 
-        final IllegalStateException exception = assertThrows(
+        final IllegalStateException exception = Assertions.assertThrows(
             IllegalStateException.class,
             project::level
         );
-        assertEquals(
+        Assertions.assertEquals(
             "Project cannot have more than one level; externalId='null'; levels='l2,l3'",
             exception.getMessage()
         );
@@ -147,11 +149,11 @@ public class CodexiaProjectUnitTest {
             .setExternalId(321)
             .setBadges(new ListOf<>("L2", "L3"));
 
-        final IllegalStateException exception = assertThrows(
+        final IllegalStateException exception = Assertions.assertThrows(
             IllegalStateException.class,
             project::level
         );
-        assertEquals(
+        Assertions.assertEquals(
             "Project cannot have more than one level; externalId='321'; levels='l2,l3'",
             exception.getMessage()
         );
