@@ -7,7 +7,7 @@ import dev.iakunin.codexiabot.github.entity.GithubRepo;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat;
 import java.util.Optional;
 import javax.persistence.EntityManager;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class StarsUpResultRepositoryIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
-    private EntityManager entityManager;
+    private EntityManager manager;
 
     @Autowired
     private StarsUpResultRepository repository;
@@ -25,82 +25,85 @@ public class StarsUpResultRepositoryIntegrationTest extends AbstractIntegrationT
 
     @Test
     @Transactional
-    public void findFirstByGithubRepo_happyPath() {
-        var repo = this.createGithubRepo();
-        var repoStat = this.createGithubRepoStat(repo);
-        var result = this.createStarsUpResult(repo, repoStat);
-        entityManager.persist(repo);
-        entityManager.persist(repoStat);
-        entityManager.persist(result);
-        entityManager.flush();
+    public void findFirstByGithubRepoHappyPath() {
+        final var repo = this.createGithubRepo();
+        final var stat = this.createGithubRepoStat(repo);
+        final var result = this.createStarsUpResult(repo, stat);
+        this.manager.persist(repo);
+        this.manager.persist(stat);
+        this.manager.persist(result);
+        this.manager.flush();
 
-        var actual = this.repository.findFirstByGithubRepoOrderByIdDesc(repo);
+        final var actual = this.repository.findFirstByGithubRepoOrderByIdDesc(repo);
 
-        assertEquals(Optional.of(result), actual);
+        Assertions.assertEquals(Optional.of(result), actual);
 
-        entityManager.remove(result);
-        entityManager.remove(repoStat);
-        entityManager.remove(repo);
+        this.manager.remove(result);
+        this.manager.remove(stat);
+        this.manager.remove(repo);
     }
 
     @Test
     @Transactional
-    public void findFirstByGithubRepo_withinMultipleResults() {
-        var repo = this.createGithubRepo();
-        var repoStat = this.createGithubRepoStat(repo);
-        var firstResult = this.createStarsUpResult(repo, repoStat);
-        var secondResult = this.createStarsUpResult(repo, repoStat);
-        entityManager.persist(repo);
-        entityManager.persist(repoStat);
-        entityManager.persist(firstResult);
-        entityManager.persist(secondResult);
-        entityManager.flush();
+    public void findFirstByGithubRepoWithinMultipleResults() {
+        final var repo = this.createGithubRepo();
+        final var stat = this.createGithubRepoStat(repo);
+        final var first = this.createStarsUpResult(repo, stat);
+        final var second = this.createStarsUpResult(repo, stat);
+        this.manager.persist(repo);
+        this.manager.persist(stat);
+        this.manager.persist(first);
+        this.manager.persist(second);
+        this.manager.flush();
 
-        var actual = this.repository.findFirstByGithubRepoOrderByIdDesc(repo);
+        final var actual = this.repository.findFirstByGithubRepoOrderByIdDesc(repo);
 
-        assertEquals(Optional.of(secondResult), actual);
+        Assertions.assertEquals(Optional.of(second), actual);
 
-        entityManager.remove(secondResult);
-        entityManager.remove(firstResult);
-        entityManager.remove(repoStat);
-        entityManager.remove(repo);
+        this.manager.remove(second);
+        this.manager.remove(first);
+        this.manager.remove(stat);
+        this.manager.remove(repo);
     }
 
     @Test
     @Transactional
-    public void findFirstByGithubRepo_noData() {
-        var repo = this.createGithubRepo();
-        entityManager.persist(repo);
+    public void findFirstByGithubRepoNoData() {
+        final var repo = this.createGithubRepo();
+        this.manager.persist(repo);
 
-        var actual = this.repository.findFirstByGithubRepoOrderByIdDesc(repo);
+        final var actual = this.repository.findFirstByGithubRepoOrderByIdDesc(repo);
 
-        assertEquals(Optional.empty(), actual);
+        Assertions.assertEquals(Optional.empty(), actual);
 
-        entityManager.remove(repo);
+        this.manager.remove(repo);
     }
 
     private GithubRepo createGithubRepo() {
         return new GithubRepo()
             .setExternalId(
-                String.valueOf(faker.random().nextInt(Integer.MAX_VALUE))
+                String.valueOf(this.faker.random().nextInt(Integer.MAX_VALUE))
             )
             .setFullName(this.getGithubRepoFullName());
     }
 
     private String getGithubRepoFullName() {
-        return faker.regexify("[a-z]{2,10}/[a-z]{2,10}");
+        return this.faker.regexify("[a-z]{2,10}/[a-z]{2,10}");
     }
 
-    private GithubRepoStat createGithubRepoStat(GithubRepo repo) {
+    private GithubRepoStat createGithubRepoStat(final GithubRepo repo) {
         return new GithubRepoStat()
             .setGithubRepo(repo)
             .setType(GithubRepoStat.Type.GITHUB_API)
             .setStat(new GithubRepoStat.GithubApi());
     }
 
-    private StarsUpResult createStarsUpResult(GithubRepo repo, GithubRepoStat repoStat) {
+    private StarsUpResult createStarsUpResult(
+        final GithubRepo repo,
+        final GithubRepoStat stat
+    ) {
         return new StarsUpResult()
             .setGithubRepo(repo)
-            .setGithubRepoStat(repoStat);
+            .setGithubRepoStat(stat);
     }
 }
