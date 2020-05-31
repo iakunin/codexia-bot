@@ -17,8 +17,8 @@ public class Module {
     @Bean
     @Autowired
     public GitHub gitHub(
-        @Value("${app.github-token}") final String githubToken
+        @Value("${app.github-token}") final String token
     ) throws IOException {
-        return new GitHubBuilder().withOAuthToken(githubToken).build();
+        return new GitHubBuilder().withOAuthToken(token).build();
     }
 }

@@ -14,21 +14,21 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 @Configuration
 public class MissingFillerCronConfig implements SchedulingConfigurer {
 
-    private final MissingFiller missingFiller;
+    private final MissingFiller runnable;
 
     private final String expression;
 
     public MissingFillerCronConfig(
-        final MissingFiller missingFiller,
+        final MissingFiller runnable,
         @Value("${app.cron.codexia.missing-filler:-}") final String expression
     ) {
-        this.missingFiller = missingFiller;
+        this.runnable = runnable;
         this.expression = expression;
     }
 
     @Bean
     public Runnable missingFillerRunnable() {
-        return new Logging(this.missingFiller);
+        return new Logging(this.runnable);
     }
 
     @Override

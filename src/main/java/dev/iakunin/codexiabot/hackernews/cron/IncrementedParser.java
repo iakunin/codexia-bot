@@ -25,7 +25,7 @@ public final class IncrementedParser implements Runnable {
         for (int errorsCount = 0; errorsCount <= 10; currentExternalId++){
             try {
                 log.debug("Trying to get item with externalId='{}'", currentExternalId);
-                final HackernewsClient.Item item = this.hackernews.getItem(currentExternalId).getBody();
+                final var item = this.hackernews.getItem(currentExternalId).getBody();
                 if (item == null) {
                     log.debug("Empty response body for externalId='{}'", currentExternalId);
                     errorsCount++;
@@ -33,8 +33,12 @@ public final class IncrementedParser implements Runnable {
                 }
 
                 this.writer.write(HackernewsItem.Factory.from(item));
-            } catch (Exception e) {
-                log.error("Exception occurred during getting hackernews item '{}'", currentExternalId, e);
+            } catch (final Exception ex) {
+                log.error(
+                    "Exception occurred during getting hackernews item '{}'",
+                    currentExternalId,
+                    ex
+                );
                 errorsCount++;
             }
         }

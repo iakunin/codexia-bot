@@ -14,21 +14,21 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 @Configuration
 public class ResendErroneousReviewsCronConfig implements SchedulingConfigurer {
 
-    private final ResendErroneousReviews resendErroneousReviews;
+    private final ResendErroneousReviews runnable;
 
     private final String expression;
 
     public ResendErroneousReviewsCronConfig(
-        final ResendErroneousReviews resendErroneousReviews,
+        final ResendErroneousReviews runnable,
         @Value("${app.cron.codexia.resend-erroneous-reviews:-}") final String expression
     ) {
-        this.resendErroneousReviews = resendErroneousReviews;
+        this.runnable = runnable;
         this.expression = expression;
     }
 
     @Bean
     public Runnable resendErroneousReviewsRunnable() {
-        return new Logging(this.resendErroneousReviews);
+        return new Logging(this.runnable);
     }
 
     @Override

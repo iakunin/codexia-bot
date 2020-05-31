@@ -14,21 +14,21 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 @Configuration
 public class ResendReviewsUntilDuplicatedCronConfig implements SchedulingConfigurer {
 
-    private final ResendReviewsUntilDuplicated resendReviewsUntilDuplicated;
+    private final ResendReviewsUntilDuplicated runnable;
 
     private final String expression;
 
     public ResendReviewsUntilDuplicatedCronConfig(
-        final ResendReviewsUntilDuplicated resendReviewsUntilDuplicated,
+        final ResendReviewsUntilDuplicated runnable,
         @Value("${app.cron.codexia.resend-reviews-until-duplicated:-}") final String expression
     ) {
-        this.resendReviewsUntilDuplicated = resendReviewsUntilDuplicated;
+        this.runnable = runnable;
         this.expression = expression;
     }
 
     @Bean
     public Runnable resendReviewsUntilDuplicatedRunnable() {
-        return new Logging(this.resendReviewsUntilDuplicated);
+        return new Logging(this.runnable);
     }
 
     @Override

@@ -14,21 +14,21 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 @Configuration
 public class WithoutLocCronConfig implements SchedulingConfigurer {
 
-    private final WithoutLoc linesOfCode;
+    private final WithoutLoc runnable;
 
     private final String expression;
 
     public WithoutLocCronConfig(
-        final WithoutLoc linesOfCode,
+        final WithoutLoc runnable,
         @Value("${app.cron.github.stat.loc.without-loc:-}") final String expression
     ) {
-        this.linesOfCode = linesOfCode;
+        this.runnable = runnable;
         this.expression = expression;
     }
 
     @Bean
     public Runnable statLocWithoutLocRunnable() {
-        return new Logging(this.linesOfCode);
+        return new Logging(this.runnable);
     }
 
     @Override

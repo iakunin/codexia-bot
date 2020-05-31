@@ -14,14 +14,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class InitializeBadges implements Runnable {
 
-    private final CodexiaReviewRepository reviewRepository;
+    private final CodexiaReviewRepository reviews;
 
-    private final CodexiaProjectRepository projectRepository;
+    private final CodexiaProjectRepository projects;
 
     private final Initializer initializer;
 
@@ -32,12 +35,15 @@ public class InitializeBadges implements Runnable {
     }
 
     private void tooSmall() {
-        try (var projects = this.projectRepository.findAllActive()) {
+        try (var projects = this.projects.findAllActive()) {
             new FaultTolerant(
                 projects
                     .flatMap(
-                        project -> this.reviewRepository
-                            .findFirstByCodexiaProjectAndAuthorOrderByIdDesc(project, Bot.Type.TOO_SMALL.name())
+                        project -> this.reviews
+                            .findFirstByCodexiaProjectAndAuthorOrderByIdDesc(
+                                project,
+                                Bot.Type.TOO_SMALL.name()
+                            )
                             .map(review ->
                                 new CodexiaBadge()
                                     .setCodexiaProject(review.getCodexiaProject())
@@ -56,12 +62,15 @@ public class InitializeBadges implements Runnable {
     }
 
     private void tooManyStars() {
-        try (var projects = this.projectRepository.findAllActive()) {
+        try (var projects = this.projects.findAllActive()) {
             new FaultTolerant(
                 projects
                     .flatMap(
-                        project -> this.reviewRepository
-                            .findFirstByCodexiaProjectAndAuthorOrderByIdDesc(project, Bot.Type.TOO_MANY_STARS.name())
+                        project -> this.reviews
+                            .findFirstByCodexiaProjectAndAuthorOrderByIdDesc(
+                                project,
+                                Bot.Type.TOO_MANY_STARS.name()
+                            )
                             .map(review ->
                                 new CodexiaBadge()
                                     .setCodexiaProject(review.getCodexiaProject())

@@ -14,21 +14,21 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 @Configuration
 public class CodexiaItemsCronConfig implements SchedulingConfigurer {
 
-    private final CodexiaItems codexiaItems;
+    private final CodexiaItems runnable;
 
     private final String expression;
 
     public CodexiaItemsCronConfig(
-        final CodexiaItems codexiaItems,
+        final CodexiaItems runnable,
         @Value("${app.cron.hackernews.health-check.codexia-items:-}") final String expression
     ) {
-        this.codexiaItems = codexiaItems;
+        this.runnable = runnable;
         this.expression = expression;
     }
 
     @Bean
     public Runnable codexiaItemsRunnable() {
-        return new Logging(this.codexiaItems);
+        return new Logging(this.runnable);
     }
 
     @Override

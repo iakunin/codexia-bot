@@ -14,21 +14,21 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 @Configuration
 public class DeleteObsoleteStatCronConfig implements SchedulingConfigurer {
 
-    private final DeleteObsoleteStat deleteObsoleteStat;
+    private final DeleteObsoleteStat runnable;
 
     private final String expression;
 
     public DeleteObsoleteStatCronConfig(
-        final DeleteObsoleteStat deleteObsoleteStat,
+        final DeleteObsoleteStat runnable,
         @Value("${app.cron.github.delete-obsolete-stat:-}") final String expression
     ) {
-        this.deleteObsoleteStat = deleteObsoleteStat;
+        this.runnable = runnable;
         this.expression = expression;
     }
 
     @Bean
     public Runnable deleteObsoleteStatRunnable() {
-        return new Logging(this.deleteObsoleteStat);
+        return new Logging(this.runnable);
     }
 
     @Override

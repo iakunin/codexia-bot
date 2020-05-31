@@ -14,21 +14,21 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 @Configuration
 public class CodexiaParserCronConfig implements SchedulingConfigurer {
 
-    private final CodexiaParser codexiaParser;
+    private final CodexiaParser parser;
 
     private final String expression;
 
     public CodexiaParserCronConfig(
-        final CodexiaParser codexiaParser,
+        final CodexiaParser parser,
         @Value("${app.cron.codexia.codexia-parser:-}") final String expression
     ) {
-        this.codexiaParser = codexiaParser;
+        this.parser = parser;
         this.expression = expression;
     }
 
     @Bean
     public Runnable codexiaParserRunnable() {
-        return new Logging(this.codexiaParser);
+        return new Logging(this.parser);
     }
 
     @Override

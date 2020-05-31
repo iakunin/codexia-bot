@@ -14,21 +14,21 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 @Configuration
 public class IncrementedParserCronConfig implements SchedulingConfigurer {
 
-    private final IncrementedParser incrementedParser;
+    private final IncrementedParser parser;
 
     private final String expression;
 
     public IncrementedParserCronConfig(
-        final IncrementedParser incrementedParser,
+        final IncrementedParser parser,
         @Value("${app.cron.hackernews.incremented-parser:-}") final String expression
     ) {
-        this.incrementedParser = incrementedParser;
+        this.parser = parser;
         this.expression = expression;
     }
 
     @Bean
     public Runnable incrementedParserRunnable() {
-        return new Logging(this.incrementedParser);
+        return new Logging(this.parser);
     }
 
     @Override

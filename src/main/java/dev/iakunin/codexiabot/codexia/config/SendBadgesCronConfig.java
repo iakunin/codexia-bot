@@ -14,21 +14,21 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 @Configuration
 public class SendBadgesCronConfig implements SchedulingConfigurer {
 
-    private final SendBadges sendBadges;
+    private final SendBadges runnable;
 
     private final String expression;
 
     public SendBadgesCronConfig(
-        final SendBadges sendBadges,
+        final SendBadges runnable,
         @Value("${app.cron.codexia.send-badges:-}") final String expression
     ) {
-        this.sendBadges = sendBadges;
+        this.runnable = runnable;
         this.expression = expression;
     }
 
     @Bean
     public Runnable sendBadgesRunnable() {
-        return new Logging(this.sendBadges);
+        return new Logging(this.runnable);
     }
 
     @Override

@@ -10,12 +10,12 @@ public final class GeneralClientConfiguration {
     @Bean
     @Autowired
     public RequestInterceptor sessionFingerprintInterceptor(
-        Properties properties,
-        SessionFingerprint sessionFingerprint
+        final Properties properties,
+        final SessionFingerprint fingerprint
     ) {
         return new SessionFingerprintInterceptor(
             properties.getSessionFingerprintHeaderName(),
-            sessionFingerprint
+            fingerprint
         );
     }
 

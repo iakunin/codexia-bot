@@ -14,21 +14,21 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 @Configuration
 public class RetryErroneousCronConfig implements SchedulingConfigurer {
 
-    private final RetryErroneous retryErroneous;
+    private final RetryErroneous runnable;
 
     private final String expression;
 
     public RetryErroneousCronConfig(
-        final RetryErroneous retryErroneous,
+        final RetryErroneous runnable,
         @Value("${app.cron.hackernews.retry-erroneous:-}") final String expression
     ) {
-        this.retryErroneous = retryErroneous;
+        this.runnable = runnable;
         this.expression = expression;
     }
 
     @Bean
     public Runnable retryErroneousRunnable() {
-        return new Logging(this.retryErroneous);
+        return new Logging(this.runnable);
     }
 
     @Override

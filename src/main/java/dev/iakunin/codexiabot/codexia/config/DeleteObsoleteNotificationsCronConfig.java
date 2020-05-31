@@ -14,21 +14,21 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 @Configuration
 public class DeleteObsoleteNotificationsCronConfig implements SchedulingConfigurer {
 
-    private final DeleteObsoleteNotifications deleteObsolete;
+    private final DeleteObsoleteNotifications runnable;
 
     private final String expression;
 
     public DeleteObsoleteNotificationsCronConfig(
-        final DeleteObsoleteNotifications deleteObsolete,
+        final DeleteObsoleteNotifications runnable,
         @Value("${app.cron.codexia.delete-obsolete-notifications:-}") final String expression
     ) {
-        this.deleteObsolete = deleteObsolete;
+        this.runnable = runnable;
         this.expression = expression;
     }
 
     @Bean
     public Runnable deleteObsoleteRunnable() {
-        return new Logging(this.deleteObsolete);
+        return new Logging(this.runnable);
     }
 
     @Override

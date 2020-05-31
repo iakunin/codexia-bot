@@ -14,21 +14,21 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 @Configuration
 public class UpdateProjectsCronConfig implements SchedulingConfigurer {
 
-    private final UpdateProjects updateProjects;
+    private final UpdateProjects runnable;
 
     private final String expression;
 
     public UpdateProjectsCronConfig(
-        final UpdateProjects updateProjects,
+        final UpdateProjects runnable,
         @Value("${app.cron.codexia.update-projects:-}") final String expression
     ) {
-        this.updateProjects = updateProjects;
+        this.runnable = runnable;
         this.expression = expression;
     }
 
     @Bean
     public Runnable updateProjectsRunnable() {
-        return new Logging(this.updateProjects);
+        return new Logging(this.runnable);
     }
 
     @Override

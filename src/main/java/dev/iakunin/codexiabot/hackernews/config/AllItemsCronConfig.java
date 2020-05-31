@@ -14,21 +14,21 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 @Configuration
 public class AllItemsCronConfig implements SchedulingConfigurer {
 
-    private final AllItems allItems;
+    private final AllItems runnable;
 
     private final String expression;
 
     public AllItemsCronConfig(
-        final AllItems allItems,
+        final AllItems runnable,
         @Value("${app.cron.hackernews.items-health-check:-}") final String expression
     ) {
-        this.allItems = allItems;
+        this.runnable = runnable;
         this.expression = expression;
     }
 
     @Bean
     public Runnable allItemsRunnable() {
-        return new Logging(this.allItems);
+        return new Logging(this.runnable);
     }
 
     @Override

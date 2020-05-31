@@ -14,21 +14,21 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 @Configuration
 public class SendReviewsCronConfig implements SchedulingConfigurer {
 
-    private final SendReviews sendReviews;
+    private final SendReviews runnable;
 
     private final String expression;
 
     public SendReviewsCronConfig(
-        final SendReviews sendReviews,
+        final SendReviews runnable,
         @Value("${app.cron.codexia.send-reviews:-}") final String expression
     ) {
-        this.sendReviews = sendReviews;
+        this.runnable = runnable;
         this.expression = expression;
     }
 
     @Bean
     public Runnable sendReviewsRunnable() {
-        return new Logging(this.sendReviews);
+        return new Logging(this.runnable);
     }
 
     @Override
