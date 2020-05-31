@@ -8,21 +8,24 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Component
 @Slf4j
 @RequiredArgsConstructor
 public class CodexiaItems implements Runnable {
 
-    private final GithubModule githubModule;
+    private final GithubModule github;
 
-    private final HackernewsModule hackernewsModule;
+    private final HackernewsModule hackernews;
 
     @Transactional
     public void run() {
-        try (var repos = this.githubModule.findAllInCodexiaAndHackernews()) {
-            this.hackernewsModule.healthCheckItems(
+        try (var repos = this.github.findAllInCodexiaAndHackernews()) {
+            this.hackernews.healthCheckItems(
                 repos
-                    .flatMap(this.githubModule::findAllRepoSources)
+                    .flatMap(this.github::findAllRepoSources)
                     .filter(
                         source -> source.getSource() == GithubModule.Source.HACKERNEWS
                     )
