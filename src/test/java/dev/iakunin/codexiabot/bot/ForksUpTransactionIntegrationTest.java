@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Primary;
 
 @SpringBootTest(classes = {
     AbstractIntegrationTest.TestConfig.class,
-    ForksUpTransactionIntegrationTest.TestConfig.class,
+    ForksUpTransactionIntegrationTest.TestConfig.class
 })
 public class ForksUpTransactionIntegrationTest extends AbstractIntegrationTest {
 
@@ -25,7 +25,7 @@ public class ForksUpTransactionIntegrationTest extends AbstractIntegrationTest {
 
     @Qualifier("forksUp")
     @Autowired
-    private Up forksUp;
+    private Up runnable;
 
     @Test
     @DataSet(
@@ -34,7 +34,7 @@ public class ForksUpTransactionIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/bot/forks-up-transaction/expected/transactionRollback.yml")
     public void transactionRollback() {
-        forksUp.run();
+        this.runnable.run();
     }
 
     @Configuration
