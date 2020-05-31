@@ -13,6 +13,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
+/**
+ * @checkstyle MultipleStringLiterals (500 lines)
+ */
 public class UpdateProjectsIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
@@ -23,17 +26,23 @@ public class UpdateProjectsIntegrationTest extends AbstractIntegrationTest {
         value = "db-rider/codexia/cron/projects-health-check/initial/noActiveProjectsInRepo.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/codexia/cron/projects-health-check/expected/noActiveProjectsInRepo.yml")
+    @ExpectedDataSet(
+        "db-rider/codexia/cron/projects-health-check/expected/noActiveProjectsInRepo.yml"
+    )
     public void noActiveProjectsInRepo() {
-        cron.run();
+        this.cron.run();
     }
 
     @Test
     @DataSet(
-        value = "db-rider/codexia/cron/projects-health-check/initial/twoActiveProjectsInRepoButDeletedInCodexia.yml",
+        value = "db-rider/codexia/cron/projects-health-check"
+            + "/initial/twoActiveProjectsInRepoButDeletedInCodexia.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/codexia/cron/projects-health-check/expected/twoActiveProjectsInRepoButDeletedInCodexia.yml")
+    @ExpectedDataSet(
+        "db-rider/codexia/cron/projects-health-check/"
+            + "expected/twoActiveProjectsInRepoButDeletedInCodexia.yml"
+    )
     public void twoActiveProjectsInRepoButDeletedInCodexia() {
         new WireMockWrapper().stub(
             new Stub(
@@ -56,15 +65,17 @@ public class UpdateProjectsIntegrationTest extends AbstractIntegrationTest {
             )
         );
 
-        cron.run();
+        this.cron.run();
     }
 
     @Test
-    @DataSet(
-        value = "db-rider/codexia/cron/projects-health-check/initial/oneSuccessAfterOneException.yml",
+    @DataSet(value =
+        "db-rider/codexia/cron/projects-health-check/initial/oneSuccessAfterOneException.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/codexia/cron/projects-health-check/expected/oneSuccessAfterOneException.yml")
+    @ExpectedDataSet(
+        "db-rider/codexia/cron/projects-health-check/expected/oneSuccessAfterOneException.yml"
+    )
     public void oneSuccessAfterOneException() {
         new WireMockWrapper().stub(
             new Stub(
@@ -83,6 +94,6 @@ public class UpdateProjectsIntegrationTest extends AbstractIntegrationTest {
             )
         );
 
-        cron.run();
+        this.cron.run();
     }
 }
