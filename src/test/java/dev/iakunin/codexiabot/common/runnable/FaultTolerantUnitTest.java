@@ -7,13 +7,15 @@ import org.slf4j.Logger;
 
 public class FaultTolerantUnitTest {
 
+    private static final String LOG_TEXT = "Error";
+
     @Test
     public void emptyStream() {
         final Logger logger = Mockito.mock(Logger.class);
 
         new FaultTolerant(
             Stream.empty(),
-            tr -> logger.error("Error", tr.getCause())
+            tr -> logger.error(LOG_TEXT, tr.getCause())
         ).run();
 
         Mockito.verify(logger, Mockito.never()).error(Mockito.any());
@@ -24,8 +26,8 @@ public class FaultTolerantUnitTest {
         final Logger logger = Mockito.mock(Logger.class);
 
         new FaultTolerant(
-            Stream.of(() -> {}),
-            tr -> logger.error("Error", tr.getCause())
+            Stream.of(() -> { }),
+            tr -> logger.error(LOG_TEXT, tr.getCause())
         ).run();
 
         Mockito.verify(logger, Mockito.never()).error(Mockito.any());
@@ -36,43 +38,49 @@ public class FaultTolerantUnitTest {
         final Logger logger = Mockito.mock(Logger.class);
 
         new FaultTolerant(
-            Stream.of(() -> {}, () -> {}),
-            tr -> logger.error("Error", tr.getCause())
+            Stream.of(() -> { }, () -> { }),
+            tr -> logger.error(LOG_TEXT, tr.getCause())
         ).run();
 
-        Mockito.verify(logger, Mockito.never()).error("Error");
+        Mockito.verify(logger, Mockito.never()).error(LOG_TEXT);
     }
 
     @Test
     public void streamWithException() {
         final Logger logger = Mockito.mock(Logger.class);
-        final RuntimeException ex = new RuntimeException("Runtime");
+        final RuntimeException exception = new RuntimeException("Runtime");
 
         new FaultTolerant(
             Stream.of(
-                () -> { throw ex; }
+                () -> {
+                    throw exception;
+                }
             ),
-            tr -> logger.error("Error", tr.getCause())
+            tr -> logger.error(LOG_TEXT, tr.getCause())
         ).run();
 
-        Mockito.verify(logger, Mockito.times(1)).error("Error", ex);
+        Mockito.verify(logger, Mockito.times(1)).error(LOG_TEXT, exception);
     }
 
     @Test
     public void streamWithTwoExceptions() {
         final Logger logger = Mockito.mock(Logger.class);
-        final RuntimeException ex = new RuntimeException("Runtime");
+        final RuntimeException exception = new RuntimeException("Another runtime");
 
         new FaultTolerant(
             Stream.of(
-                () -> { throw ex; },
-                () -> {},
-                () -> { throw ex; },
-                () -> {}
+                () -> {
+                    throw exception;
+                },
+                () -> { },
+                () -> {
+                    throw exception;
+                },
+                () -> { }
             ),
-            tr -> logger.error("Error", tr.getCause())
+            tr -> logger.error(LOG_TEXT, tr.getCause())
         ).run();
 
-        Mockito.verify(logger, Mockito.times(2)).error("Error", ex);
+        Mockito.verify(logger, Mockito.times(2)).error(LOG_TEXT, exception);
     }
 }
