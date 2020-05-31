@@ -13,20 +13,23 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class RetryErroneous implements Runnable{
+public class RetryErroneous implements Runnable {
 
     private static final String EMPTY_TYPE = "";
 
-    private final HackernewsItemRepository hackernewsItemRepository;
+    private final HackernewsItemRepository repository;
 
     private final Runner runner;
 
     @Transactional
     public void run() {
-        try (var items = this.hackernewsItemRepository.findAllByType(EMPTY_TYPE)) {
+        try (var items = this.repository.findAllByType(EMPTY_TYPE)) {
             new FaultTolerant(
                 items.map(item -> () -> this.runner.run(item)),
                 tr -> log.warn("Exception during RetryErroneous", tr.getCause())
@@ -39,21 +42,21 @@ public class RetryErroneous implements Runnable{
     @Service
     public static class Runner {
 
-        private final HackernewsClient hackernewsClient;
+        private final HackernewsClient client;
 
-        private final HackernewsItemRepository hackernewsItemRepository;
+        private final HackernewsItemRepository repo;
 
         private final Writer writer;
 
         @Transactional(propagation = Propagation.REQUIRES_NEW)
-        public void run(HackernewsItem entity) {
+        public void run(final HackernewsItem entity) {
             HackernewsItem.Factory.mutateEntity(
                 entity,
                 Objects.requireNonNull(
-                    this.hackernewsClient.getItem(entity.getExternalId()).getBody()
+                    this.client.getItem(entity.getExternalId()).getBody()
                 )
             );
-            this.hackernewsItemRepository.save(entity);
+            this.repo.save(entity);
             this.writer.write(entity);
         }
     }
