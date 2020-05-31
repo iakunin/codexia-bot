@@ -8,6 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+/**
+ * @checkstyle ExplicitInitialization (500 lines)
+ * @checkstyle MemberName (500 lines)
+ */
 @FeignClient(
     name = "hackernewsClient",
     url = "${app.hackernews.base-url}",
@@ -17,20 +21,28 @@ public interface HackernewsClient {
 
     @GetMapping(
         value = "/item/{itemId}.json",
-        produces = { "application/json" }
+        produces = "application/json"
     )
-    ResponseEntity<Item> getItem(@PathVariable("itemId") Integer itemId);
+    ResponseEntity<Item> getItem(@PathVariable("itemId") Integer id);
 
     @Data
     class Item {
         private Integer id;
+
         private String type;
+
         private String by;
+
         private String title;
+
         private String text;
+
         private String url;
+
         private Instant time;
+
         private boolean deleted = false;
+
         private Integer score = 0;
     }
 }

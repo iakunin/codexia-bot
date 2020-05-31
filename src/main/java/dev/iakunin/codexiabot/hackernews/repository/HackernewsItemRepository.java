@@ -10,9 +10,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface HackernewsItemRepository extends JpaRepository<HackernewsItem, Long> {
 
-    boolean existsByExternalId(Integer externalId);
+    boolean existsByExternalId(Integer id);
 
-    Optional<HackernewsItem> findByExternalId(Integer externalId);
+    Optional<HackernewsItem> findByExternalId(Integer id);
 
     @Query("select coalesce(max(externalId), 0) from HackernewsItem")
     Integer getMaxExternalId();
