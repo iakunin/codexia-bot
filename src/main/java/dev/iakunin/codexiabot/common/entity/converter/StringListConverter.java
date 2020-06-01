@@ -9,18 +9,20 @@ import org.cactoos.list.ListOf;
 @Converter
 public final class StringListConverter implements AttributeConverter<List<String>, String> {
 
-    @Override
-    public String convertToDatabaseColumn(List<String> list) {
-        if (list == null) return "";
+    private static final String DELIMITER = ",";
 
-        return String.join(",", list);
+    @Override
+    public String convertToDatabaseColumn(final List<String> list) {
+        return Optional.ofNullable(list)
+            .map(lst -> String.join(DELIMITER, list))
+            .orElse("");
     }
 
     @Override
-    public List<String> convertToEntityAttribute(String joined) {
+    public List<String> convertToEntityAttribute(final String joined) {
         return new ListOf<>(
             Optional.ofNullable(joined)
-                .map(str -> str.split(","))
+                .map(str -> str.split(DELIMITER))
                 .orElse(new String[]{})
         );
     }
