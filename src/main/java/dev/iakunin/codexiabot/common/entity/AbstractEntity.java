@@ -49,9 +49,9 @@ public abstract class AbstractEntity {
     private LocalDateTime updatedAt;
 
     @PrePersist
-    private void prePersistFunction(){
-        if (uuid == null) {
-            uuid = UUID.randomUUID();
+    private void prePersistFunction() {
+        if (this.uuid == null) {
+            this.uuid = UUID.randomUUID();
         }
     }
 }
