@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Component
 @Slf4j
 public class MissingFiller implements Runnable {
@@ -19,8 +22,8 @@ public class MissingFiller implements Runnable {
 
     @Autowired
     public MissingFiller(
-        CodexiaProjectRepository repository,
-        @Qualifier("codexia.service.GithubRepo") Writer writer
+        final CodexiaProjectRepository repository,
+        @Qualifier("codexia.service.GithubRepo") final Writer writer
     ) {
         this.repository = repository;
         this.writer = writer;
