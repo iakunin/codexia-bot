@@ -24,10 +24,10 @@ public class SchedulerConfig implements SchedulingConfigurer {
 
     @Override
     public void configureTasks(final ScheduledTaskRegistrar registrar) {
-        registrar.setScheduler(taskExecutor());
+        registrar.setScheduler(this.taskExecutor());
     }
 
-    @Bean(destroyMethod="shutdown")
+    @Bean(destroyMethod = "shutdown")
     public ScheduledExecutorService taskExecutor() {
         return Executors.newScheduledThreadPool(this.size);
     }
