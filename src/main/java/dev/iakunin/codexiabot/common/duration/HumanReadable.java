@@ -13,7 +13,7 @@ public final class HumanReadable implements Text {
 
     private final Scalar<Text> scalar;
 
-    public HumanReadable(Duration duration) {
+    public HumanReadable(final Duration duration) {
         this(
             new Mapped<>(
                 unit -> {
@@ -40,7 +40,7 @@ public final class HumanReadable implements Text {
         );
     }
 
-    private HumanReadable(Scalar<Text> scalar) {
+    private HumanReadable(final Scalar<Text> scalar) {
         this.scalar = scalar;
     }
 
