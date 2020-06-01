@@ -9,6 +9,8 @@ import dev.iakunin.codexiabot.common.runnable.FaultTolerant;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.cactoos.scalar.Ternary;
+import org.cactoos.scalar.Unchecked;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -21,6 +23,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 @RequiredArgsConstructor
 public class InitializeBadges implements Runnable {
+
+    private static final String BAD_BADGE = "bad";
 
     private final CodexiaReviewRepository reviews;
 
@@ -35,9 +39,9 @@ public class InitializeBadges implements Runnable {
     }
 
     private void tooSmall() {
-        try (var projects = this.projects.findAllActive()) {
+        try (var all = this.projects.findAllActive()) {
             new FaultTolerant(
-                projects
+                all
                     .flatMap(
                         project -> this.reviews
                             .findFirstByCodexiaProjectAndAuthorOrderByIdDesc(
@@ -47,11 +51,15 @@ public class InitializeBadges implements Runnable {
                             .map(review ->
                                 new CodexiaBadge()
                                     .setCodexiaProject(review.getCodexiaProject())
-                                    .setBadge("bad")
+                                    .setBadge(BAD_BADGE)
                                     .setDeletedAt(
-                                        review.getText().contains("not small anymore")
-                                            ? LocalDateTime.now()
-                                            : null
+                                        new Unchecked<>(
+                                            new Ternary<>(
+                                                review.getText().contains("not small anymore"),
+                                                LocalDateTime.now(),
+                                                null
+                                            )
+                                        ).value()
                                     )
                             )
                             .stream()
@@ -62,9 +70,9 @@ public class InitializeBadges implements Runnable {
     }
 
     private void tooManyStars() {
-        try (var projects = this.projects.findAllActive()) {
+        try (var all = this.projects.findAllActive()) {
             new FaultTolerant(
-                projects
+                all
                     .flatMap(
                         project -> this.reviews
                             .findFirstByCodexiaProjectAndAuthorOrderByIdDesc(
@@ -74,7 +82,7 @@ public class InitializeBadges implements Runnable {
                             .map(review ->
                                 new CodexiaBadge()
                                     .setCodexiaProject(review.getCodexiaProject())
-                                    .setBadge("bad")
+                                    .setBadge(BAD_BADGE)
                             )
                             .stream()
                     ).map(badge -> () -> this.initializer.init(badge)),
@@ -90,7 +98,7 @@ public class InitializeBadges implements Runnable {
         private final CodexiaModule codexia;
 
         @Transactional(propagation = Propagation.REQUIRES_NEW)
-        public void init(CodexiaBadge badge) {
+        public void init(final CodexiaBadge badge) {
             this.codexia.applyBadge(badge);
         }
     }
