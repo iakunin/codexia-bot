@@ -17,9 +17,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Slf4j
 @RequiredArgsConstructor
 public class TooManyStars implements Runnable {
+
+    private static final long THRESHOLD = 10_000L;
 
     private final GithubModule github;
 
@@ -45,12 +50,11 @@ public class TooManyStars implements Runnable {
         }
     }
 
-    private boolean shouldSubmit(GithubRepoStat stat) {
-        if (stat.getStat() == null) {
-            return false;
-        }
-
-        return ((GithubApi) stat.getStat()).getStars() > 10_000L;
+    private boolean shouldSubmit(final GithubRepoStat stat) {
+        return Optional.ofNullable(stat.getStat())
+            .map(st -> (GithubApi) st)
+            .map(st -> st.getStars() > THRESHOLD)
+            .orElse(false);
     }
 
     @Slf4j
@@ -62,7 +66,7 @@ public class TooManyStars implements Runnable {
         private final CodexiaModule codexia;
 
         @Transactional(propagation = Propagation.REQUIRES_NEW)
-        public void submit(GithubRepoStat stat) {
+        public void submit(final GithubRepoStat stat) {
             final CodexiaReview review = this.review(stat);
             this.repository.save(this.result(stat));
             this.codexia.saveReview(review);
@@ -74,31 +78,31 @@ public class TooManyStars implements Runnable {
             );
         }
 
-        private CodexiaReview review(GithubRepoStat stat) {
-            final GithubApi apiStat = (GithubApi) stat.getStat();
+        private CodexiaReview review(final GithubRepoStat stat) {
+            final GithubApi github = (GithubApi) stat.getStat();
 
             return new CodexiaReview()
                 .setText(
                     String.format(
                         "The repo gained too many stars: %d.",
-                        apiStat.getStars()
+                        github.getStars()
                     )
                 )
                 .setAuthor(Bot.Type.TOO_MANY_STARS.name())
-                .setReason(String.valueOf(apiStat.getStars()))
+                .setReason(String.valueOf(github.getStars()))
                 .setCodexiaProject(
                     this.codexia.getCodexiaProject(stat.getGithubRepo())
                 );
         }
 
         // @todo #10 Get rid of TooManyStarsResult - Review is enough (see FoundOnHackernews)
-        private Result result(GithubRepoStat stat) {
+        private Result result(final GithubRepoStat stat) {
             return new TooManyStarsResult()
                 .setGithubRepo(stat.getGithubRepo())
                 .setGithubRepoStat(stat);
         }
 
-        private CodexiaMeta meta(CodexiaReview review) {
+        private CodexiaMeta meta(final CodexiaReview review) {
             return new CodexiaMeta()
                 .setCodexiaProject(review.getCodexiaProject())
                 .setKey("too-many-stars")
