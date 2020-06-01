@@ -24,55 +24,37 @@ import org.springframework.web.bind.annotation.RequestParam;
 )
 public interface CodexiaClient {
 
-    @GetMapping(
-        value = "/recent.json",
-        produces = { "application/json" }
-    )
+    @GetMapping(value = "/recent.json", produces = "application/json")
     ResponseEntity<List<Project>> getRecent(
         @RequestParam("page") Integer page
     );
 
-    @GetMapping(
-        value = "/p/{projectId}.json",
-        produces = { "application/json" }
-    )
+    @GetMapping(value = "/p/{projectId}.json", produces = "application/json")
     ResponseEntity<Project> getProject(
         @PathVariable("projectId") Integer projectId
     );
 
-    @PostMapping(
-        value = "/p/{projectId}/post",
-        produces = { "application/json" }
-    )
+    @PostMapping(value = "/p/{projectId}/post", produces = "application/json")
     ResponseEntity<String> createReview(
         @PathVariable("projectId") Integer projectId,
         @RequestParam("text") String text,
         @RequestParam("hash") String hash
     );
 
-    @PostMapping(
-        value = "/p/{projectId}/meta",
-        produces = { "application/json" }
-    )
+    @PostMapping(value = "/p/{projectId}/meta", produces = "application/json")
     ResponseEntity<String> setMeta(
         @PathVariable("projectId") Integer projectId,
         @RequestParam("key") String key,
         @RequestParam("value") String value
     );
 
-    @PostMapping(
-        value = "/p/{projectId}/attach",
-        produces = { "application/json" }
-    )
+    @PostMapping(value = "/p/{projectId}/attach", produces = "application/json")
     ResponseEntity<String> attachBadge(
         @PathVariable("projectId") Integer projectId,
         @RequestParam("text") String badge
     );
 
-    @PostMapping(
-        value = "/p/{projectId}/detach/{badge}",
-        produces = { "application/json" }
-    )
+    @PostMapping(value = "/p/{projectId}/detach/{badge}", produces = "application/json")
     ResponseEntity<String> detachBadge(
         @PathVariable("projectId") Integer projectId,
         @PathVariable("badge") String badge

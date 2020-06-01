@@ -15,10 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 )
 public interface CodetabsClient {
 
-    @GetMapping(
-        value = "/loc",
-        produces = { "application/json" }
-    )
+    @GetMapping(value = "/loc", produces = "application/json")
     ResponseEntity<List<Item>> getLinesOfCode(@RequestParam("github") String repoName);
 
     @Data

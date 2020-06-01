@@ -19,10 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 )
 public interface HackernewsClient {
 
-    @GetMapping(
-        value = "/item/{itemId}.json",
-        produces = "application/json"
-    )
+    @GetMapping(value = "/item/{itemId}.json", produces = "application/json")
     ResponseEntity<Item> getItem(@PathVariable("itemId") Integer id);
 
     @Data
