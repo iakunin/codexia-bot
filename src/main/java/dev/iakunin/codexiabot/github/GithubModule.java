@@ -30,7 +30,7 @@ public interface GithubModule {
 
     Stream<GithubRepoSource> findAllRepoSources(GithubModule.Source source);
 
-    Stream<GithubRepoStat> findAllGithubApiStat(GithubRepo repo, Long idGreaterThan);
+    Stream<GithubRepoStat> findAllGithubApiStat(GithubRepo repo, Long id);
 
     Optional<GithubRepoStat> findLastGithubApiStat(GithubRepo repo);
 
