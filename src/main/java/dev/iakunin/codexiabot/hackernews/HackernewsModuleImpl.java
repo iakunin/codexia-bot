@@ -4,6 +4,7 @@ import dev.iakunin.codexiabot.github.GithubModule;
 import dev.iakunin.codexiabot.hackernews.entity.HackernewsItem;
 import dev.iakunin.codexiabot.hackernews.repository.HackernewsItemRepository;
 import dev.iakunin.codexiabot.hackernews.sdk.HackernewsClient;
+import feign.FeignException;
 import java.util.Objects;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
@@ -25,9 +26,13 @@ public final class HackernewsModuleImpl implements HackernewsModule {
     public void healthCheckItems(final Stream<Integer> ids) {
         ids.forEach(
             id -> {
-                final HackernewsClient.Item item = this.getItem(id);
-                if (item.isDeleted()) {
-                    this.updateEntities(id, item);
+                try {
+                    final HackernewsClient.Item item = this.getItem(id);
+                    if (item.isDeleted()) {
+                        this.updateEntities(id, item);
+                    }
+                } catch (final ItemNotFoundException | FeignException ex) {
+                    log.warn("Exception occurred", ex);
                 }
             }
         );
@@ -41,7 +46,10 @@ public final class HackernewsModuleImpl implements HackernewsModule {
             );
     }
 
-    private void updateEntities(final Integer id, final HackernewsClient.Item item) {
+    private void updateEntities(
+        final Integer id,
+        final HackernewsClient.Item item
+    ) throws ItemNotFoundException {
         this.github.removeAllRepoSources(
             new GithubModule.DeleteArguments(
                 GithubModule.Source.HACKERNEWS,
@@ -51,11 +59,17 @@ public final class HackernewsModuleImpl implements HackernewsModule {
         final HackernewsItem entity = this.repository
             .findByExternalId(id)
             .orElseThrow(
-                () -> new RuntimeException(
+                () -> new ItemNotFoundException(
                     String.format("Unable to find HackernewsItem by externalId='%s'", id)
                 )
             );
         HackernewsItem.Factory.mutateEntity(entity, item);
         this.repository.save(entity);
+    }
+
+    private static final class ItemNotFoundException extends Exception {
+        ItemNotFoundException(final String message) {
+            super(message);
+        }
     }
 }
