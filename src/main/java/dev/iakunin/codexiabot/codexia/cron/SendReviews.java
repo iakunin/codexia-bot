@@ -8,20 +8,23 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class SendReviews implements Runnable {
 
-    private final CodexiaReviewRepository codexiaReviewRepository;
+    private final CodexiaReviewRepository repository;
 
-    private final ReviewSender reviewSender;
+    private final ReviewSender sender;
 
     @Transactional
     public void run() {
-        try (var reviews = this.codexiaReviewRepository.findAllWithoutNotifications()) {
+        try (var reviews = this.repository.findAllWithoutNotifications()) {
             new FaultTolerant(
-                reviews.map(review -> () -> this.reviewSender.send(review)),
+                reviews.map(review -> () -> this.sender.send(review)),
                 tr -> log.error("Unable to send review", tr.getCause())
             ).run();
         }
