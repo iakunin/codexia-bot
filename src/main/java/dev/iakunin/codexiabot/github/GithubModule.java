@@ -69,6 +69,10 @@ public interface GithubModule {
     }
 
     final class RepoNotFoundException extends IOException {
+        public RepoNotFoundException(String message) {
+            super(message);
+        }
+
         public RepoNotFoundException(String message, Throwable cause) {
             super(message, cause);
         }

@@ -146,13 +146,19 @@ public final class GithubModuleImpl implements GithubModule {
     }
 
     private GHRepository tryToFindRepo(String githubRepoName) throws IOException {
+        final var message = String.format(
+            "Unable to find github repo by name='%s'",
+            githubRepoName
+        );
+
         try {
-            return this.github.getRepository(githubRepoName);
+            return Optional.ofNullable(
+                    this.github.getRepository(githubRepoName)
+                ).orElseThrow(
+                    () -> new RepoNotFoundException(message)
+                );
         } catch (GHFileNotFoundException e) {
-            throw new RepoNotFoundException(
-                String.format("Unable to find github repo by name='%s'", githubRepoName),
-                e
-            );
+            throw new RepoNotFoundException(message, e);
         }
     }
 }
