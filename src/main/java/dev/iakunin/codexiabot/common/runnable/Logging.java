@@ -9,24 +9,24 @@ public final class Logging implements Runnable {
 
     private final Logger logger;
 
-    public Logging(Runnable inner) {
+    public Logging(final Runnable inner) {
         this(
             inner,
             LoggerFactory.getLogger(Logging.class)
         );
     }
 
-    public Logging(Runnable inner, Logger logger) {
+    public Logging(final Runnable inner, final Logger logger) {
         this.inner = inner;
         this.logger = logger;
     }
 
     @Override
     public void run() {
-        logger.debug("Running {}", this.inner.getClass().getName());
+        this.logger.debug("Running {}", this.inner.getClass().getName());
 
         this.inner.run();
 
-        logger.debug("Exiting from {}", this.inner.getClass().getName());
+        this.logger.debug("Exiting from {}", this.inner.getClass().getName());
     }
 }
