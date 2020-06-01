@@ -17,25 +17,27 @@ import org.springframework.stereotype.Service;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class UpdateProjects implements Runnable {
+public final class UpdateProjects implements Runnable {
+
+    private static final int PAGE_SIZE = 100;
 
     private final CodexiaProjectRepository repository;
 
-    private final CodexiaClient codexiaClient;
+    private final CodexiaClient codexia;
 
     private final Updater updater;
 
     public void run() {
         Page<CodexiaProject> page;
-        int pageNum = 0;
+        int num = 0;
         do {
-            page = this.repository.findAllActive(PageRequest.of(pageNum, 100));
+            page = this.repository.findAllActive(PageRequest.of(num, PAGE_SIZE));
             new FaultTolerant(
                 page.stream()
                     .map(project -> () ->
                         this.updater.update(
                             Objects.requireNonNull(
-                                this.codexiaClient
+                                this.codexia
                                     .getProject(project.getExternalId())
                                     .getBody()
                             )
@@ -43,27 +45,27 @@ public class UpdateProjects implements Runnable {
                     ),
                 tr -> log.error("Unable to update project", tr.getCause())
             ).run();
-            pageNum++;
+            num += 1;
         } while (page.hasNext());
     }
 
     @Service
     @RequiredArgsConstructor
-    public static class Updater {
+    public static final class Updater {
 
-        private final GithubModule githubModule;
+        private final GithubModule github;
 
         private final CodexiaProjectRepository repository;
 
-        public void update(CodexiaClient.Project project) {
+        public void update(final CodexiaClient.Project project) {
             if (project.getDeleted() != null) {
                 this.deleteRepoSources(project);
             }
             this.updateEntity(project);
         }
 
-        private void deleteRepoSources(CodexiaClient.Project project) {
-            this.githubModule.removeAllRepoSources(
+        private void deleteRepoSources(final CodexiaClient.Project project) {
+            this.github.removeAllRepoSources(
                 new GithubModule.DeleteArguments(
                     GithubModule.Source.CODEXIA,
                     String.valueOf(project.getId())
@@ -71,8 +73,8 @@ public class UpdateProjects implements Runnable {
             );
         }
 
-        private void updateEntity(CodexiaClient.Project project) {
-            final CodexiaProject foundCodexiaProject = this.repository
+        private void updateEntity(final CodexiaClient.Project project) {
+            final CodexiaProject found = this.repository
                 .findByExternalId(project.getId())
                 .orElseThrow(
                     () -> new RuntimeException(
@@ -83,7 +85,7 @@ public class UpdateProjects implements Runnable {
                     )
                 );
             this.repository.save(
-                foundCodexiaProject
+                found
                     .setDeleted(project.getDeleted())
                     .setBadges(
                         project.getBadges().stream()
