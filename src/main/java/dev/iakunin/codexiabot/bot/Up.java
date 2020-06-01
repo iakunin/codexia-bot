@@ -17,6 +17,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Slf4j
 @RequiredArgsConstructor
 public class Up implements Runnable {
@@ -56,7 +59,7 @@ public class Up implements Runnable {
         }
     }
 
-    private Long getLastProcessedStatId(GithubRepo repo) {
+    private Long getLastProcessedStatId(final GithubRepo repo) {
         return this.repository
             .findFirstByGithubRepoOrderByIdDesc(repo)
             .map(
@@ -75,7 +78,7 @@ public class Up implements Runnable {
         private final CodexiaModule codexia;
 
         @Transactional(propagation = Propagation.REQUIRES_NEW)
-        public void submit(Deque<GithubRepoStat> deque) {
+        public void submit(final Deque<GithubRepoStat> deque) {
             final CodexiaReview review = this.bot.review(deque.getFirst(), deque.getLast());
             this.repository.save(this.bot.result(deque.getLast()));
             this.codexia.saveReview(review);
