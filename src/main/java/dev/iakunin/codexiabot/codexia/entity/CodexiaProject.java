@@ -13,6 +13,8 @@ import javax.persistence.Entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.cactoos.list.ListOf;
+import org.cactoos.scalar.Ternary;
+import org.cactoos.scalar.Unchecked;
 
 /**
  * @checkstyle MemberName (500 lines)
@@ -23,9 +25,13 @@ import org.cactoos.list.ListOf;
 public final class CodexiaProject extends AbstractEntity {
 
     private Integer externalId;
+
     private String coordinates;
+
     private String author;
+
     private String deleted;
+
     private LocalDateTime projectCreatedAt;
 
     @Convert(converter = StringListConverter.class)
@@ -45,17 +51,23 @@ public final class CodexiaProject extends AbstractEntity {
                     String.join(",", levels)
                 )
             );
-        } else if (levels.isEmpty()) {
-            return 0;
         }
 
-        return Integer.valueOf(levels.get(0).replace("l", ""));
+        return new Unchecked<>(
+            new Ternary<>(
+                levels.isEmpty(),
+                0,
+                Integer.valueOf(
+                    levels.get(0).replace("l", "")
+                )
+            )
+        ).value();
     }
 
     public static final class Factory {
-        private Factory() {}
+        private Factory() { }
 
-        public static CodexiaProject from(CodexiaClient.Project from) {
+        public static CodexiaProject from(final CodexiaClient.Project from) {
             return new CodexiaProject()
                 .setExternalId(from.getId())
                 .setCoordinates(from.getCoordinates())
@@ -68,11 +80,10 @@ public final class CodexiaProject extends AbstractEntity {
                     from.getBadges().stream()
                         .map(CodexiaClient.Project.Badge::getText)
                         .collect(Collectors.toList())
-                )
-            ;
+                );
         }
 
-        private static LocalDateTime toLocalDateTIme(Date date) {
+        private static LocalDateTime toLocalDateTIme(final Date date) {
             return date.toInstant()
                 .atZone(ZoneOffset.UTC)
                 .toLocalDateTime();

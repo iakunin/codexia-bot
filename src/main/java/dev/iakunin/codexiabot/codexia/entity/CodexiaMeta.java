@@ -18,5 +18,6 @@ public final class CodexiaMeta extends AbstractEntity {
     private CodexiaProject codexiaProject;
 
     private String key;
+
     private String value;
 }

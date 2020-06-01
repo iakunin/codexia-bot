@@ -18,6 +18,8 @@ public final class CodexiaReview extends AbstractEntity {
     private CodexiaProject codexiaProject;
 
     private String author;
+
     private String reason;
+
     private String text;
 }

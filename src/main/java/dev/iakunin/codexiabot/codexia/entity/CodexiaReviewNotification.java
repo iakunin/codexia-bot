@@ -21,7 +21,9 @@ public final class CodexiaReviewNotification extends AbstractEntity {
 
     @Enumerated(EnumType.STRING)
     private Status status;
+
     private Integer responseCode;
+
     private String response;
 
     public enum Status {
