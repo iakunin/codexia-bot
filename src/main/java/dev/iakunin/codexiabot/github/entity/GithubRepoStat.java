@@ -37,6 +37,13 @@ public final class GithubRepoStat extends AbstractEntity {
     @Column(columnDefinition = "jsonb")
     private AbstractStat stat;
 
+    @PrePersist
+    private void prePersist() {
+        if (this.stat != null) {
+            this.type = this.stat.getType();
+        }
+    }
+
     public enum Type {
         GITHUB_API,
         LINES_OF_CODE,
@@ -51,7 +58,7 @@ public final class GithubRepoStat extends AbstractEntity {
     @JsonSubTypes({
         @JsonSubTypes.Type(value = GithubApi.class, name = "GITHUB_API"),
         @JsonSubTypes.Type(value = LinesOfCode.class, name = "LINES_OF_CODE"),
-        @JsonSubTypes.Type(value = HealthCheck.class, name = "HEALTH_CHECK"),
+        @JsonSubTypes.Type(value = HealthCheck.class, name = "HEALTH_CHECK")
     })
     public abstract static class AbstractStat {
         public abstract Type getType();
@@ -118,16 +125,8 @@ public final class GithubRepoStat extends AbstractEntity {
         }
     }
 
-    @PrePersist
-    private void prePersist() {
-        if (stat != null) {
-            type = stat.getType();
-        }
-    }
-
-
     public static final class Factory {
-        private Factory() {}
+        private Factory() { }
 
         public static GithubRepoStat from(final GHRepository from) {
             return new GithubRepoStat()
@@ -160,8 +159,8 @@ public final class GithubRepoStat extends AbstractEntity {
                 );
         }
 
-        private static LocalDateTime toLocalDateTime(final Date pushedAt) {
-            return pushedAt.toInstant()
+        private static LocalDateTime toLocalDateTime(final Date date) {
+            return date.toInstant()
                 .atZone(ZoneOffset.UTC)
                 .toLocalDateTime();
         }
