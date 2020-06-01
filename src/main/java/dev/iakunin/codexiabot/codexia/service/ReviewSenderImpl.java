@@ -9,8 +9,6 @@ import feign.FeignException;
 import java.nio.ByteBuffer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.cactoos.scalar.Ternary;
-import org.cactoos.scalar.Unchecked;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -81,7 +79,9 @@ public class ReviewSenderImpl implements ReviewSender {
             notification
                 .setStatus(
                     // @todo #19 rewrite via custom Feign exceptions
-                    this.resolveStatus(exception)
+                    exception.status() == CodexiaClient.ReviewStatus.ALREADY_EXISTS.httpStatus()
+                        ? Status.SUCCESS
+                        : Status.ERROR
                 )
                 .setResponseCode(exception.status())
                 .setResponse(
@@ -92,16 +92,5 @@ public class ReviewSenderImpl implements ReviewSender {
                     )
                 )
         );
-    }
-
-    private Status resolveStatus(final FeignException exception) {
-        return
-            new Unchecked<>(
-                new Ternary<>(
-                    exception.status() == CodexiaClient.ReviewStatus.ALREADY_EXISTS.httpStatus(),
-                    Status.SUCCESS,
-                    Status.ERROR
-                )
-            ).value();
     }
 }

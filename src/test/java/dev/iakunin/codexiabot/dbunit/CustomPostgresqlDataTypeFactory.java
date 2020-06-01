@@ -5,10 +5,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.Optional;
-import org.cactoos.scalar.Ternary;
-import org.cactoos.scalar.Unchecked;
 import org.dbunit.dataset.datatype.AbstractDataType;
 import org.dbunit.dataset.datatype.DataType;
+import org.dbunit.dataset.datatype.DataTypeException;
 import org.dbunit.ext.postgresql.PostgresqlDataTypeFactory;
 import org.postgresql.util.PGobject;
 
@@ -20,14 +19,10 @@ public final class CustomPostgresqlDataTypeFactory extends PostgresqlDataTypeFac
     private static final String TYPE_NAME = "json";
 
     @Override
-    public DataType createDataType(final int type, final String name) {
-        return new Unchecked<>(
-            new Ternary<>(
-                () -> TYPE_NAME.equals(name),
-                () -> new JsonDataType(TYPE_NAME),
-                () -> super.createDataType(type, name)
-            )
-        ).value();
+    public DataType createDataType(final int type, final String name) throws DataTypeException {
+        return TYPE_NAME.equals(name)
+            ? new JsonDataType(TYPE_NAME)
+            : super.createDataType(type, name);
     }
 
     public static final class JsonDataType extends AbstractDataType {

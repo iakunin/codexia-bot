@@ -12,8 +12,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.cactoos.scalar.Ternary;
-import org.cactoos.scalar.Unchecked;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
@@ -69,15 +67,11 @@ public final class DeleteObsoleteStat implements Runnable {
     private <T> Stream<T> withoutFirstAndLast(final Stream<T> stream) {
         final List<T> list = stream.collect(Collectors.toList());
 
-        return new Unchecked<Stream<T>>(
-            new Ternary<>(
-                () -> list.size() <= 2,
-                Stream::empty,
-                () -> list.stream()
-                    .skip(1L)
-                    .limit(list.size() - 2L)
-            )
-        ).value();
+        return list.size() <= 2
+            ? Stream.empty()
+            : list.stream()
+                .skip(1L)
+                .limit(list.size() - 2L);
     }
 
     @Slf4j

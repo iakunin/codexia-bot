@@ -9,8 +9,6 @@ import dev.iakunin.codexiabot.common.runnable.FaultTolerant;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.cactoos.scalar.Ternary;
-import org.cactoos.scalar.Unchecked;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -53,13 +51,9 @@ public class InitializeBadges implements Runnable {
                                     .setCodexiaProject(review.getCodexiaProject())
                                     .setBadge(BAD_BADGE)
                                     .setDeletedAt(
-                                        new Unchecked<>(
-                                            new Ternary<>(
-                                                review.getText().contains("not small anymore"),
-                                                LocalDateTime.now(),
-                                                null
-                                            )
-                                        ).value()
+                                        review.getText().contains("not small anymore")
+                                            ? LocalDateTime.now()
+                                            : null
                                     )
                             )
                             .stream()

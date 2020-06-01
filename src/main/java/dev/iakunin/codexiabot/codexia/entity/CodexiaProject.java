@@ -13,8 +13,6 @@ import javax.persistence.Entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.cactoos.list.ListOf;
-import org.cactoos.scalar.Ternary;
-import org.cactoos.scalar.Unchecked;
 
 /**
  * @checkstyle MemberName (500 lines)
@@ -53,15 +51,11 @@ public final class CodexiaProject extends AbstractEntity {
             );
         }
 
-        return new Unchecked<>(
-            new Ternary<>(
-                levels.isEmpty(),
-                0,
-                Integer.valueOf(
-                    levels.get(0).replace("l", "")
-                )
-            )
-        ).value();
+        return levels.isEmpty()
+            ? 0
+            : Integer.parseInt(
+                levels.get(0).replace("l", "")
+            );
     }
 
     public static final class Factory {

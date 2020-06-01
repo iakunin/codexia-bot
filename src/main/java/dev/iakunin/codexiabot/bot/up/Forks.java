@@ -11,8 +11,6 @@ import dev.iakunin.codexiabot.github.entity.GithubRepoStat.GithubApi;
 import java.time.Duration;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.cactoos.scalar.Ternary;
-import org.cactoos.scalar.Unchecked;
 import org.cactoos.text.UncheckedText;
 import org.springframework.stereotype.Service;
 
@@ -29,13 +27,7 @@ public final class Forks implements Bot {
     public boolean shouldSubmit(final GithubApi first, final GithubApi last) {
         final int increase = last.getForks() - first.getForks();
 
-        return new Unchecked<>(
-            new Ternary<>(
-                increase < 10,
-                false,
-                increase >= (first.getStars() * 0.05)
-            )
-        ).value();
+        return increase >= 10 && increase >= (first.getStars() * 0.05);
     }
 
     @Override
