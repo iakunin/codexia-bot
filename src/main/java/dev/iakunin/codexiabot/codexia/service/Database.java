@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Service("codexia.service.Database")
 @Slf4j
 @RequiredArgsConstructor
@@ -17,7 +20,7 @@ public class Database implements Writer {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void write(CodexiaProject project) {
+    public void write(final CodexiaProject project) {
         log.debug("Got CodexiaProject: {}", project);
 
         if (!this.repository.existsByExternalId(project.getExternalId())) {
