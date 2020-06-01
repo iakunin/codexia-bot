@@ -15,49 +15,47 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public final class HackernewsModuleImpl implements HackernewsModule {
 
-    private final GithubModule githubModule;
-    private final HackernewsClient hackernewsClient;
-    private final HackernewsItemRepository hackernewsItemRepository;
+    private final GithubModule github;
+
+    private final HackernewsClient hackernews;
+
+    private final HackernewsItemRepository repository;
 
     @Override
-    public void healthCheckItems(Stream<Integer> externalIds) {
-        externalIds.forEach(
-            externalId -> {
-                try {
-                    final HackernewsClient.Item item = this.getItem(externalId);
-                    if (item.isDeleted()) {
-                        this.updateEntities(externalId, item);
-                    }
-                } catch (Exception e) {
-                    log.warn("Exception occurred", e);
+    public void healthCheckItems(final Stream<Integer> ids) {
+        ids.forEach(
+            id -> {
+                final HackernewsClient.Item item = this.getItem(id);
+                if (item.isDeleted()) {
+                    this.updateEntities(id, item);
                 }
             }
         );
     }
 
     @Override
-    public HackernewsClient.Item getItem(Integer id) {
+    public HackernewsClient.Item getItem(final Integer id) {
         return
             Objects.requireNonNull(
-                this.hackernewsClient.getItem(id).getBody()
+                this.hackernews.getItem(id).getBody()
             );
     }
 
-    private void updateEntities(Integer externalId, HackernewsClient.Item item) {
-        this.githubModule.removeAllRepoSources(
+    private void updateEntities(final Integer id, final HackernewsClient.Item item) {
+        this.github.removeAllRepoSources(
             new GithubModule.DeleteArguments(
                 GithubModule.Source.HACKERNEWS,
-                String.valueOf(externalId)
+                String.valueOf(id)
             )
         );
-        final HackernewsItem hackernewsItem = this.hackernewsItemRepository
-            .findByExternalId(externalId)
+        final HackernewsItem entity = this.repository
+            .findByExternalId(id)
             .orElseThrow(
                 () -> new RuntimeException(
-                    String.format("Unable to find HackernewsItem by externalId='%s'", externalId)
+                    String.format("Unable to find HackernewsItem by externalId='%s'", id)
                 )
             );
-        HackernewsItem.Factory.mutateEntity(hackernewsItem, item);
-        this.hackernewsItemRepository.save(hackernewsItem);
+        HackernewsItem.Factory.mutateEntity(entity, item);
+        this.repository.save(entity);
     }
 }
