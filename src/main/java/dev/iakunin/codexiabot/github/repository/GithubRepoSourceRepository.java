@@ -11,11 +11,15 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface GithubRepoSourceRepository extends JpaRepository<GithubRepoSource, Long> {
 
-    boolean existsByGithubRepoAndSourceAndExternalId(GithubRepo githubRepo, GithubModule.Source source, String externalId);
+    boolean existsByGithubRepoAndSourceAndExternalId(
+        GithubRepo repo,
+        GithubModule.Source source,
+        String id
+    );
 
-    List<GithubRepoSource> findAllByGithubRepo(GithubRepo githubRepo);
+    List<GithubRepoSource> findAllByGithubRepo(GithubRepo repo);
 
-    List<GithubRepoSource> findAllBySourceAndExternalId(GithubModule.Source source, String externalId);
+    List<GithubRepoSource> findAllBySourceAndExternalId(GithubModule.Source source, String id);
 
     Stream<GithubRepoSource> findAllBySource(GithubModule.Source source);
 
