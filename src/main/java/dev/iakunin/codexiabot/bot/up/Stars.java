@@ -7,6 +7,7 @@ import dev.iakunin.codexiabot.codexia.entity.CodexiaMeta;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaReview;
 import dev.iakunin.codexiabot.common.duration.HumanReadable;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat;
+import dev.iakunin.codexiabot.github.entity.GithubRepoStat.GithubApi;
 import java.time.Duration;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -25,10 +26,7 @@ public final class Stars implements Bot {
      * @checkstyle MagicNumber (15 lines)
      */
     @Override
-    public boolean shouldSubmit(
-        final GithubRepoStat.GithubApi first,
-        final GithubRepoStat.GithubApi last
-    ) {
+    public boolean shouldSubmit(final GithubApi first, final GithubApi last) {
         final int increase = last.getStars() - first.getStars();
 
         return new Unchecked<>(
@@ -69,9 +67,7 @@ public final class Stars implements Bot {
             .setText(this.reviewText(first, last))
             .setAuthor(dev.iakunin.codexiabot.bot.Bot.Type.STARS_UP.name())
             .setReason(
-                String.valueOf(
-                    ((GithubRepoStat.GithubApi) last.getStat()).getStars()
-                )
+                String.valueOf(this.stars(last))
             )
             .setCodexiaProject(
                 this.codexia.getCodexiaProject(last.getGithubRepo())
@@ -98,6 +94,6 @@ public final class Stars implements Bot {
     }
 
     private Integer stars(final GithubRepoStat stat) {
-        return ((GithubRepoStat.GithubApi) stat.getStat()).getStars();
+        return ((GithubApi) stat.getStat()).getStars();
     }
 }
