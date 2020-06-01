@@ -81,9 +81,9 @@ This is a supervised bot for [Codexia (open source incubator)](https://www.codex
         - Strict and visible principles of design.
         - Continuous delivery (automated procedure).
         - Traceability of changes.
-            - Always Use Tickets. 
+            - Always Use Tickets.
             - Reference Tickets in Commits.
-            - Don’t Delete Anything in git history. 
+            - Don’t Delete Anything in git history.
         - Self-documented source code.
         - Strict rules of code formatting.
         - Known test coverage.
