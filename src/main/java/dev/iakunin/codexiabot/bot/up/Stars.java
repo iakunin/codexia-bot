@@ -7,10 +7,11 @@ import dev.iakunin.codexiabot.codexia.entity.CodexiaMeta;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaReview;
 import dev.iakunin.codexiabot.common.duration.HumanReadable;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat;
-import static dev.iakunin.codexiabot.github.entity.GithubRepoStat.GithubApi;
 import java.time.Duration;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.cactoos.scalar.Ternary;
+import org.cactoos.scalar.Unchecked;
 import org.cactoos.text.UncheckedText;
 import org.springframework.stereotype.Service;
 
@@ -18,29 +19,37 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public final class Stars implements Bot {
 
-    private final CodexiaModule codexiaModule;
+    private final CodexiaModule codexia;
 
+    /**
+     * @checkstyle MagicNumber (15 lines)
+     */
     @Override
-    public boolean shouldSubmit(GithubApi first, GithubApi last) {
+    public boolean shouldSubmit(
+        final GithubRepoStat.GithubApi first,
+        final GithubRepoStat.GithubApi last
+    ) {
         final int increase = last.getStars() - first.getStars();
 
-        if (increase < 10) {
-            return false;
-        }
-
-        return increase >= (first.getStars() * 0.05);
+        return new Unchecked<>(
+            new Ternary<>(
+                increase < 10,
+                false,
+                increase >= (first.getStars() * 0.05)
+            )
+        ).value();
     }
 
     @Override
-    public Result result(GithubRepoStat stat) {
+    public Result result(final GithubRepoStat stat) {
         return new StarsUpResult()
             .setGithubRepo(stat.getGithubRepo())
             .setGithubRepoStat(stat);
     }
 
     @Override
-    public CodexiaMeta meta(CodexiaReview review) {
-        try (var reviews = this.codexiaModule
+    public CodexiaMeta meta(final CodexiaReview review) {
+        try (var reviews = this.codexia
             .findAllReviews(review.getCodexiaProject(), review.getAuthor())
         ) {
             return new CodexiaMeta()
@@ -55,30 +64,27 @@ public final class Stars implements Bot {
     }
 
     @Override
-    public CodexiaReview review(GithubRepoStat first, GithubRepoStat last) {
+    public CodexiaReview review(final GithubRepoStat first, final GithubRepoStat last) {
         return new CodexiaReview()
             .setText(this.reviewText(first, last))
             .setAuthor(dev.iakunin.codexiabot.bot.Bot.Type.STARS_UP.name())
             .setReason(
                 String.valueOf(
-                    ((GithubApi) last.getStat()).getStars()
+                    ((GithubRepoStat.GithubApi) last.getStat()).getStars()
                 )
             )
             .setCodexiaProject(
-                this.codexiaModule.getCodexiaProject(last.getGithubRepo())
+                this.codexia.getCodexiaProject(last.getGithubRepo())
             );
     }
 
-    private String reviewText(GithubRepoStat first, GithubRepoStat last) {
-        final GithubApi firstStat = (GithubApi) first.getStat();
-        final GithubApi lastStat = (GithubApi) last.getStat();
-
+    private String reviewText(final GithubRepoStat first, final GithubRepoStat last) {
         return String.format(
-            "The repo gained %d stars (from %d to %d) in %s. " +
-            "See the stars history [here](https://star-history.t9t.io/#%s).",
-            lastStat.getStars() - firstStat.getStars(),
-            firstStat.getStars(),
-            lastStat.getStars(),
+            "The repo gained %d stars (from %d to %d) in %s. "
+            + "See the stars history [here](https://star-history.t9t.io/#%s).",
+            this.stars(last) - this.stars(first),
+            this.stars(first),
+            this.stars(last),
             new UncheckedText(
                 new HumanReadable(
                     Duration.between(
@@ -89,5 +95,9 @@ public final class Stars implements Bot {
             ).asString(),
             first.getGithubRepo().getFullName()
         );
+    }
+
+    private Integer stars(final GithubRepoStat stat) {
+        return ((GithubRepoStat.GithubApi) stat.getStat()).getStars();
     }
 }
