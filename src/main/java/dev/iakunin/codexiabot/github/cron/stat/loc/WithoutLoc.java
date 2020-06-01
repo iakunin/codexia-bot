@@ -8,20 +8,23 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Component
 @Slf4j
 @RequiredArgsConstructor
 public class WithoutLoc implements Runnable {
 
-    private final GithubRepoRepository githubRepoRepository;
+    private final GithubRepoRepository repository;
 
-    private final LinesOfCode linesOfCode;
+    private final LinesOfCode calculator;
 
     @Transactional
     public void run() {
-        try (var repos = this.githubRepoRepository.findAllWithoutLinesOfCode()) {
+        try (var repos = this.repository.findAllWithoutLinesOfCode()) {
             new FaultTolerant(
-                repos.map(repo -> () -> this.linesOfCode.calculate(repo)),
+                repos.map(repo -> () -> this.calculator.calculate(repo)),
                 tr -> log.error("Unable to calculate LoC", tr.getCause())
             ).run();
         }
