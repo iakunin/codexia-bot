@@ -17,15 +17,15 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public final class Hackernews implements Bot {
 
-    private final GithubModule githubModule;
+    private final GithubModule github;
 
-    private final CodexiaModule codexiaModule;
+    private final CodexiaModule codexia;
 
-    private final HackernewsModule hackernewsModule;
+    private final HackernewsModule hackernews;
 
     @Override
     public Stream<GithubRepo> repoStream() {
-        return this.githubModule
+        return this.github
             .findAllInCodexiaAndHackernews();
     }
 
@@ -35,7 +35,7 @@ public final class Hackernews implements Bot {
     }
 
     @Override
-    public String reviewText(String externalId) {
+    public String reviewText(final String id) {
         return
             new FormattedText(
                 new Joined(
@@ -44,15 +44,15 @@ public final class Hackernews implements Bot {
                     "[web link](https://news.ycombinator.com/item?id=%s),",
                     "[api link](https://hacker-news.firebaseio.com/v0/item/%s.json)."
                 ),
-                this.upvotes(externalId),
-                externalId,
-                externalId
+                this.upvotes(id),
+                id,
+                id
             ).toString();
     }
 
     @Override
-    public CodexiaMeta meta(CodexiaReview review) {
-        try (var reviews = this.codexiaModule
+    public CodexiaMeta meta(final CodexiaReview review) {
+        try (var reviews = this.codexia
             .findAllReviews(review.getCodexiaProject(), review.getAuthor())
         ) {
             return new CodexiaMeta()
@@ -66,9 +66,9 @@ public final class Hackernews implements Bot {
         }
     }
 
-    private int upvotes(String externalId) {
-        return this.hackernewsModule
-            .getItem(Integer.valueOf(externalId))
+    private int upvotes(final String id) {
+        return this.hackernews
+            .getItem(Integer.valueOf(id))
             .getScore();
     }
 }

@@ -11,7 +11,7 @@ public interface Bot {
 
     GithubModule.Source source();
 
-    String reviewText(String externalId);
+    String reviewText(String id);
 
     CodexiaMeta meta(CodexiaReview review);
 }
