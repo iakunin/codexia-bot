@@ -3,6 +3,7 @@
 [![CircleCI](https://circleci.com/gh/iakunin/codexia-bot.svg?style=shield)](https://circleci.com/gh/iakunin/codexia-bot)
 [![PDD status](http://www.0pdd.com/svg?name=iakunin/codexia-bot)](http://www.0pdd.com/p?name=iakunin/codexia-bot)
 [![codecov](https://codecov.io/gh/iakunin/codexia-bot/branch/master/graph/badge.svg)](https://codecov.io/gh/iakunin/codexia-bot)
+[![dependabot](https://api.dependabot.com/badges/status?host=github&repo=iakunin/codexia-bot)](https://dependabot.com/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/iakunin/codexia-bot/blob/master/LICENSE)
 
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=iakunin_codexia-bot&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=iakunin_codexia-bot)
