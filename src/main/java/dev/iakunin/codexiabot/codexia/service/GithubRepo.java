@@ -9,27 +9,30 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Service("codexia.service.GithubRepo")
 @Slf4j
 @RequiredArgsConstructor
 public class GithubRepo implements Writer {
 
-    private final GithubModule githubModule;
+    private final GithubModule github;
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void write(CodexiaProject project) {
+    public void write(final CodexiaProject project) {
         final String url = "https://github.com/" + project.getCoordinates();
         try {
-            this.githubModule.createRepo(
+            this.github.createRepo(
                 new GithubModule.CreateArguments(
                     url,
                     GithubModule.Source.CODEXIA,
                     String.valueOf(project.getExternalId())
                 )
             );
-        } catch (RuntimeException | IOException e) {
-            log.error("Unable to create github repo; source url='{}'", url, e);
+        } catch (final IOException ex) {
+            log.error("Unable to create github repo; source url='{}'", url, ex);
         }
     }
 }
