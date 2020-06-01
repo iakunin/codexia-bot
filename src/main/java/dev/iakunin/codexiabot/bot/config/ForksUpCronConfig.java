@@ -22,21 +22,21 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 @Configuration
 public class ForksUpCronConfig implements SchedulingConfigurer {
 
-    private final Up forksUp;
+    private final Up runnable;
 
     private final String expression;
 
     public ForksUpCronConfig(
-        @Qualifier("forksUp") final Up forksUp,
+        @Qualifier("forksUp") final Up runnable,
         @Value("${app.cron.bot.forks-up:-}") final String expression
     ) {
-        this.forksUp = forksUp;
+        this.runnable = runnable;
         this.expression = expression;
     }
 
     @Bean
     public Runnable forksUpRunnable() {
-        return new Logging(this.forksUp);
+        return new Logging(this.runnable);
     }
 
     @Override

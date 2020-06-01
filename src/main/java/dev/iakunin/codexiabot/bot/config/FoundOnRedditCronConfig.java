@@ -20,21 +20,21 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 @Configuration
 public class FoundOnRedditCronConfig implements SchedulingConfigurer {
 
-    private final Found foundOnReddit;
+    private final Found runnable;
 
     private final String expression;
 
     public FoundOnRedditCronConfig(
-        @Qualifier("foundOnReddit") final Found foundOnReddit,
+        @Qualifier("foundOnReddit") final Found runnable,
         @Value("${app.cron.bot.found-on-reddit:-}") final String expression
     ) {
-        this.foundOnReddit = foundOnReddit;
+        this.runnable = runnable;
         this.expression = expression;
     }
 
     @Bean
     public Runnable foundOnRedditRunnable() {
-        return new Logging(this.foundOnReddit);
+        return new Logging(this.runnable);
     }
 
     @Override
@@ -49,9 +49,9 @@ public class FoundOnRedditCronConfig implements SchedulingConfigurer {
     @RequiredArgsConstructor
     public static class FoundOnRedditConfig {
 
-        private final GithubModule githubModule;
+        private final GithubModule github;
 
-        private final CodexiaModule codexiaModule;
+        private final CodexiaModule codexia;
 
         private final Reddit bot;
 
@@ -59,8 +59,8 @@ public class FoundOnRedditCronConfig implements SchedulingConfigurer {
         public Found foundOnReddit() {
             return new Found(
                 Bot.Type.FOUND_ON_REDDIT,
-                this.githubModule,
-                this.codexiaModule,
+                this.github,
+                this.codexia,
                 this.bot
             );
         }

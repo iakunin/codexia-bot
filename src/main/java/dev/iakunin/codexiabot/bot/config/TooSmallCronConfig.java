@@ -20,21 +20,21 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 @Configuration
 public class TooSmallCronConfig implements SchedulingConfigurer {
 
-    private final Small tooSmall;
+    private final Small runnable;
 
     private final String expression;
 
     public TooSmallCronConfig(
-        @Qualifier("tooSmall") final Small tooSmall,
+        @Qualifier("tooSmall") final Small runnable,
         @Value("${app.cron.bot.too-small:-}") final String expression
     ) {
-        this.tooSmall = tooSmall;
+        this.runnable = runnable;
         this.expression = expression;
     }
 
     @Bean
     public Runnable tooSmallRunnable() {
-        return new Logging(this.tooSmall);
+        return new Logging(this.runnable);
     }
 
     @Override

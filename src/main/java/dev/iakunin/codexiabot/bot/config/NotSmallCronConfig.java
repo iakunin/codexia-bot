@@ -20,21 +20,21 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 @Configuration
 public class NotSmallCronConfig implements SchedulingConfigurer {
 
-    private final Small notSmall;
+    private final Small runnable;
 
     private final String expression;
 
     public NotSmallCronConfig(
-        @Qualifier("notSmall") final Small notSmall,
+        @Qualifier("notSmall") final Small runnable,
         @Value("${app.cron.bot.not-small:-}") final String expression
     ) {
-        this.notSmall = notSmall;
+        this.runnable = runnable;
         this.expression = expression;
     }
 
     @Bean
     public Runnable notSmallRunnable() {
-        return new Logging(this.notSmall);
+        return new Logging(this.runnable);
     }
 
     @Override

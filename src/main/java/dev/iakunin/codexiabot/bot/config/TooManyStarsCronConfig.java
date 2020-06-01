@@ -20,21 +20,21 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 @Configuration
 public class TooManyStarsCronConfig implements SchedulingConfigurer {
 
-    private final TooManyStars tooManyStars;
+    private final TooManyStars runnable;
 
     private final String expression;
 
     public TooManyStarsCronConfig(
-        final TooManyStars tooManyStars,
+        final TooManyStars runnable,
         @Value("${app.cron.bot.too-many-stars:-}") final String expression
     ) {
-        this.tooManyStars = tooManyStars;
+        this.runnable = runnable;
         this.expression = expression;
     }
 
     @Bean
     public Runnable tooManyStarsRunnable() {
-        return new Logging(this.tooManyStars);
+        return new Logging(this.runnable);
     }
 
     @Override

@@ -21,21 +21,21 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 @Configuration
 public class StarsUpCronConfig implements SchedulingConfigurer {
 
-    private final Up starsUp;
+    private final Up runnable;
 
     private final String expression;
 
     public StarsUpCronConfig(
-        @Qualifier("starsUp") final Up starsUp,
+        @Qualifier("starsUp") final Up runnable,
         @Value("${app.cron.bot.stars-up:-}") final String expression
     ) {
-        this.starsUp = starsUp;
+        this.runnable = runnable;
         this.expression = expression;
     }
 
     @Bean
     public Runnable starsUpRunnable() {
-        return new Logging(this.starsUp);
+        return new Logging(this.runnable);
     }
 
     @Override

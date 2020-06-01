@@ -20,21 +20,21 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 @Configuration
 public class FoundOnHackernewsCronConfig implements SchedulingConfigurer {
 
-    private final Found foundOnHackernews;
+    private final Found runnable;
 
     private final String expression;
 
     public FoundOnHackernewsCronConfig(
-        @Qualifier("foundOnHackernews") final Found foundOnHackernews,
+        @Qualifier("foundOnHackernews") final Found runnable,
         @Value("${app.cron.bot.found-on-hackernews:-}") final String expression
     ) {
-        this.foundOnHackernews = foundOnHackernews;
+        this.runnable = runnable;
         this.expression = expression;
     }
 
     @Bean
     public Runnable foundOnHackernewsRunnable() {
-        return new Logging(this.foundOnHackernews);
+        return new Logging(this.runnable);
     }
 
     @Override
@@ -49,9 +49,9 @@ public class FoundOnHackernewsCronConfig implements SchedulingConfigurer {
     @RequiredArgsConstructor
     public static class FoundOnHackernewsConfig {
 
-        private final GithubModule githubModule;
+        private final GithubModule github;
 
-        private final CodexiaModule codexiaModule;
+        private final CodexiaModule codexia;
 
         private final Hackernews bot;
 
@@ -59,8 +59,8 @@ public class FoundOnHackernewsCronConfig implements SchedulingConfigurer {
         public Found foundOnHackernews() {
             return new Found(
                 Bot.Type.FOUND_ON_HACKERNEWS,
-                this.githubModule,
-                this.codexiaModule,
+                this.github,
+                this.codexia,
                 this.bot
             );
         }
