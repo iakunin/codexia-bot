@@ -8,6 +8,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Component
 @Slf4j
 @RequiredArgsConstructor
@@ -15,13 +18,13 @@ public class Codexia implements Runnable {
 
     private final GithubModule github;
 
-    private final LinesOfCode linesOfCode;
+    private final LinesOfCode calculator;
 
     @Transactional
     public void run() {
         try (var repos = this.github.findAllInCodexia()) {
             new FaultTolerant(
-                repos.map(repo -> () -> this.linesOfCode.calculate(repo)),
+                repos.map(repo -> () -> this.calculator.calculate(repo)),
                 tr -> log.error("Unable to calculate LoC", tr.getCause())
             ).run();
         }
