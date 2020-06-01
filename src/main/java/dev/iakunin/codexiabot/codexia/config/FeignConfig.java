@@ -10,7 +10,7 @@ public final class FeignConfig {
 
     public FeignConfig(
         @Value("${app.codexia.token}")
-        String token
+        final String token
     ) {
         this.token = token;
     }
