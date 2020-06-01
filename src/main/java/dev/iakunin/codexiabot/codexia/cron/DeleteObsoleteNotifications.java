@@ -11,25 +11,28 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Component
 @Slf4j
 @RequiredArgsConstructor
 public class DeleteObsoleteNotifications implements Runnable {
 
-    private final CodexiaReviewRepository reviewRepository;
+    private final CodexiaReviewRepository reviews;
 
-    private final CodexiaReviewNotificationRepository notificationRepository;
+    private final CodexiaReviewNotificationRepository ntifications;
 
     private final Runner runner;
 
     @Override
     @Transactional
     public void run() {
-        try (var reviews = this.reviewRepository.getAll()) {
+        try (var all = this.reviews.getAll()) {
             new FaultTolerant(
-                reviews
+                all
                     .flatMap(
-                        review -> this.notificationRepository
+                        review -> this.ntifications
                             .findAllByCodexiaReviewOrderByIdDesc(review)
                             .stream()
                             .skip(1L)
@@ -48,7 +51,7 @@ public class DeleteObsoleteNotifications implements Runnable {
         private final CodexiaReviewNotificationRepository repository;
 
         @Transactional(propagation = Propagation.REQUIRES_NEW)
-        public void run(CodexiaReviewNotification item) {
+        public void run(final CodexiaReviewNotification item) {
             log.debug("Deleting item with id={}", item.getId());
             this.repository.delete(item);
             log.debug("Successfully deleted item with id={}", item.getId());
