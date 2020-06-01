@@ -14,6 +14,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.cactoos.list.ListOf;
 
+/**
+ * @checkstyle MemberName (500 lines)
+ */
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)

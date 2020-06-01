@@ -15,6 +15,9 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.UpdateTimestamp;
 
+/**
+ * @checkstyle MemberName (500 lines)
+ */
 @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 @MappedSuperclass
 @Data

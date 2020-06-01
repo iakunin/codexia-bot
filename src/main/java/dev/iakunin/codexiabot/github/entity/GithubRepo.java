@@ -10,6 +10,9 @@ import lombok.EqualsAndHashCode;
 import lombok.SneakyThrows;
 import org.kohsuke.github.GHRepository;
 
+/**
+ * @checkstyle MemberName (500 lines)
+ */
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
