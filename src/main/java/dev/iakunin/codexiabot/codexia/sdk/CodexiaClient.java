@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+/**
+ * @checkstyle EmptyLineSeparator (500 lines)
+ */
 @FeignClient(
     name = "codexiaClient",
     url = "${app.codexia.base-url}",
@@ -31,32 +34,32 @@ public interface CodexiaClient {
 
     @GetMapping(value = "/p/{projectId}.json", produces = "application/json")
     ResponseEntity<Project> getProject(
-        @PathVariable("projectId") Integer projectId
+        @PathVariable("projectId") Integer id
     );
 
     @PostMapping(value = "/p/{projectId}/post", produces = "application/json")
     ResponseEntity<String> createReview(
-        @PathVariable("projectId") Integer projectId,
+        @PathVariable("projectId") Integer id,
         @RequestParam("text") String text,
         @RequestParam("hash") String hash
     );
 
     @PostMapping(value = "/p/{projectId}/meta", produces = "application/json")
     ResponseEntity<String> setMeta(
-        @PathVariable("projectId") Integer projectId,
+        @PathVariable("projectId") Integer id,
         @RequestParam("key") String key,
         @RequestParam("value") String value
     );
 
     @PostMapping(value = "/p/{projectId}/attach", produces = "application/json")
     ResponseEntity<String> attachBadge(
-        @PathVariable("projectId") Integer projectId,
+        @PathVariable("projectId") Integer id,
         @RequestParam("text") String badge
     );
 
     @PostMapping(value = "/p/{projectId}/detach/{badge}", produces = "application/json")
     ResponseEntity<String> detachBadge(
-        @PathVariable("projectId") Integer projectId,
+        @PathVariable("projectId") Integer id,
         @PathVariable("badge") String badge
     );
 
@@ -90,14 +93,14 @@ public interface CodexiaClient {
     enum ReviewStatus {
         ALREADY_EXISTS(404);
 
-        private final int httpStatus;
+        private final int code;
 
-        ReviewStatus(int httpStatus) {
-            this.httpStatus = httpStatus;
+        ReviewStatus(final int code) {
+            this.code = code;
         }
 
         public int httpStatus() {
-            return this.httpStatus;
+            return this.code;
         }
     }
 }
