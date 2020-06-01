@@ -4,24 +4,26 @@ import dev.iakunin.codexiabot.common.config.service.SessionFingerprint;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
-import java.util.TreeMap;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 final class SessionFingerprintInterceptor implements RequestInterceptor {
 
-    private final String sessionFingerprintHeaderName;
-    private final SessionFingerprint sessionFingerprint;
+    private final String header;
+
+    private final SessionFingerprint fingerprint;
 
     @Override
-    public void apply(RequestTemplate template) {
-        TreeMap<String, List<String>> headers = new TreeMap<>();
+    public void apply(final RequestTemplate template) {
+        final Map<String, List<String>> headers = new HashMap<>();
 
         headers.put(
-            this.sessionFingerprintHeaderName,
+            this.header,
             Collections.singletonList(
-                this.sessionFingerprint.get()
+                this.fingerprint.get()
             )
         );
 
