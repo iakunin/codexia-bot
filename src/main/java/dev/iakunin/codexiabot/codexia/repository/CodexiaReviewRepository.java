@@ -9,19 +9,29 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface CodexiaReviewRepository extends JpaRepository<CodexiaReview, Long> {
 
-    boolean existsByCodexiaProjectAndAuthorAndReason(CodexiaProject codexiaProject, String author, String reason);
+    boolean existsByCodexiaProjectAndAuthorAndReason(
+        CodexiaProject project,
+        String author,
+        String reason
+    );
 
-    Stream<CodexiaReview> findAllByCodexiaProjectAndAuthorOrderByIdAsc(CodexiaProject codexiaProject, String author);
+    Stream<CodexiaReview> findAllByCodexiaProjectAndAuthorOrderByIdAsc(
+        CodexiaProject project,
+        String author
+    );
 
-    Optional<CodexiaReview> findFirstByCodexiaProjectAndAuthorOrderByIdDesc(CodexiaProject codexiaProject, String author);
+    Optional<CodexiaReview> findFirstByCodexiaProjectAndAuthorOrderByIdDesc(
+        CodexiaProject project,
+        String author
+    );
 
     @Query(
-        "select cr " +
-        "from CodexiaReview cr " +
-        "left join CodexiaReviewNotification crn " +
-        "   on (cr = crn.codexiaReview) " +
-        "where crn.id is null " +
-        "order by cr.id asc"
+        "select cr "
+        + "from CodexiaReview cr "
+        + "left join CodexiaReviewNotification crn "
+        + "   on (cr = crn.codexiaReview) "
+        + "where crn.id is null "
+        + "order by cr.id asc"
     )
     Stream<CodexiaReview> findAllWithoutNotifications();
 
