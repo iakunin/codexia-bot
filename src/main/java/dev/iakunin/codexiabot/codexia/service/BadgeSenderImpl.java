@@ -2,6 +2,7 @@ package dev.iakunin.codexiabot.codexia.service;
 
 import dev.iakunin.codexiabot.codexia.entity.CodexiaBadge;
 import dev.iakunin.codexiabot.codexia.sdk.CodexiaClient;
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -9,12 +10,12 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class BadgeSenderImpl implements BadgeSender {
+public final class BadgeSenderImpl implements BadgeSender {
 
-    private final CodexiaClient codexiaClient;
+    private final CodexiaClient codexia;
 
     @Override
-    public void send(CodexiaBadge badge) {
+    public void send(final CodexiaBadge badge) {
         if (badge.getDeletedAt() == null) {
             this.attachBadge(badge);
         } else {
@@ -22,9 +23,9 @@ public class BadgeSenderImpl implements BadgeSender {
         }
     }
 
-    private void attachBadge(CodexiaBadge badge) {
+    private void attachBadge(final CodexiaBadge badge) {
         try {
-            this.codexiaClient.attachBadge(
+            this.codexia.attachBadge(
                 badge.getCodexiaProject().getExternalId(),
                 badge.getBadge()
             );
@@ -33,18 +34,18 @@ public class BadgeSenderImpl implements BadgeSender {
                 badge.getBadge(),
                 badge.getCodexiaProject().getExternalId()
             );
-        } catch (Exception e) {
+        } catch (final FeignException ex) {
             log.warn(
                 "Exception occurred during attaching Codexia badge; externalId='{}'",
                 badge.getCodexiaProject().getExternalId(),
-                e
+                ex
             );
         }
     }
 
-    private void detachBadge(CodexiaBadge badge) {
+    private void detachBadge(final CodexiaBadge badge) {
         try {
-            this.codexiaClient.detachBadge(
+            this.codexia.detachBadge(
                 badge.getCodexiaProject().getExternalId(),
                 badge.getBadge()
             );
@@ -53,11 +54,11 @@ public class BadgeSenderImpl implements BadgeSender {
                 badge.getBadge(),
                 badge.getCodexiaProject().getExternalId()
             );
-        } catch (Exception e) {
+        } catch (final FeignException ex) {
             log.warn(
                 "Exception occurred during detaching Codexia badge; externalId='{}'",
                 badge.getCodexiaProject().getExternalId(),
-                e
+                ex
             );
         }
     }
