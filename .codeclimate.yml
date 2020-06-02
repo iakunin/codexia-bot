@@ -1,11 +1,17 @@
 prepare:
     fetch:
         -
-            url: 'https://raw.githubusercontent.com/iakunin/codestyle/0.0.9/.editorconfig'
+            url: 'https://raw.githubusercontent.com/iakunin/codestyle/0.0.10/.editorconfig'
             path: '.editorconfig'
         -
-            url: 'https://raw.githubusercontent.com/iakunin/codestyle/0.0.9/java/checkstyle.xml'
+            url: 'https://raw.githubusercontent.com/iakunin/codestyle/0.0.10/java/checkstyle.xml'
             path: 'var/codestyle/checkstyle.xml'
+        -
+            url: 'https://raw.githubusercontent.com/iakunin/codestyle/0.0.10/markdown/.mdl-rules.rb'
+            path: '.mdl-rules.rb'
+        -
+            url: 'https://raw.githubusercontent.com/iakunin/codestyle/0.0.10/markdown/.mdlrc'
+            path: '.mdlrc'
 
 plugins:
     markdownlint:
