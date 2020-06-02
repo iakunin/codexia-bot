@@ -13,6 +13,11 @@ prepare:
             url: 'https://raw.githubusercontent.com/iakunin/codestyle/0.0.10/markdown/.mdlrc'
             path: '.mdlrc'
 
+checks:
+    file-lines:
+        config:
+            threshold: 1000
+
 plugins:
     markdownlint:
         enabled: true
@@ -27,10 +32,10 @@ plugins:
         config: 'var/codestyle/checkstyle.xml'
 
 exclude_patterns:
-    - "/.gradle/"
-    - "/.idea/"
-    - "/build/"
-    - "/out/"
-    - "/gradlew"
-    - "/gradlew.bat"
-    - "**/*.jar"
+    - '/.gradle/'
+    - '/.idea/'
+    - '/build/'
+    - '/out/'
+    - '/gradlew'
+    - '/gradlew.bat'
+    - '**/*.jar'
