@@ -18,16 +18,17 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public final class Forks implements Bot {
 
+    private static final int MIN_INCREASE = 10;
+
+    private static final double PERCENTS_THRESHOLD = 0.05;
+
     private final CodexiaModule codexia;
 
-    /**
-     * @checkstyle MagicNumber (15 lines)
-     */
     @Override
     public boolean shouldSubmit(final GithubApi first, final GithubApi last) {
         final int increase = last.getForks() - first.getForks();
 
-        return increase >= 10 && increase >= (first.getForks() * 0.05);
+        return increase >= MIN_INCREASE && increase >= (first.getForks() * PERCENTS_THRESHOLD);
     }
 
     @Override
