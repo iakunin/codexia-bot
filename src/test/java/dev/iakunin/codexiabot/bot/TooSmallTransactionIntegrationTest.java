@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Primary;
 
 @SpringBootTest(classes = {
     AbstractIntegrationTest.TestConfig.class,
-    TooSmallTransactionIntegrationTest.TestConfig.class,
+    TooSmallTransactionIntegrationTest.TestConfig.class
 })
 public class TooSmallTransactionIntegrationTest extends AbstractIntegrationTest {
 
@@ -25,7 +25,7 @@ public class TooSmallTransactionIntegrationTest extends AbstractIntegrationTest 
 
     @Qualifier("tooSmall")
     @Autowired
-    private Small tooSmall;
+    private Small runnable;
 
     @Test
     @DataSet(
@@ -34,7 +34,7 @@ public class TooSmallTransactionIntegrationTest extends AbstractIntegrationTest 
     )
     @ExpectedDataSet("db-rider/bot/too-small-transaction/expected/transactionRollback.yml")
     public void transactionRollback() {
-        tooSmall.run();
+        this.runnable.run();
     }
 
     @Configuration

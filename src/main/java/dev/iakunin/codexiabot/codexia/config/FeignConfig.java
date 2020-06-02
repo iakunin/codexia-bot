@@ -6,17 +6,17 @@ import org.springframework.context.annotation.Bean;
 
 public final class FeignConfig {
 
-    private final String codexiaToken;
+    private final String token;
 
     public FeignConfig(
         @Value("${app.codexia.token}")
-        String codexiaToken
+        final String token
     ) {
-        this.codexiaToken = codexiaToken;
+        this.token = token;
     }
 
     @Bean
     public RequestInterceptor requestInterceptor() {
-        return requestTemplate -> requestTemplate.header("X-Codexia-Token", this.codexiaToken);
+        return requestTemplate -> requestTemplate.header("X-Codexia-Token", this.token);
     }
 }

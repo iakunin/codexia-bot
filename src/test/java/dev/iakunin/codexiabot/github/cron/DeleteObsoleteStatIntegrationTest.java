@@ -18,7 +18,7 @@ public class DeleteObsoleteStatIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/github/cron/delete-obsolete-stat/expected/emptyDatabase.yml")
     public void emptyDatabase() {
-        stat.run();
+        this.stat.run();
     }
 
     @Test
@@ -28,7 +28,7 @@ public class DeleteObsoleteStatIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/github/cron/delete-obsolete-stat/expected/oneStat.yml")
     public void oneStat() {
-        stat.run();
+        this.stat.run();
     }
 
     @Test
@@ -38,7 +38,7 @@ public class DeleteObsoleteStatIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/github/cron/delete-obsolete-stat/expected/twoStats.yml")
     public void twoStats() {
-        stat.run();
+        this.stat.run();
     }
 
     @Test
@@ -48,7 +48,7 @@ public class DeleteObsoleteStatIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/github/cron/delete-obsolete-stat/expected/threeStats.yml")
     public void threeStats() {
-        stat.run();
+        this.stat.run();
     }
 
     @Test
@@ -56,9 +56,11 @@ public class DeleteObsoleteStatIntegrationTest extends AbstractIntegrationTest {
         value = "db-rider/github/cron/delete-obsolete-stat/initial/threeStatsWithForeignKey.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/github/cron/delete-obsolete-stat/expected/threeStatsWithForeignKey.yml")
+    @ExpectedDataSet(
+        "db-rider/github/cron/delete-obsolete-stat/expected/threeStatsWithForeignKey.yml"
+    )
     public void threeStatsWithForeignKey() {
-        stat.run();
+        this.stat.run();
     }
 
     @Test
@@ -68,7 +70,7 @@ public class DeleteObsoleteStatIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/github/cron/delete-obsolete-stat/expected/twoStatsOfTwoTypes.yml")
     public void twoStatsOfTwoTypes() {
-        stat.run();
+        this.stat.run();
     }
 
     @Test
@@ -78,7 +80,7 @@ public class DeleteObsoleteStatIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/github/cron/delete-obsolete-stat/expected/fourStatsOfTwoTypes.yml")
     public void fourStatsOfTwoTypes() {
-        stat.run();
+        this.stat.run();
     }
 
     @Test
@@ -88,16 +90,18 @@ public class DeleteObsoleteStatIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/github/cron/delete-obsolete-stat/expected/sixStatsOfTwoTypes.yml")
     public void sixStatsOfTwoTypes() {
-        stat.run();
+        this.stat.run();
     }
 
     @Test
-    @DataSet(
-        value = "db-rider/github/cron/delete-obsolete-stat/initial/sixStatsOfTwoTypesWithForeignKeys.yml",
+    @DataSet(value =
+        "db-rider/github/cron/delete-obsolete-stat/initial/sixStatsOfTwoTypesWithForeignKeys.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/github/cron/delete-obsolete-stat/expected/sixStatsOfTwoTypesWithForeignKeys.yml")
+    @ExpectedDataSet(
+        "db-rider/github/cron/delete-obsolete-stat/expected/sixStatsOfTwoTypesWithForeignKeys.yml"
+    )
     public void sixStatsOfTwoTypesWithForeignKeys() {
-        stat.run();
+        this.stat.run();
     }
 }

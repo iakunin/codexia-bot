@@ -19,6 +19,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.kohsuke.github.GHRepository;
 
+/**
+ * @checkstyle MemberName (500 lines)
+ */
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
@@ -34,17 +37,28 @@ public final class GithubRepoStat extends AbstractEntity {
     @Column(columnDefinition = "jsonb")
     private AbstractStat stat;
 
+    @PrePersist
+    private void prePersist() {
+        if (this.stat != null) {
+            this.type = this.stat.getType();
+        }
+    }
+
     public enum Type {
         GITHUB_API,
         LINES_OF_CODE,
         HEALTH_CHECK
     }
 
-    @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "type")
+    @JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.EXISTING_PROPERTY,
+        property = "type"
+    )
     @JsonSubTypes({
         @JsonSubTypes.Type(value = GithubApi.class, name = "GITHUB_API"),
         @JsonSubTypes.Type(value = LinesOfCode.class, name = "LINES_OF_CODE"),
-        @JsonSubTypes.Type(value = HealthCheck.class, name = "HEALTH_CHECK"),
+        @JsonSubTypes.Type(value = HealthCheck.class, name = "HEALTH_CHECK")
     })
     public abstract static class AbstractStat {
         public abstract Type getType();
@@ -54,11 +68,17 @@ public final class GithubRepoStat extends AbstractEntity {
     public static final class GithubApi extends AbstractStat {
 
         private String description;
+
         private LocalDateTime pushedAt;
+
         private String language;
+
         private String homepage;
+
         private Integer forks;
+
         private Integer watchers;
+
         private Integer stars;
 
         @Override
@@ -79,11 +99,17 @@ public final class GithubRepoStat extends AbstractEntity {
 
         @Data
         public static final class Item {
+
             private String language;
+
             private Integer files;
+
             private Integer lines;
+
             private Integer blanks;
+
             private Integer comments;
+
             private Integer linesOfCode;
         }
     }
@@ -99,18 +125,10 @@ public final class GithubRepoStat extends AbstractEntity {
         }
     }
 
-    @PrePersist
-    private void prePersist() {
-        if (stat != null) {
-            type = stat.getType();
-        }
-    }
-
-
     public static final class Factory {
-        private Factory() {}
+        private Factory() { }
 
-        public static GithubRepoStat from(GHRepository from) {
+        public static GithubRepoStat from(final GHRepository from) {
             return new GithubRepoStat()
                 .setStat(
                     new GithubApi()
@@ -121,11 +139,10 @@ public final class GithubRepoStat extends AbstractEntity {
                         .setForks(from.getForksCount())
                         .setWatchers(from.getWatchersCount())
                         .setStars(from.getStargazersCount())
-                )
-            ;
+                );
         }
 
-        public static GithubRepoStat from(List<CodetabsClient.Item> from) {
+        public static GithubRepoStat from(final List<CodetabsClient.Item> from) {
             return new GithubRepoStat()
                 .setStat(
                     new LinesOfCode()
@@ -139,12 +156,11 @@ public final class GithubRepoStat extends AbstractEntity {
                                 .setLinesOfCode(item.getLinesOfCode())
                             ).collect(Collectors.toList())
                         )
-                )
-            ;
+                );
         }
 
-        private static LocalDateTime toLocalDateTime(Date pushedAt) {
-            return pushedAt.toInstant()
+        private static LocalDateTime toLocalDateTime(final Date date) {
+            return date.toInstant()
                 .atZone(ZoneOffset.UTC)
                 .toLocalDateTime();
         }

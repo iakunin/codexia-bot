@@ -1,24 +1,27 @@
 package dev.iakunin.codexiabot.common.duration;
 
 import java.time.Duration;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+/**
+ * @checkstyle MagicNumber (500 lines)
+ */
 public class HumanReadableTest {
 
     @Test
     public void onlyMinutes() throws Exception {
-        assertEquals(
-            "15 minutes",
+        Assertions.assertEquals(
+            "12 minutes",
             new HumanReadable(
-                Duration.parse("PT15M")
+                Duration.parse("PT12M")
             ).asString()
         );
     }
 
     @Test
     public void minutesAndSeconds() throws Exception {
-        assertEquals(
+        Assertions.assertEquals(
             "15 minutes",
             new HumanReadable(
                 Duration.parse("PT15M47S")
@@ -28,7 +31,7 @@ public class HumanReadableTest {
 
     @Test
     public void hoursMinutesAndSeconds() throws Exception {
-        assertEquals(
+        Assertions.assertEquals(
             "4 hours",
             new HumanReadable(
                 Duration.parse("PT4H15M47S")
@@ -38,7 +41,7 @@ public class HumanReadableTest {
 
     @Test
     public void hourMinutesAndSeconds() throws Exception {
-        assertEquals(
+        Assertions.assertEquals(
             "1 hour",
             new HumanReadable(
                 Duration.parse("PT1H15M47S")
@@ -48,7 +51,7 @@ public class HumanReadableTest {
 
     @Test
     public void dayHourMinutesAndSeconds() throws Exception {
-        assertEquals(
+        Assertions.assertEquals(
             "1 day",
             new HumanReadable(
                 Duration.ofDays(1).plus(
@@ -60,7 +63,7 @@ public class HumanReadableTest {
 
     @Test
     public void week() throws Exception {
-        assertEquals(
+        Assertions.assertEquals(
             "1 week",
             new HumanReadable(
                 Duration.ofDays(9).plus(
@@ -72,7 +75,7 @@ public class HumanReadableTest {
 
     @Test
     public void twoWeek() throws Exception {
-        assertEquals(
+        Assertions.assertEquals(
             "2 weeks",
             new HumanReadable(
                 Duration.ofDays(16).plus(

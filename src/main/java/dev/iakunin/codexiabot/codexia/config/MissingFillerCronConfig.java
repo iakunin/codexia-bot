@@ -8,31 +8,34 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Configuration
 public class MissingFillerCronConfig implements SchedulingConfigurer {
 
-    private final MissingFiller missingFiller;
+    private final MissingFiller runnable;
 
-    private final String cronExpression;
+    private final String expression;
 
     public MissingFillerCronConfig(
-        MissingFiller missingFiller,
-        @Value("${app.cron.codexia.missing-filler:-}") String cronExpression
+        final MissingFiller runnable,
+        @Value("${app.cron.codexia.missing-filler:-}") final String expression
     ) {
-        this.missingFiller = missingFiller;
-        this.cronExpression = cronExpression;
+        this.runnable = runnable;
+        this.expression = expression;
     }
 
     @Bean
     public Runnable missingFillerRunnable() {
-        return new Logging(this.missingFiller);
+        return new Logging(this.runnable);
     }
 
     @Override
-    public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-        taskRegistrar.addCronTask(
+    public void configureTasks(final ScheduledTaskRegistrar registrar) {
+        registrar.addCronTask(
             this.missingFillerRunnable(),
-            this.cronExpression
+            this.expression
         );
     }
 }

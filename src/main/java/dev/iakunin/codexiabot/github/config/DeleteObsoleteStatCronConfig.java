@@ -8,31 +8,34 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Configuration
 public class DeleteObsoleteStatCronConfig implements SchedulingConfigurer {
 
-    private final DeleteObsoleteStat deleteObsoleteStat;
+    private final DeleteObsoleteStat runnable;
 
-    private final String cronExpression;
+    private final String expression;
 
     public DeleteObsoleteStatCronConfig(
-        DeleteObsoleteStat deleteObsoleteStat,
-        @Value("${app.cron.github.delete-obsolete-stat:-}") String cronExpression
+        final DeleteObsoleteStat runnable,
+        @Value("${app.cron.github.delete-obsolete-stat:-}") final String expression
     ) {
-        this.deleteObsoleteStat = deleteObsoleteStat;
-        this.cronExpression = cronExpression;
+        this.runnable = runnable;
+        this.expression = expression;
     }
 
     @Bean
     public Runnable deleteObsoleteStatRunnable() {
-        return new Logging(this.deleteObsoleteStat);
+        return new Logging(this.runnable);
     }
 
     @Override
-    public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-        taskRegistrar.addCronTask(
+    public void configureTasks(final ScheduledTaskRegistrar registrar) {
+        registrar.addCronTask(
             this.deleteObsoleteStatRunnable(),
-            this.cronExpression
+            this.expression
         );
     }
 }

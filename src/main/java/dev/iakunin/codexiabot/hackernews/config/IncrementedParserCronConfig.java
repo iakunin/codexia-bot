@@ -8,31 +8,34 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Configuration
 public class IncrementedParserCronConfig implements SchedulingConfigurer {
 
-    private final IncrementedParser incrementedParser;
+    private final IncrementedParser parser;
 
-    private final String cronExpression;
+    private final String expression;
 
     public IncrementedParserCronConfig(
-        IncrementedParser incrementedParser,
-        @Value("${app.cron.hackernews.incremented-parser:-}") String cronExpression
+        final IncrementedParser parser,
+        @Value("${app.cron.hackernews.incremented-parser:-}") final String expression
     ) {
-        this.incrementedParser = incrementedParser;
-        this.cronExpression = cronExpression;
+        this.parser = parser;
+        this.expression = expression;
     }
 
     @Bean
     public Runnable incrementedParserRunnable() {
-        return new Logging(this.incrementedParser);
+        return new Logging(this.parser);
     }
 
     @Override
-    public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-        taskRegistrar.addCronTask(
+    public void configureTasks(final ScheduledTaskRegistrar registrar) {
+        registrar.addCronTask(
             this.incrementedParserRunnable(),
-            this.cronExpression
+            this.expression
         );
     }
 }

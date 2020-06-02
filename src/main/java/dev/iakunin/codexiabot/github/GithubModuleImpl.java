@@ -24,17 +24,20 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public final class GithubModuleImpl implements GithubModule {
 
-    private final GithubRepoRepository githubRepoRepository;
-    private final GithubRepoStatRepository githubRepoStatRepository;
-    private final GithubRepoSourceRepository githubRepoSourceRepository;
+    private final GithubRepoRepository repo;
+
+    private final GithubRepoStatRepository stat;
+
+    private final GithubRepoSourceRepository source;
+
     private final GitHub github;
 
     @Override
-    public void createRepo(CreateArguments arguments) throws IOException {
-        final GithubRepo githubRepo = this.saveRepo(arguments);
+    public void createRepo(final CreateArguments arguments) throws IOException {
+        final GithubRepo rep = this.saveRepo(arguments);
         this.addRepoSource(
             new AddSourceArguments(
-                githubRepo,
+                rep,
                 arguments.getSource(),
                 arguments.getExternalId()
             )
@@ -42,15 +45,15 @@ public final class GithubModuleImpl implements GithubModule {
     }
 
     @Override
-    public void addRepoSource(AddSourceArguments arguments) {
+    public void addRepoSource(final AddSourceArguments arguments) {
         if (
-            !this.githubRepoSourceRepository.existsByGithubRepoAndSourceAndExternalId(
+            !this.source.existsByGithubRepoAndSourceAndExternalId(
                 arguments.getGithubRepo(),
                 arguments.getSource(),
                 arguments.getExternalId()
             )
         ) {
-            this.githubRepoSourceRepository.save(
+            this.source.save(
                 new GithubRepoSource()
                     .setGithubRepo(arguments.getGithubRepo())
                     .setSource(arguments.getSource())
@@ -60,84 +63,90 @@ public final class GithubModuleImpl implements GithubModule {
     }
 
     @Override
-    public void updateStat(GithubRepo githubRepo) throws IOException {
-        this.githubRepoStatRepository.save(
+    public void updateStat(final GithubRepo rep) throws IOException {
+        this.stat.save(
             GithubRepoStat.Factory
                 .from(
-                    this.github.getRepository(githubRepo.getFullName())
-                ).setGithubRepo(githubRepo)
+                    this.github.getRepository(rep.getFullName())
+                ).setGithubRepo(rep)
         );
     }
 
     @Override
-    public void removeAllRepoSources(DeleteArguments arguments) {
+    public void removeAllRepoSources(final DeleteArguments arguments) {
         log.debug("Removing all repo sources for {}", arguments);
-        this.githubRepoSourceRepository.findAllBySourceAndExternalId(
+        this.source.findAllBySourceAndExternalId(
             arguments.getSource(),
             arguments.getExternalId()
         ).forEach(
-            this.githubRepoSourceRepository::delete
+            this.source::delete
         );
     }
 
     @Override
     public Stream<GithubRepo> findAllInCodexia() {
-        return this.githubRepoRepository.findAllInCodexia();
+        return this.repo.findAllInCodexia();
     }
 
     @Override
     public Stream<GithubRepo> findAllInCodexiaAndHackernews() {
-        return this.githubRepoRepository.findAllInCodexiaAndHackernews();
+        return this.repo.findAllInCodexiaAndHackernews();
     }
 
     @Override
-    public Stream<GithubRepoSource> findAllRepoSources(GithubRepo repo) {
-        return this.githubRepoSourceRepository.findAllByGithubRepo(repo).stream();
+    public Stream<GithubRepoSource> findAllRepoSources(final GithubRepo rep) {
+        return this.source.findAllByGithubRepo(rep).stream();
     }
 
     @Override
-    public Stream<GithubRepoSource> findAllRepoSources(Source source) {
-        return this.githubRepoSourceRepository.findAllBySource(source);
+    public Stream<GithubRepoSource> findAllRepoSources(final Source src) {
+        return this.source.findAllBySource(src);
     }
 
     @Override
-    public Stream<GithubRepoStat> findAllGithubApiStat(GithubRepo repo, Long idGreaterThan) {
-        return this.githubRepoStatRepository.findAllByGithubRepoAndTypeAndIdGreaterThanEqualOrderByIdAsc(
-            repo,
-            GithubRepoStat.Type.GITHUB_API,
-            idGreaterThan
-        ).stream();
+    public Stream<GithubRepoStat> findAllGithubApiStat(
+        final GithubRepo rep,
+        final Long id
+    ) {
+        return this.stat
+            .findAllByGithubRepoAndTypeAndIdGreaterThanEqualOrderByIdAsc(
+                rep,
+                GithubRepoStat.Type.GITHUB_API,
+                id
+            ).stream();
     }
 
     @Override
-    public Optional<GithubRepoStat> findLastGithubApiStat(GithubRepo repo) {
-        return this.githubRepoStatRepository.findFirstByGithubRepoAndTypeOrderByIdDesc(
-            repo,
+    public Optional<GithubRepoStat> findLastGithubApiStat(final GithubRepo rep) {
+        return this.stat.findFirstByGithubRepoAndTypeOrderByIdDesc(
+            rep,
             GithubRepoStat.Type.GITHUB_API
         );
     }
 
     @Override
-    public Optional<GithubRepoStat> findLastLinesOfCodeStat(GithubRepo repo) {
-        return this.githubRepoStatRepository.findFirstByGithubRepoAndTypeOrderByIdDesc(
-            repo,
+    public Optional<GithubRepoStat> findLastLinesOfCodeStat(final GithubRepo rep) {
+        return this.stat.findFirstByGithubRepoAndTypeOrderByIdDesc(
+            rep,
             GithubRepoStat.Type.LINES_OF_CODE
         );
     }
 
-    private GithubRepo saveRepo(CreateArguments arguments) throws IOException {
-        final String githubRepoName = new IoChecked<>(new GithubRepoName(new URL(arguments.getUrl()))).value();
-        final GHRepository repository = this.tryToFindRepo(githubRepoName);
-        final GithubRepo githubRepo = GithubRepo.Factory.from(repository);
+    private GithubRepo saveRepo(final CreateArguments arguments) throws IOException {
+        final String name = new IoChecked<>(
+            new GithubRepoName(new URL(arguments.getUrl()))
+        ).value();
+        final GHRepository repository = this.tryToFindRepo(name);
+        final GithubRepo entity = GithubRepo.Factory.from(repository);
 
-        return this.githubRepoRepository
-            .findByFullName(githubRepoName)
+        return this.repo
+            .findByFullName(name)
             .or(
-                () -> this.githubRepoRepository.findByExternalId(githubRepo.getExternalId())
+                () -> this.repo.findByExternalId(entity.getExternalId())
             ).orElseGet(
                 () -> {
-                    final GithubRepo saved = this.githubRepoRepository.save(githubRepo);
-                    this.githubRepoStatRepository.save(
+                    final GithubRepo saved = this.repo.save(entity);
+                    this.stat.save(
                         GithubRepoStat.Factory.from(repository).setGithubRepo(saved)
                     );
                     return saved;
@@ -145,14 +154,17 @@ public final class GithubModuleImpl implements GithubModule {
             );
     }
 
-    private GHRepository tryToFindRepo(String githubRepoName) throws IOException {
+    private GHRepository tryToFindRepo(final String name) throws IOException {
+        final var message = String.format("Unable to find github repo by name='%s'", name);
+
         try {
-            return this.github.getRepository(githubRepoName);
-        } catch (GHFileNotFoundException e) {
-            throw new RepoNotFoundException(
-                String.format("Unable to find github repo by name='%s'", githubRepoName),
-                e
-            );
+            return Optional.ofNullable(
+                    this.github.getRepository(name)
+                ).orElseThrow(
+                    () -> new RepoNotFoundException(message)
+                );
+        } catch (final GHFileNotFoundException ex) {
+            throw new RepoNotFoundException(message, ex);
         }
     }
 }

@@ -4,21 +4,24 @@ import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import dev.iakunin.codexiabot.AbstractIntegrationTest;
 import dev.iakunin.codexiabot.config.GithubConfig;
-import dev.iakunin.codexiabot.util.WireMockServer;
+import dev.iakunin.codexiabot.util.WireMockWrapper;
 import dev.iakunin.codexiabot.util.wiremock.Stub;
 import org.cactoos.io.ResourceOf;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+/**
+ * @checkstyle MultipleStringLiterals (500 lines)
+ */
 @SpringBootTest(classes = {
     AbstractIntegrationTest.TestConfig.class,
-    GithubConfig.class,
+    GithubConfig.class
 })
 public class MissingFillerIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
-    private MissingFiller missingFiller;
+    private MissingFiller runnable;
 
     @Test
     @DataSet(
@@ -27,7 +30,7 @@ public class MissingFillerIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/codexia/cron/missing-filler/expected/emptyDatabase.yml")
     public void emptyDatabase() {
-        missingFiller.run();
+        this.runnable.run();
     }
 
     @Test
@@ -37,7 +40,7 @@ public class MissingFillerIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/codexia/cron/missing-filler/expected/oneWithGithubRepo.yml")
     public void oneWithGithubRepo() {
-        missingFiller.run();
+        this.runnable.run();
     }
 
     @Test
@@ -47,14 +50,14 @@ public class MissingFillerIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/codexia/cron/missing-filler/expected/oneWithoutGithubRepo.yml")
     public void oneWithoutGithubRepo() {
-        WireMockServer.stub(
+        new WireMockWrapper().stub(
             new Stub(
                 "/github/repos/instaloader/instaloader",
                 new ResourceOf("wiremock/codexia/cron/missing-filler/instaloader.json")
             )
         );
 
-        missingFiller.run();
+        this.runnable.run();
     }
 
     @Test
@@ -62,9 +65,11 @@ public class MissingFillerIntegrationTest extends AbstractIntegrationTest {
         value = "db-rider/codexia/cron/missing-filler/initial/oneDeletedWithoutGithubRepo.yml",
         cleanBefore = true, cleanAfter = true
     )
-    @ExpectedDataSet("db-rider/codexia/cron/missing-filler/expected/oneDeletedWithoutGithubRepo.yml")
+    @ExpectedDataSet(
+        "db-rider/codexia/cron/missing-filler/expected/oneDeletedWithoutGithubRepo.yml"
+    )
     public void oneDeletedWithoutGithubRepo() {
-        missingFiller.run();
+        this.runnable.run();
     }
 
     @Test
@@ -74,19 +79,19 @@ public class MissingFillerIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/codexia/cron/missing-filler/expected/twoWithoutGithubRepo.yml")
     public void twoWithoutGithubRepo() {
-        WireMockServer.stub(
+        new WireMockWrapper().stub(
             new Stub(
                 "/github/repos/instaloader/instaloader",
                 new ResourceOf("wiremock/codexia/cron/missing-filler/instaloader.json")
             )
         );
-        WireMockServer.stub(
+        new WireMockWrapper().stub(
             new Stub(
                 "/github/repos/arpit9667/algorithms-js",
                 new ResourceOf("wiremock/codexia/cron/missing-filler/algorithms-js.json")
             )
         );
 
-        missingFiller.run();
+        this.runnable.run();
     }
 }

@@ -20,6 +20,9 @@ import org.cactoos.scalar.Unchecked;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Slf4j
 @RequiredArgsConstructor
 public class Small implements Runnable {
@@ -46,7 +49,7 @@ public class Small implements Runnable {
         }
     }
 
-    private Optional<Tuple2<GithubRepoStat, Item>> prepare(GithubRepo repo) {
+    private Optional<Tuple2<GithubRepoStat, Item>> prepare(final GithubRepo repo) {
         return
             new Tuple2<>(
                 this.github.findLastGithubApiStat(repo),
@@ -64,17 +67,17 @@ public class Small implements Runnable {
     }
 
     private Optional<Item> findLinesOfCodeItem(
-        GithubRepoStat github,
-        GithubRepoStat linesOfCode
+        final GithubRepoStat githb,
+        final GithubRepoStat loc
     ) {
         return
             new Unchecked<>(
                 new LogNotFound(
-                    github,
-                    linesOfCode,
+                    githb,
+                    loc,
                     new ExactItem(
-                        (GithubApi) github.getStat(),
-                        (LinesOfCode) linesOfCode.getStat()
+                        (GithubApi) githb.getStat(),
+                        (LinesOfCode) loc.getStat()
                     )
                 )
             ).value();
@@ -90,7 +93,7 @@ public class Small implements Runnable {
         private final TooSmallResultRepository repository;
 
         @Transactional(propagation = Propagation.REQUIRES_NEW)
-        public Void submit(GithubRepoStat stat, Item item) {
+        public Void submit(final GithubRepoStat stat, final Item item) {
             final CodexiaReview review = this.bot.review(stat, item);
             this.repository.save(this.bot.result(stat));
             this.codexia.saveReview(review);
@@ -100,4 +103,3 @@ public class Small implements Runnable {
         }
     }
 }
-

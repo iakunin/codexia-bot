@@ -3,6 +3,7 @@ package dev.iakunin.codexiabot.codexia.cron.throwaway;
 import dev.iakunin.codexiabot.bot.Bot;
 import dev.iakunin.codexiabot.codexia.CodexiaModule;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaBadge;
+import dev.iakunin.codexiabot.codexia.entity.CodexiaReview;
 import dev.iakunin.codexiabot.codexia.repository.CodexiaProjectRepository;
 import dev.iakunin.codexiabot.codexia.repository.CodexiaReviewRepository;
 import dev.iakunin.codexiabot.common.runnable.FaultTolerant;
@@ -14,14 +15,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class InitializeBadges implements Runnable {
 
-    private final CodexiaReviewRepository reviewRepository;
+    private static final String BAD_BADGE = "bad";
 
-    private final CodexiaProjectRepository projectRepository;
+    private final CodexiaReviewRepository reviews;
+
+    private final CodexiaProjectRepository projects;
 
     private final Initializer initializer;
 
@@ -32,22 +38,16 @@ public class InitializeBadges implements Runnable {
     }
 
     private void tooSmall() {
-        try (var projects = this.projectRepository.findAllActive()) {
+        try (var all = this.projects.findAllActive()) {
             new FaultTolerant(
-                projects
+                all
                     .flatMap(
-                        project -> this.reviewRepository
-                            .findFirstByCodexiaProjectAndAuthorOrderByIdDesc(project, Bot.Type.TOO_SMALL.name())
-                            .map(review ->
-                                new CodexiaBadge()
-                                    .setCodexiaProject(review.getCodexiaProject())
-                                    .setBadge("bad")
-                                    .setDeletedAt(
-                                        review.getText().contains("not small anymore")
-                                            ? LocalDateTime.now()
-                                            : null
-                                    )
+                        project -> this.reviews
+                            .findFirstByCodexiaProjectAndAuthorOrderByIdDesc(
+                                project,
+                                Bot.Type.TOO_SMALL.name()
                             )
+                            .map(this::tooSmallBadge)
                             .stream()
                     ).map(badge -> () -> this.initializer.init(badge)),
                 tr -> log.error("Unable to initialize badge for TOO_SMALL", tr.getCause())
@@ -56,22 +56,36 @@ public class InitializeBadges implements Runnable {
     }
 
     private void tooManyStars() {
-        try (var projects = this.projectRepository.findAllActive()) {
+        try (var all = this.projects.findAllActive()) {
             new FaultTolerant(
-                projects
+                all
                     .flatMap(
-                        project -> this.reviewRepository
-                            .findFirstByCodexiaProjectAndAuthorOrderByIdDesc(project, Bot.Type.TOO_MANY_STARS.name())
-                            .map(review ->
-                                new CodexiaBadge()
-                                    .setCodexiaProject(review.getCodexiaProject())
-                                    .setBadge("bad")
+                        project -> this.reviews
+                            .findFirstByCodexiaProjectAndAuthorOrderByIdDesc(
+                                project,
+                                Bot.Type.TOO_MANY_STARS.name()
                             )
+                            .map(this::tooManyStarsBadge)
                             .stream()
                     ).map(badge -> () -> this.initializer.init(badge)),
                 tr -> log.error("Unable to initialize badge for TOO_MANY_STARS", tr.getCause())
             ).run();
         }
+    }
+
+    private CodexiaBadge tooManyStarsBadge(final CodexiaReview review) {
+        return new CodexiaBadge()
+            .setCodexiaProject(review.getCodexiaProject())
+            .setBadge(BAD_BADGE);
+    }
+
+    private CodexiaBadge tooSmallBadge(final CodexiaReview review) {
+        return this.tooManyStarsBadge(review)
+            .setDeletedAt(
+                review.getText().contains("not small anymore")
+                    ? LocalDateTime.now()
+                    : null
+            );
     }
 
     @Service
@@ -81,7 +95,7 @@ public class InitializeBadges implements Runnable {
         private final CodexiaModule codexia;
 
         @Transactional(propagation = Propagation.REQUIRES_NEW)
-        public void init(CodexiaBadge badge) {
+        public void init(final CodexiaBadge badge) {
             this.codexia.applyBadge(badge);
         }
     }

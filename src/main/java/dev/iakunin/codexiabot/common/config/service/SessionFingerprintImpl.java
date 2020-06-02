@@ -9,7 +9,7 @@ public final class SessionFingerprintImpl implements SessionFingerprint {
 
     private final String key;
 
-    public SessionFingerprintImpl(Properties properties) {
+    public SessionFingerprintImpl(final Properties properties) {
         this.key = properties.getMdcKeys().getFingerprint().getSession();
     }
 
@@ -19,8 +19,8 @@ public final class SessionFingerprintImpl implements SessionFingerprint {
     }
 
     @Override
-    public void set(String sessionFingerprint) {
-        MDC.put(this.key, sessionFingerprint);
+    public void set(final String fingerprint) {
+        MDC.put(this.key, fingerprint);
     }
 
     @Override

@@ -1,14 +1,41 @@
+prepare:
+    fetch:
+        -
+            url: 'https://raw.githubusercontent.com/iakunin/codestyle/0.0.10/.editorconfig'
+            path: '.editorconfig'
+        -
+            url: 'https://raw.githubusercontent.com/iakunin/codestyle/0.0.10/java/checkstyle.xml'
+            path: 'var/codestyle/checkstyle.xml'
+        -
+            url: 'https://raw.githubusercontent.com/iakunin/codestyle/0.0.10/markdown/.mdl-rules.rb'
+            path: '.mdl-rules.rb'
+        -
+            url: 'https://raw.githubusercontent.com/iakunin/codestyle/0.0.10/markdown/.mdlrc'
+            path: '.mdlrc'
+
+checks:
+    file-lines:
+        config:
+            threshold: 1000
+
 plugins:
     markdownlint:
         enabled: true
+        issue_override:
+            severity: minor
     editorconfig:
         enabled: true
-    sonar-java:
+        issue_override:
+            severity: minor
+    checkstyle:
         enabled: true
-        exclude_patterns:
-            - "**/test/"
+        config: 'var/codestyle/checkstyle.xml'
 
 exclude_patterns:
-    - "**/*.jar"
-    - "gradlew"
-    - "gradlew.bat"
+    - '/.gradle/'
+    - '/.idea/'
+    - '/build/'
+    - '/out/'
+    - '/gradlew'
+    - '/gradlew.bat'
+    - '**/*.jar'

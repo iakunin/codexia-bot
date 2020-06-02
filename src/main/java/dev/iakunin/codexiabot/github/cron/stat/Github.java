@@ -9,16 +9,19 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Component
 @Slf4j
 @RequiredArgsConstructor
 public class Github implements Runnable {
 
-    private final GithubModule githubModule;
+    private final GithubModule github;
 
     @Transactional
     public void run() {
-        try (var repos = this.githubModule.findAllInCodexia()) {
+        try (var repos = this.github.findAllInCodexia()) {
             new FaultTolerant(
                 repos.map(repo -> () -> this.updateStat(repo)),
                 tr -> log.error("Unable to update stat", tr.getCause())
@@ -26,14 +29,14 @@ public class Github implements Runnable {
         }
     }
 
-    private void updateStat(GithubRepo githubRepo) {
+    private void updateStat(final GithubRepo repo) {
         try {
-            this.githubModule.updateStat(githubRepo);
-        } catch (IOException e) {
+            this.github.updateStat(repo);
+        } catch (final IOException ex) {
             log.error(
                 "Exception during updating stat in Github; githubRepoUuid={}",
-                githubRepo.getUuid(),
-                e
+                repo.getUuid(),
+                ex
             );
         }
     }

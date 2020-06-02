@@ -10,29 +10,29 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface CodexiaProjectRepository extends JpaRepository<CodexiaProject, Long> {
 
-    boolean existsByExternalId(Integer externalId);
+    boolean existsByExternalId(Integer id);
 
-    Optional<CodexiaProject> findByExternalId(Integer externalId);
+    Optional<CodexiaProject> findByExternalId(Integer id);
 
     @Query(
-        "select cp from CodexiaProject cp " +
-        "left join GithubRepoSource grs " +
-            "on cast (cp.externalId as string) = grs.externalId " +
-            "and grs.source = 'CODEXIA' " +
-        "where grs.id is null " +
-        "and cp.deleted is null"
+        "select cp from CodexiaProject cp "
+        + "left join GithubRepoSource grs "
+            + "on cast (cp.externalId as string) = grs.externalId "
+            + "and grs.source = 'CODEXIA' "
+        + "where grs.id is null "
+        + "and cp.deleted is null"
     )
     Stream<CodexiaProject> findAllActiveWithoutGithubRepo();
 
     @Query(
-        "select cp from CodexiaProject cp " +
-        "where cp.deleted is null"
+        "select cp from CodexiaProject cp "
+        + "where cp.deleted is null"
     )
     Stream<CodexiaProject> findAllActive();
 
     @Query(
-        "select cp from CodexiaProject cp " +
-        "where cp.deleted is null"
+        "select cp from CodexiaProject cp "
+        + "where cp.deleted is null"
     )
     Page<CodexiaProject> findAllActive(Pageable pageable);
 }

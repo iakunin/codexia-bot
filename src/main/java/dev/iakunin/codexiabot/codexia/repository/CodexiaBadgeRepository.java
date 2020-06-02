@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface CodexiaBadgeRepository extends JpaRepository<CodexiaBadge, Long> {
 
-    Optional<CodexiaBadge> findByCodexiaProjectAndBadge(CodexiaProject codexiaProject, String badge);
+    Optional<CodexiaBadge> findByCodexiaProjectAndBadge(CodexiaProject project, String badge);
 
     @Query("select cb from CodexiaBadge cb")
     Stream<CodexiaBadge> getAll();

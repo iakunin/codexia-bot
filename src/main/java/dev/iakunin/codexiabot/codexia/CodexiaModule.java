@@ -23,7 +23,7 @@ public interface CodexiaModule {
 
     CodexiaProject getCodexiaProject(GithubRepo repo);
 
-    boolean isReviewExist(CodexiaProject codexiaProject, String author, String reason);
+    boolean isReviewExist(CodexiaProject project, String author, String reason);
 
-    Stream<CodexiaReview> findAllReviews(CodexiaProject codexiaProject, String author);
+    Stream<CodexiaReview> findAllReviews(CodexiaProject project, String author);
 }

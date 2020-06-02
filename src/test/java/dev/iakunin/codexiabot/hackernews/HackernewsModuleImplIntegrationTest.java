@@ -3,7 +3,7 @@ package dev.iakunin.codexiabot.hackernews;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import dev.iakunin.codexiabot.AbstractIntegrationTest;
-import dev.iakunin.codexiabot.util.WireMockServer;
+import dev.iakunin.codexiabot.util.WireMockWrapper;
 import dev.iakunin.codexiabot.util.wiremock.Request;
 import dev.iakunin.codexiabot.util.wiremock.Response;
 import dev.iakunin.codexiabot.util.wiremock.Stub;
@@ -14,8 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class HackernewsModuleImplIntegrationTest extends AbstractIntegrationTest {
 
+    private static final int EXTERNAL_ID = 4;
+
     @Autowired
-    private HackernewsModuleImpl hackernewsModule;
+    private HackernewsModuleImpl hackernews;
 
     @Test
     @DataSet(
@@ -24,7 +26,7 @@ public class HackernewsModuleImplIntegrationTest extends AbstractIntegrationTest
     )
     @ExpectedDataSet("db-rider/hackernews/hackernews-module/expected/noItemInDatabase.yml")
     public void noItemInDatabase() {
-        WireMockServer.stub(
+        new WireMockWrapper().stub(
             new Stub(
                 new Request("/hackernews/item/4.json"),
                 new Response(
@@ -33,6 +35,6 @@ public class HackernewsModuleImplIntegrationTest extends AbstractIntegrationTest
             )
         );
 
-        hackernewsModule.healthCheckItems(Stream.of(4));
+        this.hackernews.healthCheckItems(Stream.of(EXTERNAL_ID));
     }
 }

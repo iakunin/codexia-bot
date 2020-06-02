@@ -16,13 +16,13 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public final class Reddit implements Bot {
 
-    private final GithubModule githubModule;
+    private final GithubModule github;
 
-    private final CodexiaModule codexiaModule;
+    private final CodexiaModule codexia;
 
     @Override
     public Stream<GithubRepo> repoStream() {
-        return this.githubModule.findAllInCodexia();
+        return this.github.findAllInCodexia();
     }
 
     @Override
@@ -31,7 +31,7 @@ public final class Reddit implements Bot {
     }
 
     @Override
-    public String reviewText(String externalId) {
+    public String reviewText(final String id) {
         return
             new FormattedText(
                 new Joined(
@@ -40,14 +40,14 @@ public final class Reddit implements Bot {
                     "[web link](https://www.reddit.com/comments/%s),",
                     "[api link](https://www.reddit.com/api/info.json?id=t3_%s)."
                 ),
-                externalId,
-                externalId
+                id,
+                id
             ).toString();
     }
 
     @Override
-    public CodexiaMeta meta(CodexiaReview review) {
-        try (var reviews = this.codexiaModule
+    public CodexiaMeta meta(final CodexiaReview review) {
+        try (var reviews = this.codexia
             .findAllReviews(review.getCodexiaProject(), review.getAuthor())
         ) {
             return new CodexiaMeta()

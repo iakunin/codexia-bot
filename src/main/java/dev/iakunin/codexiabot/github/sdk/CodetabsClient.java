@@ -8,6 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+/**
+ * @checkstyle MemberName (500 lines)
+ */
 @FeignClient(
     name = "codetabsClient",
     url = "${app.codetabs.base-url}",
@@ -15,19 +18,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 )
 public interface CodetabsClient {
 
-    @GetMapping(
-        value = "/loc",
-        produces = { "application/json" }
-    )
-    ResponseEntity<List<Item>> getLinesOfCode(@RequestParam("github") String repoName);
+    @GetMapping(value = "/loc", produces = "application/json")
+    ResponseEntity<List<Item>> getLinesOfCode(@RequestParam("github") String repo);
 
     @Data
     final class Item {
+
         private String language;
+
         private Integer files;
+
         private Integer lines;
+
         private Integer blanks;
+
         private Integer comments;
+
         private Integer linesOfCode;
     }
 }

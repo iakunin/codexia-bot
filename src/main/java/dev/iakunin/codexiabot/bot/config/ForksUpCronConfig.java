@@ -16,31 +16,34 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Configuration
 public class ForksUpCronConfig implements SchedulingConfigurer {
 
-    private final Up forksUp;
+    private final Up runnable;
 
-    private final String cronExpression;
+    private final String expression;
 
     public ForksUpCronConfig(
-        @Qualifier("forksUp") Up forksUp,
-        @Value("${app.cron.bot.forks-up:-}") String cronExpression
+        @Qualifier("forksUp") final Up runnable,
+        @Value("${app.cron.bot.forks-up:-}") final String expression
     ) {
-        this.forksUp = forksUp;
-        this.cronExpression = cronExpression;
+        this.runnable = runnable;
+        this.expression = expression;
     }
 
     @Bean
     public Runnable forksUpRunnable() {
-        return new Logging(this.forksUp);
+        return new Logging(this.runnable);
     }
 
     @Override
-    public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-        taskRegistrar.addCronTask(
+    public void configureTasks(final ScheduledTaskRegistrar registrar) {
+        registrar.addCronTask(
             this.forksUpRunnable(),
-            this.cronExpression
+            this.expression
         );
     }
 
@@ -59,7 +62,7 @@ public class ForksUpCronConfig implements SchedulingConfigurer {
         @Bean
         @Autowired
         public Up forksUp(
-            @Qualifier("forksUpSubmitter") Submitter submitter
+            @Qualifier("forksUpSubmitter") final Submitter submitter
         ) {
             return new Up(
                 this.github,

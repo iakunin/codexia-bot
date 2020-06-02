@@ -16,14 +16,14 @@ import org.springframework.context.annotation.Primary;
 
 @SpringBootTest(classes = {
     AbstractIntegrationTest.TestConfig.class,
-    TooManyStarsTransactionIntegrationTest.TestConfig.class,
+    TooManyStarsTransactionIntegrationTest.TestConfig.class
 })
 public class TooManyStarsTransactionIntegrationTest extends AbstractIntegrationTest {
 
     private static final String EXCEPTION_MESSAGE = "Some error";
 
     @Autowired
-    private TooManyStars tooManyStars;
+    private TooManyStars runnable;
 
     @Test
     @DataSet(
@@ -32,7 +32,7 @@ public class TooManyStarsTransactionIntegrationTest extends AbstractIntegrationT
     )
     @ExpectedDataSet("db-rider/bot/too-many-stars-transaction/expected/transactionRollback.yml")
     public void transactionRollback() {
-        tooManyStars.run();
+        this.runnable.run();
     }
 
     @Configuration

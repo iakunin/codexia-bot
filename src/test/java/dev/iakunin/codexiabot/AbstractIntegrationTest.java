@@ -2,8 +2,8 @@ package dev.iakunin.codexiabot;
 
 import com.github.database.rider.spring.api.DBRider;
 import com.github.javafaker.Faker;
-import dev.iakunin.codexiabot.util.PostgreSQLContainer;
-import dev.iakunin.codexiabot.util.WireMockServer;
+import dev.iakunin.codexiabot.util.PostgresWrapper;
+import dev.iakunin.codexiabot.util.WireMockWrapper;
 import lombok.extern.slf4j.Slf4j;
 import net.dean.jraw.RedditClient;
 import org.junit.jupiter.api.AfterEach;
@@ -19,19 +19,28 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
+import org.testcontainers.containers.PostgreSQLContainer;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Slf4j
-@SpringBootTest(classes = { AbstractIntegrationTest.TestConfig.class })
-@ContextConfiguration(initializers = { AbstractIntegrationTest.Initializer.class })
+@SpringBootTest(classes = AbstractIntegrationTest.TestConfig.class)
+@ContextConfiguration(initializers = AbstractIntegrationTest.Initializer.class)
 @DBRider
 @ActiveProfiles("test")
 @TestPropertySource(properties = {
     "app.scheduling.enable=false",
     "spring.liquibase.enabled=false",
     "spring.main.allow-bean-definition-overriding=true",
-    "app.github.service.lines-of-code.delay=0",
+    "app.github.service.lines-of-code.delay=0"
 })
-abstract public class AbstractIntegrationTest {
+public abstract class AbstractIntegrationTest {
+
+    @AfterEach
+    public void after() {
+        new WireMockWrapper().resetAll();
+    }
 
     @Configuration
     @Import(CodexiaBotApplication.class)
@@ -52,25 +61,22 @@ abstract public class AbstractIntegrationTest {
         }
     }
 
-    static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
-        public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
+    static class Initializer
+        implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+
+        public void initialize(final ConfigurableApplicationContext context) {
             TestPropertyValues.of(
-                "app.database.host=" + PostgreSQLContainer.getInstance().getContainerIpAddress(),
-                "app.database.port=" + PostgreSQLContainer.getInstance().getMappedPort(
+                "app.database.host=" + new PostgresWrapper().getContainerIpAddress(),
+                "app.database.port=" + new PostgresWrapper().getMappedPort(
                     PostgreSQLContainer.POSTGRESQL_PORT
                 ),
-                "app.database.name=" + PostgreSQLContainer.getInstance().getDatabaseName(),
-                "spring.datasource.username=" + PostgreSQLContainer.getInstance().getUsername(),
-                "spring.datasource.password=" + PostgreSQLContainer.getInstance().getPassword(),
-                "app.codexia.base-url=" + WireMockServer.getInstance().baseUrl() + "/codexia",
-                "app.codetabs.base-url=" + WireMockServer.getInstance().baseUrl() + "/codetabs",
-                "app.hackernews.base-url=" + WireMockServer.getInstance().baseUrl() + "/hackernews"
-            ).applyTo(configurableApplicationContext.getEnvironment());
+                "app.database.name=" + new PostgresWrapper().getDatabaseName(),
+                "spring.datasource.username=" + new PostgresWrapper().getUsername(),
+                "spring.datasource.password=" + new PostgresWrapper().getPassword(),
+                "app.codexia.base-url=" + new WireMockWrapper().baseUrl() + "/codexia",
+                "app.codetabs.base-url=" + new WireMockWrapper().baseUrl() + "/codetabs",
+                "app.hackernews.base-url=" + new WireMockWrapper().baseUrl() + "/hackernews"
+            ).applyTo(context.getEnvironment());
         }
-    }
-
-    @AfterEach
-    public void after() {
-        WireMockServer.getInstance().resetAll();
     }
 }

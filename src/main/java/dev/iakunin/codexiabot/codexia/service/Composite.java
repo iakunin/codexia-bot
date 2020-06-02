@@ -13,10 +13,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public final class Composite implements Writer {
 
-    private final List<Writer> writerList;
+    private final List<Writer> writers;
 
     @Override
-    public void write(CodexiaProject project) {
-        this.writerList.forEach(writer -> writer.write(project));
+    public void write(final CodexiaProject project) {
+        this.writers.forEach(writer -> writer.write(project));
     }
 }

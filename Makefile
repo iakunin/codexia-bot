@@ -3,6 +3,12 @@ export $(shell sed 's/=.*//' .env)
 
 .PHONY: bin build gradle src var
 
+build:
+	bash bin/gradle_in_docker.sh clean build --info --console=verbose
+
+test:
+	bash bin/gradle_in_docker.sh clean test --info
+
 tag:
 	bash bin/create_tag.sh -n1
 
@@ -57,9 +63,6 @@ pdd:
 	--rm iakunin/pdd:0.20.5 \
 	pdd
 
-build:
-	bash bin/gradle_in_docker.sh clean build --info --console=verbose
-
 migrate:
 	bash bin/migrate.sh
 
@@ -76,3 +79,6 @@ update-pg-parameter:
 	aws lightsail update-relational-database-parameters \
 	--relational-database-name Codexia-bot-DB \
 	--parameters "parameterName=log_min_duration_statement,parameterValue=-1,applyMethod=pending-reboot"
+
+codeclimate:
+	bash bin/codeclimate.sh

@@ -8,31 +8,34 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Configuration
 public class AllItemsCronConfig implements SchedulingConfigurer {
 
-    private final AllItems allItems;
+    private final AllItems runnable;
 
-    private final String cronExpression;
+    private final String expression;
 
     public AllItemsCronConfig(
-        AllItems allItems,
-        @Value("${app.cron.hackernews.items-health-check:-}") String cronExpression
+        final AllItems runnable,
+        @Value("${app.cron.hackernews.items-health-check:-}") final String expression
     ) {
-        this.allItems = allItems;
-        this.cronExpression = cronExpression;
+        this.runnable = runnable;
+        this.expression = expression;
     }
 
     @Bean
     public Runnable allItemsRunnable() {
-        return new Logging(this.allItems);
+        return new Logging(this.runnable);
     }
 
     @Override
-    public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-        taskRegistrar.addCronTask(
+    public void configureTasks(final ScheduledTaskRegistrar registrar) {
+        registrar.addCronTask(
             this.allItemsRunnable(),
-            this.cronExpression
+            this.expression
         );
     }
 }

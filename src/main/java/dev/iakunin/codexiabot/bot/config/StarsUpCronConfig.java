@@ -15,31 +15,34 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Configuration
 public class StarsUpCronConfig implements SchedulingConfigurer {
 
-    private final Up starsUp;
+    private final Up runnable;
 
-    private final String cronExpression;
+    private final String expression;
 
     public StarsUpCronConfig(
-        @Qualifier("starsUp") Up starsUp,
-        @Value("${app.cron.bot.stars-up:-}") String cronExpression
+        @Qualifier("starsUp") final Up runnable,
+        @Value("${app.cron.bot.stars-up:-}") final String expression
     ) {
-        this.starsUp = starsUp;
-        this.cronExpression = cronExpression;
+        this.runnable = runnable;
+        this.expression = expression;
     }
 
     @Bean
     public Runnable starsUpRunnable() {
-        return new Logging(this.starsUp);
+        return new Logging(this.runnable);
     }
 
     @Override
-    public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-        taskRegistrar.addCronTask(
+    public void configureTasks(final ScheduledTaskRegistrar registrar) {
+        registrar.addCronTask(
             this.starsUpRunnable(),
-            this.cronExpression
+            this.expression
         );
     }
 
@@ -58,7 +61,7 @@ public class StarsUpCronConfig implements SchedulingConfigurer {
         @Bean
         @Autowired
         public Up starsUp(
-            @Qualifier("starsUpSubmitter") Up.Submitter submitter
+            @Qualifier("starsUpSubmitter") final Up.Submitter submitter
         ) {
             return new Up(
                 this.github,

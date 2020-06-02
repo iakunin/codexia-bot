@@ -21,17 +21,6 @@ public class GithubRepoUnitTest {
     }
 
     @Test
-    public void runtimeExceptionDuringRepoCreate() throws IOException {
-        final GithubModule mock = Mockito.mock(GithubModule.class);
-        Mockito.doThrow(new RuntimeException())
-            .when(mock)
-            .createRepo(Mockito.any());
-
-        new GithubRepo(mock)
-            .write(new HackernewsItem().setUrl("github.com"));
-    }
-
-    @Test
     public void ioExceptionDuringRepoCreate() throws IOException {
         final GithubModule mock = Mockito.mock(GithubModule.class);
         Mockito.doThrow(new IOException())
@@ -39,6 +28,6 @@ public class GithubRepoUnitTest {
             .createRepo(Mockito.any());
 
         new GithubRepo(mock)
-            .write(new HackernewsItem().setUrl("github.com"));
+            .write(new HackernewsItem().setUrl("github.com/second"));
     }
 }

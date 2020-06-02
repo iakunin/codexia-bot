@@ -3,7 +3,7 @@ package dev.iakunin.codexiabot.hackernews.cron;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import dev.iakunin.codexiabot.AbstractIntegrationTest;
-import dev.iakunin.codexiabot.util.WireMockServer;
+import dev.iakunin.codexiabot.util.WireMockWrapper;
 import dev.iakunin.codexiabot.util.wiremock.Request;
 import dev.iakunin.codexiabot.util.wiremock.Response;
 import dev.iakunin.codexiabot.util.wiremock.Stub;
@@ -12,10 +12,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
+/**
+ * @checkstyle MultipleStringLiterals (500 lines)
+ */
 public class RetryErroneousIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
-    private RetryErroneous retryErroneous;
+    private RetryErroneous runnable;
 
     @Test
     @DataSet(
@@ -24,7 +27,7 @@ public class RetryErroneousIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/hackernews/cron/retry-erroneous/expected/emptyDatabase.yml")
     public void emptyDatabase() {
-        retryErroneous.run();
+        this.runnable.run();
     }
 
     @Test
@@ -34,7 +37,7 @@ public class RetryErroneousIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/hackernews/cron/retry-erroneous/expected/oneUnprocessedItem.yml")
     public void oneUnprocessedItem() {
-        retryErroneous.run();
+        this.runnable.run();
     }
 
     @Test
@@ -44,14 +47,14 @@ public class RetryErroneousIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/hackernews/cron/retry-erroneous/expected/hackernewsException.yml")
     public void hackernewsException() {
-        WireMockServer.stub(
+        new WireMockWrapper().stub(
             new Stub(
                 new Request("/hackernews/item/1.json"),
                 new Response(HttpStatus.INTERNAL_SERVER_ERROR.value())
             )
         );
 
-        retryErroneous.run();
+        this.runnable.run();
     }
 
     @Test
@@ -61,7 +64,7 @@ public class RetryErroneousIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/hackernews/cron/retry-erroneous/expected/oneItem.yml")
     public void oneItem() {
-        WireMockServer.stub(
+        new WireMockWrapper().stub(
             new Stub(
                 new Request("/hackernews/item/1.json"),
                 new Response(
@@ -70,7 +73,7 @@ public class RetryErroneousIntegrationTest extends AbstractIntegrationTest {
             )
         );
 
-        retryErroneous.run();
+        this.runnable.run();
     }
 
     @Test
@@ -80,7 +83,7 @@ public class RetryErroneousIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/hackernews/cron/retry-erroneous/expected/twoItems.yml")
     public void twoItems() {
-        WireMockServer.stub(
+        new WireMockWrapper().stub(
             new Stub(
                 new Request("/hackernews/item/1.json"),
                 new Response(
@@ -88,7 +91,7 @@ public class RetryErroneousIntegrationTest extends AbstractIntegrationTest {
                 )
             )
         );
-        WireMockServer.stub(
+        new WireMockWrapper().stub(
             new Stub(
                 new Request("/hackernews/item/2.json"),
                 new Response(
@@ -97,6 +100,6 @@ public class RetryErroneousIntegrationTest extends AbstractIntegrationTest {
             )
         );
 
-        retryErroneous.run();
+        this.runnable.run();
     }
 }

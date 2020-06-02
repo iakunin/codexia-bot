@@ -9,9 +9,7 @@ import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import org.cactoos.list.ListOf;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CodexiaReviewRepositoryIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
-    private EntityManager entityManager;
+    private EntityManager manager;
 
     @Autowired
     private CodexiaReviewRepository repository;
@@ -29,215 +27,243 @@ public class CodexiaReviewRepositoryIntegrationTest extends AbstractIntegrationT
 
     @Test
     @Transactional
-    public void existsByCodexiaProjectAndAuthorAndReason_happyPath() {
-        var project = this.createProject();
-        var author = faker.name().username();
-        var reason = faker.lorem().word();
-        var review = new CodexiaReview()
+    public void existsByCodexiaProjectAndAuthorAndReasonHappyPath() {
+        final var project = this.createProject();
+        final var author = this.faker.name().username();
+        final var reason = this.faker.lorem().word();
+        final var review = new CodexiaReview()
             .setCodexiaProject(project)
             .setAuthor(author)
             .setReason(reason)
-            .setText(faker.lorem().sentence());
-        entityManager.persist(project);
-        entityManager.persist(review);
+            .setText(this.faker.lorem().sentence());
+        this.manager.persist(project);
+        this.manager.persist(review);
 
-        var actual = this.repository.existsByCodexiaProjectAndAuthorAndReason(project, author, reason);
+        final var actual = this.repository.existsByCodexiaProjectAndAuthorAndReason(
+            project,
+            author,
+            reason
+        );
 
-        assertTrue(actual);
+        Assertions.assertTrue(actual);
 
-        entityManager.remove(review);
-        entityManager.remove(project);
+        this.manager.remove(review);
+        this.manager.remove(project);
     }
 
     @Test
     @Transactional
-    public void existsByCodexiaProjectAndAuthorAndReason_wrongProject() {
-        var project = this.createProject();
-        var anotherProject = this.createProject();
-        var author = faker.name().username();
-        var reason = faker.lorem().word();
-        var review = new CodexiaReview()
+    public void existsByCodexiaProjectAndAuthorAndReasonWrongProject() {
+        final var project = this.createProject();
+        final var another = this.createProject();
+        final var author = this.faker.name().username();
+        final var reason = this.faker.lorem().word();
+        final var review = new CodexiaReview()
             .setCodexiaProject(project)
             .setAuthor(author)
             .setReason(reason)
-            .setText(faker.lorem().sentence());
-        entityManager.persist(project);
-        entityManager.persist(anotherProject);
-        entityManager.persist(review);
+            .setText(this.faker.lorem().sentence());
+        this.manager.persist(project);
+        this.manager.persist(another);
+        this.manager.persist(review);
 
-        var actual = this.repository.existsByCodexiaProjectAndAuthorAndReason(anotherProject, author, reason);
+        final var actual = this.repository.existsByCodexiaProjectAndAuthorAndReason(
+            another,
+            author,
+            reason
+        );
 
-        assertFalse(actual);
+        Assertions.assertFalse(actual);
 
-        entityManager.remove(review);
-        entityManager.remove(project);
-        entityManager.remove(anotherProject);
+        this.manager.remove(review);
+        this.manager.remove(project);
+        this.manager.remove(another);
     }
 
     @Test
     @Transactional
-    public void existsByCodexiaProjectAndAuthorAndReason_wrongAuthor() {
-        var project = this.createProject();
-        var author = faker.name().username();
-        var reason = faker.lorem().word();
-        var review = new CodexiaReview()
+    public void existsByCodexiaProjectAndAuthorAndReasonWrongAuthor() {
+        final var project = this.createProject();
+        final var author = this.faker.name().username();
+        final var reason = this.faker.lorem().word();
+        final var review = new CodexiaReview()
             .setCodexiaProject(project)
             .setAuthor(author)
             .setReason(reason)
-            .setText(faker.lorem().sentence());
-        entityManager.persist(project);
-        entityManager.persist(review);
+            .setText(this.faker.lorem().sentence());
+        this.manager.persist(project);
+        this.manager.persist(review);
 
-        var actual = this.repository.existsByCodexiaProjectAndAuthorAndReason(project, faker.name().username(), reason);
+        final var actual = this.repository.existsByCodexiaProjectAndAuthorAndReason(
+            project,
+            this.faker.name().username(),
+            reason
+        );
 
-        assertFalse(actual);
+        Assertions.assertFalse(actual);
 
-        entityManager.remove(review);
-        entityManager.remove(project);
+        this.manager.remove(review);
+        this.manager.remove(project);
     }
 
     @Test
     @Transactional
-    public void existsByCodexiaProjectAndAuthorAndReason_wrongReason() {
-        var project = this.createProject();
-        var author = faker.name().username();
-        var reason = faker.lorem().word();
-        var review = new CodexiaReview()
+    public void existsByCodexiaProjectAndAuthorAndReasonWrongReason() {
+        final var project = this.createProject();
+        final var author = this.faker.name().username();
+        final var reason = this.faker.lorem().word();
+        final var review = new CodexiaReview()
             .setCodexiaProject(project)
             .setAuthor(author)
             .setReason(reason)
-            .setText(faker.lorem().sentence());
-        entityManager.persist(project);
-        entityManager.persist(review);
+            .setText(this.faker.lorem().sentence());
+        this.manager.persist(project);
+        this.manager.persist(review);
 
-        var actual = this.repository.existsByCodexiaProjectAndAuthorAndReason(project, author, faker.lorem().word());
+        final var actual = this.repository.existsByCodexiaProjectAndAuthorAndReason(
+            project,
+            author,
+            this.faker.lorem().word()
+        );
 
-        assertFalse(actual);
+        Assertions.assertFalse(actual);
 
-        entityManager.remove(review);
-        entityManager.remove(project);
+        this.manager.remove(review);
+        this.manager.remove(project);
     }
 
     @Test
     @Transactional
-    public void findAll_happyPath() {
-        var project = this.createProject();
-        var author = faker.name().username();
-        var firstReview = this.createReview(project, author);
-        var secondReview = this.createReview(project, author);
-        entityManager.persist(project);
-        entityManager.persist(secondReview);
-        entityManager.persist(firstReview);
-        entityManager.flush();
+    public void findAllHappyPath() {
+        final var project = this.createProject();
+        final var author = this.faker.name().username();
+        final var first = this.createReview(project, author);
+        final var second = this.createReview(project, author);
+        this.manager.persist(project);
+        this.manager.persist(second);
+        this.manager.persist(first);
+        this.manager.flush();
 
-        var actual = this.repository.findAllByCodexiaProjectAndAuthorOrderByIdAsc(project, author);
+        final var actual = this.repository.findAllByCodexiaProjectAndAuthorOrderByIdAsc(
+            project,
+            author
+        );
 
-        assertEquals(new ListOf<>(secondReview, firstReview), actual.collect(Collectors.toList()));
+        Assertions.assertEquals(
+            new ListOf<>(second, first),
+            actual.collect(Collectors.toList())
+        );
 
-        entityManager.remove(firstReview);
-        entityManager.remove(secondReview);
-        entityManager.remove(project);
+        this.manager.remove(first);
+        this.manager.remove(second);
+        this.manager.remove(project);
     }
 
     @Test
     @Transactional
-    public void findAll_wrongAuthor() {
-        var author = faker.name().username();
-        var project = this.createProject();
-        var review = this.createReview(project, author);
-        entityManager.persist(project);
-        entityManager.persist(review);
-        entityManager.flush();
+    public void findAllWrongAuthor() {
+        final var author = this.faker.name().username();
+        final var project = this.createProject();
+        final var review = this.createReview(project, author);
+        this.manager.persist(project);
+        this.manager.persist(review);
+        this.manager.flush();
 
-        var actual = this.repository.findAllByCodexiaProjectAndAuthorOrderByIdAsc(project, faker.name().username());
+        final var actual = this.repository.findAllByCodexiaProjectAndAuthorOrderByIdAsc(
+            project,
+            this.faker.name().username()
+        );
 
-        assertEquals(new ListOf<>(), actual.collect(Collectors.toList()));
+        Assertions.assertEquals(new ListOf<>(), actual.collect(Collectors.toList()));
 
-        entityManager.remove(review);
-        entityManager.remove(project);
+        this.manager.remove(review);
+        this.manager.remove(project);
     }
 
     @Test
     @Transactional
-    public void findAll_wrongProject() {
-        var author = faker.name().username();
-        var firstProject = this.createProject();
-        var secondProject = this.createProject();
-        var review = this.createReview(firstProject, author);
-        entityManager.persist(firstProject);
-        entityManager.persist(secondProject);
-        entityManager.persist(review);
-        entityManager.flush();
+    public void findAllWrongProject() {
+        final var author = this.faker.name().username();
+        final var first = this.createProject();
+        final var second = this.createProject();
+        final var review = this.createReview(first, author);
+        this.manager.persist(first);
+        this.manager.persist(second);
+        this.manager.persist(review);
+        this.manager.flush();
 
-        var actual = this.repository.findAllByCodexiaProjectAndAuthorOrderByIdAsc(secondProject, author);
+        final var actual = this.repository.findAllByCodexiaProjectAndAuthorOrderByIdAsc(
+            second,
+            author
+        );
 
-        assertEquals(new ListOf<>(), actual.collect(Collectors.toList()));
+        Assertions.assertEquals(new ListOf<>(), actual.collect(Collectors.toList()));
 
-        entityManager.remove(review);
-        entityManager.remove(firstProject);
-        entityManager.remove(secondProject);
+        this.manager.remove(review);
+        this.manager.remove(first);
+        this.manager.remove(second);
     }
 
     @Test
     @Transactional
-    public void findAllWithoutNotifications_happyPath() {
-        var author = faker.name().username();
-        var project = this.createProject();
-        var review = this.createReview(project, author);
-        entityManager.persist(project);
-        entityManager.persist(review);
-        entityManager.flush();
+    public void findAllWithoutNotificationsHappyPath() {
+        final var author = this.faker.name().username();
+        final var project = this.createProject();
+        final var review = this.createReview(project, author);
+        this.manager.persist(project);
+        this.manager.persist(review);
+        this.manager.flush();
 
-        var actual = this.repository.findAllWithoutNotifications();
+        final var actual = this.repository.findAllWithoutNotifications();
 
-        assertEquals(new ListOf<>(review), actual.collect(Collectors.toList()));
+        Assertions.assertEquals(new ListOf<>(review), actual.collect(Collectors.toList()));
 
-        entityManager.remove(review);
-        entityManager.remove(project);
+        this.manager.remove(review);
+        this.manager.remove(project);
     }
 
     @Test
     @Transactional
-    public void findAllWithoutNotifications_notFound() {
-        var author = faker.name().username();
-        var project = this.createProject();
-        var review = this.createReview(project, author);
-        var notification = this.createNotification(review);
-        entityManager.persist(project);
-        entityManager.persist(review);
-        entityManager.persist(notification);
-        entityManager.flush();
+    public void findAllWithoutNotificationsNotFound() {
+        final var author = this.faker.name().username();
+        final var project = this.createProject();
+        final var review = this.createReview(project, author);
+        final var notification = this.createNotification(review);
+        this.manager.persist(project);
+        this.manager.persist(review);
+        this.manager.persist(notification);
+        this.manager.flush();
 
-        var actual = this.repository.findAllWithoutNotifications();
+        final var actual = this.repository.findAllWithoutNotifications();
 
-        assertEquals(new ListOf<>(), actual.collect(Collectors.toList()));
+        Assertions.assertEquals(new ListOf<>(), actual.collect(Collectors.toList()));
 
-        entityManager.remove(notification);
-        entityManager.remove(review);
-        entityManager.remove(project);
+        this.manager.remove(notification);
+        this.manager.remove(review);
+        this.manager.remove(project);
     }
 
     private CodexiaProject createProject() {
         return new CodexiaProject()
-            .setExternalId(faker.random().nextInt(Integer.MAX_VALUE))
+            .setExternalId(this.faker.random().nextInt(Integer.MAX_VALUE))
             .setCoordinates(this.getGithubRepoFullName())
-            .setAuthor(faker.name().username())
+            .setAuthor(this.faker.name().username())
             .setProjectCreatedAt(LocalDateTime.now());
     }
 
     private String getGithubRepoFullName() {
-        return faker.regexify("[a-z]{2,10}/[a-z]{2,10}");
+        return this.faker.regexify("[a-z]{2,10}/[a-z]{2,10}");
     }
 
-    private CodexiaReview createReview(CodexiaProject project, String author) {
+    private CodexiaReview createReview(final CodexiaProject project, final String author) {
         return new CodexiaReview()
             .setCodexiaProject(project)
             .setAuthor(author)
-            .setReason(faker.lorem().word())
-            .setText(faker.lorem().sentence());
+            .setReason(this.faker.lorem().word())
+            .setText(this.faker.lorem().sentence());
     }
 
-    private CodexiaReviewNotification createNotification(CodexiaReview review) {
+    private CodexiaReviewNotification createNotification(final CodexiaReview review) {
         return new CodexiaReviewNotification()
             .setCodexiaReview(review)
             .setStatus(CodexiaReviewNotification.Status.NEW);

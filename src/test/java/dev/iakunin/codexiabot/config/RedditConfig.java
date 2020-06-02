@@ -2,7 +2,7 @@ package dev.iakunin.codexiabot.config;
 
 import com.github.tomakehurst.wiremock.http.RequestMethod;
 import dev.iakunin.codexiabot.CodexiaBotApplication;
-import dev.iakunin.codexiabot.util.WireMockServer;
+import dev.iakunin.codexiabot.util.WireMockWrapper;
 import dev.iakunin.codexiabot.util.WiremockNetworkingAdapter;
 import dev.iakunin.codexiabot.util.wiremock.Request;
 import dev.iakunin.codexiabot.util.wiremock.Response;
@@ -18,13 +18,17 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
+/**
+ * @checkstyle ClassDataAbstractionCoupling (500 lines)
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Configuration
 @Import(CodexiaBotApplication.class)
 public class RedditConfig {
 
     @Bean
     public RedditClient redditClient() {
-        WireMockServer.stub(
+        new WireMockWrapper().stub(
             new Stub(
                 "/reddit/api/v1/me",
                 new Response(
@@ -32,7 +36,7 @@ public class RedditConfig {
                 )
             )
         );
-        WireMockServer.stub(
+        new WireMockWrapper().stub(
             new Stub(
                 new Request(RequestMethod.POST, "/reddit/api/v1/access_token"),
                 new Response(
@@ -47,7 +51,7 @@ public class RedditConfig {
                     new UserAgent("userAgent")
                 ),
                 HttpUrl.parse(
-                    WireMockServer.getInstance().baseUrl() + "/reddit"
+                    new WireMockWrapper().baseUrl() + "/reddit"
                 )
             ),
             Credentials.script(

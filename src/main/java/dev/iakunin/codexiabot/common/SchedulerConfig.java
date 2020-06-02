@@ -8,24 +8,27 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Configuration
 public class SchedulerConfig implements SchedulingConfigurer {
 
-    private final int threadPoolSize;
+    private final int size;
 
     public SchedulerConfig(
-        @Value("${spring.task.scheduling.pool.size}") int threadPoolSize
+        @Value("${spring.task.scheduling.pool.size}") final int size
     ) {
-        this.threadPoolSize = threadPoolSize;
+        this.size = size;
     }
 
     @Override
-    public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-        taskRegistrar.setScheduler(taskExecutor());
+    public void configureTasks(final ScheduledTaskRegistrar registrar) {
+        registrar.setScheduler(this.taskExecutor());
     }
 
-    @Bean(destroyMethod="shutdown")
+    @Bean(destroyMethod = "shutdown")
     public ScheduledExecutorService taskExecutor() {
-        return Executors.newScheduledThreadPool(this.threadPoolSize);
+        return Executors.newScheduledThreadPool(this.size);
     }
 }

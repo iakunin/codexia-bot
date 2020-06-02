@@ -12,8 +12,8 @@ public final class Stub implements Scalar<MappingBuilder> {
     private final Scalar<ResponseDefinitionBuilder> response;
 
     public Stub(
-        String url,
-        Scalar<ResponseDefinitionBuilder> response
+        final String url,
+        final Scalar<ResponseDefinitionBuilder> response
     ) {
         this(
             new Request(url),
@@ -21,14 +21,14 @@ public final class Stub implements Scalar<MappingBuilder> {
         );
     }
 
-    public Stub(String url, String body) {
+    public Stub(final String url, final String body) {
         this(
             new Request(url),
             new Response(body)
         );
     }
 
-    public Stub(String url, Input body) {
+    public Stub(final String url, final Input body) {
         this(
             new Request(url),
             new Response(body)
@@ -36,8 +36,8 @@ public final class Stub implements Scalar<MappingBuilder> {
     }
 
     public Stub(
-        Scalar<MappingBuilder> request,
-        Scalar<ResponseDefinitionBuilder> response
+        final Scalar<MappingBuilder> request,
+        final Scalar<ResponseDefinitionBuilder> response
     ) {
         this.request = request;
         this.response = response;

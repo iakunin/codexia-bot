@@ -18,29 +18,29 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public final class Forks implements Bot {
 
-    private final CodexiaModule codexiaModule;
+    private static final int MIN_INCREASE = 10;
+
+    private static final double PERCENTS_THRESHOLD = 0.05;
+
+    private final CodexiaModule codexia;
 
     @Override
-    public boolean shouldSubmit(GithubApi first, GithubApi last) {
+    public boolean shouldSubmit(final GithubApi first, final GithubApi last) {
         final int increase = last.getForks() - first.getForks();
 
-        if (increase < 10) {
-            return false;
-        }
-
-        return increase >= (first.getForks() * 0.05);
+        return increase >= MIN_INCREASE && increase >= (first.getForks() * PERCENTS_THRESHOLD);
     }
 
     @Override
-    public Result result(GithubRepoStat stat) {
+    public Result result(final GithubRepoStat stat) {
         return new ForksUpResult()
             .setGithubRepo(stat.getGithubRepo())
             .setGithubRepoStat(stat);
     }
 
     @Override
-    public CodexiaMeta meta(CodexiaReview review) {
-        try (var reviews = this.codexiaModule
+    public CodexiaMeta meta(final CodexiaReview review) {
+        try (var reviews = this.codexia
             .findAllReviews(review.getCodexiaProject(), review.getAuthor())
         ) {
             return new CodexiaMeta()
@@ -55,17 +55,14 @@ public final class Forks implements Bot {
     }
 
     @Override
-    public CodexiaReview review(GithubRepoStat first, GithubRepoStat last) {
-        final GithubApi firstStat = (GithubApi) first.getStat();
-        final GithubApi lastStat = (GithubApi) last.getStat();
-
+    public CodexiaReview review(final GithubRepoStat first, final GithubRepoStat last) {
         return new CodexiaReview()
             .setText(
                 String.format(
                     "The repo gained %d forks (from %d to %d) in %s.",
-                    lastStat.getForks() - firstStat.getForks(),
-                    firstStat.getForks(),
-                    lastStat.getForks(),
+                    this.forks(last) - this.forks(first),
+                    this.forks(first),
+                    this.forks(last),
                     new UncheckedText(
                         new HumanReadable(
                             Duration.between(
@@ -77,9 +74,13 @@ public final class Forks implements Bot {
                 )
             )
             .setAuthor(dev.iakunin.codexiabot.bot.Bot.Type.FORKS_UP.name())
-            .setReason(String.valueOf(lastStat.getForks()))
+            .setReason(String.valueOf(this.forks(last)))
             .setCodexiaProject(
-                this.codexiaModule.getCodexiaProject(last.getGithubRepo())
+                this.codexia.getCodexiaProject(last.getGithubRepo())
             );
+    }
+
+    private Integer forks(final GithubRepoStat stat) {
+        return ((GithubApi) stat.getStat()).getForks();
     }
 }

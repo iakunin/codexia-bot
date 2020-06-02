@@ -17,7 +17,7 @@
                     "mod_reason_title": null,
                     "gilded": 0,
                     "clicked": false,
-                    "title": "Quibble - custom FOSS Windows bootloader with BTRFS support and more features",
+                    "title": "Quibble - custom FOSS Windows bootloader with BTRFS support",
                     "link_flair_richtext": [],
                     "subreddit_name_prefixed": "r/opensource",
                     "hidden": false,
@@ -49,7 +49,6 @@
                     "score": 105,
                     "approved_by": null,
                     "author_premium": false,
-                    "thumbnail": "https://b.thumbs.redditmedia.com/LpD6-GadlENG94cJSMJd1CoGx6NIA3M_n75XP58IMVY.jpg",
                     "edited": false,
                     "author_flair_css_class": null,
                     "author_flair_richtext": [],
@@ -77,34 +76,7 @@
                     "pinned": false,
                     "over_18": false,
                     "preview": {
-                        "images": [
-                            {
-                                "source": {
-                                    "url": "https://external-preview.redd.it/6ev2loGHi5ilUN0OdagRDHPKnUCFWHOGEew6A9VYalo.jpg?auto=webp&s=524764b7b8f2e68f973964e4008735b5d51e4f28",
-                                    "width": 420,
-                                    "height": 420
-                                },
-                                "resolutions": [
-                                    {
-                                        "url": "https://external-preview.redd.it/6ev2loGHi5ilUN0OdagRDHPKnUCFWHOGEew6A9VYalo.jpg?width=108&crop=smart&auto=webp&s=fd435a66bfc257d1ceba76ee1a074ce5e1e657d3",
-                                        "width": 108,
-                                        "height": 108
-                                    },
-                                    {
-                                        "url": "https://external-preview.redd.it/6ev2loGHi5ilUN0OdagRDHPKnUCFWHOGEew6A9VYalo.jpg?width=216&crop=smart&auto=webp&s=5cd1c6654c4459526fffef3b8a8a5553c13f904c",
-                                        "width": 216,
-                                        "height": 216
-                                    },
-                                    {
-                                        "url": "https://external-preview.redd.it/6ev2loGHi5ilUN0OdagRDHPKnUCFWHOGEew6A9VYalo.jpg?width=320&crop=smart&auto=webp&s=a0adde3eda63eeef98be1e7595ec12917e0fb0d4",
-                                        "width": 320,
-                                        "height": 320
-                                    }
-                                ],
-                                "variants": {},
-                                "id": "_jWe2TDq17-oQKly9zwrF2WPncGOvrKPfCjU5yLpx2w"
-                            }
-                        ],
+                        "images": [],
                         "enabled": false
                     },
                     "all_awardings": [],
@@ -135,7 +107,7 @@
                     "mod_reports": [],
                     "author_patreon_flair": false,
                     "author_flair_text_color": null,
-                    "permalink": "/r/opensource/comments/f3an2d/quibble_custom_foss_windows_bootloader_with_btrfs/",
+                    "permalink": "/r/opensource/comments/f3an2d/",
                     "parent_whitelist_status": "all_ads",
                     "stickied": false,
                     "url": "https://github.com/maharmstone/quibble",
@@ -217,34 +189,7 @@
                     "pinned": false,
                     "over_18": false,
                     "preview": {
-                        "images": [
-                            {
-                                "source": {
-                                    "url": "https://external-preview.redd.it/6ev2loGHi5ilUN0OdagRDHPKnUCFWHOGEew6A9VYalo.jpg?auto=webp&s=524764b7b8f2e68f973964e4008735b5d51e4f28",
-                                    "width": 420,
-                                    "height": 420
-                                },
-                                "resolutions": [
-                                    {
-                                        "url": "https://external-preview.redd.it/6ev2loGHi5ilUN0OdagRDHPKnUCFWHOGEew6A9VYalo.jpg?width=108&crop=smart&auto=webp&s=fd435a66bfc257d1ceba76ee1a074ce5e1e657d3",
-                                        "width": 108,
-                                        "height": 108
-                                    },
-                                    {
-                                        "url": "https://external-preview.redd.it/6ev2loGHi5ilUN0OdagRDHPKnUCFWHOGEew6A9VYalo.jpg?width=216&crop=smart&auto=webp&s=5cd1c6654c4459526fffef3b8a8a5553c13f904c",
-                                        "width": 216,
-                                        "height": 216
-                                    },
-                                    {
-                                        "url": "https://external-preview.redd.it/6ev2loGHi5ilUN0OdagRDHPKnUCFWHOGEew6A9VYalo.jpg?width=320&crop=smart&auto=webp&s=a0adde3eda63eeef98be1e7595ec12917e0fb0d4",
-                                        "width": 320,
-                                        "height": 320
-                                    }
-                                ],
-                                "variants": {},
-                                "id": "_jWe2TDq17-oQKly9zwrF2WPncGOvrKPfCjU5yLpx2w"
-                            }
-                        ],
+                        "images": [],
                         "enabled": false
                     },
                     "all_awardings": [],
@@ -276,7 +221,7 @@
                     "mod_reports": [],
                     "author_patreon_flair": false,
                     "author_flair_text_color": null,
-                    "permalink": "/r/coolgithubprojects/comments/f38bpw/quibble_the_custom_windows_bootloader/",
+                    "permalink": "/r/coolgithubprojects/comments/f38bpw/",
                     "parent_whitelist_status": "some_ads",
                     "stickied": false,
                     "url": "https://github.com/maharmstone/quibble",
@@ -330,7 +275,6 @@
                     "score": 3,
                     "approved_by": null,
                     "author_premium": false,
-                    "thumbnail": "https://b.thumbs.redditmedia.com/LpD6-GadlENG94cJSMJd1CoGx6NIA3M_n75XP58IMVY.jpg",
                     "edited": false,
                     "author_flair_css_class": null,
                     "author_flair_richtext": [],
@@ -358,34 +302,7 @@
                     "pinned": false,
                     "over_18": false,
                     "preview": {
-                        "images": [
-                            {
-                                "source": {
-                                    "url": "https://external-preview.redd.it/6ev2loGHi5ilUN0OdagRDHPKnUCFWHOGEew6A9VYalo.jpg?auto=webp&s=524764b7b8f2e68f973964e4008735b5d51e4f28",
-                                    "width": 420,
-                                    "height": 420
-                                },
-                                "resolutions": [
-                                    {
-                                        "url": "https://external-preview.redd.it/6ev2loGHi5ilUN0OdagRDHPKnUCFWHOGEew6A9VYalo.jpg?width=108&crop=smart&auto=webp&s=fd435a66bfc257d1ceba76ee1a074ce5e1e657d3",
-                                        "width": 108,
-                                        "height": 108
-                                    },
-                                    {
-                                        "url": "https://external-preview.redd.it/6ev2loGHi5ilUN0OdagRDHPKnUCFWHOGEew6A9VYalo.jpg?width=216&crop=smart&auto=webp&s=5cd1c6654c4459526fffef3b8a8a5553c13f904c",
-                                        "width": 216,
-                                        "height": 216
-                                    },
-                                    {
-                                        "url": "https://external-preview.redd.it/6ev2loGHi5ilUN0OdagRDHPKnUCFWHOGEew6A9VYalo.jpg?width=320&crop=smart&auto=webp&s=a0adde3eda63eeef98be1e7595ec12917e0fb0d4",
-                                        "width": 320,
-                                        "height": 320
-                                    }
-                                ],
-                                "variants": {},
-                                "id": "_jWe2TDq17-oQKly9zwrF2WPncGOvrKPfCjU5yLpx2w"
-                            }
-                        ],
+                        "images": [],
                         "enabled": false
                     },
                     "all_awardings": [],
@@ -416,7 +333,7 @@
                     "mod_reports": [],
                     "author_patreon_flair": false,
                     "author_flair_text_color": null,
-                    "permalink": "/r/hackernews/comments/f3tc36/quibble_custom_windows_bootloader/",
+                    "permalink": "/r/hackernews/comments/f3tc36/quibble_custom_windows_bootloader",
                     "parent_whitelist_status": "all_ads",
                     "stickied": false,
                     "url": "https://github.com/maharmstone/quibble",

@@ -3,7 +3,7 @@ package dev.iakunin.codexiabot.codexia.cron;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaReviewNotification;
 import dev.iakunin.codexiabot.codexia.repository.CodexiaReviewNotificationRepository;
 import dev.iakunin.codexiabot.codexia.repository.CodexiaReviewRepository;
-import dev.iakunin.codexiabot.codexia.sdk.CodexiaClient;
+import dev.iakunin.codexiabot.codexia.sdk.CodexiaClient.ReviewStatus;
 import dev.iakunin.codexiabot.codexia.service.ReviewSender;
 import dev.iakunin.codexiabot.common.runnable.FaultTolerant;
 import lombok.RequiredArgsConstructor;
@@ -11,31 +11,36 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Slf4j
 @Component
 @RequiredArgsConstructor
 // @todo #85 Remove this cron after https://github.com/yegor256/codexia/issues/98 is done
 public class ResendReviewsUntilDuplicated implements Runnable {
 
-    private final CodexiaReviewNotificationRepository notificationRepository;
+    private final CodexiaReviewNotificationRepository ntifications;
 
-    private final CodexiaReviewRepository reviewRepository;
+    private final CodexiaReviewRepository reviews;
 
     private final ReviewSender sender;
 
     @Transactional
     public void run() {
-        try (var reviews = this.reviewRepository.getAll()) {
+        try (var all = this.reviews.getAll()) {
             new FaultTolerant(
-                reviews
+                all
                     .flatMap(
-                        review -> this.notificationRepository
+                        review -> this.ntifications
                             .findAllByCodexiaReviewOrderByIdDesc(review)
                             .stream()
                             .limit(1L)
                     )
                     .filter(ntf -> ntf.getStatus() == CodexiaReviewNotification.Status.SUCCESS)
-                    .filter(ntf -> ntf.getResponseCode() != CodexiaClient.ReviewStatus.ALREADY_EXISTS.httpStatus())
+                    .filter(ntf ->
+                        ntf.getResponseCode() != ReviewStatus.ALREADY_EXISTS.httpStatus()
+                    )
                     .map(CodexiaReviewNotification::getCodexiaReview)
                     .map(review -> () -> this.sender.send(review)),
                 tr -> log.error("Unable to resend item", tr.getCause())

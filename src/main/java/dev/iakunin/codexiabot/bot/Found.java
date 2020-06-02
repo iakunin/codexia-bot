@@ -13,15 +13,18 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Slf4j
 @RequiredArgsConstructor
 public class Found implements Runnable {
 
-    private final Bot.Type botType;
+    private final Bot.Type type;
 
-    private final GithubModule githubModule;
+    private final GithubModule github;
 
-    private final CodexiaModule codexiaModule;
+    private final CodexiaModule codexia;
 
     private final dev.iakunin.codexiabot.bot.found.Bot bot;
 
@@ -44,34 +47,36 @@ public class Found implements Runnable {
         }
     }
 
-    private Stream<Tuple2<CodexiaProject, GithubRepoSource>> extractAllSources(GithubRepo githubRepo) {
-        return this.githubModule
-            .findAllRepoSources(githubRepo)
+    private Stream<Tuple2<CodexiaProject, GithubRepoSource>> extractAllSources(
+        final GithubRepo repo
+    ) {
+        return this.github
+            .findAllRepoSources(repo)
             .filter(
                 githubRepoSource -> githubRepoSource.getSource() == this.bot.source()
             )
             .map(
                 source -> new Tuple2<>(
-                    this.codexiaModule.getCodexiaProject(githubRepo),
+                    this.codexia.getCodexiaProject(repo),
                     source
                 )
             );
     }
 
     private boolean shouldSubmit(
-        CodexiaProject project,
-        GithubRepoSource source
+        final CodexiaProject project,
+        final GithubRepoSource source
     ) {
-        return !this.codexiaModule.isReviewExist(
+        return !this.codexia.isReviewExist(
             project,
-            this.botType.name(),
+            this.type.name(),
             source.getExternalId()
         );
     }
 
     private CodexiaReview createReview(
-        CodexiaProject project,
-        GithubRepoSource source
+        final CodexiaProject project,
+        final GithubRepoSource source
     ) {
         return new CodexiaReview()
             .setText(
@@ -79,14 +84,14 @@ public class Found implements Runnable {
                     source.getExternalId()
                 )
             )
-            .setAuthor(this.botType.name())
+            .setAuthor(this.type.name())
             .setReason(source.getExternalId())
             .setCodexiaProject(project);
     }
 
-    private void submit(CodexiaReview review) {
-        this.codexiaModule.saveReview(review);
-        this.codexiaModule.sendMeta(
+    private void submit(final CodexiaReview review) {
+        this.codexia.saveReview(review);
+        this.codexia.sendMeta(
             this.bot.meta(review)
         );
     }

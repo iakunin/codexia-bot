@@ -8,31 +8,34 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Configuration
 public class SendBadgesCronConfig implements SchedulingConfigurer {
 
-    private final SendBadges sendBadges;
+    private final SendBadges runnable;
 
-    private final String cronExpression;
+    private final String expression;
 
     public SendBadgesCronConfig(
-        SendBadges sendBadges,
-        @Value("${app.cron.codexia.send-badges:-}") String cronExpression
+        final SendBadges runnable,
+        @Value("${app.cron.codexia.send-badges:-}") final String expression
     ) {
-        this.sendBadges = sendBadges;
-        this.cronExpression = cronExpression;
+        this.runnable = runnable;
+        this.expression = expression;
     }
 
     @Bean
     public Runnable sendBadgesRunnable() {
-        return new Logging(this.sendBadges);
+        return new Logging(this.runnable);
     }
 
     @Override
-    public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-        taskRegistrar.addCronTask(
+    public void configureTasks(final ScheduledTaskRegistrar registrar) {
+        registrar.addCronTask(
             this.sendBadgesRunnable(),
-            this.cronExpression
+            this.expression
         );
     }
 }

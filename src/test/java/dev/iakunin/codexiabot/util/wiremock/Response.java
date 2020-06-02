@@ -17,33 +17,35 @@ import org.cactoos.text.UncheckedText;
 
 public final class Response implements Scalar<ResponseDefinitionBuilder> {
 
+    private static final int HTTP_OK = 200;
+
     private final Scalar<ResponseDefinitionBuilder> inner;
 
     public Response() {
         this("");
     }
 
-    public Response(int code) {
+    public Response(final int code) {
         this(code, "");
     }
 
-    public Response(String body) {
-        this(200, body);
+    public Response(final String body) {
+        this(HTTP_OK, body);
     }
 
-    public Response(Input body) {
-        this(200, body);
+    public Response(final Input body) {
+        this(HTTP_OK, body);
     }
 
-    public Response(int code, String body) {
+    public Response(final int code, final String body) {
         this(code, new TextOf(body));
     }
 
-    public Response(int code, Input body) {
+    public Response(final int code, final Input body) {
         this(code, new TextOf(body));
     }
 
-    public Response(int code, Text body) {
+    public Response(final int code, final Text body) {
         this(
             code,
             body,
@@ -56,18 +58,18 @@ public final class Response implements Scalar<ResponseDefinitionBuilder> {
 
     @SafeVarargs
     public Response(
-        int code,
-        Input body,
-        Map.Entry<String, String>... headers
+        final int code,
+        final Input body,
+        final Map.Entry<String, String>... headers
     ) {
         this(code, new TextOf(body), headers);
     }
 
     @SafeVarargs
     public Response(
-        int code,
-        Text body,
-        Map.Entry<String, String>... headers
+        final int code,
+        final Text body,
+        final Map.Entry<String, String>... headers
     ) {
         this(
             () ->
@@ -91,7 +93,7 @@ public final class Response implements Scalar<ResponseDefinitionBuilder> {
         );
     }
 
-    public Response(Scalar<ResponseDefinitionBuilder> inner) {
+    public Response(final Scalar<ResponseDefinitionBuilder> inner) {
         this.inner = new NoNulls<>(inner);
     }
 

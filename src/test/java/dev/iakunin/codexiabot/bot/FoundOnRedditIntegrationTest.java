@@ -11,7 +11,7 @@ public class FoundOnRedditIntegrationTest extends AbstractIntegrationTest {
 
     @Qualifier("foundOnReddit")
     @Autowired
-    private Found foundOnReddit;
+    private Found runnable;
 
     @Test
     @DataSet(
@@ -20,7 +20,7 @@ public class FoundOnRedditIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/bot/found-on-reddit/expected/emptyDatabase.yml")
     public void emptyDatabase() {
-        foundOnReddit.run();
+        this.runnable.run();
     }
 
     @Test
@@ -30,7 +30,7 @@ public class FoundOnRedditIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/bot/found-on-reddit/expected/happyPath.yml")
     public void happyPath() {
-        foundOnReddit.run();
+        this.runnable.run();
     }
 
     @Test
@@ -40,7 +40,7 @@ public class FoundOnRedditIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/bot/found-on-reddit/expected/reviewExists.yml")
     public void reviewExists() {
-        foundOnReddit.run();
+        this.runnable.run();
     }
 
     @Test
@@ -50,7 +50,7 @@ public class FoundOnRedditIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/bot/found-on-reddit/expected/onlyCodexiaSource.yml")
     public void onlyCodexiaSource() {
-        foundOnReddit.run();
+        this.runnable.run();
     }
 
     @Test
@@ -60,6 +60,6 @@ public class FoundOnRedditIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/bot/found-on-reddit/expected/onlyRedditSource.yml")
     public void onlyRedditSource() {
-        foundOnReddit.run();
+        this.runnable.run();
     }
 }

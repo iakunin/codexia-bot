@@ -11,7 +11,7 @@ public class TooSmallIntegrationTest extends AbstractIntegrationTest {
 
     @Qualifier("tooSmall")
     @Autowired
-    private Small tooSmall;
+    private Small runnable;
 
     @Test
     @DataSet(
@@ -20,7 +20,7 @@ public class TooSmallIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/bot/too-small/expected/emptyDatabase.yml")
     public void emptyDatabase() {
-        tooSmall.run();
+        this.runnable.run();
     }
 
     @Test
@@ -30,7 +30,7 @@ public class TooSmallIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/bot/too-small/expected/happyPath.yml")
     public void happyPath() {
-        tooSmall.run();
+        this.runnable.run();
     }
 
     @Test
@@ -40,7 +40,7 @@ public class TooSmallIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/bot/too-small/expected/moreThanThreshold.yml")
     public void moreThanThreshold() {
-        tooSmall.run();
+        this.runnable.run();
     }
 
     @Test
@@ -50,7 +50,7 @@ public class TooSmallIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/bot/too-small/expected/notInCodexia.yml")
     public void notInCodexia() {
-        tooSmall.run();
+        this.runnable.run();
     }
 
     @Test
@@ -60,7 +60,7 @@ public class TooSmallIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/bot/too-small/expected/oneSetResult.yml")
     public void oneSetResult() {
-        tooSmall.run();
+        this.runnable.run();
     }
 
     @Test
@@ -70,7 +70,7 @@ public class TooSmallIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/bot/too-small/expected/oneResetResult.yml")
     public void oneResetResult() {
-        tooSmall.run();
+        this.runnable.run();
     }
 
     @Test
@@ -80,7 +80,7 @@ public class TooSmallIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/bot/too-small/expected/linesOfCodeIsAbsent.yml")
     public void linesOfCodeIsAbsent() {
-        tooSmall.run();
+        this.runnable.run();
     }
 
     @Test
@@ -90,7 +90,7 @@ public class TooSmallIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/bot/too-small/expected/githubStatIsAbsent.yml")
     public void githubStatIsAbsent() {
-        tooSmall.run();
+        this.runnable.run();
     }
 
     @Test
@@ -100,7 +100,7 @@ public class TooSmallIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/bot/too-small/expected/githubLanguageIsNull.yml")
     public void githubLanguageIsNull() {
-        tooSmall.run();
+        this.runnable.run();
     }
 
     @Test
@@ -110,7 +110,7 @@ public class TooSmallIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/bot/too-small/expected/projectLevelMoreThanZero.yml")
     public void projectLevelMoreThanZero() {
-        tooSmall.run();
+        this.runnable.run();
     }
 
 }

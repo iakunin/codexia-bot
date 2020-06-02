@@ -11,6 +11,7 @@ import dev.iakunin.codexiabot.codexia.sdk.CodexiaClient;
 import dev.iakunin.codexiabot.codexia.service.BadgeSender;
 import dev.iakunin.codexiabot.github.GithubModule;
 import dev.iakunin.codexiabot.github.entity.GithubRepo;
+import feign.FeignException;
 import java.util.Optional;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
@@ -22,45 +23,45 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public final class CodexiaModuleImpl implements CodexiaModule {
 
-    private final CodexiaProjectRepository codexiaProjectRepository;
+    private final CodexiaProjectRepository projects;
 
-    private final CodexiaReviewRepository codexiaReviewRepository;
+    private final CodexiaReviewRepository reviews;
 
-    private final CodexiaClient codexiaClient;
+    private final CodexiaClient codexia;
 
-    private final GithubModule githubModule;
+    private final GithubModule github;
 
-    private final CodexiaBadgeRepository codexiaBadgeRepository;
+    private final CodexiaBadgeRepository badges;
 
-    private final BadgeSender badgeSender;
+    private final BadgeSender sender;
 
     @Override
-    public void saveReview(CodexiaReview review) {
+    public void saveReview(final CodexiaReview review) {
         log.debug("Saving a review: {}", review);
-        this.codexiaReviewRepository.save(review);
+        this.reviews.save(review);
     }
 
     @Override
-    public void sendMeta(CodexiaMeta meta) {
+    public void sendMeta(final CodexiaMeta meta) {
         try {
-            this.codexiaClient.setMeta(
+            this.codexia.setMeta(
                 meta.getCodexiaProject().getExternalId(),
                 meta.getKey(),
                 meta.getValue()
             );
-        } catch (Exception e) {
+        } catch (final FeignException ex) {
             log.warn(
                 "Exception occurred during sending meta to Codexia; externalId='{}'",
                 meta.getCodexiaProject().getExternalId(),
-                e
+                ex
             );
         }
     }
 
     @Override
-    public void applyBadge(CodexiaBadge badge) {
-        this.codexiaBadgeRepository.save(
-            this.codexiaBadgeRepository
+    public void applyBadge(final CodexiaBadge badge) {
+        this.badges.save(
+            this.badges
                 .findByCodexiaProjectAndBadge(
                     badge.getCodexiaProject(),
                     badge.getBadge()
@@ -68,24 +69,24 @@ public final class CodexiaModuleImpl implements CodexiaModule {
                 .orElse(badge)
                 .setDeletedAt(badge.getDeletedAt())
         );
-        this.badgeSender.send(badge);
+        this.sender.send(badge);
     }
 
     @Override
-    public Optional<CodexiaProject> findCodexiaProject(GithubRepo repo) {
-        return this.githubModule
+    public Optional<CodexiaProject> findCodexiaProject(final GithubRepo repo) {
+        return this.github
             .findAllRepoSources(repo)
             .filter(source -> source.getSource() == GithubModule.Source.CODEXIA)
             .findFirst()
             .flatMap(
-                source -> this.codexiaProjectRepository.findByExternalId(
+                source -> this.projects.findByExternalId(
                     Integer.valueOf(source.getExternalId())
                 )
             );
     }
 
     @Override
-    public CodexiaProject getCodexiaProject(GithubRepo repo) {
+    public CodexiaProject getCodexiaProject(final GithubRepo repo) {
         return this.findCodexiaProject(repo)
             .orElseThrow(
                 () -> new RuntimeException(
@@ -98,12 +99,19 @@ public final class CodexiaModuleImpl implements CodexiaModule {
     }
 
     @Override
-    public boolean isReviewExist(CodexiaProject codexiaProject, String author, String reason) {
-        return this.codexiaReviewRepository.existsByCodexiaProjectAndAuthorAndReason(codexiaProject, author, reason);
+    public boolean isReviewExist(
+        final CodexiaProject project,
+        final String author,
+        final String reason
+    ) {
+        return this.reviews.existsByCodexiaProjectAndAuthorAndReason(project, author, reason);
     }
 
     @Override
-    public Stream<CodexiaReview> findAllReviews(CodexiaProject codexiaProject, String author) {
-        return this.codexiaReviewRepository.findAllByCodexiaProjectAndAuthorOrderByIdAsc(codexiaProject, author);
+    public Stream<CodexiaReview> findAllReviews(
+        final CodexiaProject project,
+        final String author
+    ) {
+        return this.reviews.findAllByCodexiaProjectAndAuthorOrderByIdAsc(project, author);
     }
 }

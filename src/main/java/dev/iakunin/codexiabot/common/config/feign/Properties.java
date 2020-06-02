@@ -4,6 +4,10 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+/**
+ * @checkstyle MemberName (500 lines)
+ * @checkstyle EmptyLineSeparator (500 lines)
+ */
 @Data
 @Component
 @ConfigurationProperties("dev.iakunin.codexiabot.logging")

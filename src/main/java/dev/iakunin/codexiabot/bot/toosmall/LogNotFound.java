@@ -11,33 +11,36 @@ public final class LogNotFound implements Scalar<Optional<Item>> {
 
     private final GithubRepoStat github;
 
-    private final GithubRepoStat linesOfCode;
+    private final GithubRepoStat loc;
 
     private final Scalar<Optional<Item>> inner;
 
     private final Logger logger;
 
     public LogNotFound(
-        GithubRepoStat github,
-        GithubRepoStat linesOfCode,
-        Scalar<Optional<Item>> inner
+        final GithubRepoStat github,
+        final GithubRepoStat loc,
+        final Scalar<Optional<Item>> inner
     ) {
         this(
             github,
-            linesOfCode,
+            loc,
             inner,
             LoggerFactory.getLogger(LogNotFound.class)
         );
     }
 
+    /**
+     * @checkstyle ParameterNumber (5 lines)
+     */
     public LogNotFound(
-        GithubRepoStat github,
-        GithubRepoStat linesOfCode,
-        Scalar<Optional<Item>> inner,
-        Logger logger
+        final GithubRepoStat github,
+        final GithubRepoStat loc,
+        final Scalar<Optional<Item>> inner,
+        final Logger logger
     ) {
         this.github = github;
-        this.linesOfCode = linesOfCode;
+        this.loc = loc;
         this.inner = inner;
         this.logger = logger;
     }
@@ -49,8 +52,8 @@ public final class LogNotFound implements Scalar<Optional<Item>> {
         if (result.isEmpty()) {
             this.logger.debug(
                 "Unable to find proper LoC stat; githubStatId='{}'; locStatId='{}'",
-                github.getId(),
-                linesOfCode.getId()
+                this.github.getId(),
+                this.loc.getId()
             );
         }
 

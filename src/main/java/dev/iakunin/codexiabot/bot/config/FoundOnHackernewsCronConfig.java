@@ -14,31 +14,34 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Configuration
 public class FoundOnHackernewsCronConfig implements SchedulingConfigurer {
 
-    private final Found foundOnHackernews;
+    private final Found runnable;
 
-    private final String cronExpression;
+    private final String expression;
 
     public FoundOnHackernewsCronConfig(
-        @Qualifier("foundOnHackernews") Found foundOnHackernews,
-        @Value("${app.cron.bot.found-on-hackernews:-}") String cronExpression
+        @Qualifier("foundOnHackernews") final Found runnable,
+        @Value("${app.cron.bot.found-on-hackernews:-}") final String expression
     ) {
-        this.foundOnHackernews = foundOnHackernews;
-        this.cronExpression = cronExpression;
+        this.runnable = runnable;
+        this.expression = expression;
     }
 
     @Bean
     public Runnable foundOnHackernewsRunnable() {
-        return new Logging(this.foundOnHackernews);
+        return new Logging(this.runnable);
     }
 
     @Override
-    public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-        taskRegistrar.addCronTask(
+    public void configureTasks(final ScheduledTaskRegistrar registrar) {
+        registrar.addCronTask(
             this.foundOnHackernewsRunnable(),
-            this.cronExpression
+            this.expression
         );
     }
 
@@ -46,9 +49,9 @@ public class FoundOnHackernewsCronConfig implements SchedulingConfigurer {
     @RequiredArgsConstructor
     public static class FoundOnHackernewsConfig {
 
-        private final GithubModule githubModule;
+        private final GithubModule github;
 
-        private final CodexiaModule codexiaModule;
+        private final CodexiaModule codexia;
 
         private final Hackernews bot;
 
@@ -56,8 +59,8 @@ public class FoundOnHackernewsCronConfig implements SchedulingConfigurer {
         public Found foundOnHackernews() {
             return new Found(
                 Bot.Type.FOUND_ON_HACKERNEWS,
-                this.githubModule,
-                this.codexiaModule,
+                this.github,
+                this.codexia,
                 this.bot
             );
         }

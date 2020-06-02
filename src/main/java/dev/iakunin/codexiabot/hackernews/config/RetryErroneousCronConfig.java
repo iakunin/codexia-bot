@@ -8,31 +8,34 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Configuration
 public class RetryErroneousCronConfig implements SchedulingConfigurer {
 
-    private final RetryErroneous retryErroneous;
+    private final RetryErroneous runnable;
 
-    private final String cronExpression;
+    private final String expression;
 
     public RetryErroneousCronConfig(
-        RetryErroneous retryErroneous,
-        @Value("${app.cron.hackernews.retry-erroneous:-}") String cronExpression
+        final RetryErroneous runnable,
+        @Value("${app.cron.hackernews.retry-erroneous:-}") final String expression
     ) {
-        this.retryErroneous = retryErroneous;
-        this.cronExpression = cronExpression;
+        this.runnable = runnable;
+        this.expression = expression;
     }
 
     @Bean
     public Runnable retryErroneousRunnable() {
-        return new Logging(this.retryErroneous);
+        return new Logging(this.runnable);
     }
 
     @Override
-    public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-        taskRegistrar.addCronTask(
+    public void configureTasks(final ScheduledTaskRegistrar registrar) {
+        registrar.addCronTask(
             this.retryErroneousRunnable(),
-            this.cronExpression
+            this.expression
         );
     }
 }

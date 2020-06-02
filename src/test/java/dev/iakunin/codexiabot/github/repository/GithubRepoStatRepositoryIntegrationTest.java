@@ -8,7 +8,7 @@ import dev.iakunin.codexiabot.github.entity.GithubRepoStat.Type;
 import java.util.Optional;
 import javax.persistence.EntityManager;
 import org.cactoos.list.ListOf;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
-    private EntityManager entityManager;
+    private EntityManager manager;
 
     @Autowired
     private GithubRepoStatRepository repository;
@@ -26,260 +26,275 @@ public class GithubRepoStatRepositoryIntegrationTest extends AbstractIntegration
 
     @Test
     @Transactional
-    public void findAll_happyPath() {
-        var repo = this.createGithubRepo();
-        var firstStat = this.createGithubRepoStat(repo, Type.GITHUB_API);
-        var secondStat = this.createGithubRepoStat(repo, Type.GITHUB_API);
-        entityManager.persist(repo);
-        entityManager.persist(firstStat);
-        entityManager.persist(secondStat);
-        entityManager.flush();
+    public void findAllHappyPath() {
+        final var repo = this.createGithubRepo();
+        final var first = this.createGithubRepoStat(repo, Type.GITHUB_API);
+        final var second = this.createGithubRepoStat(repo, Type.GITHUB_API);
+        this.manager.persist(repo);
+        this.manager.persist(first);
+        this.manager.persist(second);
+        this.manager.flush();
 
-        var actual = this.repository
+        final var actual = this.repository
             .findAllByGithubRepoAndTypeAndIdGreaterThanEqualOrderByIdAsc(repo, Type.GITHUB_API, 0L);
 
-        assertEquals(
-            new ListOf<>(firstStat, secondStat),
+        Assertions.assertEquals(
+            new ListOf<>(first, second),
             actual
         );
 
-        entityManager.remove(secondStat);
-        entityManager.remove(firstStat);
-        entityManager.remove(repo);
+        this.manager.remove(second);
+        this.manager.remove(first);
+        this.manager.remove(repo);
     }
 
     @Test
     @Transactional
-    public void findAll_wrongRepo() {
-        var repo = this.createGithubRepo();
-        var anotherRepo = this.createGithubRepo();
-        var stat = this.createGithubRepoStat(repo, Type.GITHUB_API);
-        entityManager.persist(repo);
-        entityManager.persist(anotherRepo);
-        entityManager.persist(stat);
-        entityManager.flush();
+    public void findAllWrongRepo() {
+        final var repo = this.createGithubRepo();
+        final var another = this.createGithubRepo();
+        final var stat = this.createGithubRepoStat(repo, Type.GITHUB_API);
+        this.manager.persist(repo);
+        this.manager.persist(another);
+        this.manager.persist(stat);
+        this.manager.flush();
 
-        var actual = this.repository
-            .findAllByGithubRepoAndTypeAndIdGreaterThanEqualOrderByIdAsc(anotherRepo, Type.GITHUB_API, 0L);
+        final var actual = this.repository
+            .findAllByGithubRepoAndTypeAndIdGreaterThanEqualOrderByIdAsc(
+                another,
+                Type.GITHUB_API,
+                0L
+            );
 
-        assertEquals(
+        Assertions.assertEquals(
             new ListOf<>(),
             actual
         );
 
-        entityManager.remove(stat);
-        entityManager.remove(anotherRepo);
-        entityManager.remove(repo);
+        this.manager.remove(stat);
+        this.manager.remove(another);
+        this.manager.remove(repo);
     }
 
     @Test
     @Transactional
-    public void findAll_wrongType() {
-        var repo = this.createGithubRepo();
-        var stat = this.createGithubRepoStat(repo, Type.GITHUB_API);
-        entityManager.persist(repo);
-        entityManager.persist(stat);
-        entityManager.flush();
+    public void findAllWrongType() {
+        final var repo = this.createGithubRepo();
+        final var stat = this.createGithubRepoStat(repo, Type.GITHUB_API);
+        this.manager.persist(repo);
+        this.manager.persist(stat);
+        this.manager.flush();
 
-        var actual = this.repository
-            .findAllByGithubRepoAndTypeAndIdGreaterThanEqualOrderByIdAsc(repo, Type.LINES_OF_CODE, 0L);
+        final var actual = this.repository
+            .findAllByGithubRepoAndTypeAndIdGreaterThanEqualOrderByIdAsc(
+                repo,
+                Type.LINES_OF_CODE,
+                0L
+            );
 
-        assertEquals(
+        Assertions.assertEquals(
             new ListOf<>(),
             actual
         );
 
-        entityManager.remove(stat);
-        entityManager.remove(repo);
+        this.manager.remove(stat);
+        this.manager.remove(repo);
     }
 
     @Test
     @Transactional
-    public void findAll_twoById() {
-        var repo = this.createGithubRepo();
-        var type = Type.GITHUB_API;
-        var firstStat = this.createGithubRepoStat(repo, type);
-        var secondStat = this.createGithubRepoStat(repo, type);
-        entityManager.persist(repo);
-        entityManager.persist(firstStat);
-        entityManager.persist(secondStat);
-        entityManager.flush();
+    public void findAllTwoById() {
+        final var repo = this.createGithubRepo();
+        final var type = Type.GITHUB_API;
+        final var first = this.createGithubRepoStat(repo, type);
+        final var second = this.createGithubRepoStat(repo, type);
+        this.manager.persist(repo);
+        this.manager.persist(first);
+        this.manager.persist(second);
+        this.manager.flush();
 
-        var actual = this.repository
-            .findAllByGithubRepoAndTypeAndIdGreaterThanEqualOrderByIdAsc(repo, type, firstStat.getId());
+        final var actual = this.repository
+            .findAllByGithubRepoAndTypeAndIdGreaterThanEqualOrderByIdAsc(repo, type, first.getId());
 
-        assertEquals(
-            new ListOf<>(firstStat, secondStat),
+        Assertions.assertEquals(
+            new ListOf<>(first, second),
             actual
         );
 
-        entityManager.remove(secondStat);
-        entityManager.remove(firstStat);
-        entityManager.remove(repo);
+        this.manager.remove(second);
+        this.manager.remove(first);
+        this.manager.remove(repo);
     }
 
     @Test
     @Transactional
-    public void findAll_oneById() {
-        var repo = this.createGithubRepo();
-        var type = Type.GITHUB_API;
-        var firstStat = this.createGithubRepoStat(repo, type);
-        var secondStat = this.createGithubRepoStat(repo, type);
-        entityManager.persist(repo);
-        entityManager.persist(firstStat);
-        entityManager.persist(secondStat);
-        entityManager.flush();
+    public void findAllOneById() {
+        final var repo = this.createGithubRepo();
+        final var type = Type.GITHUB_API;
+        final var first = this.createGithubRepoStat(repo, type);
+        final var second = this.createGithubRepoStat(repo, type);
+        this.manager.persist(repo);
+        this.manager.persist(first);
+        this.manager.persist(second);
+        this.manager.flush();
 
-        var actual = this.repository
-            .findAllByGithubRepoAndTypeAndIdGreaterThanEqualOrderByIdAsc(repo, type, secondStat.getId());
+        final var actual = this.repository
+            .findAllByGithubRepoAndTypeAndIdGreaterThanEqualOrderByIdAsc(
+                repo,
+                type,
+                second.getId()
+            );
 
-        assertEquals(
-            new ListOf<>(secondStat),
+        Assertions.assertEquals(
+            new ListOf<>(second),
             actual
         );
 
-        entityManager.remove(secondStat);
-        entityManager.remove(firstStat);
-        entityManager.remove(repo);
+        this.manager.remove(second);
+        this.manager.remove(first);
+        this.manager.remove(repo);
     }
 
     @Test
     @Transactional
-    public void findAll_zeroById() {
-        var repo = this.createGithubRepo();
-        var type = Type.GITHUB_API;
-        var firstStat = this.createGithubRepoStat(repo, type);
-        var secondStat = this.createGithubRepoStat(repo, type);
-        entityManager.persist(repo);
-        entityManager.persist(firstStat);
-        entityManager.persist(secondStat);
-        entityManager.flush();
+    public void findAllZeroById() {
+        final var repo = this.createGithubRepo();
+        final var type = Type.GITHUB_API;
+        final var first = this.createGithubRepoStat(repo, type);
+        final var second = this.createGithubRepoStat(repo, type);
+        this.manager.persist(repo);
+        this.manager.persist(first);
+        this.manager.persist(second);
+        this.manager.flush();
 
-        var actual = this.repository
-            .findAllByGithubRepoAndTypeAndIdGreaterThanEqualOrderByIdAsc(repo, type, secondStat.getId() + 1);
+        final var actual = this.repository
+            .findAllByGithubRepoAndTypeAndIdGreaterThanEqualOrderByIdAsc(
+                repo,
+                type,
+                second.getId() + 1
+            );
 
-        assertEquals(
+        Assertions.assertEquals(
             new ListOf<>(),
             actual
         );
 
-        entityManager.remove(secondStat);
-        entityManager.remove(firstStat);
-        entityManager.remove(repo);
+        this.manager.remove(second);
+        this.manager.remove(first);
+        this.manager.remove(repo);
     }
 
     @Test
     @Transactional
-    public void findFirst_happyPath() {
-        var repo = this.createGithubRepo();
-        var type = Type.GITHUB_API;
-        var firstStat = this.createGithubRepoStat(repo, type);
-        var secondStat = this.createGithubRepoStat(repo, type);
-        entityManager.persist(repo);
-        entityManager.persist(firstStat);
-        entityManager.persist(secondStat);
-        entityManager.flush();
+    public void findFirstHappyPath() {
+        final var repo = this.createGithubRepo();
+        final var type = Type.GITHUB_API;
+        final var first = this.createGithubRepoStat(repo, type);
+        final var second = this.createGithubRepoStat(repo, type);
+        this.manager.persist(repo);
+        this.manager.persist(first);
+        this.manager.persist(second);
+        this.manager.flush();
 
-        var actual = this.repository
+        final var actual = this.repository
             .findFirstByGithubRepoAndTypeOrderByIdDesc(repo, type);
 
-        assertEquals(
-            Optional.of(secondStat),
+        Assertions.assertEquals(
+            Optional.of(second),
             actual
         );
 
-        entityManager.remove(secondStat);
-        entityManager.remove(firstStat);
-        entityManager.remove(repo);
+        this.manager.remove(second);
+        this.manager.remove(first);
+        this.manager.remove(repo);
     }
 
     @Test
     @Transactional
-    public void findFirst_empty() {
-        var repo = this.createGithubRepo();
-        var type = Type.GITHUB_API;
-        entityManager.persist(repo);
-        entityManager.flush();
+    public void findFirstEmpty() {
+        final var repo = this.createGithubRepo();
+        final var type = Type.GITHUB_API;
+        this.manager.persist(repo);
+        this.manager.flush();
 
-        var actual = this.repository
+        final var actual = this.repository
             .findFirstByGithubRepoAndTypeOrderByIdDesc(repo, type);
 
-        assertEquals(
+        Assertions.assertEquals(
             Optional.empty(),
             actual
         );
 
-        entityManager.remove(repo);
+        this.manager.remove(repo);
     }
 
     @Test
     @Transactional
-    public void findFirst_wrongType() {
-        var repo = this.createGithubRepo();
-        var type = Type.GITHUB_API;
-        var stat = this.createGithubRepoStat(repo, type);
-        entityManager.persist(repo);
-        entityManager.persist(stat);
-        entityManager.flush();
+    public void findFirstWrongType() {
+        final var repo = this.createGithubRepo();
+        final var type = Type.GITHUB_API;
+        final var stat = this.createGithubRepoStat(repo, type);
+        this.manager.persist(repo);
+        this.manager.persist(stat);
+        this.manager.flush();
 
-        var actual = this.repository
+        final var actual = this.repository
             .findFirstByGithubRepoAndTypeOrderByIdDesc(repo, Type.LINES_OF_CODE);
 
-        assertEquals(
+        Assertions.assertEquals(
             Optional.empty(),
             actual
         );
 
-        entityManager.remove(stat);
-        entityManager.remove(repo);
+        this.manager.remove(stat);
+        this.manager.remove(repo);
     }
 
     @Test
     @Transactional
     public void persistStatWithEmptyStat() {
-        var repo = this.createGithubRepo();
-        var stat = new GithubRepoStat().setGithubRepo(repo).setType(Type.GITHUB_API);
-        entityManager.persist(repo);
-        entityManager.persist(stat);
-        entityManager.flush();
+        final var repo = this.createGithubRepo();
+        final var stat = new GithubRepoStat().setGithubRepo(repo).setType(Type.GITHUB_API);
+        this.manager.persist(repo);
+        this.manager.persist(stat);
+        this.manager.flush();
 
-        entityManager.remove(stat);
-        entityManager.remove(repo);
+        this.manager.remove(stat);
+        this.manager.remove(repo);
     }
 
     @Test
     @Transactional
     public void persistHealthCheckStat() {
-        var repo = this.createGithubRepo();
-        var stat = new GithubRepoStat()
+        final var repo = this.createGithubRepo();
+        final var stat = new GithubRepoStat()
             .setGithubRepo(repo)
             .setType(Type.HEALTH_CHECK)
             .setStat(new GithubRepoStat.HealthCheck());
-        entityManager.persist(repo);
-        entityManager.persist(stat);
-        entityManager.flush();
+        this.manager.persist(repo);
+        this.manager.persist(stat);
+        this.manager.flush();
 
-        entityManager.remove(stat);
-        entityManager.remove(repo);
+        this.manager.remove(stat);
+        this.manager.remove(repo);
     }
 
     private GithubRepo createGithubRepo() {
         return new GithubRepo()
             .setExternalId(
-                String.valueOf(faker.random().nextInt(Integer.MAX_VALUE))
+                String.valueOf(this.faker.random().nextInt(Integer.MAX_VALUE))
             )
             .setFullName(this.getGithubRepoFullName());
     }
 
     private String getGithubRepoFullName() {
-        return faker.regexify("[a-z]{2,10}/[a-z]{2,10}");
+        return this.faker.regexify("[a-z]{2,10}/[a-z]{2,10}");
     }
 
-    private GithubRepoStat createGithubRepoStat(GithubRepo repo, Type type) {
+    private GithubRepoStat createGithubRepoStat(final GithubRepo repo, final Type type) {
         return new GithubRepoStat()
             .setGithubRepo(repo)
             .setType(type)
             .setStat(new GithubRepoStat.GithubApi());
     }
-
 }

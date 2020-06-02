@@ -14,6 +14,9 @@ import net.dean.jraw.models.Submission;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Component
 @Slf4j
 @RequiredArgsConstructor
@@ -38,11 +41,11 @@ public class Parser implements Runnable {
         }
     }
 
-    private Stream<String> redditPostIds(GithubRepo githubRepo) {
+    private Stream<String> redditPostIds(final GithubRepo repo) {
         return StreamSupport.stream(
             this.reddit.search()
                 .query(
-                    String.format("url:\"%s\"", githubRepo.getHtmlUrl())
+                    String.format("url:\"%s\"", repo.getHtmlUrl())
                 )
                 .build()
                 .spliterator(),

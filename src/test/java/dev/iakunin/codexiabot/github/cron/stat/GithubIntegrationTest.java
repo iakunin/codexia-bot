@@ -4,7 +4,7 @@ import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import dev.iakunin.codexiabot.AbstractIntegrationTest;
 import dev.iakunin.codexiabot.config.GithubConfig;
-import dev.iakunin.codexiabot.util.WireMockServer;
+import dev.iakunin.codexiabot.util.WireMockWrapper;
 import dev.iakunin.codexiabot.util.wiremock.Response;
 import dev.iakunin.codexiabot.util.wiremock.Stub;
 import org.cactoos.io.ResourceOf;
@@ -13,9 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 
+/**
+ * @checkstyle MultipleStringLiterals (500 lines)
+ */
 @SpringBootTest(classes = {
     AbstractIntegrationTest.TestConfig.class,
-    GithubConfig.class,
+    GithubConfig.class
 })
 public class GithubIntegrationTest extends AbstractIntegrationTest {
 
@@ -29,7 +32,7 @@ public class GithubIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/github/cron/stat/github/expected/emptyDatabase.yml")
     public void emptyDatabase() {
-        github.run();
+        this.github.run();
     }
 
     @Test
@@ -39,7 +42,7 @@ public class GithubIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/github/cron/stat/github/expected/notCodexiaSource.yml")
     public void notCodexiaSource() {
-        github.run();
+        this.github.run();
     }
 
     @Test
@@ -48,15 +51,15 @@ public class GithubIntegrationTest extends AbstractIntegrationTest {
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/github/cron/stat/github/expected/happyPath.yml")
-    public void oneWithoutGithubRepo() {
-        WireMockServer.stub(
+    public void happyPath() {
+        new WireMockWrapper().stub(
             new Stub(
                 "/github/repos/instaloader/instaloader",
                 new ResourceOf("wiremock/github/cron/stat/github/instaloader.json")
             )
         );
 
-        github.run();
+        this.github.run();
     }
 
     @Test
@@ -66,13 +69,13 @@ public class GithubIntegrationTest extends AbstractIntegrationTest {
     )
     @ExpectedDataSet("db-rider/github/cron/stat/github/expected/githubIoException.yml")
     public void githubIoException() {
-        WireMockServer.stub(
+        new WireMockWrapper().stub(
             new Stub(
                 "/github/repos/instaloader/instaloader",
                 new Response(HttpStatus.INTERNAL_SERVER_ERROR.value())
             )
         );
 
-        github.run();
+        this.github.run();
     }
 }

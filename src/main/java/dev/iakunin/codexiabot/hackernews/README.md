@@ -1,3 +1,3 @@
-## Hackernews module
+# Hackernews module
 
-The main documentation for hackernews-api is [here](https://github.com/HackerNews/API).
+The main documentation for hackernews-api is here: <https://github.com/HackerNews/API>.

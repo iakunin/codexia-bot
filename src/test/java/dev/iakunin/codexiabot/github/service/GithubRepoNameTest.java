@@ -3,15 +3,17 @@ package dev.iakunin.codexiabot.github.service;
 import dev.iakunin.codexiabot.github.GithubModule;
 import java.net.URL;
 import org.cactoos.text.FormattedText;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+/**
+ * @checkstyle MultipleStringLiterals (500 lines)
+ */
 public class GithubRepoNameTest {
 
     @Test
     public void happyPath() throws Exception {
-        assertEquals(
+        Assertions.assertEquals(
             "user/repo",
             new GithubRepoName(
                 new URL("https://github.com/user/repo")
@@ -21,13 +23,13 @@ public class GithubRepoNameTest {
 
     @Test
     public void emptyPath() throws Exception {
-        final GithubModule.InvalidRepoNameException exception = assertThrows(
+        final GithubModule.InvalidRepoNameException exception = Assertions.assertThrows(
             GithubModule.InvalidRepoNameException.class,
             () -> new GithubRepoName(
                 new URL("https://github.com")
             ).value()
         );
-        assertEquals(
+        Assertions.assertEquals(
             exception.getMessage(),
             new FormattedText(
                 "Url with empty path given"
@@ -37,13 +39,13 @@ public class GithubRepoNameTest {
 
     @Test
     public void pathWithOnlySlash() throws Exception {
-        final GithubModule.InvalidRepoNameException exception = assertThrows(
+        final GithubModule.InvalidRepoNameException exception = Assertions.assertThrows(
             GithubModule.InvalidRepoNameException.class,
             () -> new GithubRepoName(
                 new URL("https://github.com/")
             ).value()
         );
-        assertEquals(
+        Assertions.assertEquals(
             exception.getMessage(),
             new FormattedText(
                 "Url with empty path given"
@@ -53,24 +55,25 @@ public class GithubRepoNameTest {
 
     @Test
     public void onlyOnePathItem() throws Exception {
-        final GithubModule.InvalidRepoNameException exception = assertThrows(
+        final var url = "https://github.com/user";
+        final GithubModule.InvalidRepoNameException exception = Assertions.assertThrows(
             GithubModule.InvalidRepoNameException.class,
             () -> new GithubRepoName(
-                new URL("https://github.com/user")
+                new URL(url)
             ).value()
         );
-        assertEquals(
+        Assertions.assertEquals(
             exception.getMessage(),
             new FormattedText(
                 "Invalid github repository name: %s",
-                "https://github.com/user"
+                url
             ).asString()
         );
     }
 
     @Test
     public void threePathSegments() throws Exception {
-        assertEquals(
+        Assertions.assertEquals(
             "user/repo1",
             new GithubRepoName(
                 new URL("https://github.com/user/repo1/repo2")
@@ -80,7 +83,7 @@ public class GithubRepoNameTest {
 
     @Test
     public void fourPathSegments() throws Exception {
-        assertEquals(
+        Assertions.assertEquals(
             "user/first",
             new GithubRepoName(
                 new URL("https://github.com/user/first/second/third")

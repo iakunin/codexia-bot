@@ -2,4 +2,7 @@ github_repo_stat:
     -
         github_repo_id: 1
         type: "GITHUB_API"
-        stat: '{"description":"Download pictures (or videos) along with their captions and other metadata from Instagram.","pushedAt":[2020,5,11,18,27,23],"language":"Python","homepage":"https://instaloader.github.io/","forks":281,"watchers":1561,"stars":1561,"type":"GITHUB_API"}'
+        stat: "{\"description\":\"Download pictures along with their metadata from Instagram.\",\
+            \"pushedAt\":[2020,5,11,18,27,23],\"language\":\"Python\",\
+            \"homepage\":\"https://instaloader.github.io/\",\"forks\":281,\"watchers\":1561,\
+            \"stars\":1561,\"type\":\"GITHUB_API\"}"

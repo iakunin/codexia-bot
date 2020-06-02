@@ -6,15 +6,14 @@ import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalUnit;
 import org.cactoos.iterable.IterableOf;
 import org.cactoos.text.FormattedText;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class BiggestUnitTest {
 
     @Test
     public void onlyMinutes() throws Exception {
-        assertEquals(
+        Assertions.assertEquals(
             ChronoUnit.MINUTES,
             new BiggestUnit(
                 Duration.parse("PT1M")
@@ -24,7 +23,7 @@ public class BiggestUnitTest {
 
     @Test
     public void minutesAndSeconds() throws Exception {
-        assertEquals(
+        Assertions.assertEquals(
             ChronoUnit.MINUTES,
             new BiggestUnit(
                 Duration.parse("PT1M15S")
@@ -34,7 +33,7 @@ public class BiggestUnitTest {
 
     @Test
     public void hoursAndMinutesAndSeconds() throws Exception {
-        assertEquals(
+        Assertions.assertEquals(
             ChronoUnit.HOURS,
             new BiggestUnit(
                 Duration.parse("PT4H1M15S")
@@ -44,10 +43,10 @@ public class BiggestUnitTest {
 
     @Test
     public void hoursWithPredefinedUnits() throws Exception {
-        assertEquals(
+        Assertions.assertEquals(
             ChronoUnit.HOURS,
             new BiggestUnit(
-                Duration.parse("PT16H"),
+                Duration.parse("PT14H"),
                 new IterableOf<>(
                     ChronoUnit.DAYS,
                     ChronoUnit.HOURS
@@ -58,10 +57,10 @@ public class BiggestUnitTest {
 
     @Test
     public void hoursWithPredefinedUnitsWrongOrder() throws Exception {
-        assertEquals(
+        Assertions.assertEquals(
             ChronoUnit.HOURS,
             new BiggestUnit(
-                Duration.parse("PT16H"),
+                Duration.parse("PT15H"),
                 new IterableOf<>(
                     ChronoUnit.MINUTES,
                     ChronoUnit.HOURS,
@@ -76,11 +75,11 @@ public class BiggestUnitTest {
         final Duration duration = Duration.parse("PT16H");
         final IterableOf<TemporalUnit> units = new IterableOf<>(ChronoUnit.DAYS);
 
-        final IOException exception = assertThrows(
+        final IOException exception = Assertions.assertThrows(
             IOException.class,
             () -> new BiggestUnit(duration, units).value()
         );
-        assertEquals(
+        Assertions.assertEquals(
             exception.getMessage(),
             new FormattedText(
                 "Unable to find biggest unit; duration='%s'; units='%s'",

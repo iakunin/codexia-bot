@@ -16,15 +16,15 @@ final class BiggestUnit implements Scalar<TemporalUnit> {
 
     private final Scalar<TemporalUnit> scalar;
 
-    BiggestUnit(Duration duration) {
+    BiggestUnit(final Duration duration) {
         this(duration, ChronoUnit.values());
     }
 
-    BiggestUnit(Duration duration, TemporalUnit... units) {
+    BiggestUnit(final Duration duration, final TemporalUnit... units) {
         this(duration, new IterableOf<>(units));
     }
 
-    BiggestUnit(Duration duration, Iterable<TemporalUnit> units) {
+    BiggestUnit(final Duration duration, final Iterable<TemporalUnit> units) {
         this(
             new FirstOf<TemporalUnit>(
                 new Filtered<>(
@@ -50,7 +50,7 @@ final class BiggestUnit implements Scalar<TemporalUnit> {
         );
     }
 
-    private BiggestUnit(Scalar<TemporalUnit> scalar) {
+    private BiggestUnit(final Scalar<TemporalUnit> scalar) {
         this.scalar = scalar;
     }
 

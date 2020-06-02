@@ -19,32 +19,37 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Component
 @Slf4j
 @RequiredArgsConstructor
 public final class DeleteObsoleteStat implements Runnable {
 
-    private final GithubRepoRepository repoRepository;
+    private static final int PAGE_SIZE = 500;
 
-    private final GithubRepoStatRepository statRepository;
+    private final GithubRepoRepository repo;
+
+    private final GithubRepoStatRepository stat;
 
     private final Runner runner;
 
     @Override
     public void run() {
         Page<GithubRepo> page;
-        int pageNum = 0;
+        int num = 0;
         do {
-            page = this.repoRepository.getAll(PageRequest.of(pageNum, 500));
+            page = this.repo.getAll(PageRequest.of(num, PAGE_SIZE));
             new FaultTolerant(
                 page
                     .stream()
                     .flatMap(
-                        repo -> Arrays.stream(GithubRepoStat.Type.values())
-                            .map(type -> new Tuple2<>(repo, type))
+                        rep -> Arrays.stream(GithubRepoStat.Type.values())
+                            .map(type -> new Tuple2<>(rep, type))
                     )
                     .map(
-                        tuple -> this.statRepository
+                        tuple -> this.stat
                             .findAllByGithubRepoAndTypeAndIdGreaterThanEqualOrderByIdAsc(
                                 tuple._1(),
                                 tuple._2(),
@@ -52,11 +57,21 @@ public final class DeleteObsoleteStat implements Runnable {
                             ).stream()
                     )
                     .flatMap(this::withoutFirstAndLast)
-                    .map(stat -> () -> this.runner.run(stat)),
+                    .map(st -> () -> this.runner.run(st)),
                 tr -> log.debug("Unable to delete stat: {}", tr.getCause().getMessage())
             ).run();
-            pageNum++;
+            num += 1;
         } while (page.hasNext());
+    }
+
+    private <T> Stream<T> withoutFirstAndLast(final Stream<T> stream) {
+        final List<T> list = stream.collect(Collectors.toList());
+
+        return list.size() <= 2
+            ? Stream.empty()
+            : list.stream()
+                .skip(1L)
+                .limit(list.size() - 2L);
     }
 
     @Slf4j
@@ -67,19 +82,10 @@ public final class DeleteObsoleteStat implements Runnable {
         private final GithubRepoStatRepository repository;
 
         @Transactional(propagation = Propagation.REQUIRES_NEW)
-        public void run(GithubRepoStat item) {
+        public void run(final GithubRepoStat item) {
             log.debug("Deleting item with id={}", item.getId());
             this.repository.delete(item);
             log.debug("Successfully deleted item with id={}", item.getId());
         }
-    }
-
-    private <T> Stream<T> withoutFirstAndLast(Stream<T> stream) {
-        final List<T> list = stream.collect(Collectors.toList());
-        if (list.size() <= 2) return Stream.empty();
-
-        return list.stream()
-            .skip(1L)
-            .limit(list.size() - 2L);
     }
 }

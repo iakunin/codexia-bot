@@ -12,7 +12,7 @@ public final class Pluralized implements Text {
 
     private final Scalar<Text> scalar;
 
-    public Pluralized(long count, TemporalUnit unit) {
+    public Pluralized(final long count, final TemporalUnit unit) {
         this(
             count,
             new Lowered(
@@ -25,11 +25,11 @@ public final class Pluralized implements Text {
         );
     }
 
-    public Pluralized(long count, String noun) {
+    public Pluralized(final long count, final String noun) {
         this(count, () -> noun);
     }
 
-    public Pluralized(long count, Text noun) {
+    public Pluralized(final long count, final Text noun) {
         this(
             () -> new FormattedText(
                 new Ternary<>(
@@ -42,7 +42,7 @@ public final class Pluralized implements Text {
         );
     }
 
-    private Pluralized(Scalar<Text> scalar) {
+    private Pluralized(final Scalar<Text> scalar) {
         this.scalar = scalar;
     }
 

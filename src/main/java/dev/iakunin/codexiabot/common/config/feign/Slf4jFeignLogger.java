@@ -7,66 +7,85 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * @checkstyle ParameterNumber (500 lines)
+ * @checkstyle ReturnCount (500 lines)
+ */
 final class Slf4jFeignLogger extends feign.Logger {
+
+    private static final int NO_CONTENT = 204;
+
+    private static final int RESET_CONTENT = 205;
 
     private final Logger logger;
 
-    public Slf4jFeignLogger() {
+    Slf4jFeignLogger() {
         this(feign.Logger.class);
     }
 
-    public Slf4jFeignLogger(Class<?> clazz) {
+    Slf4jFeignLogger(final Class<?> clazz) {
         this(LoggerFactory.getLogger(clazz));
     }
 
-    public Slf4jFeignLogger(Logger logger) {
+    Slf4jFeignLogger(final Logger logger) {
         this.logger = logger;
     }
 
     @Override
-    protected void log(String configKey, String format, Object... args) {
-        // Not using SLF4J's support for parameterized messages (even though it would be more efficient)
+    protected void log(final String key, final String format, final Object... args) {
+        // Not using SLF4J's support for parameterized messages
+        // (even though it would be more efficient)
         // because it would require the incoming message formats to be SLF4J-specific.
-        logger.debug(String.format(methodTag(configKey) + format, args));
+        if (this.logger.isDebugEnabled()) {
+            this.logger.debug(String.format(methodTag(key) + format, args));
+        }
     }
 
     @Override
-    protected void logRequest(String configKey, Level logLevel, Request request) {
-        log(configKey, "FEIGN EXTERNAL REQUEST:\n%s", request.toString());
+    protected void logRequest(final String key, final Level level, final Request request) {
+        this.log(key, "FEIGN EXTERNAL REQUEST:\n%s", request.toString());
     }
 
     @Override
     protected Response logAndRebufferResponse(
-        String configKey,
-        Level logLevel,
-        Response response,
-        long elapsedTime
+        final String key,
+        final Level level,
+        final Response response,
+        final long time
     ) throws IOException {
         // rebuild response so that response.toString outputs the actual content
-        if (response.body() != null && !(response.status() == 204 || response.status() == 205)) {
+        if (response.body() != null
             // HTTP 204 No Content "...response MUST NOT include a message-body"
             // HTTP 205 Reset Content "...response MUST NOT include an entity"
-            byte[] bodyData = Util.toByteArray(response.body().asInputStream());
-            final Response rebuiltResponse = response.toBuilder().body(bodyData).build();
-            log(configKey, "FEIGN EXTERNAL RESPONSE:\n%s", rebuiltResponse.toString());
+            && !(response.status() == NO_CONTENT || response.status() == RESET_CONTENT)
+        ) {
+            final byte[] body = Util.toByteArray(response.body().asInputStream());
+            final Response rebuilt = response.toBuilder().body(body).build();
+            this.logExternalResponse(key, rebuilt);
 
-            return response.toBuilder().body(bodyData).build();
+            return response.toBuilder().body(body).build();
         }
 
-        log(configKey, "FEIGN EXTERNAL RESPONSE:\n%s", response.toString());
+        this.logExternalResponse(key, response);
 
         return response;
     }
 
     @Override
     protected IOException logIOException(
-        String configKey,
-        Level logLevel,
-        IOException ioe,
-        long elapsedTime
+        final String key,
+        final Level level,
+        final IOException ioe,
+        final long time
     ) {
-        logger.error(methodTag(configKey) + "FEIGN EXTERNAL ERROR:", ioe);
+        if (this.logger.isErrorEnabled()) {
+            this.logger.error(methodTag(key) + "FEIGN EXTERNAL ERROR:", ioe);
+        }
 
         return ioe;
+    }
+
+    private void logExternalResponse(final String key, final Response response) {
+        this.log(key, "FEIGN EXTERNAL RESPONSE:\n%s", response.toString());
     }
 }

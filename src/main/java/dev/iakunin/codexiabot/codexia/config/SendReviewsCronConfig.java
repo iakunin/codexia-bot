@@ -8,31 +8,34 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Configuration
 public class SendReviewsCronConfig implements SchedulingConfigurer {
 
-    private final SendReviews sendReviews;
+    private final SendReviews runnable;
 
-    private final String cronExpression;
+    private final String expression;
 
     public SendReviewsCronConfig(
-        SendReviews sendReviews,
-        @Value("${app.cron.codexia.send-reviews:-}") String cronExpression
+        final SendReviews runnable,
+        @Value("${app.cron.codexia.send-reviews:-}") final String expression
     ) {
-        this.sendReviews = sendReviews;
-        this.cronExpression = cronExpression;
+        this.runnable = runnable;
+        this.expression = expression;
     }
 
     @Bean
     public Runnable sendReviewsRunnable() {
-        return new Logging(this.sendReviews);
+        return new Logging(this.runnable);
     }
 
     @Override
-    public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-        taskRegistrar.addCronTask(
+    public void configureTasks(final ScheduledTaskRegistrar registrar) {
+        registrar.addCronTask(
             this.sendReviewsRunnable(),
-            this.cronExpression
+            this.expression
         );
     }
 }

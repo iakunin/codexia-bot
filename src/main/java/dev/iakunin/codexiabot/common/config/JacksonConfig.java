@@ -9,11 +9,14 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Configuration
 public class JacksonConfig {
 
     @Bean
-    ObjectMapper billingSdkCommonObjectMapper() {
+    public ObjectMapper billingSdkCommonObjectMapper() {
         final ObjectMapper mapper = new ObjectMapper();
 
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);

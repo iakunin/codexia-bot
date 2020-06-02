@@ -10,29 +10,34 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * @checkstyle DesignForExtension (500 lines)
+ */
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class ResendErroneousReviews implements Runnable {
 
-    private final CodexiaReviewNotificationRepository notificationRepository;
+    private final CodexiaReviewNotificationRepository ntifications;
 
-    private final CodexiaReviewRepository reviewRepository;
+    private final CodexiaReviewRepository reviews;
 
     private final ReviewSender sender;
 
     @Transactional
     public void run() {
-        try (var reviews = this.reviewRepository.getAll()) {
+        try (var all = this.reviews.getAll()) {
             new FaultTolerant(
-                reviews
+                all
                     .flatMap(
-                        review -> this.notificationRepository
+                        review -> this.ntifications
                             .findAllByCodexiaReviewOrderByIdDesc(review)
                             .stream()
                             .limit(1L)
                     )
-                    .filter(notification -> notification.getStatus() == CodexiaReviewNotification.Status.ERROR)
+                    .filter(notification ->
+                        notification.getStatus() == CodexiaReviewNotification.Status.ERROR
+                    )
                     .map(CodexiaReviewNotification::getCodexiaReview)
                     .map(review -> () -> this.sender.send(review)),
                 tr -> log.error("Unable to resend item", tr.getCause())

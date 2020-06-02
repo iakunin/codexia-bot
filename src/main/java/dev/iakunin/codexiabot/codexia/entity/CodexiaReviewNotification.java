@@ -8,6 +8,9 @@ import javax.persistence.ManyToOne;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+/**
+ * @checkstyle MemberName (500 lines)
+ */
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
@@ -18,7 +21,9 @@ public final class CodexiaReviewNotification extends AbstractEntity {
 
     @Enumerated(EnumType.STRING)
     private Status status;
+
     private Integer responseCode;
+
     private String response;
 
     public enum Status {

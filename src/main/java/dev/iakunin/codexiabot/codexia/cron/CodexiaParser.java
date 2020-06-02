@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public final class CodexiaParser implements Runnable {
 
-    private final CodexiaClient codexiaClient;
+    private final CodexiaClient codexia;
 
     private final CodexiaProjectRepository repository;
 
@@ -24,14 +24,14 @@ public final class CodexiaParser implements Runnable {
 
     public void run() {
         int page = 0;
-        List<CodexiaClient.Project> projectList;
+        List<CodexiaClient.Project> projects;
 
         do {
-            projectList = this.codexiaClient.getRecent(page).getBody();
-            Objects.requireNonNull(projectList);
+            projects = this.codexia.getRecent(page).getBody();
+            Objects.requireNonNull(projects);
 
             new FaultTolerant(
-                projectList.stream()
+                projects.stream()
                     .filter(project -> project.getDeleted() == null)
                     .filter(
                         project -> !this.repository.existsByExternalId(project.getId())
@@ -41,7 +41,7 @@ public final class CodexiaParser implements Runnable {
                 tr -> log.error("Unable to write project", tr.getCause())
             ).run();
 
-            page++;
-        } while (!projectList.isEmpty());
+            page += 1;
+        } while (!projects.isEmpty());
     }
 }

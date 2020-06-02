@@ -1,6 +1,7 @@
 package dev.iakunin.codexiabot.bot.toosmall;
 
 import dev.iakunin.codexiabot.bot.entity.TooSmallResult;
+import dev.iakunin.codexiabot.bot.entity.TooSmallResult.State;
 import dev.iakunin.codexiabot.bot.repository.TooSmallResultRepository;
 import dev.iakunin.codexiabot.codexia.CodexiaModule;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaBadge;
@@ -10,8 +11,8 @@ import dev.iakunin.codexiabot.codexia.entity.CodexiaReview;
 import dev.iakunin.codexiabot.github.GithubModule;
 import dev.iakunin.codexiabot.github.entity.GithubRepo;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat;
+import dev.iakunin.codexiabot.github.entity.GithubRepoStat.LinesOfCode.Item;
 import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,8 @@ import org.springframework.stereotype.Service;
 @Service("bot.toosmall.NotSmall")
 @RequiredArgsConstructor
 public final class NotSmall implements Bot {
+
+    private static final long THRESHOLD = 5_000L;
 
     private final GithubModule github;
 
@@ -37,26 +40,26 @@ public final class NotSmall implements Bot {
                     .orElse(false)
             )
             .filter(repo -> {
-                final Optional<TooSmallResult> optional = this.repository.findFirstByGithubRepoOrderByIdDesc(repo);
-                return optional.isPresent() && optional.get().getState() == TooSmallResult.State.SET;
+                final var optional = this.repository.findFirstByGithubRepoOrderByIdDesc(repo);
+                return optional.isPresent() && optional.get().getState() == State.SET;
             });
     }
 
     @Override
-    public boolean shouldSubmit(GithubRepoStat.LinesOfCode.Item item) {
-        return item.getLinesOfCode() >= 5_000L;
+    public boolean shouldSubmit(final Item item) {
+        return item.getLinesOfCode() >= THRESHOLD;
     }
 
     @Override
-    public TooSmallResult result(GithubRepoStat stat) {
+    public TooSmallResult result(final GithubRepoStat stat) {
         return new TooSmallResult()
             .setGithubRepo(stat.getGithubRepo())
             .setGithubRepoStat(stat)
-            .setState(TooSmallResult.State.RESET);
+            .setState(State.RESET);
     }
 
     @Override
-    public CodexiaReview review(GithubRepoStat stat, GithubRepoStat.LinesOfCode.Item item) {
+    public CodexiaReview review(final GithubRepoStat stat, final Item item) {
         return new CodexiaReview()
             .setText(
                 String.format(
@@ -76,7 +79,7 @@ public final class NotSmall implements Bot {
     }
 
     @Override
-    public CodexiaMeta meta(CodexiaReview review) {
+    public CodexiaMeta meta(final CodexiaReview review) {
         return new CodexiaMeta()
             .setCodexiaProject(review.getCodexiaProject())
             .setKey("too-small")
@@ -84,7 +87,7 @@ public final class NotSmall implements Bot {
     }
 
     @Override
-    public void badge(CodexiaProject project) {
+    public void badge(final CodexiaProject project) {
         this.codexia.applyBadge(
             new CodexiaBadge()
                 .setCodexiaProject(project)

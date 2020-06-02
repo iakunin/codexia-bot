@@ -18,59 +18,62 @@ import org.springframework.stereotype.Service;
 @Service
 public final class LinesOfCodeImpl implements LinesOfCode {
 
-    private final GithubRepoStatRepository repoStatRepository;
+    private final GithubRepoStatRepository repository;
 
-    private final CodetabsClient codetabsClient;
+    private final CodetabsClient codetabs;
 
     private final Integer delay;
 
     public LinesOfCodeImpl(
-        GithubRepoStatRepository repoStatRepository,
-        CodetabsClient codetabsClient,
-        @Value("${app.github.service.lines-of-code.delay}") Integer delay
+        final GithubRepoStatRepository repository,
+        final CodetabsClient codetabs,
+        @Value("${app.github.service.lines-of-code.delay}") final Integer delay
     ) {
-        this.repoStatRepository = repoStatRepository;
-        this.codetabsClient = codetabsClient;
+        this.repository = repository;
+        this.codetabs = codetabs;
         this.delay = delay;
     }
 
     @Override
-    public void calculate(GithubRepo repo) {
+    public void calculate(final GithubRepo repo) {
         log.debug("Calculating lines of code for {}", repo);
         try {
-            this.repoStatRepository.save(
+            this.repository.save(
                 this.createStat(
                     repo,
-                    this.codetabsClient
+                    this.codetabs
                         .getLinesOfCode(repo.getFullName())
                         .getBody()
                 )
             );
-        } catch (FeignException e) {
-            this.processException(repo, e);
+        } catch (final FeignException ex) {
+            this.processException(repo, ex);
         } finally {
             this.sleep(this.delay);
         }
     }
 
-    private GithubRepoStat createStat(GithubRepo repo, List<CodetabsClient.Item> itemList) {
+    private GithubRepoStat createStat(
+        final GithubRepo repo,
+        final List<CodetabsClient.Item> items
+    ) {
         return GithubRepoStat.Factory
             .from(
-                Objects.requireNonNull(itemList)
+                Objects.requireNonNull(items)
             )
             .setGithubRepo(repo);
     }
 
-    private void processException(GithubRepo repo, FeignException e) {
+    private void processException(final GithubRepo repo, final FeignException exception) {
         // @todo #93 LinesOfCodeImpl: rewrite via custom Feign exceptions
         final var ignore = new ListOf<>(
             HttpStatus.TOO_MANY_REQUESTS.value(),
             HttpStatus.BAD_REQUEST.value(),
             524
         );
-        if (!ignore.contains(e.status())) {
-            log.error("Error occurred during getting lines of code", e);
-            this.repoStatRepository.save(
+        if (!ignore.contains(exception.status())) {
+            log.error("Error occurred during getting lines of code", exception);
+            this.repository.save(
                 new GithubRepoStat()
                     .setStat(new GithubRepoStat.LinesOfCode())
                     .setGithubRepo(repo)
@@ -79,7 +82,7 @@ public final class LinesOfCodeImpl implements LinesOfCode {
     }
 
     @SneakyThrows
-    private void sleep(long millis) {
+    private void sleep(final long millis) {
         log.debug("Sleeping...");
         Thread.sleep(millis);
     }
