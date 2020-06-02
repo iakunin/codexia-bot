@@ -1,6 +1,7 @@
 package dev.iakunin.codexiabot.codexia.cron;
 
 import com.github.javafaker.Faker;
+import dev.iakunin.codexiabot.codexia.cron.updateprojects.Updater;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaProject;
 import dev.iakunin.codexiabot.codexia.repository.CodexiaProjectRepository;
 import dev.iakunin.codexiabot.codexia.sdk.CodexiaClient;
@@ -31,7 +32,7 @@ public class UpdateProjectsUpdaterUnitTest {
     private CodexiaProjectRepository repository;
 
     @InjectMocks
-    private UpdateProjects.Updater updater;
+    private Updater updater;
 
     @Test
     public void notDeleted() {

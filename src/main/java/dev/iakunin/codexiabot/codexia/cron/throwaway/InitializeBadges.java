@@ -3,6 +3,7 @@ package dev.iakunin.codexiabot.codexia.cron.throwaway;
 import dev.iakunin.codexiabot.bot.Bot;
 import dev.iakunin.codexiabot.codexia.CodexiaModule;
 import dev.iakunin.codexiabot.codexia.entity.CodexiaBadge;
+import dev.iakunin.codexiabot.codexia.entity.CodexiaReview;
 import dev.iakunin.codexiabot.codexia.repository.CodexiaProjectRepository;
 import dev.iakunin.codexiabot.codexia.repository.CodexiaReviewRepository;
 import dev.iakunin.codexiabot.common.runnable.FaultTolerant;
@@ -46,16 +47,7 @@ public class InitializeBadges implements Runnable {
                                 project,
                                 Bot.Type.TOO_SMALL.name()
                             )
-                            .map(review ->
-                                new CodexiaBadge()
-                                    .setCodexiaProject(review.getCodexiaProject())
-                                    .setBadge(BAD_BADGE)
-                                    .setDeletedAt(
-                                        review.getText().contains("not small anymore")
-                                            ? LocalDateTime.now()
-                                            : null
-                                    )
-                            )
+                            .map(this::tooSmallBadge)
                             .stream()
                     ).map(badge -> () -> this.initializer.init(badge)),
                 tr -> log.error("Unable to initialize badge for TOO_SMALL", tr.getCause())
@@ -73,16 +65,27 @@ public class InitializeBadges implements Runnable {
                                 project,
                                 Bot.Type.TOO_MANY_STARS.name()
                             )
-                            .map(review ->
-                                new CodexiaBadge()
-                                    .setCodexiaProject(review.getCodexiaProject())
-                                    .setBadge(BAD_BADGE)
-                            )
+                            .map(this::tooManyStarsBadge)
                             .stream()
                     ).map(badge -> () -> this.initializer.init(badge)),
                 tr -> log.error("Unable to initialize badge for TOO_MANY_STARS", tr.getCause())
             ).run();
         }
+    }
+
+    private CodexiaBadge tooManyStarsBadge(final CodexiaReview review) {
+        return new CodexiaBadge()
+            .setCodexiaProject(review.getCodexiaProject())
+            .setBadge(BAD_BADGE);
+    }
+
+    private CodexiaBadge tooSmallBadge(final CodexiaReview review) {
+        return this.tooManyStarsBadge(review)
+            .setDeletedAt(
+                review.getText().contains("not small anymore")
+                    ? LocalDateTime.now()
+                    : null
+            );
     }
 
     @Service
