@@ -36,7 +36,9 @@ final class Slf4jFeignLogger extends feign.Logger {
         // Not using SLF4J's support for parameterized messages
         // (even though it would be more efficient)
         // because it would require the incoming message formats to be SLF4J-specific.
-        this.logger.debug(String.format(methodTag(key) + format, args));
+        if (this.logger.isDebugEnabled()) {
+            this.logger.debug(String.format(methodTag(key) + format, args));
+        }
     }
 
     @Override
@@ -76,7 +78,9 @@ final class Slf4jFeignLogger extends feign.Logger {
         final IOException ioe,
         final long time
     ) {
-        this.logger.error(methodTag(key) + "FEIGN EXTERNAL ERROR:", ioe);
+        if (this.logger.isErrorEnabled()) {
+            this.logger.error(methodTag(key) + "FEIGN EXTERNAL ERROR:", ioe);
+        }
 
         return ioe;
     }
