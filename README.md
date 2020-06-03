@@ -20,7 +20,7 @@
 This is a supervised bot for [Codexia (open source incubator)](https://www.codexia.org/).
 
 
-## Bots list
+## Bots listt
 
 ### not-found
 
