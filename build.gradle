@@ -102,6 +102,9 @@ sonarqube {
         if (project.hasProperty('pullRequestKey') && project.property('pullRequestKey')) {
             property 'sonar.pullrequest.key', project.property('pullRequestKey')
         }
+        if (!System.getenv('SONAR_TOKEN')) {
+            sonarqube.skipProject = true
+        }
     }
 }
 
