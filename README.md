@@ -134,7 +134,7 @@ This is a supervised bot for [Codexia (open source incubator)](https://www.codex
     * Parse by repo-id
         * <https://developer.github.com/v3/#rate-limiting>
         * <https://api.github.com/repositories/149106857>
-        * Use proxy
+        * Use proxyy
 
 
 * Read articles about open-source best practices
