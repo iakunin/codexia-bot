@@ -124,7 +124,6 @@ workflows:
         jobs:
             - pdd
             -   build-jar:
-                    context: SonarCloud
                     filters:
                         tags:
                             only: /^\d+\.\d+\.\d+$/
