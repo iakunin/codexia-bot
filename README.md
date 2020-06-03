@@ -107,7 +107,7 @@ This is a supervised bot for [Codexia (open source incubator)](https://www.codex
 * Create a microservice for determining repo's programming language
     * Analogue of <https://api.codetabs.com/v1/loc?github=jolav/betazone>
     * Reference implementation (slow): <https://github.com/AlDanial/cloc>
-    * NPM*package: <https://www.npmjs.com/package/cloc>
+    * NPM-package: <https://www.npmjs.com/package/cloc>
     * Go implementation: <https://github.com/boyter/scc>
     * Rust implementation: <https://github.com/cgag/loc>
     * Main repo language is the most LoC language after `Total`
