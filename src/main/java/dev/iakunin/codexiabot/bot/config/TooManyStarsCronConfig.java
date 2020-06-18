@@ -1,8 +1,8 @@
 package dev.iakunin.codexiabot.bot.config;
 
 import dev.iakunin.codexiabot.bot.TooManyStars;
-import dev.iakunin.codexiabot.bot.TooManyStars.Submitter;
 import dev.iakunin.codexiabot.bot.repository.TooManyStarsResultRepository;
+import dev.iakunin.codexiabot.bot.toomanystars.Submitter;
 import dev.iakunin.codexiabot.codexia.CodexiaModule;
 import dev.iakunin.codexiabot.common.runnable.Logging;
 import dev.iakunin.codexiabot.github.GithubModule;
