@@ -5,7 +5,7 @@ cd "$DIR"/.. || exit
 
 
 printf "Building image:\n"
-IMAGE=$(docker build -q -f Dockerfile-liquibase .)
+IMAGE=$(docker build -q -f deploy/Dockerfile-liquibase .)
 
 printf "\n\nNewly built image:\n"
 echo "$IMAGE"
