@@ -2,6 +2,7 @@ package dev.iakunin.codexiabot.hackernews;
 
 import dev.iakunin.codexiabot.github.GithubModule;
 import dev.iakunin.codexiabot.hackernews.entity.HackernewsItem;
+import dev.iakunin.codexiabot.hackernews.factory.HackernewsItemFactory;
 import dev.iakunin.codexiabot.hackernews.repository.HackernewsItemRepository;
 import dev.iakunin.codexiabot.hackernews.sdk.HackernewsClient;
 import feign.FeignException;
@@ -63,7 +64,7 @@ public final class HackernewsModuleImpl implements HackernewsModule {
                     String.format("Unable to find HackernewsItem by externalId='%s'", id)
                 )
             );
-        HackernewsItem.Factory.mutateEntity(entity, item);
+        HackernewsItemFactory.mutateEntity(entity, item);
         this.repository.save(entity);
     }
 

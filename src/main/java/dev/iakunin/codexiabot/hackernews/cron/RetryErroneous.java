@@ -2,6 +2,7 @@ package dev.iakunin.codexiabot.hackernews.cron;
 
 import dev.iakunin.codexiabot.common.runnable.FaultTolerant;
 import dev.iakunin.codexiabot.hackernews.entity.HackernewsItem;
+import dev.iakunin.codexiabot.hackernews.factory.HackernewsItemFactory;
 import dev.iakunin.codexiabot.hackernews.repository.HackernewsItemRepository;
 import dev.iakunin.codexiabot.hackernews.sdk.HackernewsClient;
 import dev.iakunin.codexiabot.hackernews.service.Writer;
@@ -50,7 +51,7 @@ public class RetryErroneous implements Runnable {
 
         @Transactional(propagation = Propagation.REQUIRES_NEW)
         public void run(final HackernewsItem entity) {
-            HackernewsItem.Factory.mutateEntity(
+            HackernewsItemFactory.mutateEntity(
                 entity,
                 Objects.requireNonNull(
                     this.client.getItem(entity.getExternalId()).getBody()

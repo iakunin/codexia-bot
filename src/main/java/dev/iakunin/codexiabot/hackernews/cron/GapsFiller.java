@@ -1,7 +1,7 @@
 package dev.iakunin.codexiabot.hackernews.cron;
 
 import dev.iakunin.codexiabot.common.runnable.FaultTolerant;
-import dev.iakunin.codexiabot.hackernews.entity.HackernewsItem;
+import dev.iakunin.codexiabot.hackernews.factory.HackernewsItemFactory;
 import dev.iakunin.codexiabot.hackernews.repository.HackernewsItemRepository;
 import dev.iakunin.codexiabot.hackernews.sdk.HackernewsClient;
 import dev.iakunin.codexiabot.hackernews.service.Writer;
@@ -34,7 +34,7 @@ public class GapsFiller implements Runnable {
                 .boxed()
                 .map(id -> () ->
                     this.writer.write(
-                        HackernewsItem.Factory.from(
+                        HackernewsItemFactory.from(
                             Objects.requireNonNull(
                                 this.hackernews.getItem(id).getBody()
                             )
