@@ -38,7 +38,7 @@ public interface HackernewsClient {
 
         private Instant time;
 
-        private boolean deleted = false;
+        private boolean deleted;
 
         private Integer score = 0;
     }

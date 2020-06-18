@@ -29,7 +29,7 @@ public final class HackernewsItem extends AbstractEntity {
 
     private Instant time;
 
-    private boolean deleted = false;
+    private boolean deleted;
 
     public static final class Factory {
         private Factory() { }
