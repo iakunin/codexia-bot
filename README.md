@@ -17,7 +17,7 @@
 [![Scc Total Lines](https://sloc.xyz/github/iakunin/codexia-bot)](https://github.com/iakunin/codexia-bot)
 [![Scc Code Lines](https://sloc.xyz/github/iakunin/codexia-bot?category=code)](https://github.com/iakunin/codexia-bot)
 
-This is a supervised bot for [Codexia (open source incubator)](https://www.codexia.org/).
+**Codexia-bot** a supervised bot for [Codexia (open source incubator)](https://www.codexia.org/).
 
 
 ## Bots list
@@ -138,3 +138,13 @@ This is a supervised bot for [Codexia (open source incubator)](https://www.codex
 
 
 * Read articles about open-source best practices
+
+## How to contribute
+
+See [CONTRIBUTING.md](https://github.com/iakunin/codexia-bot/blob/master/.github/CONTRIBUTING.md)
+for more details.
+
+## Got questions?
+
+If you have questions or general suggestions, don't hesitate to submit
+a new [Github issue](https://github.com/iakunin/codexia-bot/issues/new/choose).
