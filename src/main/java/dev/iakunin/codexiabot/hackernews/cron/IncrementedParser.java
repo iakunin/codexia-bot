@@ -1,6 +1,6 @@
 package dev.iakunin.codexiabot.hackernews.cron;
 
-import dev.iakunin.codexiabot.hackernews.entity.HackernewsItem;
+import dev.iakunin.codexiabot.hackernews.factory.HackernewsItemFactory;
 import dev.iakunin.codexiabot.hackernews.repository.HackernewsItemRepository;
 import dev.iakunin.codexiabot.hackernews.sdk.HackernewsClient;
 import dev.iakunin.codexiabot.hackernews.service.Writer;
@@ -35,7 +35,7 @@ public final class IncrementedParser implements Runnable {
                     continue;
                 }
 
-                this.writer.write(HackernewsItem.Factory.from(item));
+                this.writer.write(HackernewsItemFactory.from(item));
             } catch (final FeignException ex) {
                 log.error(
                     "Exception occurred during getting hackernews item '{}'",

@@ -3,12 +3,8 @@ package dev.iakunin.codexiabot.github.entity;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import dev.iakunin.codexiabot.common.entity.AbstractEntity;
-import dev.iakunin.codexiabot.github.sdk.CodetabsClient;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -17,7 +13,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.kohsuke.github.GHRepository;
 
 /**
  * @checkstyle MemberName (500 lines)
@@ -125,44 +120,4 @@ public final class GithubRepoStat extends AbstractEntity {
         }
     }
 
-    public static final class Factory {
-        private Factory() { }
-
-        public static GithubRepoStat from(final GHRepository from) {
-            return new GithubRepoStat()
-                .setStat(
-                    new GithubApi()
-                        .setDescription(from.getDescription())
-                        .setPushedAt(Factory.toLocalDateTime(from.getPushedAt()))
-                        .setLanguage(from.getLanguage())
-                        .setHomepage(from.getHomepage())
-                        .setForks(from.getForksCount())
-                        .setWatchers(from.getWatchersCount())
-                        .setStars(from.getStargazersCount())
-                );
-        }
-
-        public static GithubRepoStat from(final List<CodetabsClient.Item> from) {
-            return new GithubRepoStat()
-                .setStat(
-                    new LinesOfCode()
-                        .setItemList(
-                            from.stream().map(item -> new LinesOfCode.Item()
-                                .setLanguage(item.getLanguage())
-                                .setFiles(item.getFiles())
-                                .setLines(item.getLines())
-                                .setBlanks(item.getBlanks())
-                                .setComments(item.getComments())
-                                .setLinesOfCode(item.getLinesOfCode())
-                            ).collect(Collectors.toList())
-                        )
-                );
-        }
-
-        private static LocalDateTime toLocalDateTime(final Date date) {
-            return date.toInstant()
-                .atZone(ZoneOffset.UTC)
-                .toLocalDateTime();
-        }
-    }
 }

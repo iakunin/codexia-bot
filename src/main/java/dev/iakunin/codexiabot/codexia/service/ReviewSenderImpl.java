@@ -7,6 +7,7 @@ import dev.iakunin.codexiabot.codexia.repository.CodexiaReviewNotificationReposi
 import dev.iakunin.codexiabot.codexia.sdk.CodexiaClient;
 import feign.FeignException;
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -88,7 +89,8 @@ public class ReviewSenderImpl implements ReviewSender {
                     new String(
                         exception.responseBody()
                             .orElse(ByteBuffer.allocate(0))
-                            .array()
+                            .array(),
+                        StandardCharsets.UTF_8
                     )
                 )
         );
