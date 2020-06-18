@@ -3,6 +3,7 @@ package dev.iakunin.codexiabot.github;
 import dev.iakunin.codexiabot.github.entity.GithubRepo;
 import dev.iakunin.codexiabot.github.entity.GithubRepoSource;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat;
+import dev.iakunin.codexiabot.github.factory.GithubRepoStatFactory;
 import dev.iakunin.codexiabot.github.repository.GithubRepoRepository;
 import dev.iakunin.codexiabot.github.repository.GithubRepoSourceRepository;
 import dev.iakunin.codexiabot.github.repository.GithubRepoStatRepository;
@@ -65,7 +66,7 @@ public final class GithubModuleImpl implements GithubModule {
     @Override
     public void updateStat(final GithubRepo rep) throws IOException {
         this.stat.save(
-            GithubRepoStat.Factory
+            GithubRepoStatFactory
                 .from(
                     this.github.getRepository(rep.getFullName())
                 ).setGithubRepo(rep)
@@ -147,7 +148,7 @@ public final class GithubModuleImpl implements GithubModule {
                 () -> {
                     final GithubRepo saved = this.repo.save(entity);
                     this.stat.save(
-                        GithubRepoStat.Factory.from(repository).setGithubRepo(saved)
+                        GithubRepoStatFactory.from(repository).setGithubRepo(saved)
                     );
                     return saved;
                 }

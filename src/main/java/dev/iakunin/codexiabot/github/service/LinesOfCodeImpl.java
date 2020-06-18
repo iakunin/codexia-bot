@@ -2,6 +2,7 @@ package dev.iakunin.codexiabot.github.service;
 
 import dev.iakunin.codexiabot.github.entity.GithubRepo;
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat;
+import dev.iakunin.codexiabot.github.factory.GithubRepoStatFactory;
 import dev.iakunin.codexiabot.github.repository.GithubRepoStatRepository;
 import dev.iakunin.codexiabot.github.sdk.CodetabsClient;
 import feign.FeignException;
@@ -57,7 +58,7 @@ public final class LinesOfCodeImpl implements LinesOfCode {
         final GithubRepo repo,
         final List<CodetabsClient.Item> items
     ) {
-        return GithubRepoStat.Factory
+        return GithubRepoStatFactory
             .from(
                 Objects.requireNonNull(items)
             )
