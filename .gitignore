@@ -34,8 +34,8 @@
 .mdlrc
 .mdl-rules.rb
 
-/.k8s/backend/secret/app.txt
-/.k8s/backend/secret/spring-datasource.txt
+/deploy/.k8s/backend/secret/app.txt
+/deploy/.k8s/backend/secret/spring-datasource.txt
 
 /var/codestyle
 !/var/codestyle/.gitkeep
