@@ -24,7 +24,7 @@ This is a supervised bot for [Codexia (open source incubator)](https://www.codex
 
 ### not-found
 
-`The repo is absent on GitHub; test`
+`The repo is absent on GitHub; testt`
 
 ### too-small
 
