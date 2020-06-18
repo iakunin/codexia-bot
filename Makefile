@@ -1,7 +1,7 @@
 include .env
 export $(shell sed 's/=.*//' .env)
 
-.PHONY: bin build gradle src var
+.PHONY: bin build deploy gradle src var
 
 build:
 	bash bin/gradle_in_docker.sh clean build --info --console=verbose
@@ -23,7 +23,7 @@ sentry-finalize-release:
 	sentry-cli releases finalize $(VERSION)
 
 docker-build-and-push-image:
-	docker build -t eu.gcr.io/codexia-bot/backend:$(VERSION) . && \
+	docker build -t eu.gcr.io/codexia-bot/backend:$(VERSION) -f deploy/Dockerfile-app . && \
 	docker push eu.gcr.io/codexia-bot/backend:$(VERSION)
 
 k8s-set-image:

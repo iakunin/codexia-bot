@@ -123,7 +123,7 @@ public class CodexiaReviewRepositoryIntegrationTest extends AbstractIntegrationT
         final var actual = this.repository.existsByCodexiaProjectAndAuthorAndReason(
             project,
             author,
-            this.faker.lorem().word()
+            "another" + reason
         );
 
         Assertions.assertFalse(actual);
