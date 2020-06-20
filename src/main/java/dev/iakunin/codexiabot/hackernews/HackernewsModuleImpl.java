@@ -68,6 +68,7 @@ public final class HackernewsModuleImpl implements HackernewsModule {
         this.repository.save(entity);
     }
 
+    @SuppressWarnings("PMD.FieldNamingConventions")
     private static final class ItemNotFoundException extends Exception {
         ItemNotFoundException(final String message) {
             super(message);

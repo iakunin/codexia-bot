@@ -20,6 +20,7 @@ import org.springframework.http.HttpStatus;
 /**
  * @checkstyle MultipleStringLiterals (500 lines)
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 @SpringBootTest(classes = {
     AbstractIntegrationTest.TestConfig.class,
     GithubConfig.class

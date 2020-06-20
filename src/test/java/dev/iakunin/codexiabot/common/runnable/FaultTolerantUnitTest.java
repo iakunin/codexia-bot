@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.slf4j.Logger;
 
+@SuppressWarnings({"PMD.DataflowAnomalyAnalysis", "PMD.MoreThanOneLogger"})
 public class FaultTolerantUnitTest {
 
     private static final String LOG_TEXT = "Error";

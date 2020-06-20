@@ -25,6 +25,7 @@ public final class UpdateProjects implements Runnable {
 
     private final Updater updater;
 
+    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     public void run() {
         Page<CodexiaProject> page;
         int num = 0;

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 /**
  * @checkstyle EmptyLineSeparator (500 lines)
  */
+@SuppressWarnings({"PMD.LinguisticNaming", "PMD.AvoidDuplicateLiterals"})
 @FeignClient(
     name = "codexiaClient",
     url = "${app.codexia.base-url}",

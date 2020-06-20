@@ -20,7 +20,7 @@ public final class Stars implements Bot {
 
     private static final int MIN_INCREASE = 10;
 
-    private static final double PERCENTS_THRESHOLD = 0.05;
+    private static final double PERCENTS_THRSHLD = 0.05;
 
     private final CodexiaModule codexia;
 
@@ -28,7 +28,7 @@ public final class Stars implements Bot {
     public boolean shouldSubmit(final GithubApi first, final GithubApi last) {
         final int increase = last.getStars() - first.getStars();
 
-        return increase >= MIN_INCREASE && increase >= (first.getStars() * PERCENTS_THRESHOLD);
+        return increase >= MIN_INCREASE && increase >= (first.getStars() * PERCENTS_THRSHLD);
     }
 
     @Override

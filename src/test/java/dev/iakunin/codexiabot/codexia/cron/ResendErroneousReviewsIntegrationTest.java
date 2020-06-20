@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 /**
  * @checkstyle MultipleStringLiterals (500 lines)
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public class ResendErroneousReviewsIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired

@@ -13,7 +13,9 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties("dev.iakunin.codexiabot.logging")
 public final class Properties {
 
+    @SuppressWarnings("PMD.LongVariable")
     private String sessionFingerprintHeaderName = "x-session-fingerprint";
+
     private MdcKeys mdcKeys = new MdcKeys();
 
     @Data

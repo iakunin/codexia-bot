@@ -68,12 +68,14 @@ public interface GithubModule {
         REDDIT,
     }
 
+    @SuppressWarnings("PMD.FieldNamingConventions")
     final class InvalidRepoNameException extends IOException {
         public InvalidRepoNameException(final String message) {
             super(message);
         }
     }
 
+    @SuppressWarnings("PMD.FieldNamingConventions")
     final class RepoNotFoundException extends IOException {
         public RepoNotFoundException(final String message) {
             super(message);

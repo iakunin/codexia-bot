@@ -16,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+@SuppressWarnings("PMD.DataflowAnomalyAnalysis")
 @ExtendWith(MockitoExtension.class)
 public class UpdateProjectsUpdaterUnitTest {
 

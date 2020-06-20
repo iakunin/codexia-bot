@@ -1,16 +1,19 @@
 prepare:
     fetch:
         -
-            url: 'https://raw.githubusercontent.com/iakunin/codestyle/0.0.12/.editorconfig'
+            url: 'https://raw.githubusercontent.com/iakunin/codestyle/0.0.14/.editorconfig'
             path: '.editorconfig'
         -
-            url: 'https://raw.githubusercontent.com/iakunin/codestyle/0.0.12/java/checkstyle.xml'
+            url: 'https://raw.githubusercontent.com/iakunin/codestyle/0.0.14/java/checkstyle.xml'
             path: 'var/codestyle/checkstyle.xml'
         -
-            url: 'https://raw.githubusercontent.com/iakunin/codestyle/0.0.12/markdown/.mdl-rules.rb'
+            url: 'https://raw.githubusercontent.com/iakunin/codestyle/0.0.14/java/pmd.xml'
+            path: 'var/codestyle/pmd.xml'
+        -
+            url: 'https://raw.githubusercontent.com/iakunin/codestyle/0.0.14/markdown/.mdl-rules.rb'
             path: '.mdl-rules.rb'
         -
-            url: 'https://raw.githubusercontent.com/iakunin/codestyle/0.0.12/markdown/.mdlrc'
+            url: 'https://raw.githubusercontent.com/iakunin/codestyle/0.0.14/markdown/.mdlrc'
             path: '.mdlrc'
 
 checks:
@@ -30,6 +33,9 @@ plugins:
     checkstyle:
         enabled: true
         config: 'var/codestyle/checkstyle.xml'
+    pmd:
+        enabled: true
+        config: 'var/codestyle/pmd.xml'
 
 exclude_patterns:
     - '/.gradle/'

@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 /**
  * @checkstyle MultipleStringLiterals (500 lines)
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 @SpringBootTest(classes = {
     AbstractIntegrationTest.TestConfig.class,
     GithubConfig.class

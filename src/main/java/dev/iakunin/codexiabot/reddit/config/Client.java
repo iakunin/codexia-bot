@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
  * @checkstyle DesignForExtension (500 lines)
  * @checkstyle ParameterNumber (500 lines)
  */
+@SuppressWarnings("PMD.UseObjectForClearerAPI")
 @Configuration
 public class Client {
 
