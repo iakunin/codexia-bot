@@ -70,7 +70,9 @@ public interface GithubModule {
 
     @SuppressWarnings("PMD.FieldNamingConventions")
     final class InvalidRepoNameException extends IOException {
-        static final long serialVersionUID = 1218375828146090155L;
+        private static final long serialVersionUID = 1048258389765098468L;
+
+
 
         public InvalidRepoNameException(final String message) {
             super(message);
@@ -79,7 +81,7 @@ public interface GithubModule {
 
     @SuppressWarnings("PMD.FieldNamingConventions")
     final class RepoNotFoundException extends IOException {
-        static final long serialVersionUID = 1212375828146090155L;
+        private static final long serialVersionUID = 3354699865066905941L;
 
         public RepoNotFoundException(final String message) {
             super(message);

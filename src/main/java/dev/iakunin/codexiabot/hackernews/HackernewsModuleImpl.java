@@ -70,7 +70,7 @@ public final class HackernewsModuleImpl implements HackernewsModule {
 
     @SuppressWarnings("PMD.FieldNamingConventions")
     private static final class ItemNotFoundException extends Exception {
-        static final long serialVersionUID = -2287516993124229948L;
+        private static final long serialVersionUID = 6155845942607737357L;
 
         ItemNotFoundException(final String message) {
             super(message);
