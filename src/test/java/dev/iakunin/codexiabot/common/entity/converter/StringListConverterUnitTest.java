@@ -7,17 +7,18 @@ import org.junit.jupiter.api.Test;
 /**
  * @checkstyle MultipleStringLiterals (500 lines)
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public class StringListConverterUnitTest {
 
     @Test
-    public void toDatabaseColumnNull() {
+    public void convertToDatabaseColumnNull() {
         final var actual = new StringListConverter().convertToDatabaseColumn(null);
 
         Assertions.assertEquals("", actual);
     }
 
     @Test
-    public void toDatabaseColumnOneItem() {
+    public void convertToDatabaseColumnOneItem() {
         final var actual = new StringListConverter().convertToDatabaseColumn(
             new ListOf<>("one")
         );
@@ -26,7 +27,7 @@ public class StringListConverterUnitTest {
     }
 
     @Test
-    public void toDatabaseColumnTwoItems() {
+    public void convertToDatabaseColumnTwoItems() {
         final var actual = new StringListConverter().convertToDatabaseColumn(
             new ListOf<>("one", "two")
         );
@@ -35,35 +36,35 @@ public class StringListConverterUnitTest {
     }
 
     @Test
-    public void toEntityAttributeNull() {
+    public void convertToEntityAttributeNull() {
         final var actual = new StringListConverter().convertToEntityAttribute(null);
 
         Assertions.assertEquals(new ListOf<String>(), actual);
     }
 
     @Test
-    public void toEntityAttributeEmptyString() {
+    public void convertToEntityAttributeEmptyString() {
         final var actual = new StringListConverter().convertToEntityAttribute("");
 
         Assertions.assertEquals(new ListOf<>(""), actual);
     }
 
     @Test
-    public void toEntityAttributeOneItem() {
+    public void convertToEntityAttributeOneItem() {
         final var actual = new StringListConverter().convertToEntityAttribute("one");
 
         Assertions.assertEquals(new ListOf<>("one"), actual);
     }
 
     @Test
-    public void toEntityAttributeTwoItems() {
+    public void convertToEntityAttributeTwoItems() {
         final var actual = new StringListConverter().convertToEntityAttribute("one,two");
 
         Assertions.assertEquals(new ListOf<>("one", "two"), actual);
     }
 
     @Test
-    public void toEntityAttributeTwoItemsWithSpace() {
+    public void convertToEntityAttributeTwoItemsWithSpace() {
         final var actual = new StringListConverter().convertToEntityAttribute("one, two");
 
         Assertions.assertEquals(new ListOf<>("one", " two"), actual);

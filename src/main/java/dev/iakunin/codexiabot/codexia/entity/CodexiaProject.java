@@ -17,6 +17,7 @@ import org.cactoos.list.ListOf;
 /**
  * @checkstyle MemberName (500 lines)
  */
+@SuppressWarnings("PMD.ImmutableField")
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
@@ -35,6 +36,7 @@ public final class CodexiaProject extends AbstractEntity {
     @Convert(converter = StringListConverter.class)
     private List<String> badges = new ListOf<>();
 
+    @SuppressWarnings("PMD.AvoidLiteralsInIfCondition")
     public Integer level() {
         final var levels = this.badges.stream()
             .map(String::toLowerCase)

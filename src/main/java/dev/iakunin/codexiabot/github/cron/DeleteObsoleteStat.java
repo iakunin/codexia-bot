@@ -35,6 +35,7 @@ public final class DeleteObsoleteStat implements Runnable {
 
     private final Runner runner;
 
+    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     @Override
     public void run() {
         Page<GithubRepo> page;

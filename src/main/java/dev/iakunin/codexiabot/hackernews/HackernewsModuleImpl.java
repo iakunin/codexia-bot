@@ -68,7 +68,10 @@ public final class HackernewsModuleImpl implements HackernewsModule {
         this.repository.save(entity);
     }
 
+    @SuppressWarnings("PMD.FieldNamingConventions")
     private static final class ItemNotFoundException extends Exception {
+        static final long serialVersionUID = -2287516993124229948L;
+
         ItemNotFoundException(final String message) {
             super(message);
         }

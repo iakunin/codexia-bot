@@ -1,11 +1,13 @@
 package dev.iakunin.codexiabot.util;
 
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import liquibase.Contexts;
 import liquibase.LabelExpression;
 import liquibase.Liquibase;
 import liquibase.database.DatabaseFactory;
 import liquibase.database.jvm.JdbcConnection;
+import liquibase.exception.LiquibaseException;
 import liquibase.resource.ClassLoaderResourceAccessor;
 import org.cactoos.scalar.Sticky;
 import org.cactoos.scalar.Unchecked;
@@ -52,7 +54,7 @@ public final class PostgresWrapper {
             this.container = container;
         }
 
-        public void run() throws Exception {
+        public void run() throws LiquibaseException, SQLException {
             final Liquibase liquibase = new Liquibase(
                 "db/changelog/db.changelog-master.yaml",
                 new ClassLoaderResourceAccessor(),

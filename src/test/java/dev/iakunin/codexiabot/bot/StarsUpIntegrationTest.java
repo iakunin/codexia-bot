@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public class StarsUpIntegrationTest extends AbstractIntegrationTest {
 
     @Qualifier("starsUp")

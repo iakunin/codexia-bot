@@ -79,6 +79,7 @@ public class InitializeBadges implements Runnable {
             .setBadge(BAD_BADGE);
     }
 
+    @SuppressWarnings("PMD.NullAssignment")
     private CodexiaBadge tooSmallBadge(final CodexiaReview review) {
         return this.tooManyStarsBadge(review)
             .setDeletedAt(

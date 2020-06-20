@@ -22,6 +22,7 @@ public final class CodexiaParser implements Runnable {
 
     private final Writer writer;
 
+    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     public void run() {
         int page = 0;
         List<CodexiaClient.Project> projects;

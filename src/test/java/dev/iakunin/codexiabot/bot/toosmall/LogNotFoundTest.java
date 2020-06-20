@@ -8,11 +8,12 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.slf4j.Logger;
 
+@SuppressWarnings("PMD.MoreThanOneLogger")
 public class LogNotFoundTest {
 
     private static final long GITHUB_STAT_ID = 22L;
 
-    private static final long LINES_OF_CODE_STAT_ID = 33L;
+    private static final long LOC_STAT_ID = 33L;
 
     @Test
     public void innerIsPresent() throws Exception {
@@ -44,7 +45,7 @@ public class LogNotFoundTest {
         Mockito.verify(logger, Mockito.times(1)).debug(
             "Unable to find proper LoC stat; githubStatId='{}'; locStatId='{}'",
             LogNotFoundTest.GITHUB_STAT_ID,
-            LogNotFoundTest.LINES_OF_CODE_STAT_ID
+            LogNotFoundTest.LOC_STAT_ID
         );
     }
 
@@ -56,7 +57,7 @@ public class LogNotFoundTest {
 
     private GithubRepoStat createLinesOfCodeStat() {
         final GithubRepoStat stat = new GithubRepoStat();
-        stat.setId(LogNotFoundTest.LINES_OF_CODE_STAT_ID);
+        stat.setId(LogNotFoundTest.LOC_STAT_ID);
         return stat;
     }
 }

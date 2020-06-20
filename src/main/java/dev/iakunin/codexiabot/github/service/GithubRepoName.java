@@ -16,6 +16,7 @@ public final class GithubRepoName implements Scalar<String> {
         this.url = url;
     }
 
+    @SuppressWarnings("PMD.AvoidLiteralsInIfCondition")
     @Override
     public String value() throws Exception {
         final String path = this.url.getPath();

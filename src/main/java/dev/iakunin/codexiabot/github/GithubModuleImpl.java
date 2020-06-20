@@ -20,6 +20,7 @@ import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
 import org.springframework.stereotype.Service;
 
+@SuppressWarnings("PMD.DataflowAnomalyAnalysis")
 @Service
 @Slf4j
 @RequiredArgsConstructor

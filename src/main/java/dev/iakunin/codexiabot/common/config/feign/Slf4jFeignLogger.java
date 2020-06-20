@@ -28,6 +28,7 @@ final class Slf4jFeignLogger extends feign.Logger {
     }
 
     Slf4jFeignLogger(final Logger logger) {
+        super();
         this.logger = logger;
     }
 
@@ -46,6 +47,7 @@ final class Slf4jFeignLogger extends feign.Logger {
         this.log(key, "FEIGN EXTERNAL REQUEST:\n%s", request.toString());
     }
 
+    @SuppressWarnings("PMD.OnlyOneReturn")
     @Override
     protected Response logAndRebufferResponse(
         final String key,

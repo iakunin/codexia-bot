@@ -17,11 +17,11 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class Github implements Runnable {
 
-    private final GithubModule github;
+    private final GithubModule gthb;
 
     @Transactional
     public void run() {
-        try (var repos = this.github.findAllInCodexia()) {
+        try (var repos = this.gthb.findAllInCodexia()) {
             new FaultTolerant(
                 repos.map(repo -> () -> this.updateStat(repo)),
                 tr -> log.error("Unable to update stat", tr.getCause())
@@ -31,7 +31,7 @@ public class Github implements Runnable {
 
     private void updateStat(final GithubRepo repo) {
         try {
-            this.github.updateStat(repo);
+            this.gthb.updateStat(repo);
         } catch (final IOException ex) {
             log.error(
                 "Exception during updating stat in Github; githubRepoUuid={}",

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * @checkstyle MultipleStringLiterals (500 lines)
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public class IncrementedParserIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired

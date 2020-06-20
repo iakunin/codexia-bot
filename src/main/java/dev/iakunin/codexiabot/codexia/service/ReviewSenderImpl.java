@@ -31,13 +31,13 @@ public class ReviewSenderImpl implements ReviewSender {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void send(final CodexiaReview review) {
         final CodexiaReviewNotification saved = this.saveNewNotification(review);
-        final ResponseEntity<String> response;
         try {
-            response = this.client.createReview(
+            final ResponseEntity<String> response = this.client.createReview(
                 review.getCodexiaProject().getExternalId(),
                 review.getText(),
                 review.getUuid().toString()
             );
+            this.saveSuccessfulNotification(saved, response);
         } catch (final FeignException ex) {
             if (ex.status() != CodexiaClient.ReviewStatus.ALREADY_EXISTS.httpStatus()) {
                 log.warn(
@@ -47,9 +47,7 @@ public class ReviewSenderImpl implements ReviewSender {
                 );
             }
             this.saveExceptionalNotification(saved, ex);
-            return;
         }
-        this.saveSuccessfulNotification(saved, response);
     }
 
     private CodexiaReviewNotification saveNewNotification(final CodexiaReview review) {

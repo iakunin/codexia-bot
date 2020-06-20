@@ -21,7 +21,7 @@ public final class Hackernews implements Bot {
 
     private final CodexiaModule codexia;
 
-    private final HackernewsModule hackernews;
+    private final HackernewsModule hckrnews;
 
     @Override
     public Stream<GithubRepo> repoStream() {
@@ -67,7 +67,7 @@ public final class Hackernews implements Bot {
     }
 
     private int upvotes(final String id) {
-        return this.hackernews
+        return this.hckrnews
             .getItem(Integer.valueOf(id))
             .getScore();
     }

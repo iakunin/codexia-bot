@@ -32,8 +32,6 @@ public interface HackernewsClient {
 
         private String title;
 
-        private String text;
-
         private String url;
 
         private Instant time;
