@@ -1,5 +1,5 @@
-include ../.env
-export $(shell sed 's/=.*//' ../.env)
+include ../../.env
+export $(shell sed 's/=.*//' ../../.env)
 
 apply-backend:
 	kubectl apply -f 01-namespace.yml && \
