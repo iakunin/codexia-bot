@@ -20,7 +20,7 @@ spec:
         spec:
             containers:
                 -   name: backend
-                    image: eu.gcr.io/codexia-bot/backend:0.0.151
+                    image: eu.gcr.io/codexia-bot/backend:0.0.156
                     imagePullPolicy: IfNotPresent
                     env:
                         -   name: SPRING_PROFILES_ACTIVE
