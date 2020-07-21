@@ -1,7 +1,7 @@
 include ../../.env
 export $(shell sed 's/=.*//' ../../.env)
 
-apply-backend:
+install-backend:
 	kubectl apply -f 01-namespace.yml && \
 	kubectl create secret generic spring-datasource \
 	--from-env-file backend/secret/spring-datasource.txt \

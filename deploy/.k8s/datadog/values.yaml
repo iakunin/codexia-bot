@@ -497,5 +497,9 @@ kube-state-metrics:
         #
         name:
 
+    resources:
+        requests:
+            cpu: 1m
+
 daemonset:
     useHostPort: true
