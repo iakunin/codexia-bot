@@ -51,7 +51,7 @@ dependencies {
     implementation 'org.cactoos:cactoos:0.46'
     implementation 'io.vavr:vavr:0.10.3'
 
-    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:2.2.3.RELEASE'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:2.2.4.RELEASE'
     implementation 'io.github.openfeign:feign-jackson:11.0'
 
     implementation 'org.kohsuke:github-api:1.115'
