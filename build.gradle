@@ -42,7 +42,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.liquibase:liquibase-core:4.0.0'
     implementation 'com.vladmihalcea:hibernate-types-52:2.9.13'
-    implementation 'com.fasterxml.jackson.module:jackson-modules-java8:2.11.1'
+    implementation 'com.fasterxml.jackson.module:jackson-modules-java8:2.11.2'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.11.2'
     implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.10.+'
     implementation 'com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.11.2'
