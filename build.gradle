@@ -70,7 +70,7 @@ dependencies {
     testImplementation 'org.codehaus.groovy:groovy-all:3.0.5'
     testImplementation 'org.junit.jupiter:junit-jupiter-params:5.7.0'
 
-    dataDog 'com.datadoghq:dd-java-agent:0.62.0'
+    dataDog 'com.datadoghq:dd-java-agent:0.63.0'
 }
 
 springBoot {
