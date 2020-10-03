@@ -21,11 +21,11 @@ delete-backend:
 
 install-datadog:
 	helm install datadog -f datadog/values.yaml \
-	--set datadog.apiKey=$(DATADOG_API_KEY) stable/datadog
+	--set datadog.apiKey=$(DATADOG_API_KEY) datadog/datadog
 
 upgrade-datadog:
 	helm upgrade datadog -f datadog/values.yaml \
-	--set datadog.apiKey=$(DATADOG_API_KEY) stable/datadog
+	--set datadog.apiKey=$(DATADOG_API_KEY) datadog/datadog
 
 delete-datadog:
 	helm uninstall datadog
