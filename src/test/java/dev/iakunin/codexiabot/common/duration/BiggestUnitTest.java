@@ -71,7 +71,7 @@ public class BiggestUnitTest {
     }
 
     @Test
-    public void lessThanMinUnit() throws IOException {
+    public void lessThanMinUnit() throws Exception {
         final Duration duration = Duration.parse("PT16H");
         final IterableOf<TemporalUnit> units = new IterableOf<>(ChronoUnit.DAYS);
 
