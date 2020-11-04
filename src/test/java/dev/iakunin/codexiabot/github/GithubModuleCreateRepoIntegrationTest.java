@@ -128,7 +128,7 @@ public class GithubModuleCreateRepoIntegrationTest extends AbstractIntegrationTe
         cleanBefore = true, cleanAfter = true
     )
     @ExpectedDataSet("db-rider/github/github-module/expected/notFoundInGithub.yml")
-    public void notFoundInGithub() throws IOException {
+    public void notFoundInGithub() throws Exception {
         new WireMockWrapper().stub(
             new Stub(
                 "/github/repos/casbin/casbin-rs",

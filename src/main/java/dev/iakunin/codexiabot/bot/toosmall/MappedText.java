@@ -7,6 +7,7 @@ import org.cactoos.map.MapOf;
 import org.cactoos.scalar.Unchecked;
 import org.cactoos.text.NoNulls;
 import org.cactoos.text.TextEnvelope;
+import org.cactoos.text.TextOf;
 
 final class MappedText extends TextEnvelope {
 
@@ -21,10 +22,12 @@ final class MappedText extends TextEnvelope {
 
     private MappedText(final Text source, final Map<String, String> map) {
         super(
-            new Unchecked<>(
-                () -> map.getOrDefault(
-                    new NoNulls(source).toString(),
-                    new NoNulls(source).toString()
+            new TextOf(
+                new Unchecked<>(
+                    () -> map.getOrDefault(
+                        new NoNulls(source).toString(),
+                        new NoNulls(source).toString()
+                    )
                 )
             )
         );
