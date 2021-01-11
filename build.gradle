@@ -29,6 +29,12 @@ repositories {
     jcenter()
 }
 
+dependencyManagement {
+    imports {
+        mavenBom 'org.springframework.cloud:spring-cloud-dependencies:2020.0.0'
+    }
+}
+
 dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
@@ -51,7 +57,7 @@ dependencies {
     implementation 'org.cactoos:cactoos:0.48'
     implementation 'io.vavr:vavr:0.10.3'
 
-    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:2.2.6.RELEASE'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
     implementation 'io.github.openfeign:feign-jackson:11.0'
 
     implementation 'org.kohsuke:github-api:1.119'
