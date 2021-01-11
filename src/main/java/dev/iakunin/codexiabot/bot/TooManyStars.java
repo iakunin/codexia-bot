@@ -46,7 +46,7 @@ public class TooManyStars implements Runnable {
 
     private boolean shouldSubmit(final GithubRepoStat stat) {
         return Optional.ofNullable(stat.getStat())
-            .map(st -> (GithubApi) st)
+            .map(GithubApi.class::cast)
             .map(st -> st.getStars() > THRESHOLD)
             .orElse(false);
     }
