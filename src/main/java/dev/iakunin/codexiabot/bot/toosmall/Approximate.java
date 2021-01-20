@@ -1,6 +1,7 @@
 package dev.iakunin.codexiabot.bot.toosmall;
 
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat;
+import org.cactoos.Fallback;
 import org.cactoos.Func;
 import org.cactoos.Text;
 import org.cactoos.scalar.Or;
@@ -35,8 +36,10 @@ final class Approximate implements Func<GithubRepoStat.LinesOfCode.Item, Boolean
                         )
                     )
                 ),
-                RuntimeException.class,
-                ex -> false
+                new Fallback.From<>(
+                    RuntimeException.class,
+                    ex -> false
+                )
             ).value();
     }
 }

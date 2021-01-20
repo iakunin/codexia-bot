@@ -1,6 +1,7 @@
 package dev.iakunin.codexiabot.bot.toosmall;
 
 import dev.iakunin.codexiabot.github.entity.GithubRepoStat;
+import org.cactoos.Fallback;
 import org.cactoos.Func;
 import org.cactoos.Text;
 import org.cactoos.scalar.EqualsNullable;
@@ -26,8 +27,10 @@ final class Exact implements Func<GithubRepoStat.LinesOfCode.Item, Boolean> {
                     ),
                     new Lowered(this.reference)
                 ),
-                RuntimeException.class,
-                ex -> false
+                new Fallback.From<>(
+                    RuntimeException.class,
+                    ex -> false
+                )
             ).value();
     }
 }
