@@ -46,7 +46,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.liquibase:liquibase-core:4.3.2'
+    implementation 'org.liquibase:liquibase-core:4.3.3'
     implementation 'com.vladmihalcea:hibernate-types-52:2.10.4'
     implementation 'com.fasterxml.jackson.module:jackson-modules-java8:2.12.2'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.12.2'
