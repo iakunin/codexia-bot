@@ -1,11 +1,11 @@
 version: 2
 updates:
-- package-ecosystem: gradle
-  directory: "/"
-  schedule:
-    interval: daily
-  open-pull-requests-limit: 10
-  ignore:
-  - dependency-name: org.sonarqube
-    versions:
-    - "> 2.8"
+    -   package-ecosystem: gradle
+        directory: "/"
+        schedule:
+            interval: daily
+        open-pull-requests-limit: 10
+        ignore:
+            -   dependency-name: org.sonarqube
+                versions:
+                    - "> 2.8"
