@@ -23,5 +23,5 @@ docker run \
     --rm \
     --volume="${PWD}":/home/gradle/project \
     --workdir=/home/gradle/project \
-    gradle:6.3-jdk11 \
+    gradle:6.8-jdk11 \
     chown -R "$(id -u)":"$(id -g)" .
