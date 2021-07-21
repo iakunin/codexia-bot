@@ -60,7 +60,7 @@ dependencies {
     implementation 'io.vavr:vavr:0.10.4'
 
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
-    implementation 'io.github.openfeign:feign-jackson:11.4'
+    implementation 'io.github.openfeign:feign-jackson:11.5'
 
     implementation 'org.kohsuke:github-api:1.131'
     implementation 'net.dean.jraw:JRAW:1.1.0'
