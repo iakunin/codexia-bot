@@ -3,6 +3,8 @@ export $(shell sed 's/=.*//' .env)
 
 .PHONY: bin build deploy gradle src var
 
+VERSION := $(shell git tag -l --sort=v:refname | tail -n 1)
+
 build:
 	bash bin/gradle_in_docker.sh clean build --info --console=verbose
 
@@ -10,7 +12,15 @@ test:
 	bash bin/gradle_in_docker.sh clean test --info
 
 tag:
-	bash bin/create_tag.sh -n1
+	git fetch --tags && \
+	docker run \
+	--tty \
+	--interactive \
+	--rm \
+	--volume="${PWD}":/home \
+	--workdir=/home \
+	iakunin/git-version-manager:0.0.6 && \
+	git push --tags
 
 build-jar:
 	bash bin/gradle_in_docker.sh clean -Pversion=$(VERSION) build
@@ -35,8 +45,6 @@ sentry-deploy-release:
 	sentry-cli releases deploys $(VERSION) new -e Production
 
 deploy: sentry-create-release build-jar sentry-finalize-release docker-build-and-push-image k8s-set-image sentry-deploy-release
-
-VERSION := $(shell git tag -l --sort=v:refname | tail -n 1)
 
 upload-remote-db-to-local:
 	PGPASSWORD="$(REMOTE_DB_PASSWORD)" pg_dump \
