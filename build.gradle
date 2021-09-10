@@ -62,7 +62,7 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
     implementation 'io.github.openfeign:feign-jackson:11.6'
 
-    implementation 'org.kohsuke:github-api:1.132'
+    implementation 'org.kohsuke:github-api:1.133'
     implementation 'net.dean.jraw:JRAW:1.1.0'
 
     implementation 'io.sentry:sentry-logback:5.1.2'
