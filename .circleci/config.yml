@@ -2,6 +2,7 @@ version: 2.1
 orbs:
     gcr: circleci/gcp-gcr@0.6.1
     gke: circleci/gcp-gke@1.0.3
+    codecov: codecov/codecov@3.1.1
 jobs:
     pdd:
         docker:
@@ -56,9 +57,7 @@ jobs:
                                 -PpullRequestKey=$PR_NUMBER \
                                 --info \
                                 --console=plain
-            -   run:
-                    name: codecov
-                    command: bash <(curl -s https://codecov.io/bash)
+            - codecov/upload
             -   store_test_results:
                     path: build/test-results
             -   save_cache:
