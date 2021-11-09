@@ -20,9 +20,9 @@ jobs:
             -   run: env
             -   run:
                     name: Workaround for SonarCloud merge check
-                    # For more info see:
-                    # https://bit.ly/2Ao5pNf
-                    # https://bit.ly/3dzir9a
+# For more info see:
+# https://community.sonarsource.com/t/code-is-empty-on-pull-request-reviews/822/14
+# https://discuss.circleci.com/t/git-checkout-of-a-branch-destroys-local-reference-to-master/23781/7
                     command: |
                         currentGitBranch=$(git rev-parse --abbrev-ref HEAD)
                         if [ $currentGitBranch != "master" ]; then
