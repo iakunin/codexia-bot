@@ -63,7 +63,7 @@ dependencies {
     implementation 'org.kohsuke:github-api:1.303'
     implementation 'net.dean.jraw:JRAW:1.1.0'
 
-    implementation 'io.sentry:sentry-logback:5.6.1'
+    implementation 'io.sentry:sentry-logback:5.6.2'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
